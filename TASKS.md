@@ -1,12 +1,12 @@
 # Task index
 
-T001 provides the health-only bootstrap; T002 provisions and validates native development tools. T003–T042 remain NOT STARTED. Dependency order is authoritative; the development objective stops at M4/T030.
+T001 provides the health-only bootstrap; T002 provisions native tools. T003 implementation/development diagnostics are delivered, with owner benchmark acceptance deferred; T004–T042 remain NOT STARTED. Dependency order is authoritative; the development objective stops at M4/T030.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
 | [T001](docs/tasks/T001.md) | M0 | Bootstrap repository and command contracts | none | COMPLETE |
 | [T002](docs/tasks/T002.md) | M0 | Provision native tools and license inventory | T001 | COMPLETE |
-| [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | NOT STARTED |
+| [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | IN PROGRESS |
 | [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | NOT STARTED |
 | [T005](docs/tasks/T005.md) | M0 | Prove independently meshed bonded connection | T003 | NOT STARTED |
 | [T006](docs/tasks/T006.md) | M0 | Cleanup and resource feasibility review | T004,T005 | NOT STARTED |

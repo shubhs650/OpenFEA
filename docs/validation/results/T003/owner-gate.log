@@ -1,0 +1,3 @@
+.venv/bin/python scripts/native/benchmark.py B01 
+BLOCKED/FAILED: Engineering-owner manifest sign-off pending; use DEVELOPMENT=1 for diagnostics
+make: *** [Makefile:54: benchmark] Error 2

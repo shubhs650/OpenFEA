@@ -1,0 +1,63 @@
+.venv/bin/ruff check services scripts tests
+All checks passed!
+.venv/bin/ruff format --check services scripts tests
+29 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 22 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 30 items
+
+tests/unit/test_api.py .........                                         [ 30%]
+tests/unit/test_quadratic.py .....................                       [100%]
+
+============================== 30 passed in 0.28s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:16:42
+   Duration  154ms (tests 56%, import 22%, transform 13%, worker 8%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpgm1ftck8/openapi.json → /tmp/tmpgm1ftck8/api.d.ts [25.5ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 95 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 23 items
+
+tests/native/test_mapping.py ..............                              [ 60%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+============================== 23 passed in 9.72s ==============================

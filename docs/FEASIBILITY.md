@@ -1,6 +1,6 @@
 # M0 feasibility and stop/go review
 
-Status: F1 local native availability/tiny solve PASSED in [T002](validation/T002.md), with dependency/license inventory and public license review still deferred. F2–F8 NOT RUN. Full M0 exit remains open; the recommendations below are not numerical product acceptance.
+Status: F1 local native availability/tiny solve PASSED in [T002](validation/T002.md), with public license review still deferred. [T003](validation/T003.md) delivers F2/F3 development evidence for synthetic planar geometry/affine C3D10; B01/B02 signed acceptance is deferred by the owner. F4–F8 NOT RUN. Full M0 exit remains open; development passes are not release acceptance.
 
 | Gate | Experiment | Required evidence | Failure response |
 |---|---|---|---|

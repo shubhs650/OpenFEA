@@ -1,4 +1,6 @@
-# Benchmark registry — planned, not executed
+# Benchmark registry
+
+B01/B02 have [real T003 development evidence](T003.md), with exact frozen manifests under `tests/benchmarks/`. The owner chose development-only and deferred review; signed acceptance remains pending. B03–B14 are not executed. Never treat the development result as a signed release pass.
 
 | ID | Case and purpose | Reference / sampled quantities | Planned task |
 |---|---|---|---|

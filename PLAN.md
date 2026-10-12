@@ -2,7 +2,7 @@
 
 Execution is milestone-gated and dependency-ordered. No calendar estimate is promised for this lean personal project.
 
-Current authorized development objective: fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage. T001 is the current bounded implementation task; stop after its acceptance checks.
+Current authorized development objective: fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage. T001/T002 are complete. T003 implementation/development checks are delivered; owner benchmark review is deferred and formal acceptance remains open. Stop after the requested task; T004 is next after T003 acceptance.
 
 | Milestone | Tasks | Exit evidence |
 |---|---|---|

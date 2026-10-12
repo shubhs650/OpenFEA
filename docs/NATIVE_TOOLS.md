@@ -18,11 +18,13 @@ All artifacts live under ignored `.local/native/`: `downloads/`, `sysroot/`, `bu
 | Shared array dependency | separately locked in each environment | NumPy 2.5.4 |
 | CPU solver | `.local/native/bin/ccx` | CCX 2.23, serial SPOOLES 2.2 + official correction; ARPACK-NG 3.9.1, Netlib BLAS/LAPACK 3.12.1, 32-bit solver integers |
 
-Never activate OCP and Gmsh in one interpreter. OCP's VTK dependency remains in CAD; postprocessing has its own version. The probes exchange only generated files; no CAD-to-mesh identity mapping is implemented. Import/mesh/export mapping remains T003. NumPy wheel OpenBLAS components do not replace CCX's explicitly linked Netlib/SPOOLES libraries.
+Never activate OCP and Gmsh in one interpreter. OCP's VTK dependency remains in CAD; postprocessing has its own version. T003 now exchanges immutable synthetic SI BREP/catalog files between CAD and meshing processes, with verified face mapping and C3D10/load export; see [ADR-011](adr/ADR-011.md). NumPy wheel OpenBLAS components do not replace CCX's explicitly linked Netlib/SPOOLES libraries.
 
 ## Commands and native process boundary
 
-`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all nine native tests. `make test-native` checks three capabilities, three denied-network cases, missing/modified binary rejection and the real solver reference.
+`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all 23 native tests. `make test-native` includes the original nine toolchain checks plus three synthetic mapping cases, eight pressure-face/sign cases, two analytical development cases and a two-face total-force solve.
+
+`make benchmark CASE=B01 DEVELOPMENT=1` (or B02) runs two meshes through the actual synthetic STEP/CAD/mesh/deck/CCX workflow. Outputs are under `.local/native/benchmarks/<case>/`. Without development mode, unsigned acceptance fails with exit 2. The owner deferred B01/B02 engineering review; [T003 evidence](validation/T003.md) retains frozen manifests, actual decks/DAT/transcripts and measured errors. General curved geometry/elements, ties and production stress output remain later work.
 
 `worker.runtime` is an internal development primitive. It verifies the workspace CCX/launcher/library hashes, closes inherited descriptors, passes a minimal environment without proxy/authentication variables, and launches the owned process group through the compiled `netdeny` helper. Optional `FEA_CCX_PATH` must resolve to the pinned workspace executable so the verified runtime libraries remain the loaded ones. Foreign binaries are rejected.
 
