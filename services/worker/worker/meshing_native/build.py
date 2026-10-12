@@ -26,6 +26,9 @@ gmsh.option.setNumber("Mesh.MeshSizeMax", float(sys.argv[1]))
 gmsh.option.setNumber("Mesh.ElementOrder", 2)
 gmsh.option.setNumber("Mesh.SecondOrderLinear", 1)
 gmsh.option.setNumber("Mesh.RandomSeed", 1)
+body_sizes = json.loads(sys.argv[3]) if len(sys.argv) > 3 else None
+if body_sizes is not None and len(body_sizes) != len(catalog["bodies"]):
+    raise ValueError("Each immutable body must have its own explicit mesh size")
 for dimension in range(4):
     gmsh.model.occ.setMaxTag(dimension, int(sys.argv[2]))
 body_volumes = {}
@@ -36,6 +39,12 @@ for body in catalog["bodies"]:
     assert len(volumes) == 1 and volumes[0][0] == 3
     body_volumes[body["id"]] = volumes[0][1]
 gmsh.model.occ.synchronize()
+if body_sizes is not None:
+    gmsh.option.setNumber("Mesh.MeshSizeMin", min(body_sizes))
+    gmsh.option.setNumber("Mesh.MeshSizeMax", max(body_sizes))
+    for (_body, volume), size in zip(body_volumes.items(), body_sizes, strict=True):
+        points = gmsh.model.getBoundary([(3, volume)], recursive=True, oriented=False)
+        gmsh.model.mesh.setSize(points, size)
 imported = []
 for body, volume in body_volumes.items():
     surfaces = gmsh.model.getBoundary([(3, volume)], oriented=False)
@@ -62,6 +71,9 @@ mapping = match_faces(catalog, imported, revision)
 for index, (ref, tag) in enumerate(sorted(mapping.items()), 1):
     gmsh.model.addPhysicalGroup(2, [tag], index)
     gmsh.model.setPhysicalName(2, index, ref)
+for index, (body, volume) in enumerate(sorted(body_volumes.items()), 1):
+    gmsh.model.addPhysicalGroup(3, [volume], index)
+    gmsh.model.setPhysicalName(3, index, body)
 gmsh.model.mesh.generate(3)
 tags, xyz, _ = gmsh.model.mesh.getNodes()
 nodes = {int(n): tuple(float(v) for v in xyz[3 * i : 3 * i + 3]) for i, n in enumerate(tags)}
@@ -110,9 +122,15 @@ Path("mesh.json").write_text(
             "gmsh_version": gmsh.__version__,
             "build_info": gmsh.option.getString("General.BuildInfo"),
             "mesh_size_m": float(sys.argv[1]),
+            "body_mesh_sizes_m": body_sizes,
         },
         indent=2,
     )
     + "\n"
 )
+expected_tetrahedra = len(elements)
+gmsh.clear()
+gmsh.open("mesh.msh")
+saved_types, saved_tags, _saved_connectivity = gmsh.model.mesh.getElements(3)
+assert list(saved_types) == [11] and len(saved_tags[0]) == expected_tetrahedra
 gmsh.finalize()

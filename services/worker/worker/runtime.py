@@ -11,6 +11,18 @@ from typing import Literal
 ROOT = Path(__file__).resolve().parents[3]
 NATIVE = ROOT / ".local/native"
 Component = Literal["cad", "mesh", "post"]
+Fixture = Literal["box", "bracket", "two", "bonded", "gap-probe", "long-box"]
+
+
+class NativeOperationError(RuntimeError):
+    """Retain the actual failed process transcript for diagnostic evidence."""
+
+    def __init__(self, result: subprocess.CompletedProcess[str]) -> None:
+        self.result = result
+        super().__init__(
+            f"Native operation failed ({result.returncode}): "
+            f"{result.stdout[-2000:]}{result.stderr[-1000:]}"
+        )
 
 
 def sha256(path: Path) -> str:
@@ -83,8 +95,8 @@ def execute(
             pass
     assert process.returncode is not None
     if process.returncode:
-        raise RuntimeError(
-            f"Native operation failed ({process.returncode}): {stdout[-2000:]}{stderr[-1000:]}"
+        raise NativeOperationError(
+            subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
         )
     return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
@@ -116,8 +128,8 @@ def solve_reference(directory: Path) -> subprocess.CompletedProcess[str]:
     return execute([str(binary), "-i", "smoke"], directory)
 
 
-def synthetic_geometry(directory: Path, fixture: Literal["box", "bracket", "two"]) -> None:
-    if fixture not in ("box", "bracket", "two"):
+def synthetic_geometry(directory: Path, fixture: Fixture) -> None:
+    if fixture not in ("box", "bracket", "two", "bonded", "gap-probe", "long-box"):
         raise ValueError("Unsupported synthetic fixture")
     execute(
         [
@@ -130,9 +142,13 @@ def synthetic_geometry(directory: Path, fixture: Literal["box", "bracket", "two"
     )
 
 
-def quadratic_mesh(directory: Path, size: float, tag_offset: int = 0) -> None:
+def quadratic_mesh(
+    directory: Path, size: float, tag_offset: int = 0, body_sizes: tuple[float, ...] | None = None
+) -> None:
     if not 0.1 <= size <= 1 or not 0 <= tag_offset <= 10000:
         raise ValueError("Synthetic mesh settings outside validated limits")
+    if body_sizes is not None and any(not 0.1 <= v <= 1 for v in body_sizes):
+        raise ValueError("Synthetic body mesh size outside validated limits")
     execute(
         [
             str(NATIVE / "venvs/mesh/bin/python"),
@@ -140,6 +156,7 @@ def quadratic_mesh(directory: Path, size: float, tag_offset: int = 0) -> None:
             str(ROOT / "services/worker/worker/meshing_native/build.py"),
             str(size),
             str(tag_offset),
+            json.dumps(body_sizes),
         ],
         directory,
     )

@@ -62,6 +62,11 @@ elif kind == "bracket":
     bodies = [cut.Shape()]
 elif kind == "two":
     bodies = [box, BRepPrimAPI_MakeBox(gp_Pnt(2, 0, 0), 1.0, 1.0, 1.0).Shape()]
+elif kind in ("bonded", "gap-probe"):
+    offset = 1.0 if kind == "bonded" else 1.00001
+    bodies = [box, BRepPrimAPI_MakeBox(gp_Pnt(offset, 0, 0), 1.0, 1.0, 1.0).Shape()]
+elif kind == "long-box":
+    bodies = [BRepPrimAPI_MakeBox(2.0, 1.0, 1.0).Shape()]
 else:
     raise ValueError("Only allowlisted synthetic fixtures are supported")
 compound = TopoDS_Compound()

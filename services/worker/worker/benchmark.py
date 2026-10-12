@@ -61,6 +61,10 @@ def solve(directory: Path, deck: str) -> tuple[dict[int, Vec], list[list[float]]
 
 
 def run_case(case: str, output: Path, development: bool = False) -> dict[str, Any]:
+    if case == "B07":
+        from worker.bond_fixture import run_b07
+
+        return run_b07(output, development)
     if case == "B09":
         from worker.stress_fixture import run_b09
 

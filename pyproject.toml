@@ -39,4 +39,4 @@ known-first-party = ["app", "worker"]
 python_version = "3.12"
 strict = true
 mypy_path = "services/api:services/worker"
-files = ["services/api/app", "services/worker/worker/runtime.py", "services/worker/worker/geometry.py", "services/worker/worker/meshing.py", "services/worker/worker/deck.py", "services/worker/worker/benchmark.py", "services/worker/worker/calculix", "services/worker/worker/postprocess/tensors.py", "services/worker/worker/postprocess/fields.py", "services/worker/worker/stress_fixture.py", "scripts", "tests"]
+files = ["services/api/app", "services/worker/worker/runtime.py", "services/worker/worker/geometry.py", "services/worker/worker/meshing.py", "services/worker/worker/deck.py", "services/worker/worker/benchmark.py", "services/worker/worker/calculix", "services/worker/worker/postprocess/tensors.py", "services/worker/worker/postprocess/fields.py", "services/worker/worker/stress_fixture.py", "services/worker/worker/bond_fixture.py", "scripts", "tests"]
