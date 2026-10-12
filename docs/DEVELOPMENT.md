@@ -1,6 +1,6 @@
 # Local development — T001 bootstrap
 
-The current application is a health-only React client and FastAPI service. There is no CAD import, worker, queue, mesher, solver, persistence, authentication service, billing or report implementation. The current objective is the validated local prototype through M4/T030. AWS, Google authentication, commercial billing and beta operations are outside this stage.
+The application remains a health-only React client and FastAPI service. T002 adds the real native tools and smoke runner described in [NATIVE_TOOLS.md](NATIVE_TOOLS.md). There is no application CAD/mesh/solve workflow, worker service, queue, project persistence, authentication service, billing or reports. The objective remains the validated local prototype through M4/T030; hosted operations are outside this stage.
 
 ## Supported environment and tools
 
@@ -8,7 +8,7 @@ Linux x86_64 / WSL2, Node **24.19.0** (LTS), npm **11.9.0**, Python **3.12.14**,
 
 Install these prerequisites through trusted sources. If nvm is already installed, `nvm install` and `nvm use` select `.nvmrc` and retain nvm's archive checksum verification. To install uv in a separate tools virtual environment, use `python3 -m venv /tmp/openfea-tools`, then `/tmp/openfea-tools/bin/python -m pip install --only-binary=:all: --require-hashes -r scripts/ci/tool-requirements.txt` and add `/tmp/openfea-tools/bin` to your shell PATH. The hashed wheel requirements pin uv without a curl-to-shell installer. To reconcile npm with the Node distribution, use `npm install --global npm@11.9.0` in your user-managed Node installation. Project dependencies always use the committed locks.
 
-Onboarding confirmed Python 3.12 wheels for candidate OCP/Gmsh/VTK/NumPy packages, with PyPI artifact hash verification recorded in [wheel-probe.json](validation/wheel-probe.json). This establishes ABI availability only. The candidates were not installed, loaded together or accepted as native pins. T002 must test shared libraries, licensed native builds and a real CCX solve; OCP and Gmsh must remain in separate processes.
+T001's [wheel probe](validation/wheel-probe.json) is historical ABI availability evidence. T002's actual isolated pins and executed capabilities are in [native setup](NATIVE_TOOLS.md); OCP's required VTK differs from the old probe candidate. OCP and Gmsh remain in separate processes. The validated tiny solve does not imply face mapping or release benchmark acceptance.
 
 ## Setup and commands
 
@@ -18,6 +18,7 @@ From the repository root:
 make setup
 make doctor
 make check
+make test-native
 make build
 make smoke
 make test-integration
@@ -25,7 +26,7 @@ make test-e2e
 make dev
 ```
 
-`make setup` uses `uv sync --locked` and `npm ci`, then installs the locked Playwright Chromium headless shell and checks scratch/loopback prerequisites. It must not change either lockfile. The browser installer retains upstream TLS validation and downloads the revision selected by the locked Playwright package. Linux browser shared libraries must be available; if a fresh WSL2 installation lacks them, follow the official Playwright Linux dependency instructions with appropriate OS installation authority. Setup does not run privileged package installation or assume Docker. The prepared Codex instance passed the browser test without additional OS packages.
+`make setup` installs locked root/browser dependencies, then the pinned native source build and three separate locked interpreters, and runs required native checks. All six locks remain unchanged. Native files stay under ignored `.local/native/`; no system installation is performed. The browser installer retains TLS validation; Linux shared-library prerequisites must be available. The prepared Codex instance passed browser/native checks without privileged installation. See [native platform prerequisites](NATIVE_TOOLS.md); GCC 14.2.0 is now required.
 
 Caches, virtual environments, logs and browser binaries are ignored. Make and shell scripts set repository-local writable cache directories under `.local/`, avoiding read-only home directories. Python dependencies reside in `.venv/`; npm dependencies in `node_modules/`; web build outputs in `apps/web/dist/`. No installation or startup command rewrites application source, tests or dependency declarations.
 
@@ -45,6 +46,6 @@ Optional settings are documented in `.env.example`. Scripts **do not automatical
 
 `.venv/bin/python scripts/ci/failure_probes.py` introduces six temporary failing inputs to prove Python and TypeScript lint/type/unit failures reach Make. It refuses to overwrite existing files, removes probes in `finally`, and stores logs under `.local/failure-probes/`. Run it after the baseline checks pass, without concurrent edits in those paths.
 
-`make doctor` distinguishes optional missing native capabilities from required bootstrap prerequisites. `bash scripts/codex/check.sh --require-native` exits nonzero until real native validation exists. `make test-native`, `benchmark`, `benchmark-all`, `test-security` and `test-reports` deliberately exit nonzero with the missing implementation/gate named. Full ownership/archive/job security tests are future work; the local startup guard tests already run in `test-unit`. Do not count unavailable targets as passed or skipped numerical tests. See [T001 evidence](validation/T001.md).
+Native availability is now mandatory for complete setup. `make doctor` verifies CCX/library hashes and real CAD/mesh/VTK operations; `bash scripts/codex/check.sh --require-native` also runs nine native tests. `make test-native` performs the T002 availability smoke and explicit missing/tampered binary/network tests. Benchmark, full security and report targets remain BLOCKED. Health/startup guards remain in fast tests. See [T001 evidence](validation/T001.md) and [T002 evidence](validation/T002.md); neither closes the full engineering workflow.
 
 The GitHub PR/manual workflow runs the same bootstrap checks with pinned action commits and runtime versions. It has not been executed on GitHub in this session. No cloud resources are provisioned.

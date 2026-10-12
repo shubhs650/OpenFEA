@@ -10,7 +10,7 @@ Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only
 
 | Decision | Owner / resolution point | Current status |
 |---|---|---|
-| Exact toolchain and binding versions | Developer, T001–T002 | T001 runtime/dev pins accepted in ADR-009; native bindings remain T002 |
+| Exact toolchain and binding versions | Developer, T001–T002 | T001/T002 pins and local availability accepted in ADR-009/ADR-010; mapping/stress/tie compatibility remains later gates |
 | Face-remap algorithm and valid confidence criteria | Developer + engineering owner, T003/T013 | Unproven |
 | CCX tie keywords/adjustment behavior | Engineering owner, T005/T019 | Unproven |
 | Raw element stress output path | Developer + engineering owner, T004 | Unproven |

@@ -1,18 +1,18 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository contains the specifications and a health-only local React/FastAPI bootstrap from T001. No analysis workflow, numerical validation or AWS cost-fit claim has been made.
+This repository contains a health-only React/FastAPI bootstrap and the T002 native development toolchain. A tiny real CCX solve is validated; the application engineering workflow, release benchmarks and capacity remain unimplemented/unverified.
 The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
 
 ## Run the bootstrap
 
-See [development setup](docs/DEVELOPMENT.md) for pinned tools and configuration. From the repository root run `make setup`, `make check`, `make build`, then `make dev`. The UI and API bind to loopback; the page verifies API connectivity. `make smoke` checks startup and shuts down; `make test-e2e` runs the real health page in Chromium. Native and later feature gates remain unavailable and fail explicitly.
+See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). From the root run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API still provide health only. Native tests now exercise actual CAD/mesh/VTK libraries and a CCX reference; benchmark/security/report features remain blocked.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review [T001](docs/tasks/T001.md) and its evidence, then follow the dependency-ordered [task index](TASKS.md). The next implementation task is T002.
+3. Review [T001](docs/tasks/T001.md) and [T002](docs/tasks/T002.md) evidence, then follow the [task index](TASKS.md). Next: T003.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 
@@ -41,4 +41,4 @@ The canonical agent instruction filename is **AGENTS.md**. [Agent.md](Agent.md) 
 | docs/adr/ | Architecture decision records |
 | docs/plan/ / docs/tasks/ | Milestone instructions and session-sized work |
 
-The root command runner now exists. [Development setup](docs/DEVELOPMENT.md) distinguishes implemented bootstrap commands from blocked future gates. The architecture's full product layout remains an implementation plan; only the health slice exists.
+The command runner and native tools exist. The full product layout remains a plan; no worker service, project workflow or solver UI is implemented.

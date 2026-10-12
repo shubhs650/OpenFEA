@@ -22,6 +22,7 @@
         "component": "cad",
         "gmsh_loaded": false,
         "ocp_version": "8.0.1.1.0",
+        "step_length_unit": "m",
         "step_roundtrip": true,
         "volume_m3": 6.0
       },

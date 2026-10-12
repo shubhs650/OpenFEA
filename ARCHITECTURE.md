@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-12. Product constraints are settled; component integration is subject to M0 evidence. T001 implements only the local health API/UI and development command runner; the engineering pipelines below remain planned. The current development stage ends at the validated local prototype through M4/T030.
+2026-10-12. T001 provides the health API/UI; T002 provisions isolated native tools and validates one tiny real CCX job. The engineering pipelines remain planned; mapping/tie/stress/capacity gates are open. The development stage ends at the validated local prototype through M4/T030.
 
 ## Shape of the system
 

@@ -1,6 +1,6 @@
 # M0 feasibility and stop/go review
 
-Status: all experiments NOT RUN. Recommendations below are hypotheses, not results.
+Status: F1 local native availability/tiny solve PASSED in [T002](validation/T002.md), with dependency/license inventory and public license review still deferred. F2–F8 NOT RUN. Full M0 exit remains open; the recommendations below are not numerical product acceptance.
 
 | Gate | Experiment | Required evidence | Failure response |
 |---|---|---|---|

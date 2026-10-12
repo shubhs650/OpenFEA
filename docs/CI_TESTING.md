@@ -2,7 +2,7 @@
 
 The root Makefile now ships the T001 bootstrap commands. Each exits nonzero on a genuine failure. Missing required dependencies are reported as blocked, never silently skipped in a required job. The table retains the full target behavior to implement over subsequent tasks.
 
-T001 implements setup, doctor, dev (API/UI only; no worker yet), lint, typecheck, test-unit, check, docs-check and health-only test-e2e. Additional working commands are build, smoke, contracts and contracts-check. Unit coverage currently tests health/configuration and client response validation; math/domain/ledger tests arrive with their real implementations. Native, benchmark, full security and report targets exit nonzero as BLOCKED until their implementations exist. See [development commands](DEVELOPMENT.md) and [T001 evidence](validation/T001.md). The PR/manual workflow runs only bootstrap gates, with one browser worker and no native benchmarks or deployment.
+T001 supplies the health-only API/UI and fast commands. T002 extends complete setup/doctor with pinned native tools and makes test-native real: nine availability/network/integrity/reference checks. Additional commands include setup-native and native-report (explicit tracked inventory regeneration). Math/domain/ledger tests arrive with their implementations. Benchmarks, full security and reports remain BLOCKED. The PR/manual workflow prepares GCC 14, then runs bootstrap plus tiny native checks, one browser worker and no expensive benchmark/deployment; hosted execution remains unverified. See [native commands](NATIVE_TOOLS.md) and [T002 evidence](validation/T002.md).
 
 | Command | Required behavior |
 |---|---|

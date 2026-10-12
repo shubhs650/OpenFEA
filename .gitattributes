@@ -1,0 +1,2 @@
+# Retain hash-verified upstream legal documents byte for byte, including whitespace.
+docs/validation/native-licenses/* -text whitespace=-trailing-space

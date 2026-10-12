@@ -13,5 +13,20 @@
     "name": "OCP-8.0.1.1-license.txt",
     "url": "https://raw.githubusercontent.com/CadQuery/OCP/a6d078cfda3e5e695c68d2bfbfe38e91b0ccb566/LICENSE",
     "sha256": "a13caea71627202ad33cc4cafafdd18e667e16716488f8d9c568127121fb89fd"
+  },
+  {
+    "name": "OCCT-7.8.1-LGPL.txt",
+    "url": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/bd2a789f15235755ce4d1a3b07379a2e062fdc2e/LICENSE_LGPL_21.txt",
+    "sha256": "e237fa56668030e928551ddd60f05df5fe957f75eab874bbd017e085ed722e7c"
+  },
+  {
+    "name": "OCCT-7.8.1-exception.txt",
+    "url": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/bd2a789f15235755ce4d1a3b07379a2e062fdc2e/OCCT_LGPL_EXCEPTION.txt",
+    "sha256": "04580a884ea6cea294402649ff7b5cbb167d47462d1340a4ed33e550db10a81b"
+  },
+  {
+    "name": "VTK-9.7.1-Copyright.txt",
+    "url": "https://raw.githubusercontent.com/Kitware/VTK/a970ec452229b1a0953684c00ecd9fe612778b8a/Copyright.txt",
+    "sha256": "11232448be82e0ea2c2c66219c2e36389f42249894070ee10c549ff182fc08b6"
   }
 ]

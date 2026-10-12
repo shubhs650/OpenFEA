@@ -5,7 +5,7 @@ T001 provides the health-only bootstrap; T002 provisions and validates native de
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
 | [T001](docs/tasks/T001.md) | M0 | Bootstrap repository and command contracts | none | COMPLETE |
-| [T002](docs/tasks/T002.md) | M0 | Provision native tools and license inventory | T001 | IN PROGRESS |
+| [T002](docs/tasks/T002.md) | M0 | Provision native tools and license inventory | T001 | COMPLETE |
 | [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | NOT STARTED |
 | [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | NOT STARTED |
 | [T005](docs/tasks/T005.md) | M0 | Prove independently meshed bonded connection | T003 | NOT STARTED |
