@@ -83,7 +83,9 @@ def execute(
             pass
     assert process.returncode is not None
     if process.returncode:
-        raise RuntimeError(f"Native operation failed ({process.returncode}): {stderr[-3000:]}")
+        raise RuntimeError(
+            f"Native operation failed ({process.returncode}): {stdout[-2000:]}{stderr[-1000:]}"
+        )
     return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
@@ -112,3 +114,37 @@ def probe(component: Component, directory: Path, network_only: bool = False) -> 
 def solve_reference(directory: Path) -> subprocess.CompletedProcess[str]:
     binary = verified_tool("ccx")
     return execute([str(binary), "-i", "smoke"], directory)
+
+
+def synthetic_geometry(directory: Path, fixture: Literal["box", "bracket", "two"]) -> None:
+    if fixture not in ("box", "bracket", "two"):
+        raise ValueError("Unsupported synthetic fixture")
+    execute(
+        [
+            str(NATIVE / "venvs/cad/bin/python"),
+            "-I",
+            str(ROOT / "services/worker/worker/geometry_native/build.py"),
+            fixture,
+        ],
+        directory,
+    )
+
+
+def quadratic_mesh(directory: Path, size: float, tag_offset: int = 0) -> None:
+    if not 0.1 <= size <= 1 or not 0 <= tag_offset <= 10000:
+        raise ValueError("Synthetic mesh settings outside validated limits")
+    execute(
+        [
+            str(NATIVE / "venvs/mesh/bin/python"),
+            "-I",
+            str(ROOT / "services/worker/worker/meshing_native/build.py"),
+            str(size),
+            str(tag_offset),
+        ],
+        directory,
+    )
+
+
+def solve_generated(directory: Path) -> subprocess.CompletedProcess[str]:
+    """Fixed basename for internally generated decks; not an uploaded-input API."""
+    return execute([str(verified_tool("ccx")), "-i", "analysis"], directory)

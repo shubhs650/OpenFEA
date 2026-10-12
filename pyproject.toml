@@ -1,7 +1,7 @@
 [project]
 name = "openfea-dev"
 version = "0.1.0"
-description = "Local FEA development bootstrap; no numerical capabilities yet"
+description = "Local FEA prototype development tools and health bootstrap"
 requires-python = "==3.12.*"
 dependencies = [
   "fastapi==0.143.0",
@@ -39,4 +39,4 @@ known-first-party = ["app", "worker"]
 python_version = "3.12"
 strict = true
 mypy_path = "services/api:services/worker"
-files = ["services/api/app", "services/worker/worker/runtime.py", "scripts", "tests"]
+files = ["services/api/app", "services/worker/worker/runtime.py", "services/worker/worker/geometry.py", "services/worker/worker/meshing.py", "services/worker/worker/deck.py", "services/worker/worker/benchmark.py", "scripts", "tests"]

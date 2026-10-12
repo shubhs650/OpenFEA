@@ -11,7 +11,8 @@ PY := .venv/bin/python
 .PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
-	@echo 'setup-native and test-native verify the T002 tools; later benchmark/security/report gates remain BLOCKED.'
+	@echo 'test-native verifies real tools/mapping/loads; benchmark CASE=B01 or B02 DEVELOPMENT=1 runs unsigned diagnostics.'
+	@echo 'Release benchmark acceptance, benchmark-all, full security and reports remain BLOCKED.'
 setup:
 	bash scripts/codex/setup.sh
 setup-native:
@@ -50,7 +51,7 @@ test-e2e:
 test-native:
 	$(PY) -m pytest tests/native
 benchmark:
-	@bash scripts/ci/blocked.sh 'benchmark $(CASE)' 'reviewed manifests and native pipeline'
+	$(PY) scripts/native/benchmark.py $(CASE) $(if $(filter 1,$(DEVELOPMENT)),--development,)
 benchmark-all:
 	@bash scripts/ci/blocked.sh 'release benchmarks' 'reviewed manifests and native pipeline'
 test-security:
