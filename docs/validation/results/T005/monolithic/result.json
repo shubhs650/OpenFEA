@@ -1,0 +1,174 @@
+{
+  "nodes": 583,
+  "elements": 266,
+  "body_count": 1,
+  "body_nodes": {
+    "3c19617cb81ff9bed15d790156a1c4b2e1734247a26a17af2d55b48df736c525:b1": 583
+  },
+  "equations": 1681,
+  "expected_equations": 1681,
+  "intended_slave_nodes": 0,
+  "solver_uncovered_nodes": [],
+  "max_tie_residual_m": 0.0,
+  "max_displacement_error_m": 4.993969689889269e-13,
+  "max_stress_error_pa": 2.174638e-07,
+  "mean_end_ux_m": 9.52381e-06,
+  "external_reaction_force_n": [
+    -1000000.0499999998,
+    3.899829e-10,
+    2.6434390000000004e-10
+  ],
+  "force_residual_n": 0.049999999930150814,
+  "moment_residual_nm": 0.038757980797656695,
+  "coordinate_audit": {
+    "max_solver_adjustment_m": 0.0,
+    "changed_nodes_gt_1e12_m": [],
+    "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+    "source_sha256": "7b413e1c496e182b459544fd08dcb66474e5d6771807be833f44b204c16184ba",
+    "deck_sha256": "aa801a873dc510455dff923b7e1d9b3903e9f712256ec537cc70b71aedafc7e4"
+  },
+  "probes": [
+    {
+      "location": "element_interpolated",
+      "element_id": 304,
+      "integration_point_id": null,
+      "node_id": null,
+      "body_id": "3c19617cb81ff9bed15d790156a1c4b2e1734247a26a17af2d55b48df736c525:b1",
+      "material_id": "ISOTROPIC",
+      "position_m": [
+        0.5,
+        0.25,
+        0.24999999999999997
+      ],
+      "tensor_pa": [
+        1000000.0000000001,
+        -2.0840837771354336e-11,
+        8.228136819846814e-10,
+        -9.134747648204454e-10,
+        -1.7603900068037434e-10,
+        -3.507916932017536e-10
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "9068751443a4a464db945ad61046e3cf1bf7a648b8a3d885d94d73501f6a6125",
+        "line": 1578,
+        "coordinate_line": 2645,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "element_owned_linear_stress_interpolation",
+        "mesh_sha256": "e1f039f70507d4403f3061d2b120951708579588ad0290bb376bb16f532df04b",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          1578,
+          1579,
+          1580,
+          1581
+        ],
+        "warning": "Interpolated/extrapolated stress, not a raw IP sample",
+        "barycentric": [
+          0.32181361771944406,
+          0.24696154946777674,
+          0.14785479584986186,
+          0.2833700369629174
+        ]
+      }
+    },
+    {
+      "location": "element_interpolated",
+      "element_id": 363,
+      "integration_point_id": null,
+      "node_id": null,
+      "body_id": "3c19617cb81ff9bed15d790156a1c4b2e1734247a26a17af2d55b48df736c525:b1",
+      "material_id": "ISOTROPIC",
+      "position_m": [
+        1.5,
+        0.25,
+        0.24999999999999997
+      ],
+      "tensor_pa": [
+        1000000.0000000001,
+        8.131549314897624e-09,
+        6.273072561009935e-09,
+        -1.871211375967437e-08,
+        -2.6244434517276874e-09,
+        -1.0077362652320927e-08
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "9068751443a4a464db945ad61046e3cf1bf7a648b8a3d885d94d73501f6a6125",
+        "line": 1814,
+        "coordinate_line": 2881,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "element_owned_linear_stress_interpolation",
+        "mesh_sha256": "e1f039f70507d4403f3061d2b120951708579588ad0290bb376bb16f532df04b",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          1814,
+          1815,
+          1816,
+          1817
+        ],
+        "warning": "Interpolated/extrapolated stress, not a raw IP sample",
+        "barycentric": [
+          0.3277621489365624,
+          0.20370176721312713,
+          0.12786939118801058,
+          0.3406666926622999
+        ]
+      }
+    }
+  ],
+  "geometry_revision": "3c19617cb81ff9bed15d790156a1c4b2e1734247a26a17af2d55b48df736c525",
+  "mesh_sha256": "a26c4b8f654648c132b8fe988515d8abb14f042cb2eb3ccae98b68fe8973f005",
+  "deck_sha256": "7d9dddde576302c6641a8d684ba5022085c8a27e3b8698b55515a699ba4c2c7a",
+  "dat_sha256": "9068751443a4a464db945ad61046e3cf1bf7a648b8a3d885d94d73501f6a6125",
+  "frd_sha256": "78878d21bdfa6465aafeaf59e8252a90b049d546287c1ba040644f1e8ba8f2a7",
+  "solver_log_sha256": "8b531523697e4e8c8a0f8bef595f69ba4c1543b3e07e4f2a0f7b13f9cb1eb838"
+}

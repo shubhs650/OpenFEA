@@ -22,9 +22,9 @@ Never activate OCP and Gmsh in one interpreter. OCP's VTK dependency remains in 
 
 ## Commands and native process boundary
 
-`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all 27 native tests. `make test-native` includes the original nine toolchain checks plus three synthetic mapping cases, eight pressure-face/sign cases, two analytical development cases, a two-face total-force solve and four native stress/provenance cases.
+`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all 30 native tests. `make test-native` includes the original nine toolchain checks plus three synthetic mapping cases, eight pressure-face/sign cases, two analytical development cases, a two-face total-force solve and four native stress/provenance cases and three bond/failure diagnostics.
 
-`make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs two meshes through the actual synthetic STEP/CAD/mesh/deck/CCX workflow. Outputs are under `.local/native/benchmarks/<case>/`. Without development mode, unsigned acceptance fails with exit 2. The owner deferred B01/B02 engineering review; [T003 evidence](validation/T003.md) retains frozen manifests, actual decks/DAT/transcripts and measured errors. General curved geometry/elements, ties and production stress output remain later work.
+`make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs two meshes through the actual synthetic STEP/CAD/mesh/deck/CCX workflow. Outputs are under `.local/native/benchmarks/<case>/`. Without development mode, unsigned acceptance fails with exit 2. The owner deferred B01/B02 engineering review; [T003 evidence](validation/T003.md) retains frozen manifests, actual decks/DAT/transcripts and measured errors. General curved geometry/elements, ties and production stress output remain later work.
 
 `worker.runtime` is an internal development primitive. It verifies the workspace CCX/launcher/library hashes, closes inherited descriptors, passes a minimal environment without proxy/authentication variables, and launches the owned process group through the compiled `netdeny` helper. Optional `FEA_CCX_PATH` must resolve to the pinned workspace executable so the verified runtime libraries remain the loaded ones. Foreign binaries are rejected.
 
@@ -47,3 +47,7 @@ The [inventory](validation/native-dependencies.json), [version-matched license s
 ## T004 stress diagnostics
 
 `make benchmark CASE=B09 DEVELOPMENT=1` generates native DAT S/COORD, canonical tensors, element-owned derived values/probes, labelled averaged FRD, quadratic VTK and an offline interactive HTML/SVG fixture. B09 preserves 210/70 MPa while shared-node FRD averages to 139.999 MPa. The output is under `.local/native/benchmarks/B09/`; no product solver/viewer API is added. See [T004 evidence](validation/T004.md) and [ADR-012](adr/ADR-012.md) for frozen references, real outputs, corruption checks, source hashes and pending engineering review.
+
+## T005 zero-gap connection experiment
+
+`make benchmark CASE=B07 DEVELOPMENT=1` generates separate coarse/fine body meshes and a separate monolithic reference, solves consistent mortar constraints through native CCX *EQUATION in both roles, validates raw stresses/reactions and audits native-double coordinates. It is limited to complete planar unit interfaces and ≤65 trace nodes per side. The native node-sampled *TIE candidate failed the frozen patch and remains rejected. Default *TIE adjustment and singular/uncovered cases are measured by real diagnostics; physical gaps remain unsupported. See [T005 evidence](validation/T005.md) and [ADR-013](adr/ADR-013.md); engineering review is pending. No scalable/general product bond feature is claimed.

@@ -1,6 +1,6 @@
 # M0 feasibility and stop/go review
 
-Status: F1 availability PASSED in [T002](validation/T002.md), with public license review deferred. [T003](validation/T003.md) delivers F2/F3 synthetic planar/affine development evidence; [T004](validation/T004.md) proves F5 raw stress/display diagnostics. Owner acceptance of B01/B02/B09 remains deferred. F4/F6/F7/F8 NOT RUN. Full M0 exit is open; development passes are not release acceptance.
+Status: F1 availability PASSED in [T002](validation/T002.md). T003/T004 supply F2/F3/F5 development evidence; [T005](validation/T005.md) proves limited zero-gap consistent mortar while retaining a failed native tie candidate. F4 engineering/formulation and physical-gap acceptance remains open. B01/B02/B09/B07 owner review is deferred; F6/F7/F8 unrun. Full M0 exit is open; development passes are not release acceptance.
 
 | Gate | Experiment | Required evidence | Failure response |
 |---|---|---|---|

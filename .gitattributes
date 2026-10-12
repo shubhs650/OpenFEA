@@ -5,3 +5,4 @@ docs/validation/results/T003/** -text whitespace=-trailing-space
 # Golden parser fixtures are retained real native outputs, including FRD padding.
 tests/fixtures/native/stress/* -text whitespace=-trailing-space
 docs/validation/results/T004/** -text whitespace=-trailing-space
+docs/validation/results/T005/** -text whitespace=-trailing-space

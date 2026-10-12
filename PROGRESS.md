@@ -1,13 +1,13 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS PIPELINE
-Current milestone: M0 — F1 passed; F2/F3/F5 development evidence exists, engineering acceptance open
-Next action: T003/T004 owner review (B01/B02/B09); next implementation task T005
+Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND EXPERIMENTS
+Current milestone: M0 — F1 passed; F2–F5 development evidence exists with scope limits and owner acceptance open
+Next action: T003–T005 review (B01/B02/B09/B07 + experimental mortar); next implementation task T006
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003/T004 development implementations are delivered with engineering acceptance deferred. The owner explicitly requested T004 while T003 review was open; this authorizes development, without closing pending gates. This session stops at T004.
+Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T005 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005 requests authorize bounded development while predecessor review remains open. This session stops at T005.
 
 ## Implementation status
 
@@ -15,11 +15,13 @@ T001: COMPLETE
 T002: COMPLETE
 T003: IN PROGRESS
 T004: IN PROGRESS
-T005–T042: NOT STARTED
+T005: IN PROGRESS
+T006–T042: NOT STARTED
 All M0–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
-B03–B08, B10–B14: NOT RUN.
+B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
+B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
@@ -27,9 +29,25 @@ Project license: DEFERRED pending dependency/native review.
 
 The React/Vite page and FastAPI health API remain operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow, project persistence or reports exist.
 
+T005 adds a limited real mortar connection experiment using CCX *EQUATION and native coordinate audits. Native *TIE failed the patch and is not a validated fallback. `make benchmark CASE=B07 DEVELOPMENT=1` passes both role cases within the planar unit/65-node scope, retaining all failed-candidate and negative evidence.
+
 Root/native dependencies are separately locked. Source/deb/wheel/runtime hashes and upstream license notices are recorded. Native processes receive a minimal environment, no network sockets, single-thread settings and resource limits. Full hostile-upload/filesystem isolation is not implemented. See [native setup](docs/NATIVE_TOOLS.md), [ADR-010](docs/adr/ADR-010.md) and the [dependency matrix](docs/DEPENDENCIES.md). Final public license remains deferred.
 
-## T004 executed validation
+## T005 executed validation
+
+Implementation commit `698bb06e9524992e4a9087490692e3636dbe616b`. Restored native tools/locks reused; no dependency or solver-source change.
+
+- `make doctor` passed real isolated operations and binary/library integrity. `make check test-native`: **111 passed, 0 failed, 0 skipped** (74 Python, 7 TS, 30 native); static checks, contracts and docs pass.
+- `make benchmark CASE=B07 DEVELOPMENT=1` passes monolithic and both independently meshed mortar role cases. Unsigned B07 correctly exits 2. `uv lock --check`, final lint/docs/diff and retained artifact hashes pass.
+- Native node-to-face *TIE,ADJUST=NO failed the original frozen axial patch despite full coverage: max stress error 183,365 Pa. Failure is retained; original manifest/tolerances are unchanged.
+- A second predeclared formulation integrates quadratic interface virtual work and emits CCX *EQUATION. Same geometry/references/loads/sampling/tolerances pass both orientations: 231/423 independent body nodes, 37/65 interface nodes, no merging/fusing, 284 total C3D10 versus a separate 266-element monolith.
+- Max mortar displacement/stress error 4.989e-13 m/9.439e-7 Pa; MPC residual≤1.21e-12 m. End ux=9.52381e-6 m in all printed cases. External force/moment balance passes; internal MPC forces are excluded from support reactions.
+- Native-double binary geometry audits measure zero coordinate change in both role cases. Diagnostic 10 µm gap shows default native *TIE adjustment and zero with ADJUST=NO; supported preflight rejects the gap, so B08 is not claimed.
+- Partial native surface leaves 61 nodes uncovered. Untied CCX returned exit 0/Job finished with ~9.79e9 m displacement; the supported path rejects detached bodies before solving. No stabilization is added. Actual nonzero CCX failures retain complete transcripts.
+
+[T005 evidence](docs/validation/T005.md) and [ADR-013](docs/adr/ADR-013.md) retain frozen manifests, compressed inputs/outputs/meshes and the scientific decision. Experimental mortar is limited to zero-gap planar unit interfaces and ≤65 trace nodes per side; native *TIE remains an unsupported failed candidate. Owner B07/formulation acceptance is pending. No T006 work started.
+
+## T004 historical validation
 
 Implementation commit `47d18b9f06df2bb85b373ebc450b2b0f7b3c0a6b`, same pinned native tools; no dependency/lock change.
 
@@ -40,7 +58,7 @@ Implementation commit `47d18b9f06df2bb85b373ebc450b2b0f7b3c0a6b`, same pinned na
 - Corrupted/truncated/duplicate/incomplete DAT/FRD, invalid orders/positions/topology, nonfinite tensors and stale mesh/ownership fail. An initial repeated-eigenvalue error was fixed with scaled Jacobi; original unit tolerances remain intact.
 - Chromium uses a fresh real solve, verifies separate values/colors and source/location labels, and exercises field/node selections. Screenshot was inspected. `uv lock --check`, final lint/docs/diff and retained-source hash checks pass.
 
-[T004 evidence](docs/validation/T004.md), [ADR-012](docs/adr/ADR-012.md) and committed raw outputs/VTK/HTML/screenshot provide the review record. B09 is development-only; engineering review and formal T004/F5 closure remain pending. No T005 work was started.
+[T004 evidence](docs/validation/T004.md), [ADR-012](docs/adr/ADR-012.md) and committed raw outputs/VTK/HTML/screenshot provide the review record. B09 is development-only; engineering review and formal T004/F5 closure remain pending. T005 subsequently proceeded by explicit request, preserving pending acceptance.
 
 ## T003 historical validation
 
@@ -71,8 +89,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-T003/T004 remaining acceptance blockers are engineering-owner B01/B02/B09 review and accepted evidence. Record owner/date and reviewed criteria hash; close formal tasks only after their gates are reviewed. Next implementation task is T005 when requested. Keep OCCT 8.0.1/7.8.1 isolated. T005/T006 still own ties, cleanup and capacity; arbitrary curved/edited geometry and the product 3D result viewer remain later work. The ~100k-element target is unmeasured. F1 passes; full M0 does not.
+T003–T005 acceptance blockers are engineering-owner B01/B02/B09/B07 and mortar-formulation review. Record owner/date and reviewed criteria hashes; close formal tasks only after those gates. Next implementation task is T006 when requested: cleanup and measured resources. Keep OCCT 8.0.1/7.8.1 isolated. General/scalable interfaces, physical gaps and broader connection loading remain unvalidated; native *TIE failed the patch and is not a validated fallback. The ~100k-element target is unmeasured. F1 passes; full M0 does not.
 
 Hosted GitHub CI and Windows Chrome/Edge acceptance were not executed; browser evidence is headless Linux Chromium health plus the actual native stress diagnostic fixture. Public redistribution remains blocked by deferred project/native license review. No live AWS resources, production secrets, private engineering data, deployment or merge was used.
 
-Next session: inspect [T003](docs/validation/T003.md)/[T004](docs/validation/T004.md) evidence and pending owner reviews; implement **T005 only** when requested, preserving those open gates. Reuse current provisioning/locks/evidence. No later task, deployment, push or merge was performed.
+Next session: inspect T003–T005 evidence and pending reviews; implement **T006 only** when requested, preserving open gates and current scope limits. Reuse provisioning/locks and actual evidence. No later task, deployment, push or merge was performed.

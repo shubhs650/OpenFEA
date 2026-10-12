@@ -1,18 +1,18 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository contains a health-only React/FastAPI bootstrap, isolated native tools and real synthetic CAD/mesh/load/CCX/stress diagnostics. T004 preserves raw integration tensors and material-side values. B01/B02/B09 pass development checks; owner-signed acceptance, the application workflow and capacity remain open.
+This repository contains a health-only React/FastAPI bootstrap and real synthetic CAD/mesh/load/CCX/stress/bond diagnostics. T005 rejects a failed native tie candidate and proves an experimental consistent mortar connection on a limited planar patch. B01/B02/B09/B07 development evidence exists; owner acceptance, general application workflow and capacity remain open.
 The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
 
 ## Run the bootstrap
 
-See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API still provide health only. Run `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) for development diagnostics. B09 generates raw stress JSON, VTK and an offline interactive HTML fixture under `.local/native/benchmarks/B09/`; [evidence](docs/validation/T004.md) explains raw/derived semantics. Signed acceptance/full release benchmarks/security/reports remain blocked.
+See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API remain health only. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs real diagnostics. B07 uses declared experimental mortar *EQUATION with scope limits and retains the failed native *TIE candidate; [T005 evidence](docs/validation/T005.md) explains the decision. B09 retains VTK/HTML stress diagnostics. Signed/full release/security/report gates remain blocked.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review [T001](docs/tasks/T001.md), [T002](docs/tasks/T002.md), [T003](docs/tasks/T003.md) and [T004](docs/tasks/T004.md) evidence, then follow [TASKS.md](TASKS.md). T003/T004 owner review is pending; next implementation task: T005.
+3. Review T001–T005 evidence in the [task index](TASKS.md). T003–T005 engineering review is pending; next implementation task: T006.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 
