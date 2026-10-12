@@ -1,0 +1,30 @@
+{
+  "purpose": "Predeclared T004 development tensor/location diagnostics, not signed release benchmarks",
+  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "element": "Hand-ordered unit C3D10 tetrahedron; node 2 ux free, remaining 29 DOFs prescribed",
+  "cases": {
+    "hydrostatic": {
+      "displacement": "u=0.001*(x,y,z)",
+      "expected_canonical_stress_pa": [
+        525000000, 525000000, 525000000, 0, 0, 0
+      ],
+      "expected_von_mises_pa": 0
+    },
+    "pure-shear": {
+      "displacement": "u=(0.0004*y,0,0)",
+      "expected_canonical_stress_pa": [0, 0, 0, 32307692.307692308, 0, 0],
+      "expected_von_mises_pa": 55958564.55252065
+    },
+    "varying-shear": {
+      "displacement": "u=(0.001*y*z,0,0); harmonic, divergence-free quadratic field",
+      "reference": "sigma_xy=mu*0.001*z, sigma_zx=mu*0.001*y; all other components zero; mu=E/(2*(1+nu))"
+    }
+  },
+  "tolerances": {
+    "relative": 0.00001,
+    "stress_absolute_pa": 100,
+    "coordinate_absolute_m": 0.000001,
+    "displacement_absolute_m": 0.000000001
+  },
+  "reviewer_signoff": "PENDING engineering owner; development diagnostics only"
+}

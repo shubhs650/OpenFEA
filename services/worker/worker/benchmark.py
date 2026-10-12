@@ -61,6 +61,10 @@ def solve(directory: Path, deck: str) -> tuple[dict[int, Vec], list[list[float]]
 
 
 def run_case(case: str, output: Path, development: bool = False) -> dict[str, Any]:
+    if case == "B09":
+        from worker.stress_fixture import run_b09
+
+        return run_b09(output, development)
     if case not in ("B01", "B02"):
         raise ValueError("Only B01/B02 are implemented; later benchmarks remain unrun")
     manifest_path = ROOT / f"tests/benchmarks/{case}.json"

@@ -2,3 +2,5 @@
 docs/validation/native-licenses/* -text whitespace=-trailing-space
 # Preserve retained native evidence/input/output hashes across platform line endings.
 docs/validation/results/T003/** -text whitespace=-trailing-space
+# Golden parser fixtures are retained real native outputs, including FRD padding.
+tests/fixtures/native/stress/* -text whitespace=-trailing-space

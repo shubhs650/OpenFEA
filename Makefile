@@ -11,7 +11,7 @@ PY := .venv/bin/python
 .PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
-	@echo 'test-native verifies real tools/mapping/loads; benchmark CASE=B01 or B02 DEVELOPMENT=1 runs unsigned diagnostics.'
+	@echo 'test-native verifies real tools/mapping/loads/stress; benchmark CASE=B01, B02 or B09 DEVELOPMENT=1 runs diagnostics.'
 	@echo 'Release benchmark acceptance, benchmark-all, full security and reports remain BLOCKED.'
 setup:
 	bash scripts/codex/setup.sh
