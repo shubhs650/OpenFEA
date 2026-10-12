@@ -1,0 +1,3 @@
+.venv/bin/python scripts/native/benchmark.py B09 
+BLOCKED/FAILED: Engineering-owner B09 review pending; use DEVELOPMENT=1 for diagnostics
+make: *** [Makefile:54: benchmark] Error 2

@@ -22,9 +22,9 @@ Never activate OCP and Gmsh in one interpreter. OCP's VTK dependency remains in 
 
 ## Commands and native process boundary
 
-`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all 23 native tests. `make test-native` includes the original nine toolchain checks plus three synthetic mapping cases, eight pressure-face/sign cases, two analytical development cases and a two-face total-force solve.
+`make doctor` verifies native binary/library hashes and performs real CAD/mesh/VTK operations in separate processes. `bash scripts/codex/check.sh --require-native` also runs all 27 native tests. `make test-native` includes the original nine toolchain checks plus three synthetic mapping cases, eight pressure-face/sign cases, two analytical development cases, a two-face total-force solve and four native stress/provenance cases.
 
-`make benchmark CASE=B01 DEVELOPMENT=1` (or B02) runs two meshes through the actual synthetic STEP/CAD/mesh/deck/CCX workflow. Outputs are under `.local/native/benchmarks/<case>/`. Without development mode, unsigned acceptance fails with exit 2. The owner deferred B01/B02 engineering review; [T003 evidence](validation/T003.md) retains frozen manifests, actual decks/DAT/transcripts and measured errors. General curved geometry/elements, ties and production stress output remain later work.
+`make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs two meshes through the actual synthetic STEP/CAD/mesh/deck/CCX workflow. Outputs are under `.local/native/benchmarks/<case>/`. Without development mode, unsigned acceptance fails with exit 2. The owner deferred B01/B02 engineering review; [T003 evidence](validation/T003.md) retains frozen manifests, actual decks/DAT/transcripts and measured errors. General curved geometry/elements, ties and production stress output remain later work.
 
 `worker.runtime` is an internal development primitive. It verifies the workspace CCX/launcher/library hashes, closes inherited descriptors, passes a minimal environment without proxy/authentication variables, and launches the owned process group through the compiled `netdeny` helper. Optional `FEA_CCX_PATH` must resolve to the pinned workspace executable so the verified runtime libraries remain the loaded ones. Foreign binaries are rejected.
 
@@ -43,3 +43,7 @@ Modern GNU compatibility flags are recorded in `build.json`: C `-fcommon` and `-
 ## License handoff
 
 The [inventory](validation/native-dependencies.json), [version-matched license source list](validation/native-licenses/sources.json) and [dependency matrix](DEPENDENCIES.md) record licenses and hashes. CCX/SPOOLES, ARPACK/BLAS/LAPACK and GNU runtime provenance are explicit; no MKL/PARDISO/proprietary backend is enabled. Wheel metadata and the OCP bundled-component SBOM do not establish complete redistribution compliance. Final project license and bundled attribution/source/relinking review remain deferred under ADR-006. No public release is authorized by this task.
+
+## T004 stress diagnostics
+
+`make benchmark CASE=B09 DEVELOPMENT=1` generates native DAT S/COORD, canonical tensors, element-owned derived values/probes, labelled averaged FRD, quadratic VTK and an offline interactive HTML/SVG fixture. B09 preserves 210/70 MPa while shared-node FRD averages to 139.999 MPa. The output is under `.local/native/benchmarks/B09/`; no product solver/viewer API is added. See [T004 evidence](validation/T004.md) and [ADR-012](adr/ADR-012.md) for frozen references, real outputs, corruption checks, source hashes and pending engineering review.

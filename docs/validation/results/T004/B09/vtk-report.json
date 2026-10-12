@@ -1,0 +1,14 @@
+{
+  "vtk_version": "9.7.1",
+  "cells": 2,
+  "element_owned_points": 20,
+  "global_nodes": 14,
+  "integration_points": 8,
+  "cell_volumes_m3": [
+    0.16666666666666663,
+    0.16666666666666663
+  ],
+  "shared_nodes_duplicated": true,
+  "tensor_roundtrip": "exact",
+  "status": "PASS"
+}

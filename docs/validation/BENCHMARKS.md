@@ -1,6 +1,6 @@
 # Benchmark registry
 
-B01/B02 have [real T003 development evidence](T003.md), with exact frozen manifests under `tests/benchmarks/`. The owner chose development-only and deferred review; signed acceptance remains pending. B03–B14 are not executed. Never treat the development result as a signed release pass.
+B01/B02 have [T003 development evidence](T003.md); B09 has [T004 native stress/provenance evidence](T004.md). Frozen manifests are under `tests/benchmarks/`. Development-only/owner review-later status is preserved; signed acceptance remains pending. B03–B08 and B10–B14 are unexecuted. Never treat development results as signed release passes.
 
 | ID | Case and purpose | Reference / sampled quantities | Planned task |
 |---|---|---|---|

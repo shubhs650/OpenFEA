@@ -1,33 +1,48 @@
 # Progress and handoff
 
-Updated: 2026-10-12
-Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/LOAD/SOLVE PIPELINE
-Current milestone: M0 — F1 availability passed; F2/F3 development evidence exists, engineering acceptance open
-Next action: T003 engineering-owner benchmark review; next implementation task T004
+Updated: 2026-10-13 (Asia/Calcutta)
+Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS PIPELINE
+Current milestone: M0 — F1 passed; F2/F3/F5 development evidence exists, engineering acceptance open
+Next action: T003/T004 owner review (B01/B02/B09); next implementation task T005
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003 implementation is delivered with development-only diagnostics, and its signed acceptance is deferred by the owner. This session stops at T003.
+Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003/T004 development implementations are delivered with engineering acceptance deferred. The owner explicitly requested T004 while T003 review was open; this authorizes development, without closing pending gates. This session stops at T004.
 
 ## Implementation status
 
 T001: COMPLETE
 T002: COMPLETE
 T003: IN PROGRESS
-T004–T042: NOT STARTED
+T004: IN PROGRESS
+T005–T042: NOT STARTED
 All M0–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
-B03–B14: NOT RUN.
+B09: DEVELOPMENT PASS; engineering-owner review pending.
+B03–B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
 ## What now works
 
-The React/Vite page and FastAPI health API remain operational. T002 provisions CPU CCX 2.23 and separate OCP/OCCT, Gmsh/OCCT and VTK environments. T003 adds a real internal synthetic STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostic workflow. Face IDs survive changed tags; missing/ambiguous identity and unsupported curved elements fail. Distributed force/pressure orientation, midsides, total resultants and moments are exercised by real tests. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02) runs actual analytical diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow, project persistence or reports exist.
+The React/Vite page and FastAPI health API remain operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow, project persistence or reports exist.
 
 Root/native dependencies are separately locked. Source/deb/wheel/runtime hashes and upstream license notices are recorded. Native processes receive a minimal environment, no network sockets, single-thread settings and resource limits. Full hostile-upload/filesystem isolation is not implemented. See [native setup](docs/NATIVE_TOOLS.md), [ADR-010](docs/adr/ADR-010.md) and the [dependency matrix](docs/DEPENDENCIES.md). Final public license remains deferred.
 
-## T003 executed validation
+## T004 executed validation
+
+Implementation commit `47d18b9f06df2bb85b373ebc450b2b0f7b3c0a6b`, same pinned native tools; no dependency/lock change.
+
+- `make check test-native test-e2e`: **96 passed, 0 failed, 0 skipped** (58 Python unit, 7 TS, 27 native, 4 Chromium). Static types/format/lint, generated contracts and documentation graph pass.
+- `make benchmark CASE=B09 DEVELOPMENT=1`: actual two-material C3D10 solve and VTK/HTML artifacts pass; unsigned B09 exits 2 as required. No repeated cases added to counts.
+- Raw DAT retains 210/70 MPa across the shared interface; native FRD averages to 139.999 MPa. Element-side tensors have max error 4.46e-7 Pa. VTK duplicates 6 interface nodes (20 element-owned points/14 global nodes) and preserves 8 IPs and exact tensors/positions.
+- Hydrostatic, pure shear and spatially varying shear validate full tensor order, IP locations/numbering, extrapolation, probes and invariants. Native-text max tensor errors: 0, 2.31 Pa, 3.76 Pa respectively; frozen tolerances unchanged.
+- Corrupted/truncated/duplicate/incomplete DAT/FRD, invalid orders/positions/topology, nonfinite tensors and stale mesh/ownership fail. An initial repeated-eigenvalue error was fixed with scaled Jacobi; original unit tolerances remain intact.
+- Chromium uses a fresh real solve, verifies separate values/colors and source/location labels, and exercises field/node selections. Screenshot was inspected. `uv lock --check`, final lint/docs/diff and retained-source hash checks pass.
+
+[T004 evidence](docs/validation/T004.md), [ADR-012](docs/adr/ADR-012.md) and committed raw outputs/VTK/HTML/screenshot provide the review record. B09 is development-only; engineering review and formal T004/F5 closure remain pending. No T005 work was started.
+
+## T003 historical validation
 
 Code commit `0dd94178d197c46d54f4762a36303395d4991101`; same pinned Debian 13/Python 3.12.14/native tools as T002. No dependency/lock changes or mocked solver behavior.
 
@@ -37,7 +52,7 @@ Code commit `0dd94178d197c46d54f4762a36303395d4991101`; same pinned Debian 13/Py
 - 6 cube, 8 bracket and 12 two-body faces map correctly after all Gmsh tags change; positive/negative CCX pressure on all 4 tetra faces matches consistent loads. Actual two-face total-force solve balances resultants/moments, including applied loads on support nodes.
 - Unsigned `make benchmark CASE=B01` correctly exits 2; a unit test prevents accepting it. `uv lock --check` and diff checks pass. Final documentation/format checks also pass.
 
-The owner selected **development-only; review later** for B01/B02. Formal T003 and F2/F3 acceptance remain open. [ADR-011](docs/adr/ADR-011.md) records planar synthetic geometry, affine C3D10/full-domain determinant bounds, frozen mapping thresholds and later curved/edited-geometry limitations. No T004 work was started.
+The owner selected **development-only; review later** for B01/B02. Formal T003 and F2/F3 acceptance remain open. [ADR-011](docs/adr/ADR-011.md) records planar synthetic geometry, affine C3D10/full-domain determinant bounds, frozen mapping thresholds and later curved/edited-geometry limitations. T004 subsequently proceeded by explicit request without claiming predecessor acceptance.
 
 ## T002 historical validation
 
@@ -56,8 +71,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-T003's remaining blocker is engineering-owner manifest review and signed rerun, deferred by explicit user choice. Record owner/date and reviewed criteria hash, rerun B01/B02 without development-only status, and close T003 only then. T004 is the next implementation task. Separate OCCT 8.0.1/7.8.1 kernels must remain isolated. T004–T006 still own production stress semantics, ties, cleanup and capacity; arbitrary edited/curved face mapping remains T013. The ~100k-element target is unmeasured. F1 availability passes; full M0 does not.
+T003/T004 remaining acceptance blockers are engineering-owner B01/B02/B09 review and accepted evidence. Record owner/date and reviewed criteria hash; close formal tasks only after their gates are reviewed. Next implementation task is T005 when requested. Keep OCCT 8.0.1/7.8.1 isolated. T005/T006 still own ties, cleanup and capacity; arbitrary curved/edited geometry and the product 3D result viewer remain later work. The ~100k-element target is unmeasured. F1 passes; full M0 does not.
 
-Hosted GitHub CI and Windows Chrome/Edge acceptance were not executed; browser evidence is headless Linux Chromium health only. Public redistribution remains blocked by deferred project/native license review. No live AWS resources, production secrets, private engineering data, deployment or merge was used.
+Hosted GitHub CI and Windows Chrome/Edge acceptance were not executed; browser evidence is headless Linux Chromium health plus the actual native stress diagnostic fixture. Public redistribution remains blocked by deferred project/native license review. No live AWS resources, production secrets, private engineering data, deployment or merge was used.
 
-Next session: review [T003 manifests/evidence](docs/validation/T003.md) and close acceptance when authorized; then implement **T004 only** when requested. Reuse current provisioning/locks/evidence, preserving numerical gates. No later task, deployment, push or merge was performed.
+Next session: inspect [T003](docs/validation/T003.md)/[T004](docs/validation/T004.md) evidence and pending owner reviews; implement **T005 only** when requested, preserving those open gates. Reuse current provisioning/locks/evidence. No later task, deployment, push or merge was performed.

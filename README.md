@@ -1,18 +1,18 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository contains a health-only React/FastAPI bootstrap, the T002 native toolchain and T003's real synthetic CAD/mesh/load/CCX diagnostic pipeline. B01/B02 pass development checks; owner-signed benchmark acceptance, the application workflow and capacity remain open.
+This repository contains a health-only React/FastAPI bootstrap, isolated native tools and real synthetic CAD/mesh/load/CCX/stress diagnostics. T004 preserves raw integration tensors and material-side values. B01/B02/B09 pass development checks; owner-signed acceptance, the application workflow and capacity remain open.
 The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
 
 ## Run the bootstrap
 
-See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). From the root run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API still provide health only. Native tests exercise real face mapping, quadratic loads and CCX analytical diagnostics. Run `make benchmark CASE=B01 DEVELOPMENT=1` or B02 for development-only results; signed acceptance/full release benchmarks/security/reports remain blocked.
+See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API still provide health only. Run `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) for development diagnostics. B09 generates raw stress JSON, VTK and an offline interactive HTML fixture under `.local/native/benchmarks/B09/`; [evidence](docs/validation/T004.md) explains raw/derived semantics. Signed acceptance/full release benchmarks/security/reports remain blocked.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review [T001](docs/tasks/T001.md), [T002](docs/tasks/T002.md) and [T003](docs/tasks/T003.md) evidence, then follow the [task index](TASKS.md). T003 owner review is pending; next implementation task: T004.
+3. Review [T001](docs/tasks/T001.md), [T002](docs/tasks/T002.md), [T003](docs/tasks/T003.md) and [T004](docs/tasks/T004.md) evidence, then follow [TASKS.md](TASKS.md). T003/T004 owner review is pending; next implementation task: T005.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 

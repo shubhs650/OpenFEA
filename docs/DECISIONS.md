@@ -13,9 +13,9 @@ Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only
 | Exact toolchain and binding versions | Developer, T001–T002 | T001/T002 pins and local availability accepted in ADR-009/ADR-010; mapping/stress/tie compatibility remains later gates |
 | Face-remap algorithm and valid confidence criteria | Developer + engineering owner, T003/T013 | Synthetic planar one-to-one mapping proven in T003 diagnostics/ADR-011; arbitrary/edited geometry and owner acceptance open |
 | CCX tie keywords/adjustment behavior | Engineering owner, T005/T019 | Unproven |
-| Raw element stress output path | Developer + engineering owner, T004 | Unproven |
+| Raw element stress output path | Developer + engineering owner, T004 | Native DAT global S/COORD and element-owned extrapolation/probes proved diagnostically; FRD averages labelled separately; B09 review pending (ADR-012) |
 | Material nu range, mesh quality and gap limits | Engineering owner, M0/M3 | Proposed, validate |
-| Benchmark-specific tolerances/cases | Engineering owner, before each benchmark run | B01/B02 frozen development manifests pass; owner explicitly deferred signed review; B03–B14 draft/unrun |
+| Benchmark-specific tolerances/cases | Engineering owner, before each benchmark run | B01/B02/B09 frozen development manifests pass; engineering review deferred; other cases draft/unrun |
 | Practical element/memory/runtime ceiling | Developer, T006 | Measure first |
 | AWS capacity/rates/fixed-cost fit | Operator, T033 before deployment | Not priced |
 | Region choice within India | Operator, T033 | ap-south-1 candidate |

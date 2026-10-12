@@ -1,0 +1,22 @@
+{
+  "EL_FILE": {
+    "source_in_pinned_archive": "manual/CalculiX/ccx_2.23/doc/ccx/node279.html",
+    "sha256": "822622f69585dcb9dee3eb86ae52b608f6b5d4944dfaf537ef89250dee26f19f"
+  },
+  "EL_PRINT": {
+    "source_in_pinned_archive": "manual/CalculiX/ccx_2.23/doc/ccx/node280.html",
+    "sha256": "205d49398f5dc3e821b4032bdf8425725484cf5eda4f9fcdd15956e0d50f1544"
+  },
+  "gauss": {
+    "source_in_pinned_archive": "ccx/CalculiX/ccx_2.23/src/gauss.f",
+    "sha256": "aed2d48b6a63e30894e747a531f6edc32e3cd921338e370902dfb62d8e304df2"
+  },
+  "extrapolate": {
+    "source_in_pinned_archive": "ccx/CalculiX/ccx_2.23/src/extrapolate.f",
+    "sha256": "504891169bcc6023841659df2fbba34d5d2f34a23e4bb396afc48b99d6112ac7"
+  },
+  "printout": {
+    "source_in_pinned_archive": "ccx/CalculiX/ccx_2.23/src/printout.f",
+    "sha256": "ae2b60b4e086846e2833a1d723c37645c0ff6701d2e28dc7e3163d0a4d136f32"
+  }
+}

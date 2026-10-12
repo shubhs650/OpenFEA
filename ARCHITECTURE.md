@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-12. T001 provides the health API/UI; T002 provisions isolated native tools and validates one tiny real CCX job. The engineering pipelines remain planned; mapping/tie/stress/capacity gates are open. The development stage ends at the validated local prototype through M4/T030.
+2026-10-13. T001 provides the health API/UI; T002 provisions isolated native tools. T003/T004 implement real synthetic CAD/mesh/load/CCX and provenance-aware stress diagnostics. Signed acceptance, ties, capacity and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030.
 
 ## Shape of the system
 
@@ -87,3 +87,5 @@ The ₹3,000 target is not an AWS guarantee: fixed host, disks, public IPv4, log
 ## Implementation gates
 
 M0 proves CAD/mesh mapping, ties, raw stress extraction, open-source dependency builds and resource behavior. M1 builds one genuine local vertical slice. Later milestones layer assemblies, reliability, reporting and AWS. Every gate carries executed evidence or remains pending.
+
+T004 development now demonstrates native global DAT S/COORD, explicitly averaged FRD and element-owned linear extrapolation/probes for affine C3D10. VTK duplicates points at material interfaces; standalone HTML/SVG proves minimal display semantics. The vtk.js product viewer/full flow remain later work. See [ADR-012](docs/adr/ADR-012.md); engineering-owner acceptance is open.
