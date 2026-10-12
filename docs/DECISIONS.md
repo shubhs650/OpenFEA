@@ -1,0 +1,27 @@
+# Decision register
+
+## Settled product decisions
+
+Mechanical engineers; single parts and bonded assemblies; linear static; 3D solids; STEP only; repair plus selected defeaturing with limited supported release acceptable; auto bond suggestions and review; approved small gaps, reject overlaps; quadratic tetrahedra and local sizing; essential face loads/supports plus gravity; isotropic library/custom materials; consistent selectable units; global/geometric directions; no face partitioning; hybrid workflow; desktop Chrome/Edge Windows; light/dark; inspectable stress contours and verification; PDF/Word; multiple analyses; autosave and immutable run snapshots; portable archives; generated solver download only.
+
+Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only open-source components, final license deferred. Invite beta 3–5, private individual projects, Google allowlist, one queued job at a time, results expire after 30 days, daily backup/up to 24 h loss, India-only, 24/7 access with cold-start worker, non-interruptible compute, ₹3,000 total AWS target, individual allowances plus reserve. Platform failure credit/one retry; modeling failures charged. Mesh/solve cost approval and cap. Future itemized usage plus overhead/reserve; no paid-service build until evidence and three willing testers.
+
+## Technical recommendations requiring evidence
+
+| Decision | Owner / resolution point | Current status |
+|---|---|---|
+| Exact toolchain and binding versions | Developer, T001–T002 | Proposed |
+| Face-remap algorithm and valid confidence criteria | Developer + engineering owner, T003/T013 | Unproven |
+| CCX tie keywords/adjustment behavior | Engineering owner, T005/T019 | Unproven |
+| Raw element stress output path | Developer + engineering owner, T004 | Unproven |
+| Material nu range, mesh quality and gap limits | Engineering owner, M0/M3 | Proposed, validate |
+| Benchmark-specific tolerances/cases | Engineering owner, before each benchmark run | Draft registry |
+| Practical element/memory/runtime ceiling | Developer, T006 | Measure first |
+| AWS capacity/rates/fixed-cost fit | Operator, T033 before deployment | Not priced |
+| Region choice within India | Operator, T033 | ap-south-1 candidate |
+| Final open-source license | Owner after audit, T002/ADR-006 | Deferred, public redistribution blocked |
+| Working title / product branding | Owner before public launch | Not required for prototype |
+
+## Change discipline
+
+Use ADRs for technical changes. Record product changes with rationale and affected requirement IDs. Convenience cuts are allowed directionally by the user, but document which features are deferred before declaring a release. Never remove numerical validation, private ownership or spending controls as convenience cuts.
