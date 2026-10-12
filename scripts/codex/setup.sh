@@ -10,4 +10,5 @@ uv sync --locked --python "$(cat .python-version)"
 npm ci
 # Pinned Playwright installs its matching Chromium headless shell; no privileged OS install.
 node_modules/.bin/playwright install chromium --only-shell
-bash scripts/codex/check.sh
+.venv/bin/python scripts/native/install.py
+bash scripts/codex/check.sh --require-native

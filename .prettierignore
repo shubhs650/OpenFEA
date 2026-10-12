@@ -4,6 +4,10 @@ packages/contracts/openapi.json
 packages/contracts/api.d.ts
 docs/validation/dependencies.json
 docs/validation/wheel-probe.json
+docs/validation/native-dependencies.json
+docs/validation/T002-result.json
+scripts/native/toolchain-lock.json
+docs/validation/native-licenses/
 # Preserve the original documentation's formatting.
 *.md
 docs/**/*.md

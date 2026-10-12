@@ -22,7 +22,7 @@ package = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests/unit"]
-pythonpath = ["services/api", "."]
+pythonpath = ["services/api", "services/worker", "."]
 addopts = "-ra --strict-markers"
 
 [tool.ruff]
@@ -32,8 +32,11 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["app", "worker"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
-mypy_path = "services/api"
-files = ["services/api/app", "scripts", "tests"]
+mypy_path = "services/api:services/worker"
+files = ["services/api/app", "services/worker/worker/runtime.py", "scripts", "tests"]

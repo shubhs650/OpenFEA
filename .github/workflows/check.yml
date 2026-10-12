@@ -24,6 +24,14 @@ jobs:
         run: |
           python -m pip install --only-binary=:all: --require-hashes -r scripts/ci/tool-requirements.txt
           npm install --global npm@11.9.0
+      - name: Native compiler prerequisite
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1
+          mkdir -p .local/ci-toolchain
+          ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
+          echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"
+          # Setup independently enforces GCC 14.2.0 and every native artifact digest.
       - run: make setup
       - run: make check build smoke test-integration test-e2e
       - name: Verify runner failure propagation

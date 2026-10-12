@@ -1,0 +1,54 @@
+** Synthetic SI C3D10 affine displacement smoke, not a release benchmark.
+** E=210e9 Pa, nu=0.3; ux=.001*x, uy=-.0003*y, uz=-.0003*z.
+** Node 2 ux is free: CCX must solve one real stiffness equation.
+*NODE,NSET=NALL
+1,0,0,0
+2,1,0,0
+3,0,1,0
+4,0,0,1
+5,.5,0,0
+6,.5,.5,0
+7,0,.5,0
+8,0,0,.5
+9,.5,0,.5
+10,0,.5,.5
+*ELEMENT,TYPE=C3D10,ELSET=EALL
+1,1,2,3,4,5,6,7,8,9,10
+*MATERIAL,NAME=SYNTHETIC
+*ELASTIC
+210000000000.,.3
+*SOLID SECTION,ELSET=EALL,MATERIAL=SYNTHETIC
+*STEP
+*STATIC
+*BOUNDARY
+1,1,3,0
+2,2,3,0
+3,1,1,0
+3,2,2,-.0003
+3,3,3,0
+4,1,2,0
+4,3,3,-.0003
+5,1,1,.0005
+5,2,3,0
+6,1,1,.0005
+6,2,2,-.00015
+6,3,3,0
+7,1,1,0
+7,2,2,-.00015
+7,3,3,0
+8,1,2,0
+8,3,3,-.00015
+9,1,1,.0005
+9,2,2,0
+9,3,3,-.00015
+10,1,1,0
+10,2,3,-.00015
+*NODE PRINT,NSET=NALL
+U,RF
+*EL PRINT,ELSET=EALL
+S
+*NODE FILE
+U
+*EL FILE
+S
+*END STEP

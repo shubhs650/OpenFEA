@@ -4,16 +4,20 @@ SHELL := /bin/bash
 export UV_CACHE_DIR ?= $(CURDIR)/.local/cache/uv
 export npm_config_cache ?= $(CURDIR)/.local/cache/npm
 export PLAYWRIGHT_BROWSERS_PATH ?= $(CURDIR)/.local/browsers
-export PYTHONPATH := $(CURDIR)/services/api
-export PATH := $(CURDIR)/.venv/bin:$(PATH)
+export PYTHONPATH := $(CURDIR)/services/api:$(CURDIR)/services/worker
+export PATH := $(CURDIR)/.venv/bin:$(CURDIR)/.local/native/bin:$(PATH)
 PY := .venv/bin/python
 
-.PHONY: help setup doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke
+.PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
-	@echo 'Native, benchmark, full security and report targets fail as BLOCKED until implemented.'
+	@echo 'setup-native and test-native verify the T002 tools; later benchmark/security/report gates remain BLOCKED.'
 setup:
 	bash scripts/codex/setup.sh
+setup-native:
+	$(PY) scripts/native/install.py
+native-report:
+	$(PY) scripts/native/report.py
 doctor:
 	bash scripts/codex/check.sh
 dev:
@@ -44,7 +48,7 @@ smoke:
 test-e2e:
 	npm run test:e2e
 test-native:
-	@bash scripts/ci/blocked.sh 'native integration' 'T002-T005'
+	$(PY) -m pytest tests/native
 benchmark:
 	@bash scripts/ci/blocked.sh 'benchmark $(CASE)' 'reviewed manifests and native pipeline'
 benchmark-all:

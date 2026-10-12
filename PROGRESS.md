@@ -12,7 +12,8 @@ Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google
 ## Implementation status
 
 T001: COMPLETE
-T002–T042: NOT STARTED
+T002: IN PROGRESS
+T003–T042: NOT STARTED
 All M0–M6 exit gates: NOT RUN.
 All benchmark cases B01–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.

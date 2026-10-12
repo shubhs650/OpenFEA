@@ -1,11 +1,10 @@
-"""Check the bootstrap independently of optional, unprovisioned native capabilities."""
+"""Check the bootstrap and real isolated native capabilities."""
 
 import argparse
 import importlib.metadata
-import os
 import platform
-import shutil
 import subprocess
+import sys
 import tempfile
 import threading
 import urllib.request
@@ -13,6 +12,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 from app.config import Settings
+from worker.runtime import ROOT, Component, verified_tool
+from worker.runtime import probe as native_probe
 
 
 class ProbeHandler(BaseHTTPRequestHandler):
@@ -53,27 +54,17 @@ def main() -> int:
         thread.join()
         server.server_close()
     print("PASS: loopback HTTP round trip")
-    missing = []
-    for command in ("ccx", "gmsh"):
-        configured = os.environ.get("FEA_CCX_PATH") if command == "ccx" else None
-        executable = configured or shutil.which(command)
-        if executable and Path(executable).is_file() and os.access(executable, os.X_OK):
-            print(f"UNVALIDATED: {command} found; native version/hash/solve checks remain T002")
-        else:
-            missing.append(command)
-            print(f"MISSING: {command} (native gate blocked; not required for T001 health)")
-    for module in ("cadquery-ocp", "vtk"):
-        try:
-            print(f"UNVALIDATED: {module} {importlib.metadata.version(module)}")
-        except importlib.metadata.PackageNotFoundError:
-            missing.append(module)
-            print(f"MISSING: {module} (T002)")
+    verified_tool("ccx")
+    print("PASS: pinned CPU CCX and runtime library hashes verified")
+    components: tuple[Component, ...] = ("cad", "mesh", "post")
+    for component in components:
+        with tempfile.TemporaryDirectory(dir=settings.data_root) as directory:
+            result = native_probe(component, Path(directory))
+            assert result["component"] == component
+            print(f"PASS: isolated {component} native geometry/I/O capability")
     if args.require_native:
-        print(
-            "BLOCKED: native validation runner is not implemented (T002); presence is insufficient"
-        )
-        return 2
-    print(f"PASS: bootstrap prerequisites; {len(missing)} native capabilities missing")
+        subprocess.run([sys.executable, "-m", "pytest", "tests/native", "-q"], cwd=ROOT, check=True)
+    print("PASS: local bootstrap and native toolchain prerequisites")
     return 0
 
 

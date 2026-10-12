@@ -5,8 +5,8 @@ cd "$ROOT"
 export UV_CACHE_DIR="${UV_CACHE_DIR:-$ROOT/.local/cache/uv}"
 export npm_config_cache="${npm_config_cache:-$ROOT/.local/cache/npm}"
 export PLAYWRIGHT_BROWSERS_PATH="${PLAYWRIGHT_BROWSERS_PATH:-$ROOT/.local/browsers}"
-export PYTHONPATH="$ROOT/services/api"
-export PATH="$ROOT/.venv/bin:$PATH"
+export PYTHONPATH="$ROOT/services/api:$ROOT/services/worker"
+export PATH="$ROOT/.venv/bin:$ROOT/.local/native/bin:$PATH"
 
 check_tools() {
   local expected actual
