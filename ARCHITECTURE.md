@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-12. Product constraints are settled; component integration is subject to M0 evidence. No software has been implemented by this document set.
+2026-10-12. Product constraints are settled; component integration is subject to M0 evidence. T001 implements only the local health API/UI and development command runner; the engineering pipelines below remain planned. The current development stage ends at the validated local prototype through M4/T030.
 
 ## Shape of the system
 

@@ -10,7 +10,7 @@ Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only
 
 | Decision | Owner / resolution point | Current status |
 |---|---|---|
-| Exact toolchain and binding versions | Developer, T001–T002 | Proposed |
+| Exact toolchain and binding versions | Developer, T001–T002 | T001 runtime/dev pins accepted in ADR-009; native bindings remain T002 |
 | Face-remap algorithm and valid confidence criteria | Developer + engineering owner, T003/T013 | Unproven |
 | CCX tie keywords/adjustment behavior | Engineering owner, T005/T019 | Unproven |
 | Raw element stress output path | Developer + engineering owner, T004 | Unproven |
@@ -23,5 +23,7 @@ Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only
 | Working title / product branding | Owner before public launch | Not required for prototype |
 
 ## Change discipline
+
+For the current development stage, the owner has authorized a fully validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are excluded. This does not remove those later product requirements; it bounds current implementation work. T001 uses the accepted [health bootstrap decision](adr/ADR-009.md).
 
 Use ADRs for technical changes. Record product changes with rationale and affected requirement IDs. Convenience cuts are allowed directionally by the user, but document which features are deferred before declaring a release. Never remove numerical validation, private ownership or spending controls as convenience cuts.

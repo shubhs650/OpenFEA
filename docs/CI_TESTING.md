@@ -1,6 +1,8 @@
 # Command and CI contract
 
-These commands are targets to create in T001/T002, not shipped scripts. Each must exit nonzero on a genuine failure. Missing required dependencies must be reported as blocked, not silently skipped in a required job.
+The root Makefile now ships the T001 bootstrap commands. Each exits nonzero on a genuine failure. Missing required dependencies are reported as blocked, never silently skipped in a required job. The table retains the full target behavior to implement over subsequent tasks.
+
+T001 implements setup, doctor, dev (API/UI only; no worker yet), lint, typecheck, test-unit, check, docs-check and health-only test-e2e. Additional working commands are build, smoke, contracts and contracts-check. Unit coverage currently tests health/configuration and client response validation; math/domain/ledger tests arrive with their real implementations. Native, benchmark, full security and report targets exit nonzero as BLOCKED until their implementations exist. See [development commands](DEVELOPMENT.md) and [T001 evidence](validation/T001.md). The PR/manual workflow runs only bootstrap gates, with one browser worker and no native benchmarks or deployment.
 
 | Command | Required behavior |
 |---|---|

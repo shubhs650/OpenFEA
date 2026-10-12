@@ -1,17 +1,17 @@
 # Developing this project in Codex Cloud
 
-Codex Cloud develops the repository; it does not host this FEA service or replace numerical validation on the target laptop. This kit contains no runnable app yet.
+Codex Cloud develops the repository; it does not host this FEA service or replace numerical validation on the target laptop. T001 now provides a runnable health-only API/UI bootstrap. The current objective ends at the validated local prototype through M4/T030; AWS, Google authentication, billing and beta operations are outside this stage.
 
 ## Initial repository and environment
 
 1. Extract this kit at a new repository root. Commit documentation to a private repository while licensing is unresolved. Keep AGENTS.md at root.
 2. Connect/select that repository in your Codex Cloud environment. Current official guidance describes creating an environment, letting setup inspect/install/test, reviewing it, and publishing it. Account interfaces may differ; use the available environment flow.
-3. Start with T001 to bootstrap manifests, command runner and scripts. Ask setup to provision the pinned toolchain from those committed files. Do not configure commands that do not exist yet and call setup successful.
+3. Follow [development setup](DEVELOPMENT.md) and run `make setup` using the pinned tools and committed locks. Use the existing isolated checkout; do not create a worktree unless explicitly requested. T001's real scripts now exist; no later feature command is considered implemented merely because its Make target exists.
 4. Test a fresh task from the prepared environment. Confirm dependencies and a tiny real CCX job using T002. Do not infer native solver availability from a successful Python import.
 
 ## Environment contract to implement in T001/T002
 
-scripts/codex/setup.sh installs locked JS/Python dependencies, approved native tools with checksums, and browser test dependencies. scripts/codex/check.sh prints versions and tests writable scratch, native command availability and loopback networking. scripts/codex/start.sh starts local dev API/worker/UI and waits for health checks. They must be idempotent, fail on missing mandatory dependencies and contain no deployment credentials.
+T001's `scripts/codex/setup.sh` installs locked JS/Python development dependencies and the locked Playwright browser. `scripts/codex/check.sh` prints versions and tests writable scratch, native availability and loopback networking; missing native tools are explicitly optional for health-only work. `scripts/codex/start.sh` supervises the real local API/UI and checks HTTP behavior. No worker exists yet. T002 extends provisioning with verified native tools and a real solver check; mandatory native gates must fail if unavailable. No deployment credentials belong in these scripts.
 Support native Linux subprocess operation without Docker; Docker Compose remains the WSL2 reference path. If environment policy cannot install a dependency, document the blocked native tests and run those on WSL2 before closing their gate. Do not weaken sandbox rules or download unknown substitute binaries.
 
 Provision package access during allowed setup: trusted OS repositories, chosen package registries and exact upstream source locations. Store no production secrets in the environment. Agent-phase network can stay restricted once dependencies are installed. If the account uses the legacy environment interface, point its setup/maintenance configuration to the same committed scripts; do not assume a setup shell export persists to coding sessions.
@@ -24,7 +24,7 @@ Provision package access during allowed setup: trusted OS repositories, chosen p
 
 ## First task prompt
 
-Read AGENTS.md, README.md, PROGRESS.md, PLAN.md and docs/tasks/T001.md. Implement T001 only. This is a documentation-only starting repository. Create the real command runner and dependency manifests; do not fabricate application features or passing solver tests. Run the applicable checks, update the task record and PROGRESS.md, and prepare a reviewable change. Do not deploy or advance to T002 automatically.
+Read AGENTS.md, README.md, PROGRESS.md, PLAN.md and the explicitly requested task. Inspect the checkout and recorded evidence before changes. T001 now provides the command runner and health-only app; do not overwrite it or infer numerical features exist. Implement one bounded task, run applicable checks, update evidence and prepare a reviewable change. Do not deploy or advance to a later task automatically.
 
 ## Subsequent sessions
 

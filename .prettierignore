@@ -1,0 +1,16 @@
+package-lock.json
+uv.lock
+packages/contracts/openapi.json
+packages/contracts/api.d.ts
+docs/validation/dependencies.json
+docs/validation/wheel-probe.json
+# Preserve the original documentation's formatting.
+*.md
+docs/**/*.md
+LICENSE
+.local/
+.venv/
+dist/
+node_modules/
+test-results/
+playwright-report/

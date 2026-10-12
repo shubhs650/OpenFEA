@@ -1,10 +1,10 @@
 # Task index
 
-All tasks are NOT STARTED. Dependency order is authoritative; no application implementation is included in this kit.
+T001 bootstraps the real health-only local application and command runner. T002–T042 remain NOT STARTED. Dependency order is authoritative; the current development objective stops at M4/T030.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
-| [T001](docs/tasks/T001.md) | M0 | Bootstrap repository and command contracts | none | NOT STARTED |
+| [T001](docs/tasks/T001.md) | M0 | Bootstrap repository and command contracts | none | COMPLETE |
 | [T002](docs/tasks/T002.md) | M0 | Provision native tools and license inventory | T001 | NOT STARTED |
 | [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | NOT STARTED |
 | [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | NOT STARTED |

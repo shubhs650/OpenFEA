@@ -1,14 +1,18 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository currently contains specifications and execution instructions, not a working application.
-All implementation tasks start NOT STARTED. No numerical validation or AWS cost-fit claim has been made.
+This repository contains the specifications and a health-only local React/FastAPI bootstrap from T001. No analysis workflow, numerical validation or AWS cost-fit claim has been made.
+The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
+
+## Run the bootstrap
+
+See [development setup](docs/DEVELOPMENT.md) for pinned tools and configuration. From the repository root run `make setup`, `make check`, `make build`, then `make dev`. The UI and API bind to loopback; the page verifies API connectivity. `make smoke` checks startup and shuts down; `make test-e2e` runs the real health page in Chromium. Native and later feature gates remain unavailable and fail explicitly.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Execute [T001](docs/tasks/T001.md), then the dependency-ordered [task index](TASKS.md).
+3. Review [T001](docs/tasks/T001.md) and its evidence, then follow the dependency-ordered [task index](TASKS.md). The next implementation task is T002.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 
@@ -37,4 +41,4 @@ The canonical agent instruction filename is **AGENTS.md**. [Agent.md](Agent.md) 
 | docs/adr/ | Architecture decision records |
 | docs/plan/ / docs/tasks/ | Milestone instructions and session-sized work |
 
-All commands in implementation guidance are target interfaces unless explicitly described otherwise. T001 creates the command runner; do not assume it exists yet. Code paths describe the intended repository, not existing application code.
+The root command runner now exists. [Development setup](docs/DEVELOPMENT.md) distinguishes implemented bootstrap commands from blocked future gates. The architecture's full product layout remains an implementation plan; only the health slice exists.

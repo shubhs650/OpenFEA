@@ -1,0 +1,30 @@
+name: Bootstrap checks
+on:
+  pull_request:
+    paths-ignore: ["LICENSE"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: bootstrap-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - name: Install pinned bootstrap tools
+        run: |
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/ci/tool-requirements.txt
+          npm install --global npm@11.9.0
+      - run: make setup
+      - run: make check build smoke test-integration test-e2e
+      - name: Verify runner failure propagation
+        run: .venv/bin/python scripts/ci/failure_probes.py
