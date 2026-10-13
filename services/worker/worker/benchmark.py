@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from worker.approval import require_benchmark_approval
 from worker.deck import generated_deck
 from worker.meshing import Vec, add, norm, resultant, scale, total_face_force
 from worker.runtime import (
@@ -73,11 +74,7 @@ def run_case(case: str, output: Path, development: bool = False) -> dict[str, An
         raise ValueError("Only B01/B02 are implemented; later benchmarks remain unrun")
     manifest_path = ROOT / f"tests/benchmarks/{case}.json"
     manifest = json.loads(manifest_path.read_text())
-    approved = not manifest["reviewer_signoff"].startswith("PENDING")
-    if not approved and not development:
-        raise ValueError(
-            "Engineering-owner manifest sign-off pending; use DEVELOPMENT=1 for diagnostics"
-        )
+    approved = require_benchmark_approval(manifest, development)
     output.mkdir(parents=True, exist_ok=True)
     runs = []
     for index, size in enumerate(manifest["mesh_sizes_m"]):

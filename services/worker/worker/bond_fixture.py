@@ -9,6 +9,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from worker.approval import require_benchmark_approval
 from worker.benchmark import solve
 from worker.calculix.bonds import (
     Bond,
@@ -259,9 +260,7 @@ def evaluate(
 def run_b07(output: Path, development: bool = False) -> dict[str, Any]:
     manifest_path = ROOT / "tests/benchmarks/B07-mortar.json"
     manifest = json.loads(manifest_path.read_text())
-    approved = not manifest["reviewer_signoff"].startswith("PENDING")
-    if not approved and not development:
-        raise ValueError("Engineering-owner B07 review pending; use DEVELOPMENT=1 for diagnostics")
+    approved = require_benchmark_approval(manifest, development)
     output.mkdir(parents=True, exist_ok=True)
     reference_dir = output / "monolithic"
     reference_mesh, reference_catalog = build_fixture(reference_dir, bonded=False)

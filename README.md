@@ -12,7 +12,7 @@ See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOL
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review T001–T006 evidence in the [task index](TASKS.md). The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: fix invalid approval handling/failed-stage graduation and complete owner/target-hardware acceptance. T007 remains blocked.
+3. Review T001–T006 evidence in the [task index](TASKS.md). The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: invalid approval handling and failed-stage graduation now have focused fixes, while owner/target-hardware acceptance and a repeated gate decision remain open. T007 remains blocked.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 

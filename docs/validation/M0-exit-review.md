@@ -84,3 +84,7 @@ Unrun or outside M0: target WSL2/Windows Chrome/Edge/integrated GPU, large solve
 4. Rerun affected diagnostics and the approved acceptance subset, verify retained evidence, and repeat the M0 decision. Only then close dependent tasks/M0, or record a specific owner-approved exception with deferred deliverables and disabled features.
 
 Next implementation ID remains **T007**, blocked by M0. No later task, deployment, push, merge, private CAD or production secrets were used. Review findings, not a false completion flag, are the handoff.
+
+## Subsequent software correction (2026-10-13)
+
+This document records the original NO-GO review at `bc6af004`; its reproduced failures and retained artifacts are historical. M0-R1 and M0-R2 now have focused code fixes and regressions. Non-development benchmark execution requires an explicit owner/date/disposition record bound to the exact criteria hash; all committed records remain pending. The native workload ladder now persists a failed stage, marks later workloads not run and returns nonzero. Real bounded-child regressions cover mesh, prepare, solve, post and RSS stops. The full current local check command passed 147 distinct automated cases (90 Python unit, 7 TypeScript unit, 42 native, 4 lifecycle and 4 Chromium) with none failed or skipped. See [PROGRESS.md](../../PROGRESS.md) and [VALIDATION.md](../VALIDATION.md). **The M0 decision remains NO-GO** because engineering/formulation approval, target WSL2/integrated-GPU evidence and a repeated exit review are still pending.
