@@ -25,7 +25,7 @@ function App() {
       <Workspace />
       <footer>
         Geometry, materials and face loads with checked coarse mesh and local
-        solve jobs. Calculated result views follow later.
+        solve jobs. Calculated displacement and stress results are available.
       </footer>
     </main>
   );

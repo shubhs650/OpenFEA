@@ -11,7 +11,9 @@ from app.domain.imports import FaceDisplay, GeometryDisplay
 from app.domain.jobs import JobInput, LocalJob, MeshPreview, MeshSource
 from app.domain.loads import load_state
 from app.domain.materials import body_status
+from app.domain.results import ResultData, ResultView
 from app.persistence.jobs import JobRepository
+from worker.postprocess.view import build_view
 from worker.runtime import ROOT, sha256
 
 
@@ -191,3 +193,73 @@ class JobService:
                 faces=faces,
             ),
         )
+
+    def result_view(self, owner: UUID, identifier: UUID) -> ResultView:
+        job = self.repository.get(owner, identifier)
+        if job.status != "succeeded" or job.kind != "solve":
+            raise DomainError(409, "results_unavailable", "Select a completed validated solve")
+        inputs = self.repository.inputs(owner, identifier)
+        frozen = JobInput.model_validate_json(self.artifact(owner, identifier, "snapshot.json")[0])
+        if frozen != inputs or inputs.mesh is None or inputs.deck_sha256 is None:
+            raise DomainError(503, "artifact_integrity", "Frozen run inputs disagree")
+        raw = json.loads(self.artifact(owner, identifier, "results.json")[0])
+        mesh = json.loads(self.artifact(owner, identifier, "mesh.json")[0])
+        deck = self.artifact(owner, identifier, "analysis.inp")[0].decode("ascii")
+        # Verify retained native sources too, rather than trusting only links
+        # inside the parsed artifact after on-disk corruption.
+        self.artifact(owner, identifier, "analysis.dat")
+        self.artifact(owner, identifier, "analysis.frd")
+        try:
+            if (
+                raw["input_sha256"] != job.input_sha256
+                or raw["mesh_sha256"] != inputs.mesh.sha256
+                or raw["deck_sha256"] != inputs.deck_sha256
+                or job.artifacts["mesh.json"].sha256 != inputs.mesh.sha256
+                or job.artifacts["analysis.inp"].sha256 != inputs.deck_sha256
+                or raw["dat"]["source_sha256"] != job.artifacts["analysis.dat"].sha256
+                or any(
+                    p["provenance"]["source_sha256"] != job.artifacts["analysis.frd"].sha256
+                    for p in raw["frd"]
+                )
+            ):
+                raise ValueError("Result source identities disagree")
+            materials = {
+                assignment.body_id: {
+                    "material_id": f"M{i}",
+                    "yield_strength_pa": assignment.material.properties.yield_strength_pa,
+                    "name": assignment.material.provenance.name,
+                }
+                for i, body in enumerate(inputs.snapshot.geometry.bodies, 1)
+                for assignment in inputs.snapshot.materials.assignments
+                if assignment.body_id == body.id
+            }
+            view = ResultView(
+                job_id=job.id,
+                analysis_id=job.analysis_id,
+                analysis_revision=job.analysis_revision,
+                geometry_revision_id=job.geometry_revision_id,
+                input_sha256=job.input_sha256,
+                results_sha256=job.artifacts["results.json"].sha256,
+                mesh_sha256=inputs.mesh.sha256,
+                deck_sha256=inputs.deck_sha256,
+                dat_sha256=job.artifacts["analysis.dat"].sha256,
+                processor_sources={
+                    name: sha256(ROOT / name)
+                    for name in (
+                        "services/worker/worker/postprocess/view.py",
+                        "services/worker/worker/postprocess/fields.py",
+                        "services/worker/worker/postprocess/tensors.py",
+                        "services/worker/worker/meshing.py",
+                        "services/worker/worker/calculix/results.py",
+                        "services/api/app/jobs/service.py",
+                        "services/api/app/domain/results.py",
+                    )
+                },
+                data=ResultData.model_validate(build_view(raw, mesh, materials, deck)),
+            )
+            self.repository.get(owner, identifier)
+            return view
+        except (ValueError, KeyError, TypeError, AssertionError):
+            raise DomainError(
+                503, "result_integrity", "Frozen output or derived fields failed validation"
+            ) from None

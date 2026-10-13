@@ -1,0 +1,15 @@
+# Core local results
+
+Generate a checked mesh, review the small-deformation elastic setup and solve it through [local jobs](LOCAL_JOBS.md). In **Engineering results**, choose a completed solve and open its results. The workspace's shared display switches from CAD/mesh to the run's actual calculated boundary. Close the result view or show CAD/mesh to return to face selection.
+
+Select displacement magnitude or von Mises stress. Displacement comes from native DAT nodes; stress contours derive element-node tensors from native DAT integration points and keep each element side separate. The displayed boundary includes quadratic midside nodes. There is no stress averaging across elements, bodies or materials. Raw all-node/IP extrema and their physical locations remain in the table; they can differ from extrapolated surface contour peaks. Hidden bodies do not change the all-body range or extrema.
+
+Deformation scale 0 is undeformed, 1 is physical, and larger values exaggerate geometry only. Change the existing display-unit preset for mm–N–MPa, m–N–Pa or inch–lbf–psi. Force moments use the corresponding force × length units. Custom nonnegative contour limits clip colors only; reset restores the actual surface range. Constant fields use one color and equal numerical bounds. Unit changes clear unapplied contour drafts; already applied ranges keep their SI meaning.
+
+Yield factor uses each body's **frozen** supplied yield and maximum raw integration-point von Mises under the ductile-yield assumption. Missing yield is unavailable. Essentially zero stress (≤1e-6 Pa) is unbounded/undefined rather than a large finite “safe” number. Yield exceedance, material warnings and support/reentrant-corner singularity caveats remain visible. The displacement/body-extent warning is only a heuristic; absence of warnings does not certify a design or small-deformation validity.
+
+Reactions include each fully fixed node once. The processor subtracts the frozen generated deck's applied nodal/pressure contribution from native RF, including pressure that touches a support. It reports body totals and moments about global origin. Full equilibrium validation, additional constraint types, refinement and convergence checks follow later.
+
+Run revision, geometry and artifact hashes identify the original solve. Editing materials, units or loads cannot change that run. Raw input/DAT/FRD/parsed downloads remain available from history. The owned result endpoint verifies retained sources and reports a versioned derived view with processor hashes; it refuses incomplete jobs or corrupt sources. Reopening the browser or restarting the API retains the same physical result. [ADR-020](adr/ADR-020.md) specifies this contract; [T012 evidence](validation/T012.md) records executed references and limits.
+
+The current mesh is deliberately coarse and planar affine C3D10, capped at 3,000 elements/100 faces. The L bracket is workflow/equilibrium evidence; its stress peak is not a converged bracket allowable. General assembly validation, component/principal views, probes/sections, reports and target-laptop acceptance remain future gates.

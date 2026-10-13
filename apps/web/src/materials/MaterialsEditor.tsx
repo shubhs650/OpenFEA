@@ -15,6 +15,7 @@ import {
 } from "../geometry/api";
 import { MaterialForm } from "./MaterialForm";
 import { LoadsEditor } from "../loads/LoadsEditor";
+import type { ResultPresentation } from "../results/presentation";
 
 type Props = {
   project: Project;
@@ -27,6 +28,7 @@ type Props = {
   selected: Set<string>;
   preview: (state: LoadState | null) => void;
   showMesh: (mesh: MeshPreview | null) => void;
+  showResult: (value: ResultPresentation | null) => void;
 };
 
 export function MaterialsEditor({
@@ -40,6 +42,7 @@ export function MaterialsEditor({
   selected,
   preview,
   showMesh,
+  showResult,
 }: Props) {
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [name, setName] = useState("");
@@ -332,6 +335,7 @@ export function MaterialsEditor({
                 }
                 preview={preview}
                 showMesh={showMesh}
+                showResult={showResult}
               />
             </>
           )}
@@ -351,8 +355,8 @@ export function MaterialsEditor({
       <p aria-live="polite">{status}</p>
       <p className="material-notice">
         Materials and face loads are revisioned. Checked input export is a
-        coarse preview. Local jobs retain frozen inputs; calculated result views
-        follow later.
+        coarse preview. Local jobs and calculated result views retain the
+        completed run’s frozen inputs.
       </p>
     </section>
   );

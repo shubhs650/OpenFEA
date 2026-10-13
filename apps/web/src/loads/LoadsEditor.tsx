@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RunsEditor } from "../runs/RunsEditor";
+import type { ResultPresentation } from "../results/presentation";
 import {
   api,
   mutate,
@@ -21,6 +22,7 @@ type Props = {
   saved: (revision: number) => void;
   preview: (state: LoadState | null) => void;
   showMesh: (mesh: MeshPreview | null) => void;
+  showResult: (value: ResultPresentation | null) => void;
 };
 
 export function LoadsEditor({
@@ -34,6 +36,7 @@ export function LoadsEditor({
   saved,
   preview,
   showMesh,
+  showResult,
 }: Props) {
   const [state, setState] = useState<LoadState | null>(null);
   const [exports, setExports] = useState<DeckExport[]>([]);
@@ -312,8 +315,8 @@ export function LoadsEditor({
         Coarse planar C3D10 preview: at most 3,000 elements and 60 seconds.
         Bodies remain independent and each needs a fixed face. Export can reject
         an ambiguous mapping, unsuitable mesh or force on fixed degrees of
-        freedom. Local solve jobs are available below; calculated result views
-        follow later.
+        freedom. Local solve jobs and calculated result views are available
+        below.
       </p>
       <ul aria-label="Saved deck exports">
         {exports.map((e) => (
@@ -341,6 +344,8 @@ export function LoadsEditor({
         busy={busy}
         setBusy={setBusy}
         showMesh={showMesh}
+        preset={preset}
+        showResult={showResult}
       />
       {error && <p role="alert">{error}</p>}
       <p aria-live="polite">{status}</p>

@@ -1,0 +1,13 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+121 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 124 Markdown files; 42 task statuses and acyclic dependencies

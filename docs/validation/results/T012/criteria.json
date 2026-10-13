@@ -1,0 +1,25 @@
+{
+  "declared_before_execution": "2026-10-14 Asia/Calcutta",
+  "scope": "Development core results; no owner-signed benchmark or convergence acceptance",
+  "axial": {
+    "model": "unit cube; E=210GPa, nu=0; positive inward p=1000Pa at x=1, fixed x=0",
+    "max_displacement_error_m": 1e-13,
+    "max_raw_and_derived_vm_error_pa": 0.01,
+    "max_reaction_component_error_n": 0.001,
+    "yield_factor_relative_error": 1e-5
+  },
+  "bracket": {
+    "model": "L polygon [(0,0),(0.08,0),(0.08,0.01),(0.01,0.01),(0.01,0.06),(0,0.06)] in x-z, extruded 0.02m along y; E=210GPa, nu=0.3; fixed z=0.06; force (0,0,-10)N at x=0.08",
+    "max_force_balance_component_error_n": 0.001,
+    "max_moment_balance_component_error_nm": 0.0001,
+    "extrema": "exact native DAT node/IP coverage; derived contours compared against independent constant-field references; no beam-theory bracket accuracy claim"
+  },
+  "display": {
+    "zero_stress_pa": 0.000001,
+    "zero_stress_yield_state": "unbounded; JSON null; no finite factor",
+    "missing_yield_state": "unavailable; JSON null",
+    "constant_range": "uniform midpoint color; show actual equal min/max; no division by zero",
+    "displacement_scale": "explicit bounded 0..1000000; never changes numerical summaries",
+    "unit_round_trip_relative_error": 1e-12
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "axial": {
+    "data": {
+      "displacement": {
+        "maximum": {
+          "body_id": null,
+          "element_id": null,
+          "integration_point_id": null,
+          "location": "node",
+          "node_id": 5,
+          "position_m": [1.0, 0.0, 0.0],
+          "value": 4.761905e-9
+        },
+        "minimum": {
+          "body_id": null,
+          "element_id": null,
+          "integration_point_id": null,
+          "location": "node",
+          "node_id": 1,
+          "position_m": [0.0, 0.0, 0.0],
+          "value": 0.0
+        }
+      },
+      "extrema_method": "Displacement: all native DAT nodes; von Mises/yield factor: all raw DAT integration points, including interior",
+      "moment_origin_m": [0.0, 0.0, 0.0],
+      "processor": "affine-c3d10-core-results-v1",
+      "reaction_force_n": [
+        1000.0000000000001, -7.105238699999999e-14, -9.978286800000001e-15
+      ],
+      "reaction_method": "DAT RF minus written equivalent CLOAD/pressure on fully fixed nodes; unique nodes per body",
+      "reaction_moment_nm": [
+        1.4005312543203125e-13, 499.99999803710955, -499.9999991503908
+      ],
+      "reactions": [
+        {
+          "body_id": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef:b1",
+          "force_n": [
+            1000.0000000000001, -7.105238699999999e-14, -9.978286800000001e-15
+          ],
+          "moment_nm": [
+            1.4005312543203125e-13, 499.99999803710955, -499.9999991503908
+          ],
+          "node_count": 37
+        }
+      ],
+      "stress_method": "linear_C3D10_extrapolation_from_native_DAT_IP; element-owned tensors, then von Mises; no averaging",
+      "von_mises": {
+        "maximum": {
+          "body_id": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef:b1",
+          "element_id": 132,
+          "integration_point_id": 1,
+          "location": "integration_point",
+          "node_id": null,
+          "position_m": [0.9481763, 0.2412459, 0.577371],
+          "value": 1000.0000000000026
+        },
+        "minimum": {
+          "body_id": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef:b1",
+          "element_id": 118,
+          "integration_point_id": 4,
+          "location": "integration_point",
+          "node_id": null,
+          "position_m": [0.9093085, 0.03886779, 0.4568136],
+          "value": 999.9999999999986
+        }
+      },
+      "warnings": [],
+      "yield_factors": [
+        {
+          "body_id": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef:b1",
+          "critical_sample": {
+            "body_id": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef:b1",
+            "element_id": 132,
+            "integration_point_id": 1,
+            "location": "integration_point",
+            "node_id": null,
+            "position_m": [0.9481763, 0.2412459, 0.577371],
+            "value": 1000.0000000000026
+          },
+          "material_id": "M1",
+          "material_name": "Synthetic steel",
+          "minimum": 249999.99999999936,
+          "state": "finite",
+          "yield_strength_pa": 250000000.0
+        }
+      ],
+      "zero_stress_pa": 1e-6
+    },
+    "displacement_error_m": 2.3809523821052557e-16,
+    "max_contour_error_pa": 4.092726157978177e-12,
+    "run": "775f6e2b-e44e-4a30-b561-0d02423e291b",
+    "vm_error_pa": 2.6147972675971687e-12
+  },
+  "bracket": {
+    "displacement": {
+      "maximum": {
+        "body_id": null,
+        "element_id": null,
+        "integration_point_id": null,
+        "location": "node",
+        "node_id": 4,
+        "position_m": [0.08, 0.0, 0.0],
+        "value": 1.1555961790572906e-5
+      },
+      "minimum": {
+        "body_id": null,
+        "element_id": null,
+        "integration_point_id": null,
+        "location": "node",
+        "node_id": 9,
+        "position_m": [0.01, 0.02, 0.06],
+        "value": 0.0
+      }
+    },
+    "elements": 54,
+    "nodes": 141,
+    "reaction_force_n": [
+      -9.00000000214618e-6, 3.2210000009413875e-6, 10.0000012
+    ],
+    "reaction_moment_nm": [
+      0.09999981874000005, -0.8000005460000004, -5.491999993667562e-8
+    ],
+    "run": "ec481d23-a5a0-4d60-8e93-aad8a82a4453",
+    "von_mises": {
+      "maximum": {
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "element_id": 63,
+        "integration_point_id": 3,
+        "location": "integration_point",
+        "node_id": null,
+        "position_m": [0.009309017, 0.01, 0.05268237],
+        "value": 1854929.9737922533
+      },
+      "minimum": {
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "element_id": 101,
+        "integration_point_id": 2,
+        "location": "integration_point",
+        "node_id": null,
+        "position_m": [0.05619959, 0.01, 0.004145898],
+        "value": 89672.7755608472
+      }
+    }
+  }
+}
