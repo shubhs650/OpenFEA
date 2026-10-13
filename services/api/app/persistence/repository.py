@@ -139,6 +139,43 @@ class Repository:
                     "deleted": None if payload else timestamp,
                 },
             )
+            if payload is None:
+                # Tombstone and cancellation request are one transaction. Active
+                # work becomes cancelled only after its native process is gone.
+                rows = (
+                    connection.execute(
+                        text(
+                            "SELECT id,status,stage FROM local_jobs "
+                            "WHERE project_id=:id AND status IN ('queued','running','cancelling')"
+                        ),
+                        {"id": str(project)},
+                    )
+                    .mappings()
+                    .all()
+                )
+                for row in rows:
+                    queued = row["status"] == "queued"
+                    connection.execute(
+                        text(
+                            "UPDATE local_jobs SET cancel_requested=1,status=:status,"
+                            "stage=:stage,finished_at=:finished WHERE id=:id"
+                        ),
+                        {
+                            "id": row["id"],
+                            "status": "cancelled" if queued else "cancelling",
+                            "stage": "finished" if queued else row["stage"],
+                            "finished": timestamp if queued else None,
+                        },
+                    )
+                    connection.execute(
+                        text(
+                            "INSERT INTO local_job_events SELECT id,"
+                            "(SELECT coalesce(max(sequence),0)+1 FROM local_job_events WHERE "
+                            "job_id=id),"
+                            "status,stage,:at,'project_deleted' FROM local_jobs WHERE id=:id"
+                        ),
+                        {"id": row["id"], "at": timestamp},
+                    )
             return self._project(connection, owner, project) if payload else None
 
     def register_geometry(

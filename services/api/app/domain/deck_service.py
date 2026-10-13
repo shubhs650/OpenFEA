@@ -11,10 +11,12 @@ from uuid import UUID, uuid4
 
 from app.domain.errors import DomainError, stale_revision
 from app.domain.import_service import ImportService
+from app.domain.imports import GeometryDisplay
 from app.domain.loads import DeckExport, DeckSnapshot, LoadState, load_state
 from app.persistence.repository import Repository
 from worker.deck import generated_deck
 from worker.deck_mesh import mesh_snapshot
+from worker.local_process import NativeControl
 from worker.meshing import (
     GMSH_TO_CCX,
     Vec,
@@ -35,7 +37,11 @@ def canonical(value: Any) -> bytes:
 
 
 def deck_for(
-    snapshot: DeckSnapshot, mesh: dict[str, Any], preview: LoadState
+    snapshot: DeckSnapshot,
+    mesh: dict[str, Any],
+    preview: LoadState,
+    *,
+    stress_coordinates: bool = False,
 ) -> tuple[str, dict[str, float | int | str | list[str]]]:
     nodes: dict[int, Vec] = {int(n): tuple(p) for n, p in mesh["nodes"].items()}
     if mesh["revision"] != snapshot.geometry.brep_sha256 or mesh["units"] != "m":
@@ -126,6 +132,7 @@ def deck_for(
         materials=materials,
         element_materials={int(e): names[b] for e, b in mesh["owners"].items()},
         pressures=[(e, f, p) for (e, f), p in pressures.items() if p != 0],
+        stress_coordinates=stress_coordinates,
     )
 
     # Audit the actual written numbers, including the combined/rounded pressures.
@@ -200,6 +207,121 @@ class DeckService:
         )
         return load_state(current, geometry, materials, loads, display)
 
+    def freeze(
+        self, owner: UUID, analysis: UUID, expected: int
+    ) -> tuple[DeckSnapshot, GeometryDisplay]:
+        current, geometry, materials, loads = self.repository.load_inputs(owner, analysis)
+        if current.revision != expected:
+            raise stale_revision()
+        if geometry is None:
+            raise DomainError(422, "geometry_required", "Accept geometry first")
+        display = self.imports.display(owner, geometry.id, "coarse")
+        preview = load_state(current, geometry, materials, loads, display)
+        if preview.blockers:
+            raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
+        if len(geometry.faces) > 100 or any(
+            not str(f.signature.get("surface_type", "")).endswith("GeomAbs_Plane")
+            for f in geometry.faces
+        ):
+            raise DomainError(
+                422,
+                "unsupported_mesh",
+                "Deck export requires at most 100 unambiguous planar faces",
+            )
+        snapshot = DeckSnapshot(
+            analysis=current, geometry=geometry, materials=materials, loads=loads
+        )
+        return snapshot, display
+
+    @staticmethod
+    def policy() -> dict[str, Any]:
+        bubblewrap = shutil.which("bwrap")
+        if bubblewrap is None:
+            raise DomainError(503, "sandbox_unavailable", "Bubblewrap is required for deck export")
+        policy = {
+            "schema": 1,
+            "gmsh": "4.15.2",
+            "body_size": "largest extent / 2",
+            "max_elements": 3000,
+            "wall_seconds": 60,
+            "rss_mib": 1536,
+            "output_mib": 192,
+            "healing": False,
+            "network": False,
+            "mapping_area_m2": 1e-8,
+            "mapping_coordinate_m": 1e-6,
+            "load_area_m2": 1e-8,
+            "load_force_n": 1e-8,
+            "load_moment_nm": 1e-8,
+            "fixed_force_n": 1e-10,
+            "ccx_sha256": sha256(verified_tool("ccx")),
+            "netdeny_sha256": sha256(verified_tool("netdeny")),
+            "bubblewrap_sha256": sha256(Path(bubblewrap)),
+            "gmsh_library_sha256": sha256(NATIVE / "venvs/mesh/lib/libgmsh.so.4.15"),
+            "mesh_python_sha256": sha256((NATIVE / "venvs/mesh/bin/python").resolve()),
+            "sources": {
+                name: sha256(ROOT / name)
+                for name in (
+                    "services/worker/worker/meshing_native/build.py",
+                    "services/worker/worker/deck_mesh.py",
+                    "services/worker/worker/geometry.py",
+                    "services/worker/worker/meshing.py",
+                    "services/worker/worker/deck.py",
+                    "services/api/app/domain/deck_service.py",
+                    "services/api/app/domain/loads.py",
+                    "services/api/app/domain/units.py",
+                    "services/worker/worker/step_import.py",
+                    "services/worker/worker/geometry_native/import_step.py",
+                    "services/worker/environments/mesh/uv.lock",
+                )
+            },
+        }
+        return policy
+
+    def mesh(
+        self,
+        snapshot: DeckSnapshot,
+        display: GeometryDisplay,
+        directory: Path,
+        control: NativeControl | None = None,
+    ) -> dict[str, Any]:
+        inputs = directory / "inputs"
+        inputs.mkdir(mode=0o700)
+        geometry = snapshot.geometry
+        current = snapshot.analysis
+        fields = geometry.model_dump(mode="json")
+        artifacts = fields["validation"]["artifacts"]
+        bodies = []
+        for index, body in enumerate(geometry.bodies, 1):
+            name = f"body{index}.brep"
+            bodies.append({"id": body.id, "path": name, "sha256": artifacts[name]["sha256"]})
+        for name in ("geometry.brep", *(b["path"] for b in bodies)):
+            (inputs / name).write_bytes(
+                self.storage.read(current.project_id, artifacts[name]["sha256"])
+            )
+        catalog = {
+            "revision": geometry.brep_sha256,
+            "bodies": bodies,
+            "faces": [
+                {
+                    "id": f.id,
+                    "body": f.body_id,
+                    "area": f.signature["area_m2"],
+                    "center": f.signature["center_m"],
+                    "bounds": f.signature["bounds_m"],
+                    "neighbors": f.neighbors,
+                }
+                for f in geometry.faces
+            ],
+        }
+        (inputs / "catalog.json").write_bytes(canonical(catalog))
+        sizes = [
+            max(b.bounds_m[i + 3] - b.bounds_m[i] for i in range(3)) / 2 for b in display.bodies
+        ]
+        if control is None:
+            return mesh_snapshot(inputs, directory / "output", sizes)
+        return mesh_snapshot(inputs, directory / "output", sizes, control=control)
+
     def generate(self, owner: UUID, analysis: UUID, expected: int) -> DeckExport:
         with (self.storage.root / "native-import.lock").open("a+b") as lock:
             try:
@@ -208,70 +330,9 @@ class DeckService:
                 raise DomainError(
                     429, "native_busy", "Another geometry or mesh operation is processing"
                 ) from None
-            current, geometry, materials, loads = self.repository.load_inputs(owner, analysis)
-            if current.revision != expected:
-                raise stale_revision()
-            if geometry is None:
-                raise DomainError(422, "geometry_required", "Accept geometry first")
-            display = self.imports.display(owner, geometry.id, "coarse")
-            preview = load_state(current, geometry, materials, loads, display)
-            if preview.blockers:
-                raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
-            if len(geometry.faces) > 100 or any(
-                not str(f.signature.get("surface_type", "")).endswith("GeomAbs_Plane")
-                for f in geometry.faces
-            ):
-                raise DomainError(
-                    422,
-                    "unsupported_mesh",
-                    "Deck export requires at most 100 unambiguous planar faces",
-                )
-            snapshot = DeckSnapshot(
-                analysis=current, geometry=geometry, materials=materials, loads=loads
-            )
-            bubblewrap = shutil.which("bwrap")
-            if bubblewrap is None:
-                raise DomainError(
-                    503, "sandbox_unavailable", "Bubblewrap is required for deck export"
-                )
-            policy = {
-                "schema": 1,
-                "gmsh": "4.15.2",
-                "body_size": "largest extent / 2",
-                "max_elements": 3000,
-                "wall_seconds": 60,
-                "rss_mib": 1536,
-                "output_mib": 192,
-                "healing": False,
-                "network": False,
-                "mapping_area_m2": 1e-8,
-                "mapping_coordinate_m": 1e-6,
-                "load_area_m2": 1e-8,
-                "load_force_n": 1e-8,
-                "load_moment_nm": 1e-8,
-                "fixed_force_n": 1e-10,
-                "ccx_sha256": sha256(verified_tool("ccx")),
-                "netdeny_sha256": sha256(verified_tool("netdeny")),
-                "bubblewrap_sha256": sha256(Path(bubblewrap)),
-                "gmsh_library_sha256": sha256(NATIVE / "venvs/mesh/lib/libgmsh.so.4.15"),
-                "mesh_python_sha256": sha256((NATIVE / "venvs/mesh/bin/python").resolve()),
-                "sources": {
-                    name: sha256(ROOT / name)
-                    for name in (
-                        "services/worker/worker/meshing_native/build.py",
-                        "services/worker/worker/deck_mesh.py",
-                        "services/worker/worker/geometry.py",
-                        "services/worker/worker/meshing.py",
-                        "services/worker/worker/deck.py",
-                        "services/api/app/domain/deck_service.py",
-                        "services/api/app/domain/loads.py",
-                        "services/api/app/domain/units.py",
-                        "services/worker/worker/step_import.py",
-                        "services/worker/worker/geometry_native/import_step.py",
-                        "services/worker/environments/mesh/uv.lock",
-                    )
-                },
-            }
+            snapshot, display = self.freeze(owner, analysis, expected)
+            current, geometry = snapshot.analysis, snapshot.geometry
+            policy = self.policy()
             digest = hashlib.sha256(
                 canonical({"snapshot": snapshot.model_dump(mode="json"), "policy": policy})
             ).hexdigest()
@@ -283,39 +344,9 @@ class DeckService:
                 return cached
             identifier = uuid4()
             directory = self.storage.directory("exports", identifier)
-            inputs = directory / "inputs"
-            inputs.mkdir(mode=0o700)
-            fields = geometry.model_dump(mode="json")
-            artifacts = fields["validation"]["artifacts"]
-            bodies = []
-            for index, body in enumerate(geometry.bodies, 1):
-                name = f"body{index}.brep"
-                bodies.append({"id": body.id, "path": name, "sha256": artifacts[name]["sha256"]})
-            for name in ("geometry.brep", *(b["path"] for b in bodies)):
-                (inputs / name).write_bytes(
-                    self.storage.read(current.project_id, artifacts[name]["sha256"])
-                )
-            catalog = {
-                "revision": geometry.brep_sha256,
-                "bodies": bodies,
-                "faces": [
-                    {
-                        "id": f.id,
-                        "body": f.body_id,
-                        "area": f.signature["area_m2"],
-                        "center": f.signature["center_m"],
-                        "bounds": f.signature["bounds_m"],
-                        "neighbors": f.neighbors,
-                    }
-                    for f in geometry.faces
-                ],
-            }
-            (inputs / "catalog.json").write_bytes(canonical(catalog))
-            sizes = [
-                max(b.bounds_m[i + 3] - b.bounds_m[i] for i in range(3)) / 2 for b in display.bodies
-            ]
             try:
-                mesh = mesh_snapshot(inputs, directory / "output", sizes)
+                mesh = self.mesh(snapshot, display, directory)
+                preview = load_state(current, geometry, snapshot.materials, snapshot.loads, display)
                 deck, summary = deck_for(snapshot, mesh, preview)
             except ImportSandboxError:
                 raise DomainError(

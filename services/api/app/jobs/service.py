@@ -1,0 +1,179 @@
+"""Owned admission, immutable mesh/run inputs and verified artifact access."""
+
+import hashlib
+import json
+from typing import Any
+from uuid import UUID, uuid4
+
+from app.domain.deck_service import DeckService, canonical, deck_for
+from app.domain.errors import DomainError, not_found
+from app.domain.imports import FaceDisplay, GeometryDisplay
+from app.domain.jobs import JobInput, LocalJob, MeshPreview, MeshSource
+from app.domain.loads import load_state
+from app.persistence.jobs import JobRepository
+from worker.runtime import ROOT, sha256
+
+
+class JobService:
+    def __init__(self, repository: JobRepository, decks: DeckService) -> None:
+        self.repository, self.decks, self.storage = repository, decks, decks.storage
+
+    def policy(self) -> dict[str, Any]:
+        policy = self.decks.policy()
+        policy.update(
+            job_schema=1,
+            job_wall_seconds=180,
+            max_queue=20,
+            automatic_retries=0,
+            calculix="2.23",
+            stress_coordinates=True,
+        )
+        policy["native_build_manifest_sha256"] = sha256(ROOT / ".local/native/build.json")
+        policy["runtime_libraries"] = {
+            path: sha256(ROOT / ".local/native" / path)
+            for path in json.loads((ROOT / ".local/native/build.json").read_bytes())[
+                "outputs_sha256"
+            ]
+            if path.startswith("lib/")
+        }
+        for name in (
+            "services/worker/worker/local_process.py",
+            "services/worker/worker/local_solve.py",
+            "services/worker/worker/calculix/results.py",
+            "services/api/app/jobs/service.py",
+            "services/api/app/jobs/runner.py",
+        ):
+            policy["sources"][name] = sha256(ROOT / name)
+        return policy
+
+    def admit(
+        self, owner: UUID, analysis: UUID, expected: int, key: UUID, mesh_job: UUID | None = None
+    ) -> LocalJob:
+        # Check ownership even on an idempotent replay with an old revision.
+        self.decks.repository.get_analysis(owner, analysis)
+        request_hash = hashlib.sha256(
+            canonical(
+                {
+                    "analysis": str(analysis),
+                    "revision": expected,
+                    "mesh_job_id": str(mesh_job) if mesh_job else None,
+                }
+            )
+        ).hexdigest()
+        existing = self.repository.existing(owner, key, request_hash)
+        if existing is not None:
+            return existing
+        snapshot, display = self.decks.freeze(owner, analysis, expected)
+        try:
+            policy = self.policy()
+        except (RuntimeError, OSError):
+            raise DomainError(
+                503, "native_unavailable", "Pinned native tools are unavailable"
+            ) from None
+        source, deck_hash = None, None
+        if mesh_job is not None:
+            mesh_state = self.repository.get(owner, mesh_job)
+            if (
+                mesh_state.kind != "mesh"
+                or mesh_state.status != "succeeded"
+                or mesh_state.analysis_id != analysis
+                or mesh_state.geometry_revision_id != snapshot.geometry.id
+            ):
+                raise DomainError(
+                    422, "incompatible_mesh", "Select a completed mesh for this analysis geometry"
+                )
+            previous = self.repository.inputs(owner, mesh_job)
+            if previous.policy != policy:
+                raise DomainError(
+                    409,
+                    "tool_contract_changed",
+                    "Regenerate the mesh with the current tool contract",
+                )
+            mesh_artifact = mesh_state.artifacts.get("mesh.json")
+            if mesh_artifact is None:
+                raise not_found()
+            mesh = json.loads(self.storage.read(snapshot.analysis.project_id, mesh_artifact.sha256))
+            preview = load_state(
+                snapshot.analysis, snapshot.geometry, snapshot.materials, snapshot.loads, display
+            )
+            try:
+                deck, _ = deck_for(snapshot, mesh, preview, stress_coordinates=True)
+            except (ValueError, KeyError, TypeError, AssertionError):
+                raise DomainError(
+                    422, "deck_validation", "The selected mesh or generated loads failed validation"
+                ) from None
+            identifier = uuid4()
+            directory = self.storage.directory("jobs", identifier)
+            deck_path = directory / "analysis.inp"
+            deck_path.write_text(deck)
+            deck_hash = sha256(deck_path)
+            self.storage.save(snapshot.analysis.project_id, deck_path, deck_hash)
+            source = MeshSource(job_id=mesh_job, sha256=mesh_artifact.sha256)
+        else:
+            identifier = uuid4()
+            directory = self.storage.directory("jobs", identifier)
+        inputs = JobInput(
+            kind="solve" if source else "mesh",
+            snapshot=snapshot,
+            display=display,
+            policy=policy,
+            mesh=source,
+            deck_sha256=deck_hash,
+        )
+        path = directory / "snapshot.json"
+        path.write_bytes(canonical(inputs.model_dump(mode="json")))
+        input_hash = sha256(path)
+        self.storage.save(snapshot.analysis.project_id, path, input_hash)
+        return self.repository.enqueue(owner, key, request_hash, identifier, inputs, input_hash)
+
+    def artifact(self, owner: UUID, identifier: UUID, name: str) -> tuple[bytes, str]:
+        job = self.repository.get(owner, identifier)
+        if name == "snapshot.json":
+            return self.storage.read(job.project_id, job.input_sha256), "application/json"
+        if name == "results.json" and job.status != "succeeded":
+            raise not_found()
+        descriptor = job.artifacts.get(name)
+        if descriptor is None:
+            raise not_found()
+        data = self.storage.read(job.project_id, descriptor.sha256)
+        if len(data) != descriptor.size_bytes:
+            raise DomainError(503, "artifact_integrity", "Job artifact failed its size check")
+        return data, descriptor.media_type
+
+    def mesh_preview(self, owner: UUID, identifier: UUID) -> MeshPreview:
+        job = self.repository.get(owner, identifier)
+        if job.status != "succeeded" or job.kind != "mesh":
+            raise DomainError(409, "mesh_unavailable", "A checked mesh has not completed")
+        inputs = self.repository.inputs(owner, identifier)
+        mesh = json.loads(self.artifact(owner, identifier, "mesh.json")[0])
+        # Subdivide every affine tri6 into four display triangles; midsides remain
+        # real mesh nodes. Catalog face IDs are retained for picking and loads.
+        faces = []
+        for catalog in inputs.snapshot.geometry.faces:
+            unique = sorted({n for f in mesh["boundary"][catalog.id] for n in f["nodes"]})
+            indices = {n: i for i, n in enumerate(unique)}
+            triangles = []
+            for face in mesh["boundary"][catalog.id]:
+                a, b, c, ab, bc, ca = [indices[n] for n in face["nodes"]]
+                triangles.extend([(a, ab, ca), (ab, b, bc), (ca, bc, c), (ab, bc, ca)])
+            faces.append(
+                FaceDisplay(
+                    id=catalog.id,
+                    body_id=catalog.body_id,
+                    points_m=[mesh["nodes"][str(n)] for n in unique],
+                    triangles=triangles,
+                )
+            )
+        return MeshPreview(
+            job_id=identifier,
+            analysis_id=job.analysis_id,
+            geometry_revision_id=job.geometry_revision_id,
+            nodes=len(mesh["nodes"]),
+            elements=len(mesh["elements"]),
+            display=GeometryDisplay(
+                brep_sha256=inputs.snapshot.geometry.brep_sha256,
+                lod="coarse",
+                bodies=inputs.display.bodies,
+                faces=faces,
+            ),
+        )

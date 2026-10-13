@@ -14,6 +14,8 @@ export type UnitPreset = components["schemas"]["UnitPreset"];
 export type LoadState = components["schemas"]["LoadState"];
 export type LoadMarker = components["schemas"]["LoadMarker"];
 export type DeckExport = components["schemas"]["DeckExport"];
+export type LocalJob = components["schemas"]["LocalJob"];
+export type MeshPreview = components["schemas"]["MeshPreview"];
 export class RequestError extends Error {
   constructor(
     message: string,
@@ -74,6 +76,32 @@ export async function session() {
   const result = await api<components["schemas"]["LocalSession"]>("/session");
   csrfToken = result.csrf_token;
   return result;
+}
+
+export async function submitJob(
+  path: string,
+  revision: number,
+  key: string,
+  payload: unknown,
+): Promise<LocalJob> {
+  const response = await fetch(`/api/v1${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken,
+      "If-Match": `"${revision}"`,
+      "Idempotency-Key": key,
+    },
+    body: JSON.stringify(payload),
+  });
+  const result = await response.json();
+  if (!response.ok)
+    throw new RequestError(
+      result.message ?? "Job submission failed.",
+      response.status,
+      result.code,
+    );
+  return result as LocalJob;
 }
 
 export async function upload(

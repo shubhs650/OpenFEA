@@ -10,6 +10,7 @@ import {
   type Project,
   type Upload,
   type LoadState,
+  type MeshPreview,
 } from "./api";
 import { Viewport } from "./Viewport";
 import { MaterialsEditor } from "../materials/MaterialsEditor";
@@ -21,6 +22,7 @@ export function Workspace() {
   const [project, setProject] = useState<Project | null>(null);
   const [analysisId, setAnalysisId] = useState("");
   const [loadPreview, setLoadPreview] = useState<LoadState | null>(null);
+  const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
   const [name, setName] = useState("");
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [latestGeometry, setLatestGeometry] = useState<Geometry | null>(null);
@@ -202,6 +204,11 @@ export function Workspace() {
     display?.brep_sha256 === geometry?.brep_sha256
       ? display
       : null;
+  const activeMesh =
+    meshPreview?.analysis_id === analysisId &&
+    meshPreview.geometry_revision_id === geometry?.id
+      ? meshPreview
+      : null;
   return (
     <div className="workspace">
       <aside className="panel">
@@ -380,7 +387,7 @@ export function Workspace() {
       <div className="geometry-content">
         {shown && geometry ? (
           <Viewport
-            display={shown}
+            display={activeMesh?.display ?? shown}
             revision={geometry.id}
             selected={selected}
             visible={visible}
@@ -407,6 +414,13 @@ export function Workspace() {
         )}
         {geometry && shown && (
           <section className="selection-panel">
+            {activeMesh && (
+              <p data-mesh-job={activeMesh.job_id}>
+                Generated mesh: {activeMesh.nodes} nodes · {activeMesh.elements}{" "}
+                C3D10 elements. Boundary triangles show the actual quadratic
+                mesh.
+              </p>
+            )}
             <label>
               Display detail
               <select
@@ -457,6 +471,7 @@ export function Workspace() {
             setBusy={setBusy}
             selected={selected}
             preview={setLoadPreview}
+            showMesh={setMeshPreview}
           />
         )}
       </div>

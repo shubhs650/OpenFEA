@@ -11,6 +11,7 @@ import {
   type Project,
   type UnitPreset,
   type LoadState,
+  type MeshPreview,
 } from "../geometry/api";
 import { MaterialForm } from "./MaterialForm";
 import { LoadsEditor } from "../loads/LoadsEditor";
@@ -25,6 +26,7 @@ type Props = {
   setBusy: (busy: boolean) => void;
   selected: Set<string>;
   preview: (state: LoadState | null) => void;
+  showMesh: (mesh: MeshPreview | null) => void;
 };
 
 export function MaterialsEditor({
@@ -37,6 +39,7 @@ export function MaterialsEditor({
   setBusy,
   selected,
   preview,
+  showMesh,
 }: Props) {
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [name, setName] = useState("");
@@ -328,6 +331,7 @@ export function MaterialsEditor({
                   )
                 }
                 preview={preview}
+                showMesh={showMesh}
               />
             </>
           )}
@@ -347,7 +351,8 @@ export function MaterialsEditor({
       <p aria-live="polite">{status}</p>
       <p className="material-notice">
         Materials and face loads are revisioned. Checked input export is a
-        coarse preview; solving and calculated results are not available yet.
+        coarse preview. Local jobs retain frozen inputs; calculated result views
+        follow later.
       </p>
     </section>
   );

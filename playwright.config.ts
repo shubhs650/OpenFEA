@@ -3,7 +3,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 // Use dedicated ports and fail if occupied; never reuse an unrelated service.
+const dataRoot = join(tmpdir(), `openfea-e2e-${process.pid}`);
 export default defineConfig({
+  metadata: { localDataRoot: dataRoot },
   testDir: "./tests/e2e",
   workers: 1,
   retries: 0,
@@ -18,7 +20,7 @@ export default defineConfig({
       FEA_ENV: "test",
       FEA_AUTH_MODE: "local",
       FEA_BIND_HOST: "127.0.0.1",
-      FEA_DATA_ROOT: join(tmpdir(), `openfea-e2e-${process.pid}`),
+      FEA_DATA_ROOT: dataRoot,
     },
     reuseExistingServer: false,
     timeout: 60_000,

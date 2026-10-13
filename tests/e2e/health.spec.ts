@@ -7,7 +7,7 @@ test("workspace connects to the real API through Vite", async ({ page }) => {
   ).toBeVisible();
   await expect(page.getByRole("status")).toHaveText("API connected");
   await expect(
-    page.getByText("Solving and calculated results are not available yet.", {
+    page.getByText("Calculated result views follow later.", {
       exact: false,
     }),
   ).toBeVisible();

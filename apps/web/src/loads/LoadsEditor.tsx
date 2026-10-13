@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { RunsEditor } from "../runs/RunsEditor";
 import {
   api,
   mutate,
@@ -6,6 +7,7 @@ import {
   type DeckExport,
   type LoadState,
   type UnitPreset,
+  type MeshPreview,
 } from "../geometry/api";
 
 type Props = {
@@ -18,6 +20,7 @@ type Props = {
   setBusy: (value: boolean) => void;
   saved: (revision: number) => void;
   preview: (state: LoadState | null) => void;
+  showMesh: (mesh: MeshPreview | null) => void;
 };
 
 export function LoadsEditor({
@@ -30,6 +33,7 @@ export function LoadsEditor({
   setBusy,
   saved,
   preview,
+  showMesh,
 }: Props) {
   const [state, setState] = useState<LoadState | null>(null);
   const [exports, setExports] = useState<DeckExport[]>([]);
@@ -308,7 +312,8 @@ export function LoadsEditor({
         Coarse planar C3D10 preview: at most 3,000 elements and 60 seconds.
         Bodies remain independent and each needs a fixed face. Export can reject
         an ambiguous mapping, unsuitable mesh or force on fixed degrees of
-        freedom. Solving and calculated results follow in later tasks.
+        freedom. Local solve jobs are available below; calculated result views
+        follow later.
       </p>
       <ul aria-label="Saved deck exports">
         {exports.map((e) => (
@@ -328,6 +333,15 @@ export function LoadsEditor({
           </li>
         ))}
       </ul>
+      <RunsEditor
+        analysisId={analysisId}
+        revision={revision}
+        geometryId={geometryId}
+        ready={aligned && !conflict && !!state && !state.blockers.length}
+        busy={busy}
+        setBusy={setBusy}
+        showMesh={showMesh}
+      />
       {error && <p role="alert">{error}</p>}
       <p aria-live="polite">{status}</p>
     </section>
