@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/OpenFEA/work/t014/68b00c35-dc02-423a-93c8-f651b489b21f/services/worker/worker/meshing_native/build.py", line 3, in <module>
+    Path('allocation').write_bytes(b'x' * (70 * 1024**2))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1037, in write_bytes
+    return f.write(view)
+           ^^^^^^^^^^^^^
+OSError: [Errno 27] File too large

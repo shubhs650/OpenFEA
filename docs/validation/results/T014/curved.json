@@ -1,0 +1,44 @@
+[
+  {
+    "curvature": 8,
+    "elements": 94,
+    "maximum_cylinder_radius_error_m": 5.551115123125783e-17,
+    "quality": {
+      "schema_version": 1,
+      "accepted": true,
+      "minimum_jacobian_m3": 0.02215405618821448,
+      "minimum_mean_ratio": 0.666361757623013,
+      "bad_elements": [],
+      "warning_elements": [],
+      "all_affine": false,
+      "policy": {
+        "jacobian_floor_m3": 1e-15,
+        "mean_ratio_floor": 0.05,
+        "mean_ratio_warning": 0.2,
+        "subdivision_depth": 3,
+        "method": "cubic tetrahedral Bernstein certificate with outward rounding margin"
+      }
+    }
+  },
+  {
+    "curvature": 16,
+    "elements": 623,
+    "maximum_cylinder_radius_error_m": 5.551115123125783e-17,
+    "quality": {
+      "schema_version": 1,
+      "accepted": true,
+      "minimum_jacobian_m3": 0.002536602822406036,
+      "minimum_mean_ratio": 0.40407602733591186,
+      "bad_elements": [],
+      "warning_elements": [],
+      "all_affine": false,
+      "policy": {
+        "jacobian_floor_m3": 1e-15,
+        "mean_ratio_floor": 0.05,
+        "mean_ratio_warning": 0.2,
+        "subdivision_depth": 3,
+        "method": "cubic tetrahedral Bernstein certificate with outward rounding margin"
+      }
+    }
+  }
+]

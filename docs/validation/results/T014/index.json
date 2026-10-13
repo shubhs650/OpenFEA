@@ -1,0 +1,233 @@
+{
+  "artifacts": {
+    "aggregate-native.log": {
+      "sha256": "749e66ba1d1504b6986ced8f800faeae9e408f70879db02b6bcb1ac388684f59",
+      "size_bytes": 445
+    },
+    "aggregate-recovery.json": {
+      "sha256": "4e08c8d8e6cf1657eb584b2b7fafe2c4ae43f1dfbbb4fa41b8fe395605feb31a",
+      "size_bytes": 441
+    },
+    "aggregate-scratch.json": {
+      "sha256": "d93844679c978dcdda6d535539d8bfece5170494a084461982d935bee90098a9",
+      "size_bytes": 116
+    },
+    "curved-mesh.png": {
+      "sha256": "97d942df64a2ba823aa0af82d3cb3eaa0ad10b1164bd017107feffe230e871bd",
+      "size_bytes": 761064
+    },
+    "curved.json": {
+      "sha256": "9f27c32c48bffca0d7fd46ace4a5e563286220c9837af0085f7023b8d43fdadd",
+      "size_bytes": 1242
+    },
+    "failed-quality.png": {
+      "sha256": "3db109e97bb441350d2baf7bf509a7398b4610ad6f856525f21061c2506c6b56",
+      "size_bytes": 650504
+    },
+    "mesh-quality.png": {
+      "sha256": "223c4a3c86d7dedb28f820fbfe7552250b4f7a5712ba2782c9c14129a3ba07d1",
+      "size_bytes": 171992
+    },
+    "recovery-1.json": {
+      "sha256": "f3ffad71213c07aaa9197196cdb0001ad5698b11d48493dcd5df7f40bdd76f27",
+      "size_bytes": 5157
+    },
+    "recovery-3.json": {
+      "sha256": "3e3ca0611d0dcc3da807ed5189e7adb93dabe002668138d19f400b19d33598f1",
+      "size_bytes": 11556
+    },
+    "t014-final-checks.log": {
+      "sha256": "590e42edb100b2986531f767d4fbc56876e045483ebb5265b8c724b985beeaad",
+      "size_bytes": 9518
+    },
+    "t014-final-native-replay.log": {
+      "sha256": "2bc5b58d7281b60618c6b7fc04d8554388354ce4c2ff3f8a7939b6c16c26a86f",
+      "size_bytes": 100
+    },
+    "t014-final-static.log": {
+      "sha256": "9fc9c84e292998b6242c7869da5e9af171fff77c798c9b4011f99201c641e01b",
+      "size_bytes": 3628
+    }
+  },
+  "base_commit": "6efd61c40ada35176cfca5a342b85515f6275b6a",
+  "branch": "codex/t014-mesh-controls",
+  "commands": [
+    {
+      "command": "make doctor check test-native build smoke test-integration test-e2e",
+      "result": "passed: all 413 then-existing cases, native123 in212.05s, integration12 in37.27s, Chromium19; real native doctor/build/HTTP/fast gates"
+    },
+    {
+      "command": "PYTHONPATH=services/api:services/worker .venv/bin/python -m pytest tests/native/test_deck_guards.py tests/native/test_mesh_controls.py -q",
+      "result": "final 20 passed in48.41s; includes one new live aggregate scratch case, all sizing/curvature/profiles/recovery and affected export guards"
+    },
+    {
+      "command": "PYTHONPATH=services/api:services/worker .venv/bin/python -m pytest tests/unit/test_mesh_controls.py tests/unit/test_mesh_quality.py -q",
+      "result": "18 passed in2.18s after final typing/source changes"
+    },
+    {
+      "command": "Final make check build smoke and git diff --check",
+      "result": "passed after final source/documentation updates: 238 Python unit,21 TypeScript, lint/format/types/contracts/docs130, build and real HTTP smoke"
+    }
+  ],
+  "corrections": [
+    "Initial unit old admission/migration assumptions corrected for mesh-before-loads and explicit pre-T014 schema fixture defaults.",
+    "Initial broad native packet116pass/2fail: adapters needed new sizing options and a lower-level explicitly non-numerical isolation probe; corrected replay passed.",
+    "Direct integration command lacked Makefile PYTHONPATH; correct make invocation then exposed hardcoded revision4 instead of5 in new restart test; fixed without relaxing optimistic checks.",
+    "Initial full browser18pass/1fail exact unit selector fixed; final19pass and targeted2pass verify explicit local-removal/coarsening behavior.",
+    "Native curvature refinement suppressed by MeshSizeMin; corrected actual density94 to623, original criteria unchanged.",
+    "Added live aggregate retained-attempt scratch guard. First replay14pass/6fail scanned deep whole-application test root; dedicated aggregate attempt-output root fixes scope; final20pass.",
+    "Static replay caught inferred tuple/record typing; explicit type declarations preserve numerical behavior."
+  ],
+  "criteria": {
+    "axial_von_mises_error_pa": 0.01,
+    "axial_von_mises_reference_pa": 1000,
+    "certificate_subdivision_depth": 3,
+    "cylinder_radius_error_m": 1e-12,
+    "element_cap": 3000,
+    "jacobian_floor_m3": 1e-15,
+    "job_wall_seconds": 180,
+    "maximum_mesh_attempts": 3,
+    "mean_ratio_floor": 0.05,
+    "mesh_profiles": [
+      "Delaunay",
+      "Frontal",
+      "Delaunay + Netgen optimization"
+    ],
+    "native_wall_seconds": 60,
+    "node_cap": 30000,
+    "rss_mib": 1536,
+    "scratch_mib": 192,
+    "warning_ratio": 0.2
+  },
+  "date": "2026-10-14",
+  "distinct_verified_cases": {
+    "chromium": 19,
+    "failed_after_corrections": 0,
+    "integration": 12,
+    "native": 124,
+    "python_unit": 238,
+    "skipped": 0,
+    "total": 414,
+    "typescript_unit": 21
+  },
+  "hosted_ci": "See PR checks for execution against final PR head; local counts do not assert hosted completion",
+  "implementation_commit": "2fb76431b213b03841f655ae9dd9eae8bb6b1a4a",
+  "initial_implementation_commit": "6cd310b1ec661ac1c7f5f1a87a3bd29cd3ad3e63",
+  "milestone": "M2 IN PROGRESS; exit gate NOT RUN",
+  "next_task": "T015",
+  "numerical_measurements": {
+    "analytic_mapping": "F=(r(1+alpha*s),s,t), determinant=1+alpha*s; folded alpha=-1.5 rejected despite positive corner geometry and four Gauss-point samples",
+    "axial_refinement": "Both real face/body refined CCX references pass <=0.01 Pa error around 1000 Pa; no tolerance change",
+    "cylinder": [
+      {
+        "curvature": 8,
+        "elements": 94,
+        "maximum_cylinder_radius_error_m": 5.551115123125783e-17,
+        "quality": {
+          "accepted": true,
+          "all_affine": false,
+          "bad_elements": [],
+          "minimum_jacobian_m3": 0.02215405618821448,
+          "minimum_mean_ratio": 0.666361757623013,
+          "policy": {
+            "jacobian_floor_m3": 1e-15,
+            "mean_ratio_floor": 0.05,
+            "mean_ratio_warning": 0.2,
+            "method": "cubic tetrahedral Bernstein certificate with outward rounding margin",
+            "subdivision_depth": 3
+          },
+          "schema_version": 1,
+          "warning_elements": []
+        }
+      },
+      {
+        "curvature": 16,
+        "elements": 623,
+        "maximum_cylinder_radius_error_m": 5.551115123125783e-17,
+        "quality": {
+          "accepted": true,
+          "all_affine": false,
+          "bad_elements": [],
+          "minimum_jacobian_m3": 0.002536602822406036,
+          "minimum_mean_ratio": 0.40407602733591186,
+          "policy": {
+            "jacobian_floor_m3": 1e-15,
+            "mean_ratio_floor": 0.05,
+            "mean_ratio_warning": 0.2,
+            "method": "cubic tetrahedral Bernstein certificate with outward rounding margin",
+            "subdivision_depth": 3
+          },
+          "schema_version": 1,
+          "warning_elements": []
+        }
+      }
+    ]
+  },
+  "platform": {
+    "bubblewrap": "0.12.0",
+    "cadquery_ocp": "8.0.1.1.0",
+    "calculix": "2.23",
+    "gmsh": "4.15.2",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "python": "3.12.14",
+    "system": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "uv": "0.12.23"
+  },
+  "source_and_lock_reference": "Hashes of the implementation_commit tree; documentation/evidence status updates follow separately",
+  "source_and_lock_sha256": {
+    ".gitattributes": "648c14cb4e01f8dfb5c96bafe136bdb3d3afa4878315ebb874f10329cd902139",
+    ".prettierignore": "b12e379dbc31d25e4add7c47a727614483aa35c30cf025bf19e75013d2910a5d",
+    "apps/web/src/geometry/Viewport.tsx": "021cc29c9331ea689633dbbbf1a564b2ff292689e2133ea9b5355ef6973ee6a5",
+    "apps/web/src/geometry/Workspace.tsx": "827eb7f0c0cc7481a7129c770651a34efdd678c564be4bd7bd9ab591c9ac1aa5",
+    "apps/web/src/loads/LoadsEditor.tsx": "eae90426a3381e8068346bf94406670ba35513d74431da4cf737938a6194f5bc",
+    "apps/web/src/mesh/MeshEditor.tsx": "bbb5546cbc7296f9a6453deaf1b40361f051698d5c77077eeaa678cbd2f1e284",
+    "apps/web/src/runs/RunsEditor.tsx": "65b587c03da06fbc168e9414b97165ec8e49fcc75e0fc20a970952120f5d9d43",
+    "docs/adr/ADR-022.md": "205792194d015b42c9e6c5c6da9dda38cca73ad0f221f797899da4665f1953fa",
+    "migrations/versions/0007_mesh_setups.py": "22520158b4639c19862bb10599c06bea3df5839d8e59e8cb926297026f5fbc6d",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "packages/contracts/api.d.ts": "54ccb37b83f19c1eebdabd579a4be4ada7557add4d28239cd10fa8919b82f8ad",
+    "packages/contracts/openapi.json": "8d5de45bfba61009636c1ca5c267da6e66f78013fb94a602fcbce30919f760c7",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+    "services/api/app/domain/deck_service.py": "1cf333fcc25ca761a459a2a9238c43783988c94b64f1569ca99b72b1cc8375b5",
+    "services/api/app/domain/jobs.py": "5611abdcc942b54c3a3900eedfcee4c3adf871cea1e7dadfc6af070fd15eaef5",
+    "services/api/app/domain/loads.py": "fe1094a91b03a8fc73f9d9d3fe454c4ee73bf9dd2fd0fc96a66efb743744704a",
+    "services/api/app/domain/mesh.py": "c80e3f84ed308501547e51f841590b4d6424c8d9b3cc14e4bc2661294db62390",
+    "services/api/app/jobs/runner.py": "4793d324d043e1b44b50981d56db92c15edb460809ba16318b1e45110e15890e",
+    "services/api/app/jobs/service.py": "8f1cab21d60ddfe87379890afb46956cc369be024f4511673e0d97a89874f8b9",
+    "services/api/app/main.py": "6158943720acb6cc368c899b5e42ffb63b5fedef05ddbb1736a263eb8eb55ff0",
+    "services/api/app/persistence/edits.py": "86b1281bd6bf683dcb90adf32ec3b218c371c2512fd0ed5bb5f9c831fe0d906a",
+    "services/api/app/persistence/jobs.py": "9633db5173ab1e642a52438df46ee9b95f687c22c34f87414f03ef88b884af99",
+    "services/api/app/persistence/repository.py": "e7a0d98af22d18434e0b2fdb2126d84641c65d36577e58d54f110684ee0ab21b",
+    "services/api/app/routes/jobs.py": "3631a1321db6564efb2e9512f5a490a03d5582562ef949ae83ed7e452fe28bc1",
+    "services/api/app/routes/mesh.py": "8f4e16ab094ff20c8f96d2d7b233230cdd355a5430654ea548944f076c5fc341",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "services/worker/worker/deck_mesh.py": "b6793b3248080b29c90a48900cfb156609fbe2884cdddfd3f808a09bd2fb4898",
+    "services/worker/worker/local_process.py": "abcfe0743384609f869da34272995effbef67a555dfd3be84949642606fc1792",
+    "services/worker/worker/mesh_quality.py": "65729d667f9772c781a29b5d1dc947a2c72395a39b1b46948eea16ea8ef8b47b",
+    "services/worker/worker/meshing_native/build.py": "28b99184f2962838e44309a05dd9387ae2616300a77fcc35b50f39286c60e488",
+    "tests/e2e/mesh.spec.ts": "e432e0c653eb9a16f2d2c2caced9b73d7272775c058e3af57944254dd8c75649",
+    "tests/fixtures/geometry/cylinder-m.step": "5b5a0217526d3d6eab4bfcb4d58d2048d1acf795056d9b6b138a189a246dc5be",
+    "tests/fixtures/geometry/sliver-m.step": "3f9d0ddd28a3e64f961c9da6285ab065171175e0f75ef35b145bcc66e3404574",
+    "tests/integration/test_mesh_controls.py": "4976dafbde3cc4f2d93a6e5daed604f9a2b257617a6704cc6b68bea7485b5cbb",
+    "tests/native/test_deck_guards.py": "294e05585fc82d319f85b572bdeff0dc3cc217e386f15f4f635707ccdb56f8cb",
+    "tests/native/test_mesh_controls.py": "c1f7c90bc5775ea20bbaccd65474403ba31d9db3c265f34787cc116c9580c99f",
+    "tests/unit/test_local_queue.py": "ffbd359ecde4f2c177f072663b62e79c42b83bd16a27deba2c712b61d3f10c91",
+    "tests/unit/test_mesh_controls.py": "5e3e41eec12ad5644fe87334cb7f38c3493b89de36757af1694fbd866bd801da",
+    "tests/unit/test_mesh_quality.py": "94886975dd0c13f382aad42bb65c7db59960adc7b65efa4f6e9b7da8d89038d2",
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+  },
+  "timezone": "Asia/Calcutta",
+  "unexecuted": [
+    "Curved load/CCX/result semantics, arbitrary surface meshes and convergence acceptance",
+    "Target laptop/Windows/Edge/headed GPU and maximum-cap performance",
+    "Owner-signed engineering benchmarks; M2 exit (T015-T018 pending), M3/M4 local acceptance",
+    "AWS/deployment/billing and full release security/report suites"
+  ],
+  "verified_native_binary_sha256": {
+    "ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+    "netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0"
+  }
+}

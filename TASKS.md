@@ -1,6 +1,6 @@
 # Task index
 
-T001–T006 development deliverables are COMPLETE under the [M0 owner decision](docs/validation/M0-owner-decision.md), which approves progression to M1 and defers formal benchmark and target-laptop acceptance. The earlier [M0 exit review](docs/validation/M0-exit-review.md) remains historical NO-GO evidence; PR #2 corrected M0-R1/M0-R2. T007 persistence, T008 STEP import/viewport, T009 units/materials and T010 face loads/checked deck export are COMPLETE. T011 durable local mesh/solve is COMPLETE. T012 core results is COMPLETE, closing the bounded M1 technical path; T013 bounded geometry cleanup/reference invalidation is COMPLETE; T014–T042 remain NOT STARTED and T014 is next. M1–M4 development runs in Codex Cloud; local laptop acceptance occurs at M4/T030. AWS backend work starts only in its later milestone.
+T001–T006 development deliverables are COMPLETE under the [M0 owner decision](docs/validation/M0-owner-decision.md), which approves progression to M1 and defers formal benchmark and target-laptop acceptance. The earlier [M0 exit review](docs/validation/M0-exit-review.md) remains historical NO-GO evidence; PR #2 corrected M0-R1/M0-R2. T007 persistence, T008 STEP import/viewport, T009 units/materials and T010 face loads/checked deck export are COMPLETE. T011 durable local mesh/solve is COMPLETE. T012 core results is COMPLETE, closing the bounded M1 technical path; T013 bounded geometry cleanup/reference invalidation is COMPLETE; T014 mesh sizing/quality/bounded recovery is COMPLETE; T015–T042 remain NOT STARTED and T015 is next. M1–M4 development runs in Codex Cloud; local laptop acceptance occurs at M4/T030. AWS backend work starts only in its later milestone.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
@@ -17,7 +17,7 @@ T001–T006 development deliverables are COMPLETE under the [M0 owner decision](
 | [T011](docs/tasks/T011.md) | M1 | Local mesh and asynchronous solve pipeline | T010 | COMPLETE |
 | [T012](docs/tasks/T012.md) | M1 | Core results vertical slice | T011,T004 | COMPLETE |
 | [T013](docs/tasks/T013.md) | M2 | Geometry edit preview and reference invalidation | T012 | COMPLETE |
-| [T014](docs/tasks/T014.md) | M2 | Mesh sizing, quality and bounded recovery | T013 | NOT STARTED |
+| [T014](docs/tasks/T014.md) | M2 | Mesh sizing, quality and bounded recovery | T013 | COMPLETE |
 | [T015](docs/tasks/T015.md) | M2 | Complete essential loads and equilibrium | T014 | NOT STARTED |
 | [T016](docs/tasks/T016.md) | M2 | Geometry-based directions and symmetry | T015 | NOT STARTED |
 | [T017](docs/tasks/T017.md) | M2 | Hybrid checklist, themes and edit flow | T016 | NOT STARTED |
