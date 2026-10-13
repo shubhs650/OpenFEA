@@ -194,6 +194,6 @@ def test_unresolved_face_identity(fault: str) -> None:
 
 
 def test_unsigned_benchmark_cannot_be_reported_as_accepted(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="sign-off pending"):
+    with pytest.raises(ValueError, match="Engineering-owner review pending"):
         run_case("B01", tmp_path / "not-created")
     assert not (tmp_path / "not-created").exists()

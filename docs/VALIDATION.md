@@ -12,8 +12,10 @@ The product owner acts as engineering reviewer. Coding agents implement tests bu
 
 ## Predeclare acceptance
 
-Each benchmark manifest defines source/revision, geometry, material, units, exact load/supports, element formulation, mesh sequence, quantity and physical sample location, expected number/analytic formula, absolute and relative tolerances, exclusions, reason and reviewer sign-off before execution. A signed manifest hash accompanies results. Values below are proposed starting limits, not approved or measured accuracy.
+Each benchmark manifest defines source/revision, geometry, material, units, exact load/supports, element formulation, mesh sequence, quantity and physical sample location, expected number/analytic formula, absolute and relative tolerances, exclusions, reason and reviewer sign-off before execution. A manifest hash and owner review record accompany accepted results. Values below are proposed starting limits, not approved or measured accuracy.
 Change a tolerance only with a documented scientific reason and reviewer decision, rerunning affected suite. Model differences between ANSYS/Code_Aster and CCX must be explained; agreement between two solvers alone is not proof.
+
+For B01/B02/B07-mortar/B09, non-development execution requires `reviewer_signoff` to be an object with `disposition: "APPROVED"`, a nonempty engineering-owner `reviewer`, an ISO `reviewed_on` date, and `criteria_sha256`. The hash is SHA-256 of the canonical JSON of every manifest field except `reviewer_signoff` (`sort_keys=True`, compact separators, no NaN). A pending string, empty/rejected/malformed record or hash mismatch refuses before creating a job. Record the actual owner's decision only after reviewing the exact criteria; the object is review metadata, not a cryptographic signature. Explicit `DEVELOPMENT=1` always labels output development-only, including when a valid review record exists. Existing manifests remain pending until that review occurs.
 
 ## Proposed initial acceptance examples
 

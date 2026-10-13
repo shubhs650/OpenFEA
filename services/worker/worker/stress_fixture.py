@@ -8,6 +8,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from worker.approval import require_benchmark_approval
 from worker.benchmark import solve
 from worker.calculix.results import PARSER_VERSION, Mesh, parse_dat, parse_frd
 from worker.deck import generated_deck
@@ -45,7 +46,9 @@ def hand_mesh(two_materials: bool = False) -> Mesh:
     return mesh
 
 
-def diagnostic_case(directory: Path, case: str) -> tuple[Mesh, dict[str, Any]]:
+def diagnostic_case(
+    directory: Path, case: str, *, development: bool = True
+) -> tuple[Mesh, dict[str, Any]]:
     if case not in ("B09", "hydrostatic", "pure-shear", "varying-shear"):
         raise ValueError("Unsupported stress diagnostic")
     directory.mkdir(parents=True, exist_ok=True)
@@ -105,8 +108,10 @@ def diagnostic_case(directory: Path, case: str) -> tuple[Mesh, dict[str, Any]]:
             "frd": sha256(directory / "analysis.frd"),
             "deck": sha256(directory / "analysis.inp"),
         },
-        "warnings": [
-            "Development diagnostic; engineering-owner acceptance pending",
+        "warnings": (
+            ["Development diagnostic; engineering-owner acceptance pending"] if development else []
+        )
+        + [
             "Element-node values are derived by linear extrapolation from raw DAT IP tensors",
             "FRD stress is solver-averaged and may smear material interfaces; diagnostic only",
         ],
@@ -118,9 +123,8 @@ def diagnostic_case(directory: Path, case: str) -> tuple[Mesh, dict[str, Any]]:
 def run_b09(output: Path, development: bool = False) -> dict[str, Any]:
     manifest_path = ROOT / "tests/benchmarks/B09.json"
     manifest = json.loads(manifest_path.read_text())
-    if manifest["reviewer_signoff"].startswith("PENDING") and not development:
-        raise ValueError("Engineering-owner B09 review pending; use DEVELOPMENT=1 for diagnostics")
-    mesh, payload = diagnostic_case(output, "B09")
+    approved = require_benchmark_approval(manifest, development)
+    mesh, payload = diagnostic_case(output, "B09", development=not approved)
     tolerance = manifest["tolerances"]
     max_error = 0.0
     for point in payload["integration_points"] + payload["element_nodes"]:
@@ -161,7 +165,7 @@ def run_b09(output: Path, development: bool = False) -> dict[str, Any]:
     vtk = json.loads((output / "vtk-report.json").read_text())
     result = {
         "case": "B09",
-        "status": "DEVELOPMENT PASS; owner review pending",
+        "status": "PASS" if approved else "DEVELOPMENT PASS; owner review pending",
         "code_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
         ).strip(),
