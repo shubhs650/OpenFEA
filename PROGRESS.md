@@ -40,6 +40,8 @@ Decision-record verification: `make doctor check` passed in the current Codex Cl
 
 ## T008 executed validation — 2026-10-13
 
+PR #5 hosted run `38392031074` failed during `make setup` at the synthetic namespace-isolated STEP doctor probe; test stages did not execute. Doctor now prints the bounded synthetic launcher transcript before temporary cleanup so runner failures can be diagnosed. Local `make check doctor` passes (124 Python unit and 7 TS unit, no failures/skips). Hosted CI remains open until a successful run is recorded.
+
 The browser now creates/opens real projects, uploads STEP bytes with actual progress, runs isolated OCCT inspection, requires missing-unit/dimensions/body-count confirmation, and renders saved immutable multi-body geometry with vtk.js. Face picks resolve to the catalog within the geometry revision, survive camera/LOD changes, and work with body hide/isolate/tree controls. Invalid/surface/free-wire models, contradictory units, stale confirmations and corrupt artifacts refuse without modifying accepted geometry.
 
 - `make doctor`; `make check test-native build smoke test-integration test-e2e`; final changed-native `make check test-native`: **200 distinct cases passed, 0 failed, 0 skipped** (124 Python unit, 7 TS unit, 56 native, 5 integration, 8 Chromium). Twenty-three cases are new. Full native regressions pass; repeat runs are not added to counts.
