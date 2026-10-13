@@ -12,6 +12,7 @@ PY := .venv/bin/python
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
 	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01, B02, B07 or B09 DEVELOPMENT=1.'
+	@echo 'feasibility runs native cleanup diagnostics; MESHES=1 measures bounded workloads. resource-browser OUTPUT=<directory>.'
 	@echo 'Release benchmark acceptance, benchmark-all, full security and reports remain BLOCKED.'
 setup:
 	bash scripts/codex/setup.sh

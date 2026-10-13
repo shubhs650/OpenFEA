@@ -91,6 +91,11 @@ def main() -> int:
                 run["remaining_stages"] = (
                     "not run; explicit 30k element/120k free-equation solve cap"
                 )
+                run["coarsening_proposal"] = {
+                    "mesh_size_m": manifest["workloads"][0]["mesh_size_m"],
+                    "requires_explicit_request": True,
+                    "message": "Request a fresh coarser mesh; prior mesh/results are invalidated",
+                }
                 continue
             script = str(ROOT / "services/worker/worker/resource_native/process.py")
             for stage, command in (
