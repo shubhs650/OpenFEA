@@ -2,6 +2,9 @@
   "artifacts_sha256": {
     "browser.log": "aecef384d2192c39f9b8b627b4ceb0953cdfdafe9950765a23f15c85d42a5e8c",
     "changed-native.log": "4a2e0b0370bb8fdcc422ac9d1a36481afffc217f591cf33bd82aedd5ace40b0b",
+    "ci-fix-check.log": "24c32c388dbe4b20344723cfe11e5388ca46092e4a211e5678854a5681d00063",
+    "ci-fix-native.log": "9b7e9440b99620de510b744d04b408528af31631ca10612fc3ab1e212b036f79",
+    "ci-fix-workflows.log": "6450276654b8d99dce2e4e1bc875c3daaaa08d985c6fbe2b0df22492fc00f6e9",
     "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
     "fast-build-smoke.log": "19b32555f66a47af4238b0977f6195c26ee644c480ef2ec560efabc670cedc6a",
     "handoff.log": "6c8b8d65b1671c7289cfb8108c685a7591667c9bed86f34cd0bd589df4684cd7",
@@ -25,16 +28,22 @@
     "scratch_mib": 192
   },
   "date": "2026-10-13 UTC",
-  "distinct_passed": 315,
+  "distinct_passed": 316,
   "failed": 0,
   "groups": {
     "chromium": 13,
     "integration": 9,
     "native": 90,
-    "python_unit": 185,
+    "python_unit": 186,
     "typescript_unit": 18
   },
-  "implementation_commit": "b1cdb1613e87c8b19505d71f1ab599963d0a85b0",
+  "idle_lease_fix": {
+    "cause": "Idle worker acquired the native execution lease without queued or interrupted work",
+    "first_hosted_result": "3 native geometry/deck busy-response failures, 87 passed; later steps skipped",
+    "first_hosted_run": "https://github.com/shubhs650/OpenFEA/actions/runs/38450584681",
+    "regression": "Zero native lease attempts across real idle worker startup and polling"
+  },
+  "implementation_commit": "29631a23dd77e55ae43ab64b601d4d6bea1f6e3a",
   "initial_implementation_commit": "e8fed5bcdf3545700eaad254671462ef686678a9",
   "limits": [
     "Raw output validation; calculated result views/FoS are T012",
@@ -60,9 +69,10 @@
     "gmsh": "9db3090d3b720c57b76bcbfa01d13854823ae2698c91343c20bdd4c2b81f6317",
     "netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0"
   },
-  "native_count_note": "88 full-regression cases plus final 13-case job replay (11 repeats and 2 new cases); 90 distinct",
-  "new_cases": 34,
+  "native_count_note": "Final idle-lease fix replay: full 90 native cases passed; earlier 88-case regression and 13-case changed replay retained.",
+  "new_cases": 35,
   "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "pre_idle_fix_implementation_commit": "b1cdb1613e87c8b19505d71f1ab599963d0a85b0",
   "skipped": 0,
   "source_sha256": {
     "apps/web/src/geometry/Workspace.tsx": "5aa89dbe1e5646a8873ffcfc07986eaf93cd5dce6f2f25cd3db5b4112cc6823a",
@@ -78,10 +88,10 @@
     "services/api/app/domain/deck_service.py": "29f8bd102d0c91795768595c775a72dc222baca09b885db19c30cfddd611993c",
     "services/api/app/domain/jobs.py": "5e23ada1956078ccb2d20cffd01a57da434ad9f64dbf8cbbe0fe970f2dc03e1e",
     "services/api/app/jobs/__init__.py": "adfc7a73f09ffaf4cfac87184ace6d888d54f2caf6eaebb311653fe01b18f2bb",
-    "services/api/app/jobs/runner.py": "c487e4e1acfb460a77af44fb30c200dcf5059483509b8e823c01eaa6c4878fc6",
+    "services/api/app/jobs/runner.py": "52ad9e34adf565096f960327140bc1577938a1aef968b91bd28bec84371d4333",
     "services/api/app/jobs/service.py": "9e4acf7904a10c22fb3749edb04b42594ebd5ccf3f2ca63376213956f699aae3",
     "services/api/app/main.py": "23e648de34cd4d911ec0338e4e55a9a352df190f5b369386950f8873c6cc4e64",
-    "services/api/app/persistence/jobs.py": "4b013e39452ac4595c95ef79d0094bf441c6159ecd2c792d0dd863751f0d8f69",
+    "services/api/app/persistence/jobs.py": "231770f1f5b5903db3d474fdc94c862c0c4ce2ca5230af1490fde4a864e6168d",
     "services/api/app/persistence/repository.py": "94f5832e2445ecd416d1857a1c331b36c594123866816305f559736501c3f53e",
     "services/api/app/routes/jobs.py": "ef79a86477f31360ad726270856dc248f0d5bd7698eaf8c65e50d5d0056f27d6",
     "services/api/app/storage/geometry.py": "37738c81c5f05bdbdab991079e9b0614e0327467024b9adff101e9a5dfe0129e",
@@ -96,7 +106,7 @@
     "tests/native/test_local_jobs.py": "aa2bfc0ea052e22465e1501f969b02f813a3fcca7b6a7a9f8e7f409c4a8c9e4e",
     "tests/native/test_run_snapshots.py": "d710574eeb7e8b6458d21c5331b2229c1089a6a94039142494ad00c1c3331805",
     "tests/unit/test_api.py": "2d2acf1676fc54f9f212c4dd72dfaeca25a3cc490d157b842ae42c9c8fc9b7f5",
-    "tests/unit/test_local_queue.py": "a16442d70bb8ce68f8ec50af3dedf78e1db82ecdc1c1b3f4e27d780df8517c46"
+    "tests/unit/test_local_queue.py": "4a81174dbc21f2e83064540c87ff93591305094ffea13db1a57e078730b8b3a8"
   },
   "task": "T011",
   "versions": {
