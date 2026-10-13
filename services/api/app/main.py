@@ -15,10 +15,14 @@ from app.auth.body_limit import MetadataBodyLimit
 from app.auth.local import check_boundary
 from app.config import Settings
 from app.domain.errors import DomainError
+from app.domain.import_service import ImportService
 from app.domain.models import ErrorResponse
 from app.persistence.database import Database
+from app.persistence.imports import ImportRepository
 from app.persistence.repository import Repository
+from app.routes import imports as _imports  # noqa: F401
 from app.routes.projects import router
+from app.storage.geometry import GeometryStorage
 
 
 class Health(BaseModel):
@@ -37,6 +41,9 @@ def create_app() -> FastAPI:
             database.migrate()
             app.state.repository = Repository(database)
             app.state.owner = app.state.repository.local_owner()
+            imports = ImportRepository(app.state.repository)
+            imports.interrupt_incomplete()
+            app.state.import_service = ImportService(imports, GeometryStorage(settings.data_root))
             app.state.session_token = secrets.token_urlsafe(32)
             app.state.csrf_token = secrets.token_urlsafe(32)
             yield
@@ -122,6 +129,10 @@ def create_app() -> FastAPI:
         return error(
             request, 503, "database_unavailable", "Metadata storage is unavailable", retryable=True
         )
+
+    @app.exception_handler(OSError)
+    async def storage_error(request: Request, exception: OSError) -> JSONResponse:
+        return error(request, 503, "storage_unavailable", "Geometry storage is unavailable")
 
     app.include_router(router)
 

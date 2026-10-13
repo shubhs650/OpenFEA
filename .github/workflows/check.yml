@@ -27,7 +27,7 @@ jobs:
       - name: Native compiler prerequisite
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-14 libglu1-mesa libgl1
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap
           mkdir -p .local/ci-toolchain
           ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
           echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"

@@ -12,8 +12,9 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 from app.config import Settings
-from worker.runtime import ROOT, Component, verified_tool
+from worker.runtime import ROOT, Component, synthetic_geometry, verified_tool
 from worker.runtime import probe as native_probe
+from worker.step_import import inspect_step
 
 
 class ProbeHandler(BaseHTTPRequestHandler):
@@ -62,6 +63,11 @@ def main() -> int:
             result = native_probe(component, Path(directory))
             assert result["component"] == component
             print(f"PASS: isolated {component} native geometry/I/O capability")
+    with tempfile.TemporaryDirectory(dir=settings.data_root) as directory:
+        synthetic_geometry(Path(directory), "box")
+        result = inspect_step(Path(directory) / "input.step", Path(directory) / "import")
+        assert result["status"] == "ready"
+        print("PASS: namespace-isolated STEP import, no-network/process filter and SI display")
     if args.require_native:
         subprocess.run([sys.executable, "-m", "pytest", "tests/native", "-q"], cwd=ROOT, check=True)
     print("PASS: local bootstrap and native toolchain prerequisites")
