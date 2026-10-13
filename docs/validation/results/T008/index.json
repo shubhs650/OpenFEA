@@ -1,0 +1,283 @@
+{
+  "artifacts": {
+    "doctor.log": {
+      "bytes": 626,
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720"
+    },
+    "final-check-native.log": {
+      "bytes": 2914,
+      "sha256": "426f5ac7d4821b09c1d51e4233529fdaf5738a9f8b81033b8afde384cd166b25"
+    },
+    "final-import-native.log": {
+      "bytes": 401,
+      "sha256": "94df673ef264fbfb6befddedb38abeba7f21e65b2978fa8f21f4bc1b4319c7b9"
+    },
+    "final-runtime.log": {
+      "bytes": 2346,
+      "sha256": "6179d40565d947dd08b31a08bccef4118161efe15d8ecd91bc41a24ffc3590b8"
+    },
+    "gates.log": {
+      "bytes": 5638,
+      "sha256": "1f2dc6e6246fe8b041dbcec83300142d78544845c02ea4d1a42a007ecfea4121"
+    },
+    "geometry-metrics.json": {
+      "bytes": 3962,
+      "sha256": "e63f340704a6b228fba86eda1b7ae432e708b5652394be8d6b1407dcb52c7782"
+    },
+    "handoff-check.log": {
+      "bytes": 1993,
+      "sha256": "2ecff3814161766652d48ecc69f5d0a38e188fd741f16ef9824441d700d112cc"
+    },
+    "import-runtime.json": {
+      "bytes": 897,
+      "sha256": "6416a6d018e6a244e8cfa4b8c5444a389f6fb1bf4b019cd4f63b4bc4e0317bc8"
+    },
+    "viewport.png": {
+      "bytes": 61259,
+      "sha256": "4dfcea44d179649beb8aad60ca0263b77b249b285e58f40a1c2ad0ced4692438"
+    },
+    "webgl.json": {
+      "bytes": 199,
+      "sha256": "71253fc7b3b3db71d0edb0b900108ed421a9893ca8fa904eebbc92b742c8f4a9"
+    }
+  },
+  "base_commit": "55aae5b0e9a25ea473fed617d3b327b42caba97d",
+  "checks": {
+    "distinct_cases": {
+      "chromium": 8,
+      "failed": 0,
+      "integration": 5,
+      "native": 56,
+      "passed": 200,
+      "python_unit": 124,
+      "skipped": 0,
+      "typescript_unit": 7
+    },
+    "doctor_exit": 0,
+    "final_fast_native_exit": 0,
+    "final_import_native": {
+      "failed": 0,
+      "passed": 14,
+      "skipped": 0
+    },
+    "final_runtime": {
+      "build_smoke_exit": 0,
+      "chromium_passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    "full_pipeline_exit": 0,
+    "handoff_check": {
+      "exit_code": 0,
+      "markdown_files": 111,
+      "tasks": 42
+    },
+    "new_cases": {
+      "chromium": 3,
+      "native": 14,
+      "unit": 6
+    },
+    "numerical_import_criteria": {
+      "bounds_absolute_m": 1e-9,
+      "relative": 0,
+      "volume_absolute_m3": 1e-10
+    }
+  },
+  "date": "2026-10-13",
+  "implementation_commit": "14d34fa70099ceabb5da9f21bc40a719fc8a2805",
+  "implementation_commits": [
+    "e8da382a8e1271a399cd86b794b2f518044d714a",
+    "14d34fa70099ceabb5da9f21bc40a719fc8a2805"
+  ],
+  "native_locks_and_criteria_unchanged": true,
+  "not_run": [
+    "Windows/Edge/target GPU",
+    "hosted CI",
+    "formal signed benchmark acceptance",
+    "full release security/reports",
+    "M1/M4 exit"
+  ],
+  "scope": "confirmed solid STEP import and actual vtk.js picking; no solver benchmark acceptance",
+  "source_files": {
+    ".github/workflows/check.yml": {
+      "bytes": 1456,
+      "sha256": "6ed84f2d192d06cfa77838c84decd6b67c56cce4c85da29532a216efdd6d51bd"
+    },
+    "apps/web/package.json": {
+      "bytes": 427,
+      "sha256": "4c365bf6283219c9ce406d51a22f960bf0867e26fab60676eb7ba2f3c55fbf0c"
+    },
+    "apps/web/src/geometry/Viewport.tsx": {
+      "bytes": 7129,
+      "sha256": "5bf8bc9d13ab90f86666e36a9ed2baf1c531e631e3c406436db42174c38c1b17"
+    },
+    "apps/web/src/geometry/Workspace.tsx": {
+      "bytes": 13491,
+      "sha256": "91733d117bc8c5f49c4aa413426df2ac43ced19e8e0de877a03c0172e0070983"
+    },
+    "apps/web/src/geometry/api.ts": {
+      "bytes": 2916,
+      "sha256": "3b471cdabaa57059eabb21a1c8c268e3caf86b28a23bc343f13b82bea82faeff"
+    },
+    "apps/web/src/main.tsx": {
+      "bytes": 1035,
+      "sha256": "53784714e230d3ded0ea50557ba7eabfb6fa55ae1ca77ff26a1106d8dcb22124"
+    },
+    "apps/web/src/style.css": {
+      "bytes": 2897,
+      "sha256": "51fadcdc5f6a01ca7a7447324dc5622196d8beb302064532a9e42261fc52f3c9"
+    },
+    "docs/validation/dependencies.json": {
+      "bytes": 193040,
+      "sha256": "c9c738b8ad9f8ef2c9f9efdc16773ba02e749432b19f0ccaad80b3b7ccb2410e"
+    },
+    "migrations/versions/0002_step_imports.py": {
+      "bytes": 1398,
+      "sha256": "e57cb7ee0fca8816a98c1060aa9b998691b2e85682f671eef7dfdbf902b6e724"
+    },
+    "package-lock.json": {
+      "bytes": 123708,
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba"
+    },
+    "packages/contracts/api.d.ts": {
+      "bytes": 96027,
+      "sha256": "ff23297182a376f4abd3d3e88c445fbe3b8b3f4121193c0f8cac7ae6721c7fa3"
+    },
+    "packages/contracts/openapi.json": {
+      "bytes": 113609,
+      "sha256": "dfc59961884a9ecdf64be5e56b9323edabc5f5fe7510535d71673a1ee7ac6ba5"
+    },
+    "pyproject.toml": {
+      "bytes": 1440,
+      "sha256": "a03cc7555aa5ab44356d33f659bff81cf3a52b72aaf91c35828cadce72ac7e83"
+    },
+    "scripts/ci/dependency_report.py": {
+      "bytes": 3578,
+      "sha256": "eb89562a8113573630351d854c9c3d997ae10e361c8a3cf0947707bb146a01d9"
+    },
+    "scripts/dev/doctor.py": {
+      "bytes": 3242,
+      "sha256": "bde0ccbb5bd8df192846c3ccd71f1b8a08fd8719b430ab194eb409a472bf5e05"
+    },
+    "services/api/app/auth/body_limit.py": {
+      "bytes": 2831,
+      "sha256": "baab9029a42db5d241523296f8c66e5f0e849231cf397dd576444f2476ee31bf"
+    },
+    "services/api/app/domain/import_service.py": {
+      "bytes": 7915,
+      "sha256": "346fdfc7c858d9aaed6c81a31eaf19ed242e9fa6da21d7df3a6c2ff7e293da77"
+    },
+    "services/api/app/domain/imports.py": {
+      "bytes": 2010,
+      "sha256": "a9b191a9ad4e6fee002b8a6f9859868c8877bc267f7a8314f35b87f7eb3dd0f0"
+    },
+    "services/api/app/main.py": {
+      "bytes": 5186,
+      "sha256": "3b8483ff66d77c8825cfb88e060dcabc485435dddc95bd8b456e7bda7d091a5a"
+    },
+    "services/api/app/persistence/imports.py": {
+      "bytes": 9292,
+      "sha256": "110e69d54c717efa0c5c9e13c09ba21780dda3318547f21e1e9f7e7c163ae3c5"
+    },
+    "services/api/app/routes/imports.py": {
+      "bytes": 4073,
+      "sha256": "931f6c50f827da7a6601c588fe3663fa22a79f8592e759d7dac2cea79e860348"
+    },
+    "services/api/app/routes/projects.py": {
+      "bytes": 5266,
+      "sha256": "6155d30a01a04d258a9264b4eea7e8247d42f0689593d091b95b99cf79d2d670"
+    },
+    "services/api/app/storage/__init__.py": {
+      "bytes": 58,
+      "sha256": "25abf7748221de1d48720440f85fe26d5d8c6d4706352719450afa6c2e1e01ee"
+    },
+    "services/api/app/storage/geometry.py": {
+      "bytes": 2843,
+      "sha256": "4aa594d1f016228ba4dd3913b7f0b166c4e5bb025e4b06bd49c28422ed7807a5"
+    },
+    "services/worker/worker/geometry_native/import_step.py": {
+      "bytes": 12905,
+      "sha256": "ad42709e629ca94fd395b304d180d4dd0dfa8ea1001edc0226ef3156c216a32c"
+    },
+    "services/worker/worker/geometry_native/step_fixtures.py": {
+      "bytes": 2135,
+      "sha256": "d353c94a4264ae1d640d737fdceabb7a40746328bedb6b7e75efaa2d74e353d0"
+    },
+    "services/worker/worker/step_import.py": {
+      "bytes": 7208,
+      "sha256": "6d13064b5132bb4bbe5ed6ca31297611da4c8923cf8a5241c3191d800620aca5"
+    },
+    "tests/e2e/geometry.spec.ts": {
+      "bytes": 9763,
+      "sha256": "838210c97358ba2995aa7d43b523c12d6b5aa5d0ba78e2706f35f6794dba4184"
+    },
+    "tests/fixtures/geometry/cube-inch.step": {
+      "bytes": 16232,
+      "sha256": "76d9300983a3e348b9fb0c294acaced94a2275d4ba7ba2352b7dbc5e3ae1ed51"
+    },
+    "tests/fixtures/geometry/cube-m.step": {
+      "bytes": 15371,
+      "sha256": "e280c24279395631521b4259e602079399cd1d7520dd9f529d732b1c3789b9b8"
+    },
+    "tests/fixtures/geometry/cube-missing.step": {
+      "bytes": 15324,
+      "sha256": "79132671901275dabdbad1a8d16296cf4b8012f681e9ed3960895ad9c06a6ac4"
+    },
+    "tests/fixtures/geometry/cube-mm.step": {
+      "bytes": 15581,
+      "sha256": "32dfcb6dd51b944d9d7f05aa95d89dd7453720f2cbd15f49de54bae7765e8f1c"
+    },
+    "tests/fixtures/geometry/cylinder-m.step": {
+      "bytes": 5651,
+      "sha256": "5b5a0217526d3d6eab4bfcb4d58d2048d1acf795056d9b6b138a189a246dc5be"
+    },
+    "tests/fixtures/geometry/eleven-m.step": {
+      "bytes": 178283,
+      "sha256": "fd9bdfd538e6baf8c5f687be5bace238fcf6533f8bddaf468b5fe8a5bfdfb60f"
+    },
+    "tests/fixtures/geometry/invalid.step": {
+      "bytes": 75,
+      "sha256": "995824675b36cc4ba458ae4106457fa0133a9264cd2f45cc0c3ef2df30ba7e71"
+    },
+    "tests/fixtures/geometry/mixed-wire-m.step": {
+      "bytes": 18953,
+      "sha256": "8b8ddc47f2a8d04186848e70c17e7b207ad30b7f76065e7ba5c8664e279b1df0"
+    },
+    "tests/fixtures/geometry/surface-m.step": {
+      "bytes": 4506,
+      "sha256": "c247e1e81e4586eb6e8753c210cb0b0da6596857292dae5c08529ac3a544ccb9"
+    },
+    "tests/fixtures/geometry/two-m.step": {
+      "bytes": 32459,
+      "sha256": "b5b1e2fe38285c2c2d857b71d006106bd147c4e211c2f74f887a2c6a4720c786"
+    },
+    "tests/native/test_step_import.py": {
+      "bytes": 9022,
+      "sha256": "f154f60645670dd06bd71909909f5cf05ecef4752cf2d8e4fd1a439f1fa4f094"
+    },
+    "tests/unit/test_imports.py": {
+      "bytes": 7174,
+      "sha256": "5c4819dbec970bed3cc5cac1f343d63801da3fc0db7a0fb89a715fe935fad050"
+    }
+  },
+  "task": "T008",
+  "timezone": "Asia/Calcutta",
+  "tools": {
+    "alembic": "1.20.0",
+    "fastapi": "0.143.0",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "playwright": "1.64.0",
+    "pydantic": "2.14.1",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "sqlalchemy": "2.1.4",
+    "sqlite": "3.53.1",
+    "uv": "0.12.23",
+    "uvicorn": "0.54.0",
+    "vtk_js": "37.4.2"
+  }
+}

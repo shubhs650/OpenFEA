@@ -12,6 +12,12 @@ Project PATCH/DELETE and analysis PATCH require `If-Match: "<revision>"`; absent
 
 GET `/projects/{id}/geometry` and `/geometry/{revision}` read immutable metadata. There is no public registration/upload/import endpoint until T008 validates artifact bytes/native CAD. Project DELETE tombstones access to the project and children; actual job cancellation/purge awaits the job implementation. Lists return items/total/offset/limit (default 50, maximum 100). POST/PATCH/PUT metadata requests require Content-Length and are bounded to 64 KiB before parsing (411/413). Unknown fields are rejected; body/path/SQL details are not echoed in errors.
 
+## Implemented T008 slice
+
+Owned upload tickets, bounded raw PUT bytes, synchronous native inspection and explicit confirmation/display routes are now implemented through the real UI/API. See [STEP import](STEP_IMPORT.md) and [ADR-016](adr/ADR-016.md). Inspection creates a persisted record with processing/needs_units/ready/failed/committed states; 201 can describe a failed inspection and never implies accepted geometry. Confirmation requires dimensions_confirmed=true and the inspection/project's unchanged ETag; repeat confirmation of that same committed record returns its original geometry. Other geometry edits/worker/compute routes below remain design targets.
+
+Raw upload Content-Length must match its ticket and stay ≤16 MiB; actual stream bytes/hash are checked. Metadata remains capped at 64 KiB. Missing source units require an explicit choice before transfer; declared/mixed/unsupported conflicts refuse. One import process runs at a time (429 otherwise), with no automatic retry. Source/canonical/per-body BREP and two display artifacts are private, immutable, hash-checked and owner scoped. GET /geometry/{id}/display?lod=coarse|fine returns real metre-coordinate triangles and immutable catalog IDs. The viewer uses actor-to-face mapping, not triangle IDs as saved identity. New imports do not repin analyses; a revision/tombstone race prevents promotion.
+
 ## Planned service routes
 
 | Method and route | Behavior |

@@ -1,0 +1,50 @@
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 386 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.27 kB
+dist/assets/index-B5PeWtHf.css      2.31 kB │ gzip:   0.97 kB
+dist/assets/index-Ctx3SO4S.js   1,074.33 kB │ gzip: 298.07 kB
+
+✓ built in 322ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=9813
+STARTED api pid=9834
+STARTED web pid=9835
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 8 tests using 1 worker
+
+(node:9951) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.7s)
+  ✓  2 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.0s)
+  ✓  3 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.7s)
+  ✓  4 tests/e2e/health.spec.ts:3:1 › health-only page connects to the real API through Vite (307ms)
+  ✓  5 tests/e2e/health.spec.ts:18:1 › page reports a health network failure without claiming readiness (255ms)
+  ✓  6 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (272ms)
+  ✓  7 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (197ms)
+  ✓  8 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (92ms)
+
+  8 passed (15.8s)

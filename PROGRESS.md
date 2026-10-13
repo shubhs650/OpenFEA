@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: PERSISTENT LOCAL PROJECT API + HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007 COMPLETE; M0 owner-approved progression and later validation obligations preserved
-Next action: T008 — STEP import and selectable viewport; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: REAL STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — T007/T008 COMPLETE; M0 owner-approved progression and later validation obligations preserved
+Next action: T009 — unit/material editor; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -18,9 +18,10 @@ T004: COMPLETE
 T005: COMPLETE
 T006: COMPLETE
 T007: COMPLETE
-T008–T042: NOT STARTED
+T008: COMPLETE
+T009–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
-M1: T007 COMPLETE; exit gate NOT RUN.
+M1: T007/T008 COMPLETE; exit gate NOT RUN.
 M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -37,6 +38,17 @@ The exception does not approve B01/B02/B07-mortar/B09 exact assumptions/toleranc
 
 Decision-record verification: `make doctor check` passed in the current Codex Cloud checkout (90 Python unit and 7 TypeScript unit cases, 0 failed/skipped; lint, format, types, contracts and 105-document/42-task graph checks passed). `git diff --check` passed; benchmark manifests, numerical code and dependency locks were not changed. The merged PR #2 already passed its full hosted native/bootstrap check. Cloud startup instructions were saved as an updated review draft reflecting this decision; saving does not publish or activate that draft.
 
+## T008 executed validation — 2026-10-13
+
+The browser now creates/opens real projects, uploads STEP bytes with actual progress, runs isolated OCCT inspection, requires missing-unit/dimensions/body-count confirmation, and renders saved immutable multi-body geometry with vtk.js. Face picks resolve to the catalog within the geometry revision, survive camera/LOD changes, and work with body hide/isolate/tree controls. Invalid/surface/free-wire models, contradictory units, stale confirmations and corrupt artifacts refuse without modifying accepted geometry.
+
+- `make doctor`; `make check test-native build smoke test-integration test-e2e`; final changed-native `make check test-native`: **200 distinct cases passed, 0 failed, 0 skipped** (124 Python unit, 7 TS unit, 56 native, 5 integration, 8 Chromium). Twenty-three cases are new. Full native regressions pass; repeat runs are not added to counts.
+- Actual metre/millimetre/inch metadata and explicit missing-unit choices meet fixed analytical dimensions/volumes with 1e-9 m / 1e-10 m³ absolute criteria and no relative tolerance. A cylinder proves different tessellation detail with the same face IDs. Real canvas picks are checked against native body IDs and face centroids after camera/LOD/isolation; the screenshot was inspected.
+- Uploads are size/hash bounded. Namespace/readonly mounts, dropped capabilities, no-network launcher, fork/namespace restrictions, native hard limits and a sampled resource watchdog protect parsing. Host read/write, source write, network and fork probes refuse. Publication/download reads use regular no-follow files and hashes, with an owner/revision-guarded atomic promotion. An OS lock serializes application imports; interrupted states fail without retry.
+- vtk.js 37.4.2 adds 57 locked npm entries; existing versions and all native locks/binaries/criteria stay unchanged. Bubblewrap is required and explicitly provisioned in hosted CI; actual executable/binding/python/filter/worker/lock hashes and settings are retained per inspection. [Evidence](docs/validation/T008.md), [ADR-016](docs/adr/ADR-016.md), [import guide](docs/STEP_IMPORT.md) and generated contracts document the actual paths and limits.
+
+T008 is COMPLETE for its tested import/viewport scope. Inspection is synchronous/bounded with persisted lifecycle, not the T011 durable queue. Face selections are ephemeral viewport state, not saved engineering assignments. Windows/Edge/target GPU, hosted CI and formal benchmark/M1/M4 acceptance remain unexecuted/deferred. Materials, mesh/solve, cleanup and reports are later tasks. Stop after T008; **T009** is next.
+
 ## T007 executed validation — 2026-10-13
 
 The real API now persists owner-scoped projects, project tombstones, immutable geometry metadata and independent draft analysis revisions in SQLite WAL. API startup applies reversible Alembic migrations. ETags/If-Match guard saves, immutable DB triggers preserve history, and owner/project foreign keys prevent cross-project geometry references. Loopback sessions, CSRF, Host/Origin checks, bounded request bytes and redacted errors are wired through the real API. Vite preserves Host for browser mutations. Beta/production still reject local bypass.
@@ -50,7 +62,7 @@ T007 is COMPLETE for its metadata/access scope under the recorded M0 owner progr
 
 ## What now works
 
-The React/Vite page and FastAPI health API remain operational alongside the T007 project API. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow or reports exist.
+The React/Vite geometry workspace and FastAPI health/project/import APIs are operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. There is a real STEP import/display workflow, but no durable mesh/solve worker service, queue or reports.
 
 T005 adds a limited real mortar connection experiment using CCX *EQUATION and native coordinate audits. Native *TIE failed the patch and is not a validated fallback. `make benchmark CASE=B07 DEVELOPMENT=1` passes both role cases within the planar unit/65-node scope, retaining all failed-candidate and negative evidence.
 
@@ -151,6 +163,6 @@ M0 was **approved by the owner for M1 progression with explicit deferrals** afte
 
 Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. Keep physical gaps unsupported until T019/B08. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-T007 is COMPLETE and its [persistence evidence](docs/validation/T007.md) passes. Next implementation is **T008**, NOT STARTED: bounded STEP import, verified artifacts and selectable geometry, using T007 ownership/revision contracts. This session stops after T007. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+T007/T008 are COMPLETE with retained persistence and [real import/viewport evidence](docs/validation/T008.md). Next implementation is **T009**, NOT STARTED: unit/material editing against immutable body references. This session stops after T008. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

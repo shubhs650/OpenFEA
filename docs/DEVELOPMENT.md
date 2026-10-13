@@ -1,6 +1,6 @@
 # Local development — bootstrap and project persistence
 
-The React client remains health-only; FastAPI now also serves the persistent T007 project/analysis metadata API. See [local storage/API usage](PERSISTENCE.md). T002 adds the real native tools and smoke runner described in [NATIVE_TOOLS.md](NATIVE_TOOLS.md). There is no application CAD/mesh/solve workflow, worker service, queue, hosted authentication, billing or reports. The objective remains the validated local prototype through M4/T030; hosted operations are outside this stage.
+The React client now creates/opens projects and runs real T008 STEP inspection/confirmation/selection; FastAPI serves the persistent project/import/geometry APIs. See [STEP usage](STEP_IMPORT.md). See [local storage/API usage](PERSISTENCE.md). T002 adds the real native tools and smoke runner described in [NATIVE_TOOLS.md](NATIVE_TOOLS.md). STEP import/display works; the complete material/mesh/solve workflow, durable worker/queue, hosted authentication, billing and reports remain later tasks. The objective remains the validated local prototype through M4/T030; hosted operations are outside this stage.
 
 ## Supported environment and tools
 

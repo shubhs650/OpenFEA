@@ -33,3 +33,5 @@ Set timeouts, concurrency cancellation, path filtering and short artifact retent
 ## Evidence format
 
 Commit, task, command, platform, versions, passed/failed/skipped counts, benchmark expected/actual/error/tolerance, resource metrics and links. Screenshots alone cannot prove numerical correctness. A failed/blocked native gate remains open even if frontend tests pass.
+
+T008 executed `make check test-native build smoke test-integration test-e2e`, plus doctor and changed-native checks: 124 Python unit, 7 TS unit, 56 native, 5 integration and 8 Chromium cases pass (200 distinct). Actual import/picking flows use native synthetic STEP, not mocked CAD. CI installs Bubblewrap explicitly; unsupported/missing namespaces remain a native gate failure. [T008 evidence](validation/T008.md) records versions/hashes and unexecuted Windows/hosted/engineering gates.

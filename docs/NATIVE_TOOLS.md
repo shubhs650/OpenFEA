@@ -55,3 +55,7 @@ The [inventory](validation/native-dependencies.json), [version-matched license s
 ## T006 cleanup/resources
 
 `make feasibility` runs selected synthetic OCCT hole/fillet removal on deep copies into new preview revisions. `make feasibility MESHES=1` additionally measures real native meshes near 5k/25k/100k with guarded small/medium B01 solves; a fresh output is required (use `scripts/native/feasibility.py --output <fresh-directory> --meshes` for a rerun). The 30k-element/120k-free-equation admission policy does not certify laptop capacity; large rejected solves require explicit coarsening. `make resource-browser OUTPUT=<directory>` renders the actual exterior mesh and raw native fields; `HEADED=1` supports target-machine GPU checks. Default headless SwiftShader is labelled software. T006 adds a sampled RSS/total scratch watchdog for this diagnostic, with OS counters and child reaping, rather than claiming production upload isolation. See [T006 evidence](validation/T006.md) and [ADR-014](adr/ADR-014.md).
+
+## T008 upload parsing prerequisite
+
+Install the Linux distribution Bubblewrap package (`bwrap`) before running the application import/doctor checks. User namespaces must be permitted; no privileged application process or Docker daemon is required. `make doctor` now performs an actual isolated STEP import, and `make test-native` includes its positive/negative unit, body, artifact and sandbox cases. Missing/blocked namespaces fail closed. See [STEP import](STEP_IMPORT.md) and [ADR-016](adr/ADR-016.md) for verified runtime mounts, limits and provenance.

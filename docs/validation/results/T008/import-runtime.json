@@ -1,0 +1,17 @@
+{
+  "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+  "bubblewrap_version": "bubblewrap 0.12.0",
+  "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+  "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+  "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+  "filesystem_isolated": true,
+  "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+  "network_disabled": true,
+  "output_limit_mib": 192,
+  "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+  "rss_limit_mib": 1536,
+  "sampled_peak_rss_bytes": 247746560,
+  "wall_limit_seconds": 60,
+  "wall_seconds": 0.9747013910000533,
+  "worker_sha256": "ad42709e629ca94fd395b304d180d4dd0dfa8ea1001edc0226ef3156c216a32c"
+}
