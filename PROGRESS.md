@@ -1,9 +1,9 @@
 # Progress and handoff
 
-Updated: 2026-10-13 UTC
-Current state: DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007–T011 COMPLETE; M0 owner-approved progression and later validation obligations preserved
-Next action: T012 — core results vertical slice; M4/T030 retains local laptop and benchmark acceptance obligations
+Updated: 2026-10-14 (Asia/Calcutta)
+Current state: REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — T007–T012 COMPLETE; bounded technical exit PASS; M0 owner-approved progression and later validation obligations preserved
+Next action: T013 — geometry edit preview and reference invalidation; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -22,9 +22,10 @@ T008: COMPLETE
 T009: COMPLETE
 T010: COMPLETE
 T011: COMPLETE
-T012–T042: NOT STARTED
+T012: COMPLETE
+T013–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
-M1: T007–T011 COMPLETE; exit gate NOT RUN.
+M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -32,6 +33,16 @@ B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner
 B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T012 completed — real core result views
+
+The workspace opens a completed frozen solve as actual vtk.js displacement/von Mises contours with all quadratic midside nodes, explicit deformation scale, unit-aware ranges, raw all-node/IP extrema, fully fixed support reactions and per-body yield factor. Element-owned tensors are extrapolated before invariants; no own stress averaging crosses elements/bodies/materials. Missing yield is unavailable and essentially zero stress is unbounded/undefined with JSON null. RF reactions subtract the frozen written CLOAD/pressure contribution, including pressure touching supports; support nodes count once.
+
+The owned result API verifies original snapshot/mesh/deck/parsed/native hashes and rechecks owner/tombstone before returning versioned derivatives. Raw artifacts and terminal records remain immutable. Live edits, browser closure, unit switches and actual API restart retain original physical values and yield provenance. Constant colors/clipping/exaggeration cannot alter raw summaries. Material/singularity/yield/linear-elastic warnings remain visible; no design approval or convergence claim.
+
+Fast/build/smoke, full native regression plus final changed-result replay, real-process integration and Chromium workflows pass: **349 distinct cases, 0 failed/skipped** (205 Python unit, 21 TS, 98 native, 10 integration, 15 Chromium). The synthetic bracket completes actual import→setup→C3D10→CCX→results; axial/two-body references, zero/missing yield, pressure-on-support subtraction, corrupt sources and publication-time deletion are checked. [Evidence](docs/validation/T012.md), [ADR-020](docs/adr/ADR-020.md), [guide](docs/CORE_RESULTS.md) and [M1 technical exit review](docs/validation/M1-exit-review.md) retain fixed criteria, errors, hashes and screenshot.
+
+M1's bounded technical path passes. Full component/principal/smoothing/probe/section and equilibrium/refinement/general assembly work remains dependency ordered in M2–M4. No native/dependency lock, solver binary, benchmark criterion or owner disposition changed. Engineering-owner signatures and Windows/Edge/target-laptop/headed-GPU acceptance stay deferred under the recorded owner decision. Next T013; create the T012 PR and stop without merging or starting M2.
 
 ## T011 completed — durable local mesh and solve jobs
 

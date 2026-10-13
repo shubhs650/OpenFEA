@@ -1,0 +1,138 @@
+{
+  "artifacts_sha256": {
+    "bracket-results.png": "0ea34e9ccf294d8e0a782dee70c5f01094c6d6f681812383d0059440ab95fbbd",
+    "browser-regression.log": "6ed7c0f02f0aa2b0e9bd5ebac926a611d6bb92c6e0648a5cec36d091d4b5d797",
+    "changed-browser.log": "d528f7cd327e97cff0174e63671cb497925995eea4258863d77f66d586e57c15",
+    "changed-native.log": "97f6f34c8e95a0f38b5a83a935bc016270f253b573e76e15c3b6626d0e3a11c2",
+    "criteria.json": "6c35350f32e810f61c8b629b9a870d318f0b9cab1c43756d278eb82b0c7b8e04",
+    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "fast-build-smoke.log": "bf31165917f97797f53b5da4d71f1897eb54135a87f97464c032325fa4ffc750",
+    "handoff.log": "b7d5b057016b87f32d160f39323d554051cdd930569687eeb3017fe03b7334cb",
+    "integration.log": "6c1568849a2305910eb2fa79ba32e29190fdd93490a69e40ae4d9570cf931a98",
+    "native-measurements.json": "e8d31c20171e405f2f60c43e96eeacdb871a2babe2cd853891dbcddd0137178d",
+    "native-regression.log": "0a42488f5485bb987f81638009752312069ed28e800d21e23ef72e1aeaa61bc5"
+  },
+  "base_commit": "b5c7fd9b2f9603d0b110bc16c22953b26fa13201",
+  "commands": [
+    "make doctor",
+    "make lint typecheck test-unit contracts-check build smoke",
+    "make test-native",
+    "pytest tests/native/test_result_views.py -q",
+    "make test-integration",
+    "make test-e2e",
+    "targeted Chromium results replay",
+    "make docs-check (handoff log)"
+  ],
+  "count_note": "Full 97-case native regression then final 8 result cases (7 repeats, 1 new publication-race test); full 15 browser cases plus final 2 results workflows replay. Final fast/build/smoke/integration/results workflows use unchanged committed code; repetitions count once.",
+  "criteria": {
+    "axial": {
+      "max_displacement_error_m": 1e-13,
+      "max_raw_and_derived_vm_error_pa": 0.01,
+      "max_reaction_component_error_n": 0.001,
+      "model": "unit cube; E=210GPa, nu=0; positive inward p=1000Pa at x=1, fixed x=0",
+      "yield_factor_relative_error": 1e-5
+    },
+    "bracket": {
+      "extrema": "exact native DAT node/IP coverage; derived contours compared against independent constant-field references; no beam-theory bracket accuracy claim",
+      "max_force_balance_component_error_n": 0.001,
+      "max_moment_balance_component_error_nm": 0.0001,
+      "model": "L polygon [(0,0),(0.08,0),(0.08,0.01),(0.01,0.01),(0.01,0.06),(0,0.06)] in x-z, extruded 0.02m along y; E=210GPa, nu=0.3; fixed z=0.06; force (0,0,-10)N at x=0.08"
+    },
+    "declared_before_execution": "2026-10-14 Asia/Calcutta",
+    "display": {
+      "constant_range": "uniform midpoint color; show actual equal min/max; no division by zero",
+      "displacement_scale": "explicit bounded 0..1000000; never changes numerical summaries",
+      "missing_yield_state": "unavailable; JSON null",
+      "unit_round_trip_relative_error": 1e-12,
+      "zero_stress_pa": 1e-6,
+      "zero_stress_yield_state": "unbounded; JSON null; no finite factor"
+    },
+    "scope": "Development core results; no owner-signed benchmark or convergence acceptance"
+  },
+  "date": "2026-10-14 Asia/Calcutta",
+  "distinct_passed": 349,
+  "failed": 0,
+  "groups": {
+    "chromium": 15,
+    "integration": 10,
+    "native": 98,
+    "python_unit": 205,
+    "typescript_unit": 21
+  },
+  "implementation_commit": "bbed17c51fba6256f6c1b8e9038de4cb2b6f4a07",
+  "lock_sha256": {
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+  },
+  "max_axial_contour_vm_error_pa": 4.092726157978177e-12,
+  "max_axial_displacement_error_m": 2.3809523821052557e-16,
+  "max_axial_raw_vm_error_pa": 2.6147972675971687e-12,
+  "max_bracket_moment_component_error_nm": 5.460000003232324e-7,
+  "max_bracket_reaction_component_error_n": 9.00000000214618e-6,
+  "native_binary_sha256": {
+    "bubblewrap": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+    "ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+    "gmsh": "9db3090d3b720c57b76bcbfa01d13854823ae2698c91343c20bdd4c2b81f6317",
+    "netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0"
+  },
+  "new_cases": 33,
+  "not_run_or_accepted": [
+    "Windows/Edge/target laptop/headed GPU/human usability",
+    "Owner-signed B01/B02/B07/B09 acceptance and remaining release benchmarks",
+    "Maximum-cap interactive result performance",
+    "Broader curved/assembly loading/bonding/equilibrium/refinement/convergence",
+    "Full field/smoothing/probe/section/report/archive/retention and hosted gates"
+  ],
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "processor": "affine-c3d10-core-results-v1",
+  "skipped": 0,
+  "source_sha256": {
+    "apps/web/src/geometry/Workspace.tsx": "efb1c88d055a0e6199688f3138257ce8b9312c21b70183d738b9141bb8fcf09b",
+    "apps/web/src/geometry/api.ts": "31019fbc517ce58056124151f0c91cb87c89685e154645d8e8dbad7c74eef672",
+    "apps/web/src/loads/LoadsEditor.tsx": "1b1fca03bdb9e2049bd0cf95d73a5820b2607fe93a73a47d2579414e659a9165",
+    "apps/web/src/main.tsx": "6a8b406b2f0d6817f011a279c92c221fbde52ba218f429fc648de373e3de59c1",
+    "apps/web/src/materials/MaterialsEditor.tsx": "48937a9607f32e20db82b3d1be304eef494be8567e01beb5847db4aa3791d54f",
+    "apps/web/src/results/ResultViewport.tsx": "1c4f1f637e77013a4b34aadae1e13bc616a6bdb7c5d85d005eabc88e64eccbf1",
+    "apps/web/src/results/ResultsEditor.tsx": "f07ba274bcc3687f217c90a50cd4aac03b1b79c39ad84a851646eee4e4b3e4d5",
+    "apps/web/src/results/presentation.test.ts": "a2d9dcf37ca687e9fc92ad430bbf4669abf58ee4403f3b37b61daa9d0de2d784",
+    "apps/web/src/results/presentation.ts": "30774fda4a9ac0df5848aef65561c897d7e6ba446f456b93307d9e0a5d5cefdd",
+    "apps/web/src/runs/RunsEditor.tsx": "cc393268cd0eeffaa282352c2063d4ef6656998581479a39c3fad9c76a998eb2",
+    "apps/web/src/style.css": "850a06c239936e9d6d67fc4a7392b0c96739be8e53d84231c2546a9b356e2351",
+    "packages/contracts/api.d.ts": "11656b6a66f80d225da32758fc39e41389db222651b35e64c561256fb09d1e94",
+    "packages/contracts/openapi.json": "84df6e53d0e5a36ba98dd3be905b30693f77bab5e1be813fcf68cd448fe94e93",
+    "services/api/app/domain/results.py": "acbcfa0ebde12b9309c33f522e90227f729ab8123dfdc3622011391c9fb8942a",
+    "services/api/app/jobs/service.py": "916399a20ca9d0233bdc93cf81d34678d2ff03eef53140273907e2bb6d847bcf",
+    "services/api/app/routes/jobs.py": "01d3ef8fa63fe38038aea26cc347ff35743768ac977b3ffa83a71da40971cf14",
+    "services/worker/worker/geometry_native/bracket_fixture.py": "c04d086a6bf2335a8207e3226c81c9b0ee6cf2dfdb27aed1bf628b1645af0eaf",
+    "services/worker/worker/postprocess/fields.py": "18cccbd96bae2d50bf3695b4e714e39cb8cb24dc8505e75e300eb15400a33786",
+    "services/worker/worker/postprocess/view.py": "cd44dcced09e8d81c2b227f5218d06c70bf5e179fd747637caae7ffe9335a0e4",
+    "tests/e2e/health.spec.ts": "1aa4ba45f3c5c6cf1d4a6d81fb18fe454b0a018bf5803c662cf523f2668b8648",
+    "tests/e2e/results.spec.ts": "26b5b243b827454b868d31262112a840432628f991aea32061d4a1551020f1c4",
+    "tests/e2e/runs.spec.ts": "23013cb3eb634fdbc13b4615bdd629a30a3a514b9ed38c8109f162f4946e7d47",
+    "tests/e2e/support/runs.ts": "9efafc15ea22790be0ae046b58e4aa92005f22a9b7b26abbe0a5f56c3098e2f3",
+    "tests/fixtures/geometry/bracket-m.step": "faef4a3302f49d1060d4c5883973dc80f4f0c1fa74c925ab227aea0efffece91",
+    "tests/integration/test_result_views.py": "7c817414737374a6019f1783edd4dc6ff3a05bc3eeff817379cb5e5b02861e56",
+    "tests/native/test_result_views.py": "0ea14169ba1cf9bdca2609295937a47a9cdae7d738dc945170a681143f7bb70e",
+    "tests/unit/test_result_views.py": "6966ec5d333a60582bc1e59c0bed9ab774e33944fba57d719ea41425ce9bfaca"
+  },
+  "task": "T012",
+  "versions": {
+    "bubblewrap": "bubblewrap 0.12.0",
+    "cadquery-ocp": "8.0.1.1.0",
+    "calculix": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "fastapi": "0.141.1",
+    "gmsh": "4.15.2",
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "playwright": "1.64.0",
+    "pydantic": "2.13.4",
+    "python": "3.12.14",
+    "vtk": "9.6.2",
+    "vtk.js": "37.4.2"
+  }
+}

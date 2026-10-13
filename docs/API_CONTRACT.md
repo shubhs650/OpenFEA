@@ -92,6 +92,12 @@ stateDiagram-v2
 Terminal jobs cannot become running again; retry creates a new Attempt beneath the same logical Job and changes job state under a guarded transaction. Stage-specific statuses include budget_exceeded, resource_exceeded and invalid_model as failure reasons. Failed postprocessing is a platform failure; retry postprocessing without rerunning CCX when raw artifacts are sound.
 A compute watchdog uses monotonic elapsed time, reserved rate, termination latency and startup margin. Cancellation is “requested” until process/instance death is confirmed. Terminal successful state requires validated output manifest and atomic usage finalization. SSE disconnect is not a job-state transition.
 
+## Implemented T012 core results
+
+Owned GET `/runs/{job_id}/results` returns a typed versioned SI derivative only for a succeeded local solve (409 otherwise; inaccessible/deleted remains 404). It verifies original frozen snapshot/mesh/deck/parsed/native source hashes, checks geometry/frame/body/material coverage and rechecks owner/tombstone before publication. Original artifacts and terminal records are unchanged. The response identifies analysis revision, geometry, input/raw/mesh/deck/DAT hashes and processor source hashes; it is a view derived from that frozen run, including old T011 parsed outputs, not a new execution or live-material substitution.
+
+Fields include per-element-side quadratic boundary vertices, native nodal displacement, tensor-derived element-node von Mises, raw all-node/IP extrema/locations, per-body frozen yield states and corrected fixed-support RF-minus-applied reactions/moments. Canonical arrays remain m/Pa/N/N·m. Missing yield/essentially zero stress are unavailable/unbounded with null; contour units/clipping/exaggeration never change numerical summaries. Invalid/corrupt sources fail closed with 503. The read is bounded to existing 3,000-element/30,000-node inputs and requires no mutation ETag/CSRF or solver launch. [ADR-020](adr/ADR-020.md) and [guide](CORE_RESULTS.md) define semantics and later-field limits.
+
 ## Worker protocol
 
 Authenticated claim/heartbeat/artifact-publish/complete endpoints are distinct from user API. Job-scoped token limits allowed artifact prefixes, maximum bytes, lease and expiration. Worker egress only to regional artifact/control endpoints, with solver subprocess network denied. Heartbeat loss triggers fencing and infrastructure inspection; never blindly double-start. Finalization and usage emission are idempotent.
