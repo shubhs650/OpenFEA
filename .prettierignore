@@ -10,6 +10,8 @@ docs/validation/T002-result.json
 docs/validation/results/T004/
 docs/validation/results/T005/
 docs/validation/results/T006/
+# Hash-linked native cleanup records and validation manifest retain their original bytes.
+docs/validation/results/T013/
 docs/validation/results/M0/
 scripts/native/toolchain-lock.json
 docs/validation/native-licenses/

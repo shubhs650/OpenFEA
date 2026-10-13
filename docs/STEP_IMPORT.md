@@ -8,7 +8,7 @@ The shared vtk.js viewport renders actual face-labelled native tessellation. Dra
 
 ## Supported import and limits
 
-This slice supports solid STEP, 1–10 bodies, recognized metre/millimetre/inch length units or an explicit missing-unit decision. Invalid/surface-only/mixed free geometry is rejected with an actionable message. Optional repair/healing is disabled; general cleanup belongs to T013. Curved-face tessellation is supported and tested with a cylinder; this does not validate meshing or solving arbitrary curved parts.
+This slice supports solid STEP, 1–10 bodies, recognized metre/millimetre/inch length units or an explicit missing-unit decision. Invalid/surface-only/mixed free geometry is rejected with an actionable message. Optional repair/healing is disabled; [T013 cleanup](GEOMETRY_EDITS.md) supports only the two bounded M0 features. General cleanup remains unsupported. Curved-face tessellation is supported and tested with a cylinder; this does not validate meshing or solving arbitrary curved parts.
 
 Limits are 16 MiB uploaded bytes, 200,000 STEP entities, 2,000 faces and 120,000 triangles per display LOD. Native import has bounded wall/CPU/memory/output policies described in [ADR-016](adr/ADR-016.md). Oversized models stop rather than silently deleting geometry, coarsening settings or widening a tolerance. One application import executes at a time; another request gets 429 and can be retried deliberately after completion. Missing native tools, namespaces or sandbox support are blockers. There is no unconfined parse fallback.
 
@@ -32,4 +32,4 @@ Use the T007 local session cookie and CSRF token, with the current project's quo
 
 An inspection can return 201 with a failed/needs_units record; inspect its status/error fields. It is not a successful geometry import until confirmed. Original hashes, canonical/per-body BREP, two display artifacts, tool provenance and warnings are retained under the private data root. Import records/artifacts stay owned and inaccessible after project tombstoning. Reopening an API session after restart retains the persistent local owner. There are no automatic retries; startup marks interrupted incomplete operations failed.
 
-Next is T009: unit/material editing against these immutable body references. T011 introduces the real durable mesh/solve queue and complete run snapshots; T013 introduces geometry edits/reference invalidation. Existing analyses remain pinned to their earlier geometry.
+Next is T009: unit/material editing against these immutable body references. T011 introduces the real durable mesh/solve queue and complete run snapshots; T013 now supplies bounded geometry edits/reference invalidation. Existing analyses remain pinned to their earlier geometry.

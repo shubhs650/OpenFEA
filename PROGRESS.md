@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007–T012 COMPLETE; bounded technical exit PASS; M0 owner-approved progression and later validation obligations preserved
-Next action: T013 — geometry edit preview and reference invalidation; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M2 — T013 COMPLETE; T014–T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: T014 — mesh sizing, quality and bounded recovery; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -23,16 +23,28 @@ T009: COMPLETE
 T010: COMPLETE
 T011: COMPLETE
 T012: COMPLETE
-T013–T042: NOT STARTED
+T013: COMPLETE
+T014–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
-M2–M6 exit gates: NOT RUN.
+M2: IN PROGRESS — T013 complete, exit gate NOT RUN.
+M3–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
 B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T013 completed — bounded cleanup and conservative reference review
+
+The real workspace/API now previews native OCCT feature removal on a deep read-only copy, shows actual before/after geometry, volume changes and face mapping, and applies or undoes immutable revisions. Scope remains the two validated M0 unit-solid features. Different-radius fillets, arbitrary cylinders, unsupported planar selections and split source topology refuse without changing originals. Automatic healing and general imported defeaturing remain unavailable.
+
+Only unique native-verified unchanged full trimmed faces carry complete load/support assignments forward. Removed/changed/split/merged/uncertain references retain original SI/source values and exact face lists, block export/mesh/solve, and require explicit reselection/removal. No partial force redistribution. The single body's material provenance survives. Project/analysis head checks, owner/tombstone/CSRF, artifact integrity and native isolation guard real publication; undo refuses to overwrite later edits. Old completed runs retain frozen geometry/setup/raw outputs and render even after current geometry changes.
+
+Doctor/fast/build/smoke, full native regression with corrected affected-case replay, real-process integration and Chromium workflows verify **378 distinct passing cases, 0 remaining failures/skips** (220 Python unit, 21 TS, 109 native, 11 integration, 17 browser). Both cleaned feature cases complete actual mesh/CCX after assignment review. Unit-volume error is ≤2.23e-16 m³ and analytical delta error ≤1.62e-15 m³ against unchanged 1e-10 m³ criteria. Three actual API processes retain preview/apply/undo; rendered preview and frozen old-run screenshots were inspected. [Evidence](docs/validation/T013.md), [manifest](docs/validation/results/T013/index.json), [ADR-021](docs/adr/ADR-021.md) and [guide](docs/GEOMETRY_EDITS.md) retain source commit/tool hashes, initial failures/corrections and unexecuted gates.
+
+No native/dependency lock, solver binary, benchmark criterion/sign-off or owner deferral changed. General editing, target laptop/Windows/Edge/headed GPU and M2–M4 exit acceptance remain later work. T014 is next. The current user explicitly authorized creating the T013 PR, watching all checks and merging into main when they pass; do not start T014 in this task.
 
 ## T012 completed — real core result views
 
@@ -212,6 +224,6 @@ M0 was **approved by the owner for M1 progression with explicit deferrals** afte
 
 Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. Keep physical gaps unsupported until T019/B08. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-T007/T008 are COMPLETE with retained persistence and [real import/viewport evidence](docs/validation/T008.md). T009–T011 are now COMPLETE as recorded above. Next implementation is **T012**, NOT STARTED: core calculated result views. This session stops after the T011 PR. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 is COMPLETE with bounded cleanup/reference review evidence above. Next implementation is **T014**, NOT STARTED: mesh sizing/quality/bounded recovery. This session closes the T013 PR and merges only after passing checks as explicitly authorized by the user. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

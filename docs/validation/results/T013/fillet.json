@@ -1,0 +1,923 @@
+{
+  "edit": {
+    "id": "08c87f06-54f2-41c8-8c28-6456a4589336",
+    "project_id": "dfe7a75e-ae6b-453d-89bd-396c3a4a24b6",
+    "project_revision": 2,
+    "source_geometry_id": "80bc06f5-407f-4f2b-9d46-c4d6622847fd",
+    "request": {
+      "operation": "remove_feature",
+      "face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+      "analysis_id": null,
+      "analysis_revision": null
+    },
+    "status": "ready",
+    "metadata": {
+      "source_sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+      "brep_sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+      "units": {
+        "source_length_unit": "m",
+        "canonical_length_unit": "m",
+        "confirmed": true
+      },
+      "bodies": [
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1"
+        }
+      ],
+      "faces": [
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              1.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              1.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              1.0,
+              0.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              -1.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              1.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -1.0,
+              -0.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              0.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              -0.0,
+              -1.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5"
+          ]
+        }
+      ],
+      "edit_recipe": {
+        "operation": "selected_defeaturing",
+        "feature": "fillet",
+        "source_brep_sha256": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81",
+        "selected_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3"
+      },
+      "validation": {
+        "ocp_version": "8.0.1.1.0",
+        "valid_solids": true,
+        "shape_processing": "OCCT BRepAlgoAPI_Defeaturing on deep copy",
+        "bounds_m": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "unit_origin": "step_metadata",
+        "artifacts": {
+          "geometry.brep": {
+            "sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+            "size_bytes": 2617
+          },
+          "body1.brep": {
+            "sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+            "size_bytes": 2617
+          },
+          "display-coarse.json": {
+            "sha256": "f3d2bd8e48cf5a2a3f1364dcad285aee3a21c87bf2cc88fddba7dcd81074a8d7",
+            "size_bytes": 1837
+          },
+          "display-fine.json": {
+            "sha256": "ae3befbb4489de7278f98b2db50c4f71279480629d72a2bf3ef56ec323550fc2",
+            "size_bytes": 1835
+          },
+          "source.step": {
+            "sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+            "size_bytes": 19053
+          }
+        },
+        "warnings": [
+          "Bounded M0 unit-solid cleanup only; automatic healing is unavailable.",
+          "Changed, removed, split or merged face assignments require explicit reselection."
+        ],
+        "runtime": {
+          "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+          "bubblewrap_version": "bubblewrap 0.12.0",
+          "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+          "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+          "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+          "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+          "worker_sha256": "822e03de87bc0dc50c4623bff1cc8207858a644ee7a8e5b5da93439373a8ba43",
+          "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+          "wall_seconds": 1.1076207410001189,
+          "sampled_peak_rss_bytes": 248287232,
+          "wall_limit_seconds": 60,
+          "rss_limit_mib": 1536,
+          "output_limit_mib": 192,
+          "filesystem_isolated": true,
+          "network_disabled": true
+        }
+      }
+    },
+    "preview": {
+      "feature": "fillet",
+      "original_volume_m3": 0.9978539816339759,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.002146018366023905,
+      "expected_delta_m3": 0.0021460183660255176,
+      "mappings": [
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+          "target_face_id": null,
+          "status": "removed"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+          "target_face_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+          "status": "unchanged"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7",
+          "target_face_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+          "status": "unchanged"
+        }
+      ]
+    },
+    "error": null,
+    "result_geometry_id": null,
+    "result_analysis_revision": null,
+    "result_project_revision": null
+  },
+  "applied": {
+    "project": {
+      "id": "dfe7a75e-ae6b-453d-89bd-396c3a4a24b6",
+      "owner_id": "dda8e7f1-a3b3-4f2a-8871-31abbf4309ed",
+      "name": "Real synthetic CAD",
+      "revision": 3,
+      "created_at": "2026-10-13T22:09:19.293474Z",
+      "updated_at": "2026-10-13T22:09:21.450938Z"
+    },
+    "geometry": {
+      "source_sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+      "brep_sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+      "units": {
+        "source_length_unit": "m",
+        "canonical_length_unit": "m",
+        "confirmed": true
+      },
+      "bodies": [
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1"
+        }
+      ],
+      "faces": [
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              1.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              1.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              1.0,
+              0.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              -1.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              1.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -1.0,
+              -0.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f4",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6"
+          ]
+        },
+        {
+          "id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f6",
+          "body_id": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              0.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              -0.0,
+              -1.0
+            ]
+          },
+          "neighbors": [
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f1",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f2",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f3",
+            "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285:b1:f5"
+          ]
+        }
+      ],
+      "edit_recipe": {
+        "operation": "selected_defeaturing",
+        "feature": "fillet",
+        "source_brep_sha256": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81",
+        "selected_face_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3"
+      },
+      "validation": {
+        "ocp_version": "8.0.1.1.0",
+        "valid_solids": true,
+        "shape_processing": "OCCT BRepAlgoAPI_Defeaturing on deep copy",
+        "bounds_m": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "unit_origin": "step_metadata",
+        "artifacts": {
+          "geometry.brep": {
+            "sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+            "size_bytes": 2617
+          },
+          "body1.brep": {
+            "sha256": "d13aa08cab5306f341612d8fa26962582cb9e28dc1b8dba07b856ce80b2e8285",
+            "size_bytes": 2617
+          },
+          "display-coarse.json": {
+            "sha256": "f3d2bd8e48cf5a2a3f1364dcad285aee3a21c87bf2cc88fddba7dcd81074a8d7",
+            "size_bytes": 1837
+          },
+          "display-fine.json": {
+            "sha256": "ae3befbb4489de7278f98b2db50c4f71279480629d72a2bf3ef56ec323550fc2",
+            "size_bytes": 1835
+          },
+          "source.step": {
+            "sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+            "size_bytes": 19053
+          }
+        },
+        "warnings": [
+          "Bounded M0 unit-solid cleanup only; automatic healing is unavailable.",
+          "Changed, removed, split or merged face assignments require explicit reselection."
+        ],
+        "runtime": {
+          "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+          "bubblewrap_version": "bubblewrap 0.12.0",
+          "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+          "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+          "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+          "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+          "worker_sha256": "822e03de87bc0dc50c4623bff1cc8207858a644ee7a8e5b5da93439373a8ba43",
+          "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+          "wall_seconds": 1.1076207410001189,
+          "sampled_peak_rss_bytes": 248287232,
+          "wall_limit_seconds": 60,
+          "rss_limit_mib": 1536,
+          "output_limit_mib": 192,
+          "filesystem_isolated": true,
+          "network_disabled": true
+        }
+      },
+      "id": "4c95975e-3831-4c59-a15f-57e7c91012f8",
+      "project_id": "dfe7a75e-ae6b-453d-89bd-396c3a4a24b6",
+      "parent_id": "80bc06f5-407f-4f2b-9d46-c4d6622847fd",
+      "created_at": "2026-10-13T22:09:21.450938Z"
+    },
+    "analysis": null
+  },
+  "restored": {
+    "source_sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+    "brep_sha256": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81",
+    "units": {
+      "source_length_unit": "m",
+      "canonical_length_unit": "m",
+      "confirmed": true
+    },
+    "bodies": [
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1"
+      }
+    ],
+    "faces": [
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 0.9,
+          "center_m": [
+            -7.703719777548943e-34,
+            0.55,
+            0.5
+          ],
+          "bounds_m": [
+            -1.387778780781e-17,
+            0.1,
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -1.0,
+            -0.0,
+            0.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 0.9978539816339744,
+          "center_m": [
+            0.5010272785717589,
+            0.5010272785717589,
+            1.0
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 0.1570796326795,
+          "center_m": [
+            0.03633802276324606,
+            0.03633802276323947,
+            0.5
+          ],
+          "bounds_m": [
+            -1.387778780781e-17,
+            -1.387778780781e-17,
+            0.0,
+            0.1,
+            0.10000000000000002,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Cylinder"
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            0.5,
+            1.0,
+            0.5
+          ],
+          "bounds_m": [
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 0.9978539816339744,
+          "center_m": [
+            0.5010272785717589,
+            0.5010272785717589,
+            0.0
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f1",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 0.9,
+          "center_m": [
+            0.55,
+            -7.703719777548943e-34,
+            0.5
+          ],
+          "bounds_m": [
+            0.1,
+            -1.387778780781e-17,
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f3",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7"
+        ]
+      },
+      {
+        "id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f7",
+        "body_id": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "bounds_m": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            1.0,
+            0.0,
+            -0.0
+          ]
+        },
+        "neighbors": [
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f2",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f4",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f5",
+          "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81:b1:f6"
+        ]
+      }
+    ],
+    "edit_recipe": {
+      "operation": "undo_cleanup",
+      "edit_id": "08c87f06-54f2-41c8-8c28-6456a4589336",
+      "restored_geometry_id": "80bc06f5-407f-4f2b-9d46-c4d6622847fd"
+    },
+    "validation": {
+      "ocp_version": "8.0.1.1.0",
+      "valid_solids": true,
+      "shape_processing": "empty FromSTEP sequence",
+      "bounds_m": [
+        -1.387778780781e-17,
+        -1.387778780781e-17,
+        0.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit_origin": "step_metadata",
+      "artifacts": {
+        "geometry.brep": {
+          "sha256": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81",
+          "size_bytes": 3096
+        },
+        "body1.brep": {
+          "sha256": "5c6df82a340b3d477d0c00d8656efb23c05be06b0ce307361cc3b9c662c9da81",
+          "size_bytes": 3096
+        },
+        "display-coarse.json": {
+          "sha256": "1ef6d45b1cfe93bb9c81361b8bbcfce29b49ceaedcac1c1573a1d616079cb6bc",
+          "size_bytes": 3926
+        },
+        "display-fine.json": {
+          "sha256": "e35fdee67bef2889bcd9207a5407182209dc81d2611f6ed004aa022f5ffb1cac",
+          "size_bytes": 6943
+        },
+        "source.step": {
+          "sha256": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+          "size_bytes": 19053
+        }
+      },
+      "warnings": [],
+      "runtime": {
+        "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+        "bubblewrap_version": "bubblewrap 0.12.0",
+        "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+        "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+        "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+        "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+        "worker_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+        "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+        "wall_seconds": 1.0043182309998429,
+        "sampled_peak_rss_bytes": 247820288,
+        "wall_limit_seconds": 60,
+        "rss_limit_mib": 1536,
+        "output_limit_mib": 192,
+        "filesystem_isolated": true,
+        "network_disabled": true
+      }
+    },
+    "id": "be164a9f-1e05-49ec-be9f-f0298a375c44",
+    "project_id": "dfe7a75e-ae6b-453d-89bd-396c3a4a24b6",
+    "parent_id": "4c95975e-3831-4c59-a15f-57e7c91012f8",
+    "created_at": "2026-10-13T22:09:21.458530Z"
+  }
+}
