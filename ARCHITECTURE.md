@@ -4,6 +4,8 @@
 
 ## Shape of the system
 
+T010 now provides revisioned fixed/pressure/total-force setup and an isolated synchronous coarse planar Gmsh-to-CCX export bridge. Analysis/material/load inputs and geometry are read in one snapshot, actual quadratic topology and decimal-written loads are checked, and owner/current-head is rechecked before publishing immutable private deck/mesh/snapshot artifacts. A shared native OS lock serializes import/export. The durable queue/solve/result path in the diagram remains T011–T012. See [ADR-018](docs/adr/ADR-018.md), [operator guide](docs/LOADS_DECKS.md) and [T010 evidence](docs/validation/T010.md).
+
 Use a TypeScript browser client, a Python API/control service, and isolated native engineering workers. Keep a modular monolith for metadata and orchestration; do not introduce Kubernetes, microservices per feature, Redis, or a distributed scheduler for five testers. Local and hosted modes share domain logic and worker protocols.
 
 ```mermaid

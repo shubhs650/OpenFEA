@@ -1,0 +1,374 @@
+[
+  {
+    "expected_applied_n": [-1000, 0.0, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "793513d5-dc42-41fa-8866-d8f8ba09c318",
+      "analysis_revision": 4,
+      "deck_sha256": "3d0c75d2603def6cdbcbe7565c1d163788e776a014a79a837f690f30cb75f361",
+      "geometry_revision_id": "a8175f23-fbb0-464f-8cec-09986a44cb7f",
+      "id": "37017e31-cd02-4a6d-ba1e-994865755a87",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "dc1197f81fb7a4fbeba7f1143931fe06afab0bed5c2ffbd4a844a964d7dbb7ad",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.2737367544323206e-12,
+        "force_x_n": -1000.0000000000023,
+        "force_y_n": 0.0,
+        "force_z_n": 0.0,
+        "moment_error_nm": 1.0800249583553523e-12,
+        "moment_x_nm": 0.0,
+        "moment_y_nm": -500.0000000000011,
+        "moment_z_nm": 500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.1600499167107046e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [1000.0000000000001, 1.73429843004e-13, -1.253205108e-13]
+  },
+  {
+    "expected_applied_n": [1000, 0.0, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "738c4e6b-91b5-4db7-bd10-51d276fe598c",
+      "analysis_revision": 4,
+      "deck_sha256": "99eea7f5c7e1f6b067caa8a55d6334bcb0f5182bc8e906c211f001c7b59afe89",
+      "geometry_revision_id": "f7ebed51-9eab-40fa-9228-3abcbad7abe2",
+      "id": "172cc149-c5a6-413c-b4a5-7ee3f4d19b38",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "6f59d93dfcdbfebdb4152c5a98aed1a0ce9672e552b5c5a1121fdd06babc965a",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.2737367544323206e-12,
+        "force_x_n": 1000.0000000000023,
+        "force_y_n": 0.0,
+        "force_z_n": 0.0,
+        "moment_error_nm": 1.0800249583553523e-12,
+        "moment_x_nm": 0.0,
+        "moment_y_nm": 500.0000000000011,
+        "moment_z_nm": -500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.1600499167107046e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [-1000.0000000000001, -1.73429843004e-13, 1.253205108e-13]
+  },
+  {
+    "expected_applied_n": [1000, 0.0, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "e03b9b75-c1b8-4789-9cd4-645bc25a5c4b",
+      "analysis_revision": 4,
+      "deck_sha256": "ff908af4009bf585f83335521efc825792b7693c5d3cabae1a6ce57c23befe28",
+      "geometry_revision_id": "f3f03d14-30bc-4d1f-b0ae-2d77ac8ba954",
+      "id": "d27c7ba2-4f6f-447b-ba5b-d4546710ffba",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "c3f4c58d06bcb01ec1617039d274e02771c9500c002af2529dc9a1be258d3247",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.3874235921539366e-12,
+        "force_x_n": 1000.0000000000024,
+        "force_y_n": -4.064594121205336e-15,
+        "force_z_n": -1.6107835961813757e-14,
+        "moment_error_nm": 1.0800249583553523e-12,
+        "moment_x_nm": -1.921697303297682e-14,
+        "moment_y_nm": 500.000000000001,
+        "moment_z_nm": -500.0000000000011,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.2737367544323206e-12,
+        "written_moment_error_nm": 1.0800249583553523e-12
+      }
+    },
+    "reaction_n": [-1000.0000000000003, 7.1052387e-14, 9.978286799999997e-15]
+  },
+  {
+    "expected_applied_n": [-1000, 0.0, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "e39ff2bd-98dc-42a5-bfdf-84c5e25b1ef7",
+      "analysis_revision": 4,
+      "deck_sha256": "f690c177fa95f2413003917849fa58bce99bd06c007343e2540c5fa778acad2e",
+      "geometry_revision_id": "034835f8-1580-4aab-b028-eda8a4c5637b",
+      "id": "628036a1-d22a-429b-87b4-5fa32beaf26e",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "b2959c6b968d96020be7888827ee726e135f1a9172d008d65d431d424c5555d3",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.3874235921539366e-12,
+        "force_x_n": -1000.0000000000024,
+        "force_y_n": 4.064594121205336e-15,
+        "force_z_n": 1.6107835961813757e-14,
+        "moment_error_nm": 1.0800249583553523e-12,
+        "moment_x_nm": 1.921697303297682e-14,
+        "moment_y_nm": -500.000000000001,
+        "moment_z_nm": 500.0000000000011,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.2737367544323206e-12,
+        "written_moment_error_nm": 1.0800249583553523e-12
+      }
+    },
+    "reaction_n": [1000.0000000000003, -7.1052387e-14, -9.978286799999997e-15]
+  },
+  {
+    "expected_applied_n": [0.0, -1000, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "281d89b9-5867-4344-8e61-5a05034f72eb",
+      "analysis_revision": 4,
+      "deck_sha256": "282062452522a7f51cdc3b67b14c7be3033b094606d43a74017aa8de02720af0",
+      "geometry_revision_id": "1329fc3b-a656-4239-8a18-6e9dbb1307dd",
+      "id": "99fd4fcd-80b2-481f-9d0d-63cdd74494a6",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "37d56876ecbb5ea98a96bd086d29152d6a91f46153f7465e5fe64dc05cdb7610",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.5916157281026244e-12,
+        "force_x_n": 0.0,
+        "force_y_n": -1000.0000000000016,
+        "force_z_n": 0.0,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": 500.000000000001,
+        "moment_y_nm": 0.0,
+        "moment_z_nm": -500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 1.9326762412674725e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [-8.244820285e-14, 999.9999899999999, -2.46626273667e-13]
+  },
+  {
+    "expected_applied_n": [0.0, 1000, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "23ae42b8-fa95-4b20-b0c1-503ee16ed441",
+      "analysis_revision": 4,
+      "deck_sha256": "1adbb3c8dcf02853a9d7037afdbd3888a35f690d28d63da502a95908bdcbd7cc",
+      "geometry_revision_id": "6afcb2eb-0d46-46cf-88f3-f946de10abd6",
+      "id": "ea27c97f-0eba-4477-a047-1583bd676e65",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "1e5fbe1edb763f1ad9119f53ce5c9a92e170d00c4b39aa6cb5ca49e46ceda9a6",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.5916157281026244e-12,
+        "force_x_n": 0.0,
+        "force_y_n": 1000.0000000000016,
+        "force_z_n": 0.0,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": -500.000000000001,
+        "moment_y_nm": 0.0,
+        "moment_z_nm": 500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 1.9326762412674725e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [8.244820285e-14, -999.9999899999999, 2.46626273667e-13]
+  },
+  {
+    "expected_applied_n": [0.0, 1000, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "73d61785-c151-4368-b3ab-f78bbecbeac6",
+      "analysis_revision": 4,
+      "deck_sha256": "50e4e478f12bea42244aaed9be2c914f2933990638f24c37c1e8af156b49a7a9",
+      "geometry_revision_id": "52bfd60e-418a-4e98-b776-b1394b0e21c6",
+      "id": "c9ad0bef-d8b0-4cbe-b02b-37e2d38559a9",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "9b196c1a973b95870a5fe2bc370333e77b1b079c713951a33f76d326f4e3ec73",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.9326762412674725e-12,
+        "force_x_n": 7.660391301763867e-15,
+        "force_y_n": 1000.0000000000019,
+        "force_z_n": -7.433805138465346e-15,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": -500.00000000000097,
+        "moment_y_nm": 4.242679570387806e-15,
+        "moment_z_nm": 500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.1600499167107046e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [3.346284477e-13, -999.9999900000001, 1.7003622270000001e-13]
+  },
+  {
+    "expected_applied_n": [0.0, -1000, 0.0],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "1a8c4046-3a67-48e1-9b18-47a78e09f942",
+      "analysis_revision": 4,
+      "deck_sha256": "5d53018626896fd40d55fa8b3e549a0671beade9d822528382ea65406a0c9546",
+      "geometry_revision_id": "df96795a-d7fb-415c-bb70-09de00de9402",
+      "id": "02b98acf-23ec-46c0-9253-ea8cf6df85ca",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "e99f3e88a22fca9a40b1c40a8f3fe3edcdc7545efb19434bc249b6b49825f3ca",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.9326762412674725e-12,
+        "force_x_n": -7.660391301763867e-15,
+        "force_y_n": -1000.0000000000019,
+        "force_z_n": 7.433805138465346e-15,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": 500.00000000000097,
+        "moment_y_nm": -4.242679570387806e-15,
+        "moment_z_nm": -500.000000000001,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.1600499167107046e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [-3.346284477e-13, 999.9999900000001, -1.7003622270000001e-13]
+  },
+  {
+    "expected_applied_n": [0.0, 0.0, -1000],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "bcc16da7-9e41-4156-8e3b-711d1f9b7623",
+      "analysis_revision": 4,
+      "deck_sha256": "64064ff0c7051caff2c6c7837d38933a112aed893aefc5757b722b4138bed72c",
+      "geometry_revision_id": "9dd02924-2858-47a0-be13-3c4031d99990",
+      "id": "cb5b50fc-8371-491d-b7b6-123208a5317b",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "7e4ed28d6ca057fa9828dbb436c3df86c9c2c9cafec65861252e2bc987182678",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.9326762412674725e-12,
+        "force_x_n": 0.0,
+        "force_y_n": 0.0,
+        "force_z_n": -1000.0000000000019,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": -500.000000000001,
+        "moment_y_nm": 500.00000000000097,
+        "moment_z_nm": 0.0,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 1.9326762412674725e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [3.5079703e-14, -3.560673326e-13, 999.9999999999997]
+  },
+  {
+    "expected_applied_n": [0.0, 0.0, 1000],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "e3eb80f8-3a6d-4ef9-8921-6ac71ec76092",
+      "analysis_revision": 4,
+      "deck_sha256": "3de03306203b607bae39f1d65012b58e96021339eb7fcfaabb8e233a0e2ab6ed",
+      "geometry_revision_id": "73513ffc-c7d6-4df3-a691-5d6af987d18e",
+      "id": "e77dc558-14c6-47f6-8ecb-e60dc0b561fc",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "92f04260d5bf96cb409f3841b56a1c175153216fdbbd2d5e7bf0a3657e5458b5",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 1.9326762412674725e-12,
+        "force_x_n": 0.0,
+        "force_y_n": 0.0,
+        "force_z_n": 1000.0000000000019,
+        "moment_error_nm": 1.0231815394945443e-12,
+        "moment_x_nm": 500.000000000001,
+        "moment_y_nm": -500.00000000000097,
+        "moment_z_nm": 0.0,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 1.9326762412674725e-12,
+        "written_moment_error_nm": 1.0231815394945443e-12
+      }
+    },
+    "reaction_n": [-3.5079703e-14, 3.560673326e-13, -999.9999999999997]
+  },
+  {
+    "expected_applied_n": [0.0, 0.0, 1000],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "06bd827e-9cdc-4638-8960-78cce11c31d8",
+      "analysis_revision": 4,
+      "deck_sha256": "755593a01ea30ff65cfd14f988bbc1ad57c5e75ec5dc7b16ddf68fb14836e53d",
+      "geometry_revision_id": "963de535-99e7-48f0-881a-586fb4bf7b27",
+      "id": "fcdef7c4-96f5-4047-891e-56bd548e6e66",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "b9844d7b6b2d782266c70f33cd9edd6193e713cd7614f6da8365f8c9a607dbaf",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.0463630789890885e-12,
+        "force_x_n": 2.3935943158209292e-15,
+        "force_y_n": -9.649647524787495e-15,
+        "force_z_n": 1000.000000000002,
+        "moment_error_nm": 9.663381206337363e-13,
+        "moment_x_nm": 500.00000000000097,
+        "moment_y_nm": -500.00000000000097,
+        "moment_z_nm": -8.007032448414064e-15,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.0463630789890885e-12,
+        "written_moment_error_nm": 1.0800249583553523e-12
+      }
+    },
+    "reaction_n": [-1.811201086e-13, -3.181849862e-13, -999.9999999999999]
+  },
+  {
+    "expected_applied_n": [0.0, 0.0, -1000],
+    "max_raw_stress_error_pa": 0.0,
+    "metadata": {
+      "analysis_id": "e5d336ce-9137-482d-ac2e-81374172c7c9",
+      "analysis_revision": 4,
+      "deck_sha256": "993c4decd435abc8c3695babba6b3aa6d84f4ee70f9bd81bcd2c430a3a3cb140",
+      "geometry_revision_id": "10d0c295-1a43-4035-989e-d312ecef5fd2",
+      "id": "0cf3d1f5-fd63-480f-bcdf-4c28ca6598a1",
+      "mesh_sha256": "4714fcf8814d9a39541ba3b8aee9ee4ac4d3895b33eabbf4c6d78028033f1066",
+      "snapshot_sha256": "09e61c536c88f0e861edc4b9968e8a8718b4438cb39458f261ee8635fb89e3cf",
+      "summary": {
+        "area_error_m2": 1.9984014443252818e-15,
+        "elements": 100,
+        "force_error_n": 2.0463630789890885e-12,
+        "force_x_n": -2.3935943158209292e-15,
+        "force_y_n": 9.649647524787495e-15,
+        "force_z_n": -1000.000000000002,
+        "moment_error_nm": 9.663381206337363e-13,
+        "moment_x_nm": -500.00000000000097,
+        "moment_y_nm": 500.00000000000097,
+        "moment_z_nm": 8.007032448414064e-15,
+        "nodes": 231,
+        "scope": "coarse planar affine C3D10 preview; independent bodies; no solve or convergence claim",
+        "warnings": [],
+        "written_force_error_n": 2.0463630789890885e-12,
+        "written_moment_error_nm": 1.0800249583553523e-12
+      }
+    },
+    "reaction_n": [1.811201086e-13, 3.181849862e-13, 999.9999999999999]
+  }
+]

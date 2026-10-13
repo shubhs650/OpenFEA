@@ -1,0 +1,19 @@
+bash scripts/codex/check.sh
+v24.19.0
+11.9.0
+uv 0.12.23 (x86_64-unknown-linux-gnu)
+Platform: Linux x86_64; Python 3.12.14
+fastapi: 0.143.0
+pydantic: 2.14.1
+uvicorn: 0.54.0
+pytest: 9.1.1
+ruff: 0.17.0
+mypy: 2.4.0
+PASS: writable non-repository data root
+PASS: loopback HTTP round trip
+PASS: pinned CPU CCX and runtime library hashes verified
+PASS: isolated cad native geometry/I/O capability
+PASS: isolated mesh native geometry/I/O capability
+PASS: isolated post native geometry/I/O capability
+PASS: namespace-isolated STEP import, no-network/process filter and SI display
+PASS: local bootstrap and native toolchain prerequisites

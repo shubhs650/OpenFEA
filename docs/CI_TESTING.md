@@ -32,6 +32,8 @@ Set timeouts, concurrency cancellation, path filtering and short artifact retent
 
 ## Evidence format
 
+T010 adds 47 distinct cases: 20 Python, 7 TS, 18 native, 1 restart, 1 Chromium. Final totals are 168 Python unit, 18 TS unit, 77 native, 7 integration and 11 Chromium (281 pass, 0 failed/skipped). Actual downloaded decks are solved for six pressure orientations/both signs and a two-body total-force reference. Native export/security tests use real namespaces/Gmsh; browser/restart cases use real imported geometry and saved/exported bytes. [T010 evidence](validation/T010.md) records fixed criteria, corrections, hashes and unexecuted gates. No dependency, native lock/build or frozen benchmark criterion changed.
+
 T009 adds 34 distinct cases, bringing executed local totals to 148 Python unit, 11 TS unit, 59 native, 6 real-process integration and 10 Chromium (234 pass, 0 failures/skips). Native material cases execute nine actual axial solves using independent references; browser cases use native imported solids and real immutable saves. Tests also cover sample/version/provenance, exact unit-only copying, conflicts, migration/history and process restart. See [T009 evidence](validation/T009.md). No existing native/benchmark criterion or dependency changed.
 
 Commit, task, command, platform, versions, passed/failed/skipped counts, benchmark expected/actual/error/tolerance, resource metrics and links. Screenshots alone cannot prove numerical correctness. A failed/blocked native gate remains open even if frontend tests pass.

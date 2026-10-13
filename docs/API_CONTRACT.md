@@ -24,6 +24,14 @@ Authenticated GET `/unit-presets` and `/material-library` provide explicit SI fa
 
 See [materials/units guide](MATERIALS_UNITS.md), [ADR-017](adr/ADR-017.md), generated contracts and [T009 evidence](validation/T009.md). E/yield are Pa, density kg/m³; source values and provenance are frozen. Missing density/yield leave gravity/yield-factor prerequisites unavailable. No run/results, load application or automatic repinning is introduced. Older metadata revisions without material setup rows read as explicit empty default-unit setups.
 
+## Implemented T010 slice
+
+GET `/analyses/{id}/loads` (or `/revisions/{revision}/loads`) returns pinned saved assignments, per-assignment/native CAD area/force/moment, glyph directions, combined resultant/moment, export blockers and warnings. POST `/analyses/{id}/loads` takes `{assignment:{kind,name,geometry_revision_id,face_ids,...}}`: `fixed` has no quantity fields; `pressure` adds `units,pressure`; `force` adds `units,force:[x,y,z]`. Distinct overlapping loads require `combine_confirmed:true`; unconfirmed overlap is 409. DELETE `/analyses/{id}/loads/{assignment_id}` removes one saved assignment. Writes require CSRF/analysis ETag and append immutable analysis/material/load rows. Geometry UUID and catalog IDs must belong to the pinned revision; duplicate IDs count once. No transient tags, point loads, remote moments or user-authored decks are accepted.
+
+POST `/analyses/{id}/deck-exports` requires CSRF/analysis ETag and returns 201 export metadata only after actual bounded isolated Gmsh meshing and deck validation. It does not append an analysis revision or submit a solve. Identical frozen snapshot/tool policy reuses verified artifacts; stale/tombstoned input after native completion refuses publication. GET `/analyses/{id}/deck-exports` lists the latest 100 records; GET `/deck-exports/{id}` reads metadata. Owned GET `/deck-exports/{id}/input` downloads fixed-name `analysis.inp`; `/snapshot` downloads canonical frozen input/policy JSON. SHA-256 identities appear in metadata; corrupted artifact reads/cache hits return 503. Old downloads retain their original inputs after later edits/restarts. Limits: independent bodies, ≤100 planar faces, ≤3,000 affine C3D10 elements, 60 seconds/1,536 MiB RSS/192 MiB scratch; unsupported mapping/geometry/load export returns 422, a concurrent native import/mesh returns 429. No automatic retries/healing/coarsening.
+
+See [face loads/deck guide](LOADS_DECKS.md), [ADR-018](adr/ADR-018.md), generated contracts and [T010 evidence](validation/T010.md). Normals must be native verified; pre-T010 geometry needs reimport for pressure. Export snapshots are immutable; durable solve/run jobs remain T011.
+
 ## Planned service routes
 
 | Method and route | Behavior |

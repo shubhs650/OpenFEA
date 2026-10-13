@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007–T009 COMPLETE; M0 owner-approved progression and later validation obligations preserved
-Next action: T010 — basic face loads and deterministic deck; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — T007–T010 COMPLETE; M0 owner-approved progression and later validation obligations preserved
+Next action: T011 — local mesh and asynchronous solve pipeline; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -20,9 +20,10 @@ T006: COMPLETE
 T007: COMPLETE
 T008: COMPLETE
 T009: COMPLETE
-T010–T042: NOT STARTED
+T010: COMPLETE
+T011–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
-M1: T007–T009 COMPLETE; exit gate NOT RUN.
+M1: T007–T010 COMPLETE; exit gate NOT RUN.
 M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -30,6 +31,16 @@ B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner
 B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T010 completed — face loads and deterministic deck
+
+Saved fixed faces, positive-inward/negative-outward planar pressure and global total distributed force now use immutable analysis/geometry references and canonical SI/source copies. Selections deduplicate, overlapping distinct loads require explicit combination, and the viewport shows actual native directions/fixed glyphs and a signed CAD resultant/moment. Material/unit/name edits carry loads forward. Unit switches clear unsaved load numbers instead of reinterpreting them.
+
+A bounded synchronous bridge creates an actual isolated Gmsh affine C3D10 mesh and full downloadable CalculiX deck. Export freezes inputs, validates mapping/area/resultant/moment and the decimal-written deck, then rechecks owner/tombstone/head before publishing immutable hash-verified deck/mesh/snapshot blobs. Old downloads survive later edits and real API-process restart. Force on fixed DOFs refuses without redistribution; coarse planar independent-body limits remain explicit. Native checks exposed and fixed copied-face orientation loss and CCX material-set line overflow.
+
+`make doctor`, `make check build smoke`, `make test-native`, `make test-integration`, `make test-e2e` and final changed-native replays pass: **281 distinct cases, 0 failures/skips** (168 Python unit, 18 TS, 77 native, 7 integration, 11 Chromium). Downloaded decks pass twelve signed pressure references across all six orientations and a two-body 1,000 N force/reaction case. Unit-only revisions retain identical deck bytes. [T010 evidence](docs/validation/T010.md), [ADR-018](docs/adr/ADR-018.md) and [guide](docs/LOADS_DECKS.md) record criteria, measured errors, hashes and limits.
+
+T010 is complete within this bounded export slice. Durable asynchronous mesh/solve jobs, cancellation, status, run snapshots and calculated results remain T011–T012. No dependency/native lock, binary build, frozen benchmark criterion or owner disposition changed. Windows/laptop/GPU and engineering-owner acceptance remain deferred. Create the T010 PR; do not merge or start T011 in this task.
 
 ## Owner M0 decision and development sequence
 
