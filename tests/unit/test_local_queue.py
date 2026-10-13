@@ -278,6 +278,11 @@ def test_populated_queue_migration_reverses_without_mutating_analysis(
         (0, "singular matrix\nJob finished\nnumber of equations: 1\n"),
         (0, "Job finished\nnumber of equations: 0\n"),
         (0, "Job finished\nnumber of equations: 1\n"),
+        pytest.param(
+            0,
+            "Job finished\nnumber of equations:" + " " * 250000 + "invalid\n",
+            id="bounded-whitespace-log",
+        ),
     ],
 )
 def test_solver_exit_zero_alone_cannot_credit_success(

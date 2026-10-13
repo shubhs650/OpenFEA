@@ -71,7 +71,7 @@ def validate_outputs(
         re.I,
     ):
         raise ValueError("Solver reported invalid numerical execution")
-    equations = re.search(r"number of equations\s*:?\s*(\d+)", log, re.I)
+    equations = re.search(r"number of equations\s*+:?\s*+(\d+)", log, re.I)
     if equations is None or int(equations[1]) <= 0:
         raise ValueError("No actual free equations were solved")
     mesh = Mesh(
