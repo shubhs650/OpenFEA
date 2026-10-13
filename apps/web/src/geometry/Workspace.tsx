@@ -14,6 +14,8 @@ import {
 } from "./api";
 import { Viewport } from "./Viewport";
 import { MaterialsEditor } from "../materials/MaterialsEditor";
+import { ResultViewport } from "../results/ResultViewport";
+import type { ResultPresentation } from "../results/presentation";
 
 type Page<T> = { items: T[]; total: number };
 
@@ -23,6 +25,8 @@ export function Workspace() {
   const [analysisId, setAnalysisId] = useState("");
   const [loadPreview, setLoadPreview] = useState<LoadState | null>(null);
   const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
+  const [resultPresentation, setResultPresentation] =
+    useState<ResultPresentation | null>(null);
   const [name, setName] = useState("");
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [latestGeometry, setLatestGeometry] = useState<Geometry | null>(null);
@@ -209,6 +213,11 @@ export function Workspace() {
     meshPreview.geometry_revision_id === geometry?.id
       ? meshPreview
       : null;
+  const activeResult =
+    resultPresentation?.view.analysis_id === analysisId &&
+    resultPresentation.view.geometry_revision_id === geometry?.id
+      ? resultPresentation
+      : null;
   return (
     <div className="workspace">
       <aside className="panel">
@@ -385,7 +394,9 @@ export function Workspace() {
         )}
       </aside>
       <div className="geometry-content">
-        {shown && geometry ? (
+        {activeResult ? (
+          <ResultViewport presentation={activeResult} visible={visible} />
+        ) : shown && geometry ? (
           <Viewport
             display={activeMesh?.display ?? shown}
             revision={geometry.id}
@@ -471,7 +482,11 @@ export function Workspace() {
             setBusy={setBusy}
             selected={selected}
             preview={setLoadPreview}
-            showMesh={setMeshPreview}
+            showMesh={(mesh) => {
+              setResultPresentation(null);
+              setMeshPreview(mesh);
+            }}
+            showResult={setResultPresentation}
           />
         )}
       </div>

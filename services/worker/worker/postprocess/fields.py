@@ -23,9 +23,12 @@ def element_nodes(points: list[StressPoint], mesh: Mesh) -> list[StressPoint]:
         mesh.elements
     ):
         raise ValueError("Extrapolation needs four native integration tensors per C3D10")
+    grouped: dict[int | None, list[StressPoint]] = {}
+    for point in points:
+        grouped.setdefault(point.element_id, []).append(point)
     output = []
     for eid, ns in sorted(mesh.elements.items()):
-        local = {p.integration_point_id: p for p in points if p.element_id == eid}
+        local = {p.integration_point_id: p for p in grouped[eid]}
         if set(local) != {1, 2, 3, 4} or any(
             p.location != "integration_point" for p in local.values()
         ):

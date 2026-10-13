@@ -624,6 +624,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/runs/{job_id}/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Results */
+        get: operations["results_api_v1_runs__job_id__results_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/session": {
         parameters: {
             query?: never;
@@ -766,6 +783,25 @@ export interface components {
             warnings: string[];
             /** Yield Factor Available */
             yield_factor_available: boolean;
+        };
+        /** BodyReaction */
+        BodyReaction: {
+            /** Body Id */
+            body_id: string;
+            /** Force N */
+            force_n: [
+                number,
+                number,
+                number
+            ];
+            /** Moment Nm */
+            moment_nm: [
+                number,
+                number,
+                number
+            ];
+            /** Node Count */
+            node_count: number;
         };
         /** CatalogBody */
         CatalogBody: {
@@ -1588,6 +1624,150 @@ export interface components {
             /** Total */
             total: number;
         };
+        /** ResultData */
+        ResultData: {
+            displacement: components["schemas"]["ResultExtrema"];
+            /** Extrema Method */
+            extrema_method: string;
+            /** Moment Origin M */
+            moment_origin_m: [
+                number,
+                number,
+                number
+            ];
+            /** Processor */
+            processor: string;
+            /** Reaction Force N */
+            reaction_force_n: [
+                number,
+                number,
+                number
+            ];
+            /** Reaction Method */
+            reaction_method: string;
+            /** Reaction Moment Nm */
+            reaction_moment_nm: [
+                number,
+                number,
+                number
+            ];
+            /** Reactions */
+            reactions: components["schemas"]["BodyReaction"][];
+            /** Stress Method */
+            stress_method: string;
+            /** Triangles */
+            triangles: [
+                number,
+                number,
+                number
+            ][];
+            /** Vertices */
+            vertices: components["schemas"]["ResultVertex"][];
+            von_mises: components["schemas"]["ResultExtrema"];
+            /** Warnings */
+            warnings: string[];
+            /** Yield Factors */
+            yield_factors: components["schemas"]["YieldFactor"][];
+            /** Zero Stress Pa */
+            zero_stress_pa: number;
+        };
+        /** ResultExtrema */
+        ResultExtrema: {
+            maximum: components["schemas"]["ResultSample"];
+            minimum: components["schemas"]["ResultSample"];
+        };
+        /** ResultSample */
+        ResultSample: {
+            /** Body Id */
+            body_id: string | null;
+            /** Element Id */
+            element_id: number | null;
+            /** Integration Point Id */
+            integration_point_id: number | null;
+            /**
+             * Location
+             * @enum {string}
+             */
+            location: "node" | "integration_point";
+            /** Node Id */
+            node_id: number | null;
+            /** Position M */
+            position_m: [
+                number,
+                number,
+                number
+            ];
+            /** Value */
+            value: number;
+        };
+        /** ResultVertex */
+        ResultVertex: {
+            /** Body Id */
+            body_id: string;
+            /** Displacement M */
+            displacement_m: [
+                number,
+                number,
+                number
+            ];
+            /** Element Id */
+            element_id: number;
+            /** Face Id */
+            face_id: string;
+            /** Material Id */
+            material_id: string;
+            /** Node Id */
+            node_id: number;
+            /** Position M */
+            position_m: [
+                number,
+                number,
+                number
+            ];
+            /** Von Mises Pa */
+            von_mises_pa: number;
+        };
+        /** ResultView */
+        ResultView: {
+            /**
+             * Analysis Id
+             * Format: uuid
+             */
+            analysis_id: string;
+            /** Analysis Revision */
+            analysis_revision: number;
+            /** Dat Sha256 */
+            dat_sha256: string;
+            data: components["schemas"]["ResultData"];
+            /** Deck Sha256 */
+            deck_sha256: string;
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /** Input Sha256 */
+            input_sha256: string;
+            /**
+             * Job Id
+             * Format: uuid
+             */
+            job_id: string;
+            /** Mesh Sha256 */
+            mesh_sha256: string;
+            /** Processor Sources */
+            processor_sources: {
+                [key: string]: string;
+            };
+            /** Results Sha256 */
+            results_sha256: string;
+            /**
+             * Schema Version
+             * @default 1
+             * @constant
+             */
+            schema_version: 1;
+        };
         /** RunRequest */
         RunRequest: {
             /**
@@ -1698,6 +1878,25 @@ export interface components {
             sha256: string;
             /** Size Bytes */
             size_bytes: number;
+        };
+        /** YieldFactor */
+        YieldFactor: {
+            /** Body Id */
+            body_id: string;
+            critical_sample: components["schemas"]["ResultSample"];
+            /** Material Id */
+            material_id: string;
+            /** Material Name */
+            material_name: string;
+            /** Minimum */
+            minimum: number | null;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "finite" | "unavailable" | "unbounded";
+            /** Yield Strength Pa */
+            yield_strength_pa: number | null;
         };
     };
     responses: never;
@@ -6647,6 +6846,121 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Upload"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    results_api_v1_runs__job_id__results_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResultView"];
                 };
             };
             /** @description Unauthorized */

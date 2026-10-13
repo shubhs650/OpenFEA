@@ -16,6 +16,7 @@ export type LoadMarker = components["schemas"]["LoadMarker"];
 export type DeckExport = components["schemas"]["DeckExport"];
 export type LocalJob = components["schemas"]["LocalJob"];
 export type MeshPreview = components["schemas"]["MeshPreview"];
+export type ResultView = components["schemas"]["ResultView"];
 export class RequestError extends Error {
   constructor(
     message: string,

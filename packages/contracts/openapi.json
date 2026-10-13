@@ -274,6 +274,61 @@
         "title": "BodyMaterialStatus",
         "type": "object"
       },
+      "BodyReaction": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "title": "Body Id",
+            "type": "string"
+          },
+          "force_n": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Force N",
+            "type": "array"
+          },
+          "moment_nm": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Moment Nm",
+            "type": "array"
+          },
+          "node_count": {
+            "title": "Node Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "body_id",
+          "node_count",
+          "force_n",
+          "moment_nm"
+        ],
+        "title": "BodyReaction",
+        "type": "object"
+      },
       "CatalogBody": {
         "additionalProperties": false,
         "properties": {
@@ -2373,6 +2428,417 @@
         "title": "ProjectPage",
         "type": "object"
       },
+      "ResultData": {
+        "additionalProperties": false,
+        "properties": {
+          "displacement": {
+            "$ref": "#/components/schemas/ResultExtrema"
+          },
+          "extrema_method": {
+            "title": "Extrema Method",
+            "type": "string"
+          },
+          "moment_origin_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Moment Origin M",
+            "type": "array"
+          },
+          "processor": {
+            "title": "Processor",
+            "type": "string"
+          },
+          "reaction_force_n": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Reaction Force N",
+            "type": "array"
+          },
+          "reaction_method": {
+            "title": "Reaction Method",
+            "type": "string"
+          },
+          "reaction_moment_nm": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Reaction Moment Nm",
+            "type": "array"
+          },
+          "reactions": {
+            "items": {
+              "$ref": "#/components/schemas/BodyReaction"
+            },
+            "title": "Reactions",
+            "type": "array"
+          },
+          "stress_method": {
+            "title": "Stress Method",
+            "type": "string"
+          },
+          "triangles": {
+            "items": {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            "title": "Triangles",
+            "type": "array"
+          },
+          "vertices": {
+            "items": {
+              "$ref": "#/components/schemas/ResultVertex"
+            },
+            "title": "Vertices",
+            "type": "array"
+          },
+          "von_mises": {
+            "$ref": "#/components/schemas/ResultExtrema"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          },
+          "yield_factors": {
+            "items": {
+              "$ref": "#/components/schemas/YieldFactor"
+            },
+            "title": "Yield Factors",
+            "type": "array"
+          },
+          "zero_stress_pa": {
+            "title": "Zero Stress Pa",
+            "type": "number"
+          }
+        },
+        "required": [
+          "processor",
+          "vertices",
+          "triangles",
+          "displacement",
+          "von_mises",
+          "yield_factors",
+          "zero_stress_pa",
+          "reactions",
+          "reaction_force_n",
+          "reaction_moment_nm",
+          "moment_origin_m",
+          "reaction_method",
+          "warnings",
+          "stress_method",
+          "extrema_method"
+        ],
+        "title": "ResultData",
+        "type": "object"
+      },
+      "ResultExtrema": {
+        "additionalProperties": false,
+        "properties": {
+          "maximum": {
+            "$ref": "#/components/schemas/ResultSample"
+          },
+          "minimum": {
+            "$ref": "#/components/schemas/ResultSample"
+          }
+        },
+        "required": [
+          "minimum",
+          "maximum"
+        ],
+        "title": "ResultExtrema",
+        "type": "object"
+      },
+      "ResultSample": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Id"
+          },
+          "element_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Element Id"
+          },
+          "integration_point_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integration Point Id"
+          },
+          "location": {
+            "enum": [
+              "node",
+              "integration_point"
+            ],
+            "title": "Location",
+            "type": "string"
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "position_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Position M",
+            "type": "array"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "value",
+          "location",
+          "position_m",
+          "node_id",
+          "element_id",
+          "integration_point_id",
+          "body_id"
+        ],
+        "title": "ResultSample",
+        "type": "object"
+      },
+      "ResultVertex": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "title": "Body Id",
+            "type": "string"
+          },
+          "displacement_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Displacement M",
+            "type": "array"
+          },
+          "element_id": {
+            "title": "Element Id",
+            "type": "integer"
+          },
+          "face_id": {
+            "title": "Face Id",
+            "type": "string"
+          },
+          "material_id": {
+            "title": "Material Id",
+            "type": "string"
+          },
+          "node_id": {
+            "title": "Node Id",
+            "type": "integer"
+          },
+          "position_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Position M",
+            "type": "array"
+          },
+          "von_mises_pa": {
+            "title": "Von Mises Pa",
+            "type": "number"
+          }
+        },
+        "required": [
+          "node_id",
+          "element_id",
+          "body_id",
+          "material_id",
+          "face_id",
+          "position_m",
+          "displacement_m",
+          "von_mises_pa"
+        ],
+        "title": "ResultVertex",
+        "type": "object"
+      },
+      "ResultView": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "format": "uuid",
+            "title": "Analysis Id",
+            "type": "string"
+          },
+          "analysis_revision": {
+            "title": "Analysis Revision",
+            "type": "integer"
+          },
+          "dat_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Dat Sha256",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ResultData"
+          },
+          "deck_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Deck Sha256",
+            "type": "string"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "input_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Input Sha256",
+            "type": "string"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "mesh_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Mesh Sha256",
+            "type": "string"
+          },
+          "processor_sources": {
+            "additionalProperties": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "title": "Processor Sources",
+            "type": "object"
+          },
+          "results_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Results Sha256",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job_id",
+          "analysis_id",
+          "analysis_revision",
+          "geometry_revision_id",
+          "input_sha256",
+          "results_sha256",
+          "mesh_sha256",
+          "deck_sha256",
+          "dat_sha256",
+          "processor_sources",
+          "data"
+        ],
+        "title": "ResultView",
+        "type": "object"
+      },
       "RunRequest": {
         "additionalProperties": false,
         "properties": {
@@ -2634,6 +3100,68 @@
           "sha256"
         ],
         "title": "UploadCreate",
+        "type": "object"
+      },
+      "YieldFactor": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "title": "Body Id",
+            "type": "string"
+          },
+          "critical_sample": {
+            "$ref": "#/components/schemas/ResultSample"
+          },
+          "material_id": {
+            "title": "Material Id",
+            "type": "string"
+          },
+          "material_name": {
+            "title": "Material Name",
+            "type": "string"
+          },
+          "minimum": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minimum"
+          },
+          "state": {
+            "enum": [
+              "finite",
+              "unavailable",
+              "unbounded"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "yield_strength_pa": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yield Strength Pa"
+          }
+        },
+        "required": [
+          "body_id",
+          "material_id",
+          "material_name",
+          "yield_strength_pa",
+          "state",
+          "minimum",
+          "critical_sample"
+        ],
+        "title": "YieldFactor",
         "type": "object"
       }
     },
@@ -9723,6 +10251,159 @@
           }
         ],
         "summary": "Create Upload"
+      }
+    },
+    "/api/v1/runs/{job_id}/results": {
+      "get": {
+        "operationId": "results_api_v1_runs__job_id__results_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Results"
       }
     },
     "/api/v1/session": {

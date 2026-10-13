@@ -7,6 +7,7 @@ from fastapi import Depends, Header, Request, Response
 
 from app.domain.errors import DomainError
 from app.domain.jobs import JobEvent, LocalJob, MeshPreview, MeshRequest, RunRequest
+from app.domain.results import ResultView
 from app.jobs.service import JobService
 from app.routes.projects import Owner, Revision, router
 
@@ -109,3 +110,8 @@ def preview(job_id: UUID, owner: Owner, service: Service) -> MeshPreview:
 @router.get("/local-worker", response_model=dict[str, str])
 def worker(owner: Owner, request: Request) -> dict[str, str]:
     return {"state": request.app.state.local_worker.state}
+
+
+@router.get("/runs/{job_id}/results", response_model=ResultView)
+def results(job_id: UUID, owner: Owner, service: Service) -> ResultView:
+    return service.result_view(owner, job_id)

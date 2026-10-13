@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { ResultsEditor } from "../results/ResultsEditor";
+import type { ResultPresentation } from "../results/presentation";
 import {
   api,
   RequestError,
   submitJob,
   type LocalJob,
   type MeshPreview,
+  type UnitPreset,
 } from "../geometry/api";
 
 type Props = {
@@ -15,6 +18,8 @@ type Props = {
   busy: boolean;
   setBusy: (value: boolean) => void;
   showMesh: (value: MeshPreview | null) => void;
+  preset: UnitPreset;
+  showResult: (value: ResultPresentation | null) => void;
 };
 const terminal = new Set(["succeeded", "failed", "cancelled", "interrupted"]);
 
@@ -26,6 +31,8 @@ export function RunsEditor({
   busy,
   setBusy,
   showMesh,
+  preset,
+  showResult,
 }: Props) {
   const [jobs, setJobs] = useState<LocalJob[]>([]);
   const [meshId, setMeshId] = useState("");
@@ -274,7 +281,7 @@ export function RunsEditor({
               <p>
                 {j.kind === "mesh"
                   ? "Checked C3D10 mesh completed."
-                  : "Native solve completed and raw outputs validated. Engineering result views follow later."}
+                  : "Native solve completed and raw outputs validated. Open the completed solve in Engineering results."}
               </p>
             )}
             <a href={`/api/v1/jobs/${j.id}/artifacts/snapshot.json`}>
@@ -300,6 +307,13 @@ export function RunsEditor({
           </li>
         ))}
       </ul>
+      <ResultsEditor
+        jobs={jobs}
+        analysisId={analysisId}
+        revision={revision}
+        preset={preset}
+        showResult={showResult}
+      />
     </section>
   );
 }
