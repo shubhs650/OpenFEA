@@ -6,7 +6,7 @@ Technical choices in ARCHITECTURE.md are recommendations to validate, not additi
 ## Purpose and users
 
 Provide an approachable browser-based FEA workflow for mechanical engineers checking individual parts and simple bonded assemblies. Differentiate through understandable setup, inspectable engineering results, and eventually itemized usage pricing that covers infrastructure and an operating reserve. No assertion is made about competitors' current prices.
-Primary users understand mechanics but have little FEA experience. Development is a lean solo effort using Codex Cloud, with local execution on Windows/WSL2 (i5-8365U, 16 GB RAM, 512 GB SSD). The local application must complete the full workflow without AWS or third-party accounts.
+Primary users understand mechanics but have little FEA experience. Development is a lean solo effort using Codex Cloud through M4; the completed local application is validated at M4/T030 on the owner's Windows/WSL2 gaming laptop. The owner describes an i5 10th-generation-equivalent CPU and 1650-class GPU with 4 GB VRAM; exact RAM/SSD and OpenFEA performance require measurement. The local application must complete the full workflow without AWS or third-party accounts. AWS is a later backend direction subject to M5 gates.
 
 ## Delivery boundaries
 
