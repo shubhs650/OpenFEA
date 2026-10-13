@@ -4,7 +4,7 @@ import itertools
 import math
 import sys
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, cast
 
 from worker.meshing import EDGES, Vec, add, cross, dot, norm, scale, sub
 
@@ -32,11 +32,14 @@ def jacobian(points: Sequence[Vec], barycentric: Sequence[float]) -> Matrix:
     shifted = [sub(p, points[0]) for p in points]
     for axis in range(3):
         columns.append(
-            tuple(
-                math.fsum(p[k] * g[axis] for p, g in zip(shifted, gradients, strict=True))
-                for k in range(3)
+            cast(
+                Vec,
+                tuple(
+                    math.fsum(p[k] * g[axis] for p, g in zip(shifted, gradients, strict=True))
+                    for k in range(3)
+                ),
             )
-        )  # type: ignore[arg-type]
+        )
     return (columns[0], columns[1], columns[2])
 
 

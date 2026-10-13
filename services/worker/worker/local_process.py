@@ -39,12 +39,18 @@ class NativeControl:
 
 
 def supervise(
-    command: list[str], output: Path, control: NativeControl | None, log_name: str
+    command: list[str],
+    output: Path,
+    control: NativeControl | None,
+    log_name: str,
+    *,
+    scratch_root: Path | None = None,
 ) -> dict[str, float | int | str]:
     """All callers supply a Bubblewrap command ending in a verified native launcher."""
     filter_path = output.parent / "process-filter.bpf"
     filter_path.write_bytes(process_filter())
     started = time.monotonic()
+    scratch_root = scratch_root or output
     peak = disk_peak = 0
     reason: str | None = None
     with filter_path.open("rb") as filter_file, (output / log_name).open("wb") as log:
@@ -76,7 +82,7 @@ def supervise(
                 if control and control.cancel():
                     reason = "cancelled"
                 peak = max(peak, process_tree_rss(process.pid))
-                disk_peak = max(disk_peak, scratch_usage(output))
+                disk_peak = max(disk_peak, scratch_usage(scratch_root))
                 if peak > 1536 * 1024**2 or disk_peak > 192 * 1024**2:
                     reason = "resource_exceeded"
                 elif time.monotonic() - started > 60:
@@ -102,7 +108,7 @@ def supervise(
             "peak_rss_bytes": peak,
             "peak_scratch_bytes": disk_peak,
         }
-    if scratch_usage(output) > 192 * 1024**2:
+    if scratch_usage(scratch_root) > 192 * 1024**2:
         reason = "resource_exceeded"
     # A native-created symlink must never redirect this trusted host-side write.
     descriptor = os.open(

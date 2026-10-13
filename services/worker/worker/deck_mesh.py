@@ -14,7 +14,12 @@ from worker.step_import import ImportSandboxError, scratch_usage
 
 
 def _mesh_attempt(
-    inputs: Path, output: Path, sizes: list[float], *, control: NativeControl | None = None
+    inputs: Path,
+    output: Path,
+    sizes: list[float],
+    *,
+    control: NativeControl | None = None,
+    scratch_root: Path | None = None,
 ) -> dict[str, Any]:
     bwrap = shutil.which("bwrap")
     python = NATIVE / "venvs/mesh/bin/python"
@@ -63,7 +68,9 @@ def _mesh_attempt(
         json.dumps(sizes),
         "3000",
     ]
-    execution = supervise(command, output, control, "native.log")
+    # Retained attempts count while the next native child runs, not just between
+    # attempts. A recovery cannot multiply the original scratch allowance.
+    execution = supervise(command, output, control, "native.log", scratch_root=scratch_root)
     status_path = output / "mesh-status.json"
     if (
         status_path.is_file()
@@ -131,8 +138,9 @@ def mesh_snapshot(
         attempt = output / f"attempt-{index + 1}"
         value = None
         stopped: NativeStop | None = None
+        record: dict[str, Any]
         try:
-            value = _mesh_attempt(inputs, attempt, sizes, control=control)
+            value = _mesh_attempt(inputs, attempt, sizes, control=control, scratch_root=output)
             if not isinstance(value.get("quality"), dict):
                 value = None
                 raise ValueError("Missing native mesh quality record")
