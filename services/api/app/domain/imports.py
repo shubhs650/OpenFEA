@@ -6,7 +6,8 @@ from uuid import UUID
 
 from pydantic import Field
 
-from app.domain.models import Hash, StrictModel
+from app.domain.base import StrictModel
+from app.domain.models import Hash
 
 MAX_UPLOAD_BYTES = 16 * 1024 * 1024
 LengthUnit = Literal["m", "mm", "inch"]

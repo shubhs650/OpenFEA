@@ -4,17 +4,13 @@ from datetime import datetime
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
+from pydantic import Field, JsonValue, model_validator
+
+from app.domain.base import StrictModel
 
 Name = Annotated[str, Field(min_length=1, max_length=200)]
 Hash = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 CatalogID = Annotated[str, Field(min_length=1, max_length=200)]
-
-
-class StrictModel(BaseModel):
-    model_config = ConfigDict(
-        extra="forbid", str_strip_whitespace=True, frozen=True, allow_inf_nan=False
-    )
 
 
 class ErrorResponse(StrictModel):

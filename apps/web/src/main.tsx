@@ -24,7 +24,8 @@ function App() {
       </header>
       <Workspace />
       <footer>
-        Geometry workspace. Analysis features are not available yet.
+        Geometry and material setup. Load, mesh, solve and result features are
+        not available yet.
       </footer>
     </main>
   );

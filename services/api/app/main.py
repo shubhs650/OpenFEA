@@ -21,6 +21,7 @@ from app.persistence.database import Database
 from app.persistence.imports import ImportRepository
 from app.persistence.repository import Repository
 from app.routes import imports as _imports  # noqa: F401
+from app.routes import materials as _materials  # noqa: F401
 from app.routes.projects import router
 from app.storage.geometry import GeometryStorage
 

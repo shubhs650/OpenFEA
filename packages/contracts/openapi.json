@@ -186,6 +186,63 @@
         "title": "BodyDisplay",
         "type": "object"
       },
+      "BodyMaterial": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Body Id",
+            "type": "string"
+          },
+          "material": {
+            "$ref": "#/components/schemas/MaterialSnapshot"
+          }
+        },
+        "required": [
+          "body_id",
+          "material"
+        ],
+        "title": "BodyMaterial",
+        "type": "object"
+      },
+      "BodyMaterialStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "title": "Body Id",
+            "type": "string"
+          },
+          "gravity_available": {
+            "title": "Gravity Available",
+            "type": "boolean"
+          },
+          "material_assigned": {
+            "title": "Material Assigned",
+            "type": "boolean"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          },
+          "yield_factor_available": {
+            "title": "Yield Factor Available",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "body_id",
+          "material_assigned",
+          "gravity_available",
+          "yield_factor_available",
+          "warnings"
+        ],
+        "title": "BodyMaterialStatus",
+        "type": "object"
+      },
       "CatalogBody": {
         "additionalProperties": false,
         "properties": {
@@ -240,6 +297,64 @@
           "signature"
         ],
         "title": "CatalogFace",
+        "type": "object"
+      },
+      "CustomMaterial": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed": {
+            "const": true,
+            "title": "Confirmed",
+            "type": "boolean"
+          },
+          "kind": {
+            "const": "custom",
+            "title": "Kind",
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/MaterialProvenance"
+          },
+          "units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Units",
+            "type": "string"
+          },
+          "values": {
+            "$ref": "#/components/schemas/MaterialValues"
+          }
+        },
+        "required": [
+          "kind",
+          "units",
+          "values",
+          "provenance",
+          "confirmed"
+        ],
+        "title": "CustomMaterial",
+        "type": "object"
+      },
+      "DisplayUnitsPatch": {
+        "additionalProperties": false,
+        "properties": {
+          "preset": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Preset",
+            "type": "string"
+          }
+        },
+        "required": [
+          "preset"
+        ],
+        "title": "DisplayUnitsPatch",
         "type": "object"
       },
       "ErrorResponse": {
@@ -801,6 +916,368 @@
         "title": "LocalSession",
         "type": "object"
       },
+      "MaterialAssignment": {
+        "additionalProperties": false,
+        "properties": {
+          "material": {
+            "discriminator": {
+              "mapping": {
+                "custom": "#/components/schemas/CustomMaterial",
+                "sample": "#/components/schemas/SampleMaterial"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CustomMaterial"
+              },
+              {
+                "$ref": "#/components/schemas/SampleMaterial"
+              }
+            ],
+            "title": "Material"
+          }
+        },
+        "required": [
+          "material"
+        ],
+        "title": "MaterialAssignment",
+        "type": "object"
+      },
+      "MaterialExample": {
+        "additionalProperties": false,
+        "description": "A library template carries no claim of user confirmation.",
+        "properties": {
+          "library_id": {
+            "title": "Library Id",
+            "type": "string"
+          },
+          "library_version": {
+            "title": "Library Version",
+            "type": "string"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/SIProperties"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/MaterialProvenance"
+          },
+          "source_units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Source Units",
+            "type": "string"
+          },
+          "source_values": {
+            "$ref": "#/components/schemas/MaterialValues"
+          }
+        },
+        "required": [
+          "library_id",
+          "library_version",
+          "properties",
+          "source_units",
+          "source_values",
+          "provenance"
+        ],
+        "title": "MaterialExample",
+        "type": "object"
+      },
+      "MaterialProvenance": {
+        "additionalProperties": false,
+        "properties": {
+          "assumptions": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Assumptions",
+            "type": "string"
+          },
+          "condition": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Condition",
+            "type": "string"
+          },
+          "grade": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Grade",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialSource"
+            },
+            "maxItems": 5,
+            "minItems": 1,
+            "title": "Sources",
+            "type": "array"
+          },
+          "temperature_note": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Temperature Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "grade",
+          "condition",
+          "temperature_note",
+          "sources",
+          "assumptions"
+        ],
+        "title": "MaterialProvenance",
+        "type": "object"
+      },
+      "MaterialSetup": {
+        "additionalProperties": false,
+        "properties": {
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/BodyMaterial"
+            },
+            "maxItems": 10,
+            "title": "Assignments",
+            "type": "array"
+          },
+          "display_units": {
+            "default": "mm-N-MPa",
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Display Units",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          }
+        },
+        "title": "MaterialSetup",
+        "type": "object"
+      },
+      "MaterialSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed": {
+            "const": true,
+            "default": true,
+            "title": "Confirmed",
+            "type": "boolean"
+          },
+          "kind": {
+            "enum": [
+              "sample",
+              "custom"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "library_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Library Id"
+          },
+          "library_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Library Version"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/SIProperties"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/MaterialProvenance"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          },
+          "source_units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Source Units",
+            "type": "string"
+          },
+          "source_values": {
+            "$ref": "#/components/schemas/MaterialValues"
+          }
+        },
+        "required": [
+          "kind",
+          "properties",
+          "source_units",
+          "source_values",
+          "provenance"
+        ],
+        "title": "MaterialSnapshot",
+        "type": "object"
+      },
+      "MaterialSource": {
+        "additionalProperties": false,
+        "properties": {
+          "accessed_on": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accessed On"
+          },
+          "title": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "format": "uri",
+                "maxLength": 2083,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "title": "MaterialSource",
+        "type": "object"
+      },
+      "MaterialState": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "format": "uuid",
+            "title": "Analysis Id",
+            "type": "string"
+          },
+          "analysis_revision": {
+            "title": "Analysis Revision",
+            "type": "integer"
+          },
+          "bodies": {
+            "items": {
+              "$ref": "#/components/schemas/BodyMaterialStatus"
+            },
+            "title": "Bodies",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Geometry Revision Id"
+          },
+          "setup": {
+            "$ref": "#/components/schemas/MaterialSetup"
+          }
+        },
+        "required": [
+          "analysis_id",
+          "analysis_revision",
+          "geometry_revision_id",
+          "setup",
+          "bodies"
+        ],
+        "title": "MaterialState",
+        "type": "object"
+      },
+      "MaterialValues": {
+        "additionalProperties": false,
+        "properties": {
+          "density": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Density"
+          },
+          "poisson_ratio": {
+            "maximum": 0.45,
+            "minimum": 0.0,
+            "title": "Poisson Ratio",
+            "type": "number"
+          },
+          "yield_strength": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yield Strength"
+          },
+          "young_modulus": {
+            "exclusiveMinimum": 0.0,
+            "title": "Young Modulus",
+            "type": "number"
+          }
+        },
+        "required": [
+          "young_modulus",
+          "poisson_ratio"
+        ],
+        "title": "MaterialValues",
+        "type": "object"
+      },
       "Project": {
         "additionalProperties": false,
         "properties": {
@@ -892,6 +1369,150 @@
           "limit"
         ],
         "title": "ProjectPage",
+        "type": "object"
+      },
+      "SIProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "density_kg_m3": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Density Kg M3"
+          },
+          "poisson_ratio": {
+            "maximum": 0.45,
+            "minimum": 0.0,
+            "title": "Poisson Ratio",
+            "type": "number"
+          },
+          "yield_strength_pa": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yield Strength Pa"
+          },
+          "young_modulus_pa": {
+            "exclusiveMinimum": 0.0,
+            "title": "Young Modulus Pa",
+            "type": "number"
+          }
+        },
+        "required": [
+          "young_modulus_pa",
+          "poisson_ratio"
+        ],
+        "title": "SIProperties",
+        "type": "object"
+      },
+      "SampleMaterial": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed": {
+            "const": true,
+            "title": "Confirmed",
+            "type": "boolean"
+          },
+          "kind": {
+            "const": "sample",
+            "title": "Kind",
+            "type": "string"
+          },
+          "library_version": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Library Version",
+            "type": "string"
+          },
+          "sample_id": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Sample Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "sample_id",
+          "library_version",
+          "confirmed"
+        ],
+        "title": "SampleMaterial",
+        "type": "object"
+      },
+      "Unit": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "to_si": {
+            "title": "To Si",
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "to_si"
+        ],
+        "title": "Unit",
+        "type": "object"
+      },
+      "UnitPreset": {
+        "additionalProperties": false,
+        "properties": {
+          "acceleration": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "density": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "force": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "id": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "stress": {
+            "$ref": "#/components/schemas/Unit"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "length",
+          "force",
+          "stress",
+          "density",
+          "acceleration"
+        ],
+        "title": "UnitPreset",
         "type": "object"
       },
       "UnitsDecision": {
@@ -1343,6 +1964,706 @@
         "summary": "Edit Analysis"
       }
     },
+    "/api/v1/analyses/{analysis_id}/display-units": {
+      "patch": {
+        "operationId": "set_display_units_api_v1_analyses__analysis_id__display_units_patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisplayUnitsPatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Set Display Units"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/materials": {
+      "get": {
+        "operationId": "get_materials_api_v1_analyses__analysis_id__materials_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Get Materials"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/materials/{body_id}": {
+      "delete": {
+        "operationId": "remove_material_api_v1_analyses__analysis_id__materials__body_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "body_id",
+            "required": true,
+            "schema": {
+              "maxLength": 200,
+              "minLength": 1,
+              "title": "Body Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Remove Material"
+      },
+      "put": {
+        "operationId": "assign_material_api_v1_analyses__analysis_id__materials__body_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "body_id",
+            "required": true,
+            "schema": {
+              "maxLength": 200,
+              "minLength": 1,
+              "title": "Body Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaterialAssignment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Assign Material"
+      }
+    },
     "/api/v1/analyses/{analysis_id}/revisions/{revision}": {
       "get": {
         "operationId": "get_analysis_revision_api_v1_analyses__analysis_id__revisions__revision__get",
@@ -1504,6 +2825,169 @@
           }
         ],
         "summary": "Get Analysis Revision"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/revisions/{revision}/materials": {
+      "get": {
+        "operationId": "historical_materials_api_v1_analyses__analysis_id__revisions__revision__materials_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "revision",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "title": "Revision",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Historical Materials"
       }
     },
     "/api/v1/geometry-imports/{import_id}": {
@@ -2480,6 +3964,153 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/api/v1/material-library": {
+      "get": {
+        "operationId": "material_library_api_v1_material_library_get",
+        "parameters": [
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MaterialExample"
+                  },
+                  "title": "Response Material Library Api V1 Material Library Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Material Library"
       }
     },
     "/api/v1/projects": {
@@ -4276,6 +5907,153 @@
           }
         },
         "summary": "Session"
+      }
+    },
+    "/api/v1/unit-presets": {
+      "get": {
+        "operationId": "unit_presets_api_v1_unit_presets_get",
+        "parameters": [
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UnitPreset"
+                  },
+                  "title": "Response Unit Presets Api V1 Unit Presets Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Unit Presets"
       }
     }
   }

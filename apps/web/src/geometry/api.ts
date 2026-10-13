@@ -5,6 +5,21 @@ export type Geometry = components["schemas"]["GeometryRevision"];
 export type Display = components["schemas"]["GeometryDisplay"];
 export type Inspection = components["schemas"]["GeometryImport"];
 export type Upload = components["schemas"]["Upload"];
+export type Analysis = components["schemas"]["Analysis"];
+export type MaterialState = components["schemas"]["MaterialState"];
+export type MaterialSnapshot = components["schemas"]["MaterialSnapshot"];
+export type MaterialExample = components["schemas"]["MaterialExample"];
+export type MaterialAssignment = components["schemas"]["MaterialAssignment"];
+export type UnitPreset = components["schemas"]["UnitPreset"];
+export class RequestError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public code?: string,
+  ) {
+    super(message);
+  }
+}
 let csrfToken = "";
 
 export async function api<T>(
@@ -19,8 +34,10 @@ export async function api<T>(
   });
   const data = await response.json();
   if (!response.ok)
-    throw new Error(
+    throw new RequestError(
       data.message ?? "Request failed. Reload the local session.",
+      response.status,
+      data.code,
     );
   return data as T;
 }
@@ -28,10 +45,11 @@ export async function api<T>(
 export async function mutate<T>(
   path: string,
   revision: number,
-  payload: unknown,
+  payload?: unknown,
+  method = "POST",
 ): Promise<T> {
   const response = await fetch(`/api/v1${path}`, {
-    method: "POST",
+    method,
     headers: {
       "Content-Type": "application/json",
       "X-CSRF-Token": csrfToken,
@@ -41,8 +59,10 @@ export async function mutate<T>(
   });
   const data = await response.json();
   if (!response.ok)
-    throw new Error(
-      data.message ?? "This project changed. Reload before importing.",
+    throw new RequestError(
+      data.message ?? "This setup changed. Reload before saving.",
+      response.status,
+      data.code,
     );
   return data as T;
 }

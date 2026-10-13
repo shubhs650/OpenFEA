@@ -11,14 +11,17 @@ import {
   type Upload,
 } from "./api";
 import { Viewport } from "./Viewport";
+import { MaterialsEditor } from "../materials/MaterialsEditor";
 
 type Page<T> = { items: T[]; total: number };
 
 export function Workspace() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [project, setProject] = useState<Project | null>(null);
+  const [analysisId, setAnalysisId] = useState("");
   const [name, setName] = useState("");
   const [geometry, setGeometry] = useState<Geometry | null>(null);
+  const [latestGeometry, setLatestGeometry] = useState<Geometry | null>(null);
   const [display, setDisplay] = useState<Display | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [ticket, setTicket] = useState<Upload | null>(null);
@@ -51,8 +54,10 @@ export function Workspace() {
   useEffect(() => {
     let current = true;
     setSelected(new Set());
+    setAnalysisId("");
     displayedRevision.current = null;
     setGeometry(null);
+    setLatestGeometry(null);
     setInspection(null);
     setTicket(null);
     setDisplay(null);
@@ -65,7 +70,10 @@ export function Workspace() {
                   `/projects/${project.id}/geometry?limit=1&offset=${page.total - 1}`,
                 )
               : page;
-          if (current) setGeometry(last.items[0] ?? null);
+          if (current) {
+            setGeometry(last.items[0] ?? null);
+            setLatestGeometry(last.items[0] ?? null);
+          }
         })
         .catch((e: Error) => {
           if (current) setError(e.message);
@@ -172,8 +180,10 @@ export function Workspace() {
       setProject(updated);
       setProjects((all) => all.map((p) => (p.id === updated.id ? updated : p)));
       setSelected(new Set());
+      setAnalysisId("");
       setVisible(new Set(result.bodies.map((b) => b.id)));
       setGeometry(result);
+      setLatestGeometry(result);
       setInspection(null);
       setTicket(null);
       setFile(null);
@@ -377,7 +387,7 @@ export function Workspace() {
         ) : (
           <div className="empty-viewport">
             <h2>
-              {geometry?.project_id === project?.id
+              {geometry && geometry.project_id === project?.id
                 ? "Loading geometry…"
                 : "Bring in your solid model"}
             </h2>
@@ -417,6 +427,27 @@ export function Workspace() {
               ))}
             </ul>
           </section>
+        )}
+        {project && (
+          <MaterialsEditor
+            key={project.id}
+            project={project}
+            geometry={geometry}
+            analysisId={analysisId}
+            selectAnalysis={(id) => {
+              setAnalysisId(id);
+              if (!id) {
+                setGeometry(latestGeometry);
+                setSelected(new Set());
+              }
+            }}
+            showGeometry={(pinned) => {
+              setGeometry(pinned);
+              setSelected(new Set());
+            }}
+            busy={busy}
+            setBusy={setBusy}
+          />
         )}
       </div>
     </div>

@@ -9,7 +9,14 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import Connection, text
 
-from app.domain.errors import not_found, stale_revision
+from app.domain.errors import DomainError, not_found, stale_revision
+from app.domain.materials import (
+    BodyMaterial,
+    MaterialSetup,
+    MaterialSnapshot,
+    MaterialState,
+    body_status,
+)
 from app.domain.models import (
     Analysis,
     AnalysisCreate,
@@ -22,6 +29,7 @@ from app.domain.models import (
     ProjectCreate,
     ProjectPage,
 )
+from app.domain.units import PresetID
 from app.persistence.database import Database
 
 
@@ -262,6 +270,7 @@ class Repository:
         revision: int,
         payload: AnalysisCreate,
         timestamp: str,
+        setup: MaterialSetup | None = None,
     ) -> None:
         connection.execute(
             text("""INSERT INTO analysis_revisions VALUES
@@ -277,6 +286,116 @@ class Repository:
                 else None,
             },
         )
+        if setup is None:
+            setup = Repository._material_setup(connection, analysis, revision - 1)
+        connection.execute(
+            text("INSERT INTO analysis_material_setups VALUES (:id, :revision, :setup)"),
+            {"id": str(analysis), "revision": revision, "setup": setup.model_dump_json()},
+        )
+
+    @staticmethod
+    def _material_setup(connection: Connection, analysis: UUID, revision: int) -> MaterialSetup:
+        raw = connection.execute(
+            text(
+                "SELECT setup_json FROM analysis_material_setups "
+                "WHERE analysis_id=:id AND revision=:revision"
+            ),
+            {"id": str(analysis), "revision": revision},
+        ).scalar_one_or_none()
+        # T007/T008 revisions predate material editing; their empty setup is explicit.
+        return MaterialSetup.model_validate_json(raw) if raw is not None else MaterialSetup()
+
+    def _material_state(
+        self, connection: Connection, owner: UUID, analysis: Analysis
+    ) -> MaterialState:
+        setup = self._material_setup(connection, analysis.id, analysis.revision)
+        bodies = []
+        if analysis.geometry_revision_id is not None:
+            geometry = self._geometry(
+                connection, owner, analysis.geometry_revision_id, analysis.project_id
+            )
+            assigned = {item.body_id: item.material for item in setup.assignments}
+            bodies = [body_status(body.id, assigned.get(body.id)) for body in geometry.bodies]
+        return MaterialState(
+            analysis_id=analysis.id,
+            analysis_revision=analysis.revision,
+            geometry_revision_id=analysis.geometry_revision_id,
+            setup=setup,
+            bodies=bodies,
+        )
+
+    def get_material_state(
+        self, owner: UUID, analysis: UUID, revision: int | None = None
+    ) -> MaterialState:
+        with self.database.engine.connect() as connection:
+            return self._material_state(
+                connection, owner, self._analysis(connection, owner, analysis, revision)
+            )
+
+    def edit_material_setup(
+        self,
+        owner: UUID,
+        analysis: UUID,
+        expected: int,
+        *,
+        display_units: PresetID | None = None,
+        body: str | None = None,
+        material: MaterialSnapshot | None = None,
+    ) -> MaterialState:
+        with self.write() as connection:
+            current = self._analysis(connection, owner, analysis)
+            if current.revision != expected:
+                raise stale_revision()
+            previous = self._material_setup(connection, analysis, expected)
+            assignments = list(previous.assignments)
+            if body is not None:
+                if current.geometry_revision_id is None:
+                    raise DomainError(
+                        409,
+                        "geometry_required",
+                        "Create an analysis pinned to accepted geometry before assigning materials",
+                    )
+                geometry = self._geometry(
+                    connection, owner, current.geometry_revision_id, current.project_id
+                )
+                if body not in {b.id for b in geometry.bodies}:
+                    raise DomainError(
+                        422,
+                        "invalid_body",
+                        "This body does not belong to the analysis geometry revision",
+                    )
+                assignments = [item for item in assignments if item.body_id != body]
+                if material is not None:
+                    assignments.append(BodyMaterial(body_id=body, material=material))
+            # Unit-only updates copy every SI value and original source field verbatim.
+            setup = MaterialSetup.model_validate(
+                {
+                    "display_units": display_units or previous.display_units,
+                    "assignments": sorted(assignments, key=lambda item: item.body_id),
+                }
+            )
+            timestamp = now()
+            self._insert_analysis_revision(
+                connection,
+                analysis,
+                current.project_id,
+                expected + 1,
+                AnalysisCreate(
+                    name=current.name, geometry_revision_id=current.geometry_revision_id
+                ),
+                timestamp,
+                setup,
+            )
+            connection.execute(
+                text(
+                    "UPDATE analyses SET head_revision=head_revision+1, "
+                    "updated_at=:time WHERE id=:id"
+                ),
+                {"id": str(analysis), "time": timestamp},
+            )
+            return self._material_state(
+                connection, owner, self._analysis(connection, owner, analysis)
+            )
 
     def get_analysis(self, owner: UUID, analysis: UUID, revision: int | None = None) -> Analysis:
         with self.database.engine.connect() as connection:
