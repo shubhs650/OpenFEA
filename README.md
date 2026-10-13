@@ -1,18 +1,18 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository contains a health-only React/FastAPI bootstrap and real synthetic CAD/mesh/load/CCX/stress/bond diagnostics. T005 rejects a failed native tie candidate and proves an experimental consistent mortar connection on a limited planar patch. B01/B02/B09/B07 development evidence exists; T006 adds limited immutable native cleanup and measured cloud meshes/solves/display. Owner acceptance, general application workflow and target-laptop/integrated-GPU capacity remain open.
+This repository contains a health-only React page, a persistent local project/analysis metadata API and real synthetic CAD/mesh/load/CCX/stress/bond diagnostics. T005 rejects a failed native tie candidate and proves an experimental consistent mortar connection on a limited planar patch. B01/B02/B09/B07 development evidence exists; T006 adds limited immutable native cleanup and measured cloud meshes/solves/display. T007 adds SQLite ownership/revisions and guarded local API access. Owner acceptance, general engineering workflow and target-laptop/integrated-GPU capacity remain open.
 The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
 
 ## Run the bootstrap
 
-See [development setup](docs/DEVELOPMENT.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. UI/API remain health only. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs real diagnostics. B07 uses declared experimental mortar *EQUATION with scope limits and retains the failed native *TIE candidate; [T005 evidence](docs/validation/T005.md) explains the decision. B09 retains VTK/HTML stress diagnostics. `make feasibility` runs native cleanup; `MESHES=1` measures bounded workloads, and `make resource-browser OUTPUT=<directory>` checks real exterior field display. See [T006 evidence](docs/validation/T006.md). Signed/full release/security/report gates remain blocked.
+See [development setup](docs/DEVELOPMENT.md), [local project API](docs/PERSISTENCE.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. The UI remains health-only; project metadata persists through the real API. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs real diagnostics. B07 uses declared experimental mortar *EQUATION with scope limits and retains the failed native *TIE candidate; [T005 evidence](docs/validation/T005.md) explains the decision. B09 retains VTK/HTML stress diagnostics. `make feasibility` runs native cleanup; `MESHES=1` measures bounded workloads, and `make resource-browser OUTPUT=<directory>` checks real exterior field display. See [T006 evidence](docs/validation/T006.md). Signed/full release/security/report gates remain blocked.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review T001–T006 evidence in the [task index](TASKS.md). The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: invalid approval handling and failed-stage graduation now have focused fixes, while owner/target-hardware acceptance and a repeated gate decision remain open. T007 remains blocked.
+3. Review T001–T007 evidence in the [task index](TASKS.md). The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: invalid approval handling and failed-stage graduation now have focused fixes, while owner/target-hardware acceptance and a repeated gate decision remain open. T007 development is delivered following an explicit request; formal predecessor acceptance remains open.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 
@@ -41,4 +41,4 @@ The canonical agent instruction filename is **AGENTS.md**. [Agent.md](Agent.md) 
 | docs/adr/ | Architecture decision records |
 | docs/plan/ / docs/tasks/ | Milestone instructions and session-sized work |
 
-The command runner and native tools exist. The full product layout remains a plan; no worker service, project workflow or solver UI is implemented.
+The command runner and native tools exist. The full product layout remains a plan; project metadata is persistent, while the worker service, engineering workflow and solver UI remain later tasks.

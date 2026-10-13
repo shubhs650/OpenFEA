@@ -1,13 +1,13 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M0 — EXIT REVIEW NO-GO; M0-R1/M0-R2 corrected locally, owner/formulation and target-hardware acceptance open
-Next action: review M0-R1/M0-R2 corrections, obtain owner/target-hardware evidence and repeat M0 exit review; T007 remains blocked
+Current state: PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — bounded T007 development delivered by explicit request; M0 engineering/target-hardware acceptance and M1 exit remain open
+Next action: review T007 persistence evidence; T008 STEP import/selectable viewport is next, with pending M0 acceptance carried explicitly
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005/T006 requests authorize bounded development while predecessor review remains open. T006 development is delivered; the subsequent M0 exit review remains NO-GO. No M1 implementation starts in this review.
+Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. The user describes M0 development as completed and explicitly requests T007. As with earlier explicit later-task requests, this authorizes bounded development and supersedes the prior T007 scheduling block. It does not fabricate benchmark owner/date/criteria-hash records, target-hardware results or a repeated M0 gate decision. T007 implementation/checks are delivered; stop before T008 in this session.
 
 ## Implementation status
 
@@ -17,9 +17,11 @@ T003: IN PROGRESS
 T004: IN PROGRESS
 T005: IN PROGRESS
 T006: IN PROGRESS
-T007–T042: NOT STARTED
+T007: IN PROGRESS
+T008–T042: NOT STARTED
 M0: EXIT REVIEW NO-GO — M0-R1/M0-R2 fixes tested; engineering and target-hardware acceptance remain open.
-M1–M6 exit gates: NOT RUN.
+M1: T007 development delivered; formal predecessor acceptance pending, exit gate NOT RUN.
+M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
@@ -27,15 +29,26 @@ B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
+## T007 executed validation — 2026-10-13
+
+The real API now persists owner-scoped projects, project tombstones, immutable geometry metadata and independent draft analysis revisions in SQLite WAL. API startup applies reversible Alembic migrations. ETags/If-Match guard saves, immutable DB triggers preserve history, and owner/project foreign keys prevent cross-project geometry references. Loopback sessions, CSRF, Host/Origin checks, bounded request bytes and redacted errors are wired through the real API. Vite preserves Host for browser mutations. Beta/production still reject local bypass.
+
+- `make doctor` and final `make contracts check build smoke test-integration test-e2e` pass. **135 distinct automated cases passed, 0 failed, 0 skipped**: 118 Python unit, 7 TypeScript unit, 5 real-process integration, 5 Chromium. The 30 new cases include reversible/populated and failed-rollback migrations, competing edits, foreign ownership, immutable revisions, one real three-process restart and one browser/Vite CRUD flow. Repeat runs are not counted again.
+- Real HTTP restart preserves local owner, project/analysis history and deletion tombstones. Local session tokens reset on restart; reopening a session retains ownership. Browser writes without CSRF fail, valid writes pass, stale saves return 409 and deleted children disappear. The browser test found Vite's shorthand Host rewrite; the explicit proxy preserves Host instead of weakening the same-origin check.
+- SQLAlchemy 2.1.4 and Alembic 1.20.0 plus Mako 1.4.3/MarkupSafe 3.0.4 are pinned/locked and inventoried. Native tools, physical criteria and benchmark manifests are unchanged. Native/benchmark suites and target Windows hardware were not rerun for this metadata task. Existing Chromium stress-fixture regressions use a real diagnostic solve; they do not prove an application solve workflow.
+- [T007 evidence](docs/validation/T007.md), [ADR-015](docs/adr/ADR-015.md), [local persistence guide](docs/PERSISTENCE.md) and generated OpenAPI/TS contracts describe the concrete implementation. Geometry registration is internal for a future verified CAD adapter; browser geometry reads exist, but there is no import endpoint or artifact validity claim. The browser UI remains health-only; project operations are actual API paths.
+
+T007 development implementation meets its task checks. Formal status remains IN PROGRESS under the existing deferred T006/M0 dependency convention, with no missing implementation subtask hidden. T008 is the next bounded task. No worker, solver UI, analysis duplication, report, hosted auth, push or merge was added.
+
 ## What now works
 
-The React/Vite page and FastAPI health API remain operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow, project persistence or reports exist.
+The React/Vite page and FastAPI health API remain operational alongside the T007 project API. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. No application worker service, queue, user CAD/mesh/solve workflow or reports exist.
 
 T005 adds a limited real mortar connection experiment using CCX *EQUATION and native coordinate audits. Native *TIE failed the patch and is not a validated fallback. `make benchmark CASE=B07 DEVELOPMENT=1` passes both role cases within the planar unit/65-node scope, retaining all failed-candidate and negative evidence.
 
 Root/native dependencies are separately locked. Source/deb/wheel/runtime hashes and upstream license notices are recorded. Native processes receive a minimal environment, no network sockets, single-thread settings and resource limits. Full hostile-upload/filesystem isolation is not implemented. See [native setup](docs/NATIVE_TOOLS.md), [ADR-010](docs/adr/ADR-010.md) and the [dependency matrix](docs/DEPENDENCIES.md). Final public license remains deferred.
 
-## M0 exit-gate review
+## Historical M0 exit-gate review
 
 Reviewed commit `bc6af0041d8a6ef51b1ae5b100c3420708bd704d`, 2026-10-13 Asia/Calcutta. **NO-GO**. [Full review](docs/validation/M0-exit-review.md) and [retained review artifacts](docs/validation/results/M0/index.json) record source findings, current checks, manifest packet, analytical-reference assessment and exit actions. This is not engineering-owner approval; statuses remain authoritative.
 
@@ -68,7 +81,7 @@ Native implementation `d18901a3c2c6bfa4867dc0e3803cdeaddf318409`; child-reaping/
 - Two actual exterior WebGL/native-field checks pass with 60 rotations, field switches and inspected screenshots. Renderer is SwiftShader; 27,155-cell mesh draws 18,544 exterior triangles with median animation interval 42.4 ms. Integrated-GPU/Windows and total browser RSS acceptance remain unrun.
 - F1–F7 reviewed. Limited F6 scope is explicit. Highest cloud patch solve does not establish a laptop cap or arbitrary 30k-model capacity; start target calibration conservatively at ≤5k cells. F4/physical-gap/formulation and earlier owner reviews remain open. No M0 closure or milestone exception.
 
-T006 CLI development work is delivered; formal status stays IN PROGRESS for target hardware and owner review. T007 is next, not started. No application workflow, deployment, push or merge was added.
+At the T006 handoff, CLI development was delivered and T007 had not started; formal T006 acceptance remains open for target hardware and owner review. The subsequent explicit T007 request and delivered persistence checks are recorded above. T006 added no application workflow, deployment, push or merge.
 
 ## T005 executed validation
 
@@ -126,10 +139,12 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-M0 exit decision is **NO-GO**. M0-R1 and M0-R2 now have focused corrections and native/approval regressions. Review the fixes, preserve all physical criteria, actual native semantics and limits, then complete owner/target acceptance and repeat the exit decision. Current passing suites do not establish a passed milestone.
+T007 local persistence/API development is delivered and its targeted gates pass. Review [T007 evidence](docs/validation/T007.md). Next implementation is **T008**: add bounded STEP import, verified immutable artifacts and selectable face/body viewport, reusing T007 ownership/revision contracts. This session stops after T007. The user's explicit request supersedes the older scheduling statements in historical review sections; the complete M1 exit gate is not yet run.
+
+The historical M0 exit decision remains **NO-GO** pending an evidence-backed repeat. M0-R1/M0-R2 corrections were merged in PR #2 (current base `8e1e1a5`), but that does not establish engineering-owner/formulation or target-hardware acceptance. Preserve physical criteria, native semantics and limits while completing that evidence.
 
 Then obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash, including an explicit disposition of the F4 small-gap overview versus planned T019/B08. Reproduce resource/headed display on the existing 16 GiB WSL2 laptop/integrated GPU and choose a conservative measured cap. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and repeat the gate decision, or record a specific product-approved scope exception with disabled features/deferred deliverables.
 
-Next implementation task is **T007**, still NOT STARTED and blocked by M0. Review request does not authorize milestone advancement. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated. Formal T003–T007 statuses retain deferred acceptance; do not change frozen approval records based on the implementation request.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

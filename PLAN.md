@@ -2,7 +2,7 @@
 
 Execution is milestone-gated and dependency-ordered. No calendar estimate is promised for this lean personal project.
 
-Current authorized objective: fully working, validated LOCAL prototype through M4/T030. AWS, Google authentication, commercial billing and beta remain outside this stage. T001/T002 are complete; T003–T006 development experiments are delivered with engineering acceptance deferred. Explicit later task requests authorize bounded development without closing predecessor gates. Stop after the requested task. T006 cloud measurements/limited cleanup are delivered; M0 owner/hardware acceptance remains open. The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO with two software findings plus owner/target-hardware acceptance outstanding. T007 is next, not started and blocked; review requests do not authorize advancement.
+Current authorized objective: fully working, validated LOCAL prototype through M4/T030. AWS, Google authentication, commercial billing and beta remain outside this stage. T001/T002 are complete; T003–T006 development experiments are delivered with engineering acceptance deferred. Explicit later task requests authorize bounded development without closing predecessor gates. Stop after the requested task. The user explicitly requested T007 on 2026-10-13; its local persistence/API implementation and checks are now delivered. This supersedes the earlier scheduling block while preserving M0 owner/hardware acceptance, historical [NO-GO review](docs/validation/M0-exit-review.md) and frozen benchmark records. Formal T007 status remains IN PROGRESS under those acceptance dependencies. T008 is next; no later task or complete M1 gate was implemented.
 
 | Milestone | Tasks | Exit evidence |
 |---|---|---|
