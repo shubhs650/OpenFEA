@@ -24,8 +24,8 @@ function App() {
       </header>
       <Workspace />
       <footer>
-        Geometry, materials and face loads with checked coarse deck export.
-        Solving and calculated results are not available yet.
+        Geometry, materials and face loads with checked coarse mesh and local
+        solve jobs. Calculated result views follow later.
       </footer>
     </main>
   );

@@ -31,6 +31,8 @@ Use a validated CCX tie formulation for independently meshed bodies. Review mast
 Candidate detection uses opposing normals, overlap area and separation, not bounding boxes alone. Reject body volume overlaps beyond declared geometric tolerance. Distinguish numerical coincidence tolerance from a user-approved physical gap. Check all intended interface nodes are tied and no unintended nodes are captured. Prevent ties from forcing an unsupported rigid connection across arbitrary gaps. Small-gap maximum is benchmark-derived and visible, not a universal number.
 Preflight connected-body graph and support coverage are heuristics, not a proof of stiffness rank. Solver singularity detection is a second gate. Never auto-add weak springs.
 
+T011 runs those checked affine meshes/decks through bounded isolated CCX and requires its finish marker, actual free equations, no recognized numerical error and strict finite/coverage/coordinate/topology/material/frame DAT/FRD validation. Native global S,COORD remains pinned; DAT IP tensors are authoritative and FRD averaged stresses diagnostic. Frozen warnings and raw hashes survive edits/restarts. This is raw-output validation, not convergence or general stability certification. [Evidence](validation/T011.md) and [ADR-019](adr/ADR-019.md) retain the fixed axial/multi-body references. Calculated views/equilibrium presentation follow in T012/T015.
+
 ## Stress and derived quantities
 
 Keep all six tensor components with explicit order (xx, yy, zz, xy, yz, zx), frame, location type and stress units. Principal stresses are sorted eigenvalues of the symmetric tensor. Von Mises is sqrt(((sx-sy)^2+(sy-sz)^2+(sz-sx)^2)/2 + 3*(txy^2+tyz^2+tzx^2)). Test hydrostatic, uniaxial and pure-shear tensors independently.

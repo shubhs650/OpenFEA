@@ -18,10 +18,14 @@ from app.domain.deck_service import DeckService
 from app.domain.errors import DomainError
 from app.domain.import_service import ImportService
 from app.domain.models import ErrorResponse
+from app.jobs.runner import LocalWorker
+from app.jobs.service import JobService
 from app.persistence.database import Database
 from app.persistence.imports import ImportRepository
+from app.persistence.jobs import JobRepository
 from app.persistence.repository import Repository
 from app.routes import imports as _imports  # noqa: F401
+from app.routes import jobs as _jobs  # noqa: F401
 from app.routes import loads as _loads  # noqa: F401
 from app.routes import materials as _materials  # noqa: F401
 from app.routes.projects import router
@@ -40,6 +44,7 @@ def create_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         database = Database(settings.data_root / "metadata.sqlite3")
+        worker: LocalWorker | None = None
         try:
             database.migrate()
             app.state.repository = Repository(database)
@@ -50,8 +55,16 @@ def create_app() -> FastAPI:
             app.state.deck_service = DeckService(app.state.repository, app.state.import_service)
             app.state.session_token = secrets.token_urlsafe(32)
             app.state.csrf_token = secrets.token_urlsafe(32)
+            app.state.job_service = JobService(
+                JobRepository(app.state.repository), app.state.deck_service
+            )
+            worker = LocalWorker(app.state.job_service)
+            app.state.local_worker = worker
+            worker.start()
             yield
         finally:
+            if worker is not None:
+                worker.close()
             database.close()
 
     app = FastAPI(

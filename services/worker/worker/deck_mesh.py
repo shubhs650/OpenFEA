@@ -10,12 +10,15 @@ import time
 from pathlib import Path
 from typing import Any
 
+from worker.local_process import NativeControl, supervise
 from worker.resources import process_tree_rss
 from worker.runtime import NATIVE, ROOT, native_environment, verified_tool
 from worker.step_import import ImportSandboxError, process_filter, scratch_usage
 
 
-def mesh_snapshot(inputs: Path, output: Path, sizes: list[float]) -> dict[str, Any]:
+def mesh_snapshot(
+    inputs: Path, output: Path, sizes: list[float], *, control: NativeControl | None = None
+) -> dict[str, Any]:
     bwrap = shutil.which("bwrap")
     python = NATIVE / "venvs/mesh/bin/python"
     if bwrap is None or not python.is_file():
@@ -53,6 +56,29 @@ def mesh_snapshot(inputs: Path, output: Path, sizes: list[float]) -> dict[str, A
     for input_path in sorted(inputs.iterdir()):
         command += ["--ro-bind", str(input_path), "/work/out/" + input_path.name]
     command += ["--ro-bind", str(verified_tool("netdeny")), "/limits", "--chdir", "/work/out"]
+    if control is not None:
+        command += [
+            "/limits",
+            str(python),
+            "-I",
+            str(ROOT / "services/worker/worker/meshing_native/build.py"),
+            str(min(sizes)),
+            "0",
+            json.dumps(sizes),
+            "3000",
+        ]
+        execution = supervise(command, output, control, "native.log")
+        if execution["returncode"] != 0:
+            raise ImportSandboxError("Isolated mesh generation failed")
+        generated_path = output / "mesh.json"
+        if (
+            generated_path.is_symlink()
+            or not generated_path.is_file()
+            or generated_path.stat().st_size > 32 * 1024**2
+        ):
+            raise ImportSandboxError("Invalid mesh output")
+        value: dict[str, Any] = json.loads(generated_path.read_bytes())
+        return value
     filter_path = output.parent / "process-filter.bpf"
     filter_path.write_bytes(process_filter())
     started = time.monotonic()

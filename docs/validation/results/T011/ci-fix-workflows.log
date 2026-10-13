@@ -1,0 +1,38 @@
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 9 items
+
+tests/integration/test_local_jobs.py ..                                  [ 22%]
+tests/integration/test_persistence.py ...                                [ 55%]
+tests/integration/test_startup.py ....                                   [100%]
+
+============================== 9 passed in 23.01s ==============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 13 tests using 1 worker
+
+(node:42688) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.8s)
+  ✓   2 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.1s)
+  ✓   3 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.8s)
+  ✓   4 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (354ms)
+  ✓   5 tests/e2e/health.spec.ts:16:1 › page reports a health network failure without claiming readiness (318ms)
+  ✓   6 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (4.9s)
+  ✓   7 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (3.8s)
+  ✓   8 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (5.2s)
+  ✓   9 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (309ms)
+  ✓  10 tests/e2e/runs.spec.ts:150:1 › real asynchronous mesh preview, solve validation, downloads and retained history (7.3s)
+  ✓  11 tests/e2e/runs.spec.ts:210:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (7.3s)
+  ✓  12 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (203ms)
+  ✓  13 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (84ms)
+
+  13 passed (45.4s)

@@ -26,11 +26,17 @@ def test_health_contract() -> None:
         assert "/api/v1/health" in schema["paths"]
 
 
-def test_no_solver_routes() -> None:
+def test_solver_submission_requires_owned_revision_and_request_key() -> None:
     with TestClient(
         create_app(), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)
     ) as client:
-        assert client.post("/api/v1/analyses/example/runs").status_code == 404
+        assert client.post("/api/v1/analyses/example/runs").status_code == 428
+        response = client.post(
+            "/api/v1/analyses/11111111-1111-1111-1111-111111111111/runs",
+            json={"mesh_job_id": "22222222-2222-2222-2222-222222222222"},
+            headers={"If-Match": '"1"', "Idempotency-Key": "33333333-3333-3333-3333-333333333333"},
+        )
+        assert response.status_code == 401
 
 
 @pytest.mark.parametrize(
