@@ -87,8 +87,15 @@ def measured_native(
             elif time.monotonic() - started > timeout:
                 stopped = "wall_budget_exceeded"
             if stopped:
-                os.killpg(process.pid, signal.SIGKILL)
-                stdout, stderr = process.communicate()
+                try:
+                    os.killpg(process.pid, signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+                try:
+                    stdout, stderr = process.communicate(timeout=1)
+                except subprocess.TimeoutExpired:
+                    os.killpg(process.pid, signal.SIGKILL)
+                    stdout, stderr = process.communicate()
                 break
             try:
                 stdout, stderr = process.communicate(timeout=0.05)

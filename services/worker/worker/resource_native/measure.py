@@ -2,11 +2,24 @@
 
 import json
 import resource
+import signal
 import subprocess
 import sys
 from pathlib import Path
 
-result = subprocess.run(sys.argv[2:], stdin=subprocess.DEVNULL, check=False)
+process = subprocess.Popen(sys.argv[2:], stdin=subprocess.DEVNULL)
+
+
+def terminate(_signal, _frame):
+    # Parent terminates the owned group. Keep this wrapper alive to reap its direct child.
+    try:
+        process.send_signal(signal.SIGTERM)
+    except ProcessLookupError:
+        pass
+
+
+signal.signal(signal.SIGTERM, terminate)
+returncode = process.wait()
 usage = resource.getrusage(resource.RUSAGE_CHILDREN)
 Path(sys.argv[1]).write_text(
     json.dumps(
@@ -14,10 +27,10 @@ Path(sys.argv[1]).write_text(
             "maxrss_bytes": usage.ru_maxrss * 1024,
             "user_seconds": usage.ru_utime,
             "system_seconds": usage.ru_stime,
-            "returncode": result.returncode,
+            "returncode": returncode,
             "scope": "Linux child-process maximum RSS; sampled tree sum includes wrapper",
         }
     )
     + "\n"
 )
-raise SystemExit(result.returncode if result.returncode >= 0 else 128 - result.returncode)
+raise SystemExit(returncode if returncode >= 0 else 128 - returncode)

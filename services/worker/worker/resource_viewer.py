@@ -53,6 +53,7 @@ const result={renderer:gpu,vendor,volume_elements:data.volume_elements,
 surface_triangles:data.surface_triangles,buffer_bytes:data.vertices.length*4,upload_ms:uploadMs,
 mesh_sha256:data.mesh_sha256,dat_sha256:data.dat_sha256,field:'ux',frame_ms:times};
 function draw(){const index=Number(document.getElementById('field').value);
+const drawStarted=performance.now();
 let lo=Infinity,hi=-Infinity;
 for(let i=index;i<data.vertices.length;i+=5){lo=Math.min(lo,data.vertices[i]);
 hi=Math.max(hi,data.vertices[i]);}
@@ -64,6 +65,9 @@ gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
 gl.drawArrays(gl.TRIANGLES,0,data.vertices.length/5);gl.finish();times.push(performance.now()-before);
 if(gl.getError()!==gl.NO_ERROR)throw Error('WebGL draw failed');
 result.field=index===3?'ux':'raw element IP1 xx';result.range=[lo,hi];
-window.openfeaResource=result;document.getElementById('metrics').textContent=JSON.stringify(result,null,2);}
+result.draw_total_ms=performance.now()-drawStarted;
+window.openfeaResource=result;
+const summary={...result,frame_ms:undefined,frames:times.length};
+document.getElementById('metrics').textContent=JSON.stringify(summary,null,2);}
 document.getElementById('field').onchange=draw;document.getElementById('angle').oninput=draw;draw();
 </script></html>"""

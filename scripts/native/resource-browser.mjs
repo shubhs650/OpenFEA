@@ -1,6 +1,8 @@
 // Repeatable display diagnostic. Use --headed on the target laptop for GPU evidence.
 /* global document, Event, requestAnimationFrame */
 import process from "node:process";
+import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -25,11 +27,17 @@ try {
   const before = await page.locator("canvas").screenshot();
   const stats = await page.evaluate(async () => {
     const angle = document.getElementById("angle");
+    const frameIntervals = [];
+    let previous = performance.now();
     for (let i = 0; i < 60; i++) {
       angle.value = String(i / 10);
       angle.dispatchEvent(new Event("input"));
       await new Promise(requestAnimationFrame);
+      const now = performance.now();
+      frameIntervals.push(now - previous);
+      previous = now;
     }
+    globalThis.openfeaResource.animation_intervals_ms = frameIntervals;
     return globalThis.openfeaResource;
   });
   assert.equal(stats.mesh_sha256, payload.mesh_sha256);
@@ -43,10 +51,13 @@ try {
   await page.getByLabel("Displayed field").selectOption("4");
   const stress = await page.evaluate(() => globalThis.openfeaResource);
   const nativeValues = payload.vertices.filter((_, index) => index % 5 === 4);
-  assert.deepEqual(stress.range, [
-    Math.min(...nativeValues),
-    Math.max(...nativeValues),
-  ]);
+  assert.deepEqual(
+    stress.range,
+    nativeValues.reduce(
+      ([lo, hi], value) => [Math.min(lo, value), Math.max(hi, value)],
+      [Infinity, -Infinity],
+    ),
+  );
   assert.equal(stress.field, "raw element IP1 xx");
   const changed = await page.locator("canvas").screenshot();
   assert(
@@ -60,6 +71,12 @@ try {
   const sorted = [...stress.frame_ms].sort((a, b) => a - b);
   const result = {
     ...stress,
+    code_commit: execFileSync("git", ["rev-parse", "HEAD"], {
+      encoding: "utf8",
+    }).trim(),
+    viewer_source_sha256: createHash("sha256")
+      .update(readFileSync("services/worker/worker/resource_viewer.py"))
+      .digest("hex"),
     browser: browser.version(),
     mode: headed
       ? "headed target-machine test"
