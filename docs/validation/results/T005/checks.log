@@ -1,0 +1,67 @@
+.venv/bin/ruff check services scripts tests
+All checks passed!
+.venv/bin/ruff format --check services scripts tests
+43 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 34 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 74 items
+
+tests/unit/test_api.py .........                                         [ 12%]
+tests/unit/test_bonds.py ................                                [ 33%]
+tests/unit/test_quadratic.py .....................                       [ 62%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================== 74 passed in 0.28s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  19:51:43
+   Duration  146ms (tests 64%, import 19%, transform 10%, worker 7%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmp2qrpmmah/openapi.json → /tmp/tmp2qrpmmah/api.d.ts [22.8ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 99 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 30 items
+
+tests/native/test_bond_native.py ...                                     [ 10%]
+tests/native/test_mapping.py ..............                              [ 56%]
+tests/native/test_stress_native.py ....                                  [ 70%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+============================= 30 passed in 26.31s ==============================

@@ -1,0 +1,163 @@
+{
+  "platform": "Linux x86_64; Debian 13 validated",
+  "ccx_version": "2.23",
+  "gcc_version": "14.2.0",
+  "build_jobs": 4,
+  "debian_provenance": "Debian trixie Packages via signature-verified InRelease; SHA-256 matched every package before pinning",
+  "artifacts": [
+    {
+      "name": "ccx_2.23.src.tar.bz2",
+      "url": "https://www.dhondt.de/ccx_2.23.src.tar.bz2",
+      "version": "2.23",
+      "sha256": "9c88385c10fb04f5dc6c4e98027a51bebdd8aee3920e05190d6c1dd08357d6e7",
+      "kind": "source"
+    },
+    {
+      "name": "ccx_2.23.SPOOLEScorrection.tar.bz2",
+      "url": "https://www.dhondt.de/ccx_2.23.SPOOLEScorrection.tar.bz2",
+      "version": "2.23",
+      "sha256": "15528f09312dc7605c0600358f5e6de12945449f249dfcfca7417eed6c220b93",
+      "kind": "source"
+    },
+    {
+      "name": "ccx_2.23.htm.tar.bz2",
+      "url": "https://www.dhondt.de/ccx_2.23.htm.tar.bz2",
+      "version": "2.23",
+      "sha256": "ed14b31b51972d5492209a42fcd52a062e36cbc7843bcd358617cb3aee0da736",
+      "kind": "source"
+    },
+    {
+      "name": "spooles.2.2.tgz",
+      "url": "https://www.netlib.org/linalg/spooles/spooles.2.2.tgz",
+      "version": "2.2",
+      "sha256": "a84559a0e987a1e423055ef4fdf3035d55b65bbe4bf915efaa1a35bef7f8c5dd",
+      "kind": "source"
+    },
+    {
+      "name": "gfortran-14-x86-64-linux-gnu_14.2.0-19_amd64.deb",
+      "package": "gfortran-14-x86-64-linux-gnu",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/gfortran-14-x86-64-linux-gnu_14.2.0-19_amd64.deb",
+      "sha256": "520b3283edc193b75644d655654834662f56f9006a78751d91feb882b74ca684",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "libarpack2-dev_3.9.1-6_amd64.deb",
+      "package": "libarpack2-dev",
+      "version": "3.9.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/a/arpack/libarpack2-dev_3.9.1-6_amd64.deb",
+      "sha256": "6fc56094f0f9100fcf5e7cfba6390d93aecd79c4305e21b17bdab145dfb015bf",
+      "kind": "debian",
+      "source_package": "arpack"
+    },
+    {
+      "name": "libarpack2t64_3.9.1-6_amd64.deb",
+      "package": "libarpack2t64",
+      "version": "3.9.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/a/arpack/libarpack2t64_3.9.1-6_amd64.deb",
+      "sha256": "d4e49ad09975800befd3ef1bbcf13d9413379686bd66f832e2ae13723097b8c4",
+      "kind": "debian",
+      "source_package": "arpack"
+    },
+    {
+      "name": "libblas-dev_3.12.1-6_amd64.deb",
+      "package": "libblas-dev",
+      "version": "3.12.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/l/lapack/libblas-dev_3.12.1-6_amd64.deb",
+      "sha256": "14c7a43c849ddca01f5650983c431be943daa28389e03c59884e827cb8d8cf34",
+      "kind": "debian",
+      "source_package": "lapack"
+    },
+    {
+      "name": "libblas3_3.12.1-6_amd64.deb",
+      "package": "libblas3",
+      "version": "3.12.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/l/lapack/libblas3_3.12.1-6_amd64.deb",
+      "sha256": "4af245ecafc30bfa1de9d20af02fec96654ead2f06b1dac40cb03fc9eb0bfbe6",
+      "kind": "debian",
+      "source_package": "lapack"
+    },
+    {
+      "name": "libgcc-s1_14.2.0-19_amd64.deb",
+      "package": "libgcc-s1",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libgcc-s1_14.2.0-19_amd64.deb",
+      "sha256": "3c71917b490d1a17aed43196a2787a256ecf060526cdb20216a74bedc061b150",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "libgfortran-14-dev_14.2.0-19_amd64.deb",
+      "package": "libgfortran-14-dev",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libgfortran-14-dev_14.2.0-19_amd64.deb",
+      "sha256": "8460dfd941d9f60e92516e5c4e3f8bb08e60983e7526f376a7c87969a8a2dbfb",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "libgfortran5_14.2.0-19_amd64.deb",
+      "package": "libgfortran5",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libgfortran5_14.2.0-19_amd64.deb",
+      "sha256": "11b62b53f4704de557e44b510e18a1a2106bcd9a3fc31a475a45952a9aa3dbb2",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "libgomp1_14.2.0-19_amd64.deb",
+      "package": "libgomp1",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libgomp1_14.2.0-19_amd64.deb",
+      "sha256": "72b7a1a33c48f3195efeb044111b34ae684b1e640bb6495c832443b798601cd5",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "liblapack-dev_3.12.1-6_amd64.deb",
+      "package": "liblapack-dev",
+      "version": "3.12.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/l/lapack/liblapack-dev_3.12.1-6_amd64.deb",
+      "sha256": "1ba8db2690012d7526b8d842b0c97839a94570647772971cbd3d18fe7443957c",
+      "kind": "debian",
+      "source_package": "lapack"
+    },
+    {
+      "name": "liblapack3_3.12.1-6_amd64.deb",
+      "package": "liblapack3",
+      "version": "3.12.1-6",
+      "url": "https://deb.debian.org/debian/pool/main/l/lapack/liblapack3_3.12.1-6_amd64.deb",
+      "sha256": "abfc59c8410beee738617bb6daf86b295e45ec0bd08cc0e97bfecc3cfa40fe75",
+      "kind": "debian",
+      "source_package": "lapack"
+    },
+    {
+      "name": "libquadmath0_14.2.0-19_amd64.deb",
+      "package": "libquadmath0",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libquadmath0_14.2.0-19_amd64.deb",
+      "sha256": "f5b51cf0ece3ec3bb7494d0cdbff3ce715ae00cfb2b6ed787f7db91319d64a7b",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "gcc-14-x86-64-linux-gnu_14.2.0-19_amd64.deb",
+      "package": "gcc-14-x86-64-linux-gnu",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/gcc-14-x86-64-linux-gnu_14.2.0-19_amd64.deb",
+      "sha256": "a17ef039f1ba482051c3efb5c2c24070002e60dd0bd09fd456ec31481a11b725",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    },
+    {
+      "name": "libgcc-14-dev_14.2.0-19_amd64.deb",
+      "package": "libgcc-14-dev",
+      "version": "14.2.0-19",
+      "url": "https://deb.debian.org/debian/pool/main/g/gcc-14/libgcc-14-dev_14.2.0-19_amd64.deb",
+      "sha256": "ca6f2d36d96b19b3eb71405b0b80134d8c89380b02204a2512e5c58ceb090628",
+      "kind": "debian",
+      "source_package": "gcc-14"
+    }
+  ]
+}

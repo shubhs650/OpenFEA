@@ -1,0 +1,81 @@
+.venv/bin/ruff check services scripts tests
+All checks passed!
+.venv/bin/ruff format --check services scripts tests
+38 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 29 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 58 items
+
+tests/unit/test_api.py .........                                         [ 15%]
+tests/unit/test_quadratic.py .....................                       [ 51%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================== 58 passed in 0.31s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:59:19
+   Duration  154ms (tests 60%, import 20%, transform 12%, worker 8%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpsseo7n15/openapi.json → /tmp/tmpsseo7n15/api.d.ts [23.7ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 97 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 27 items
+
+tests/native/test_mapping.py ..............                              [ 51%]
+tests/native/test_stress_native.py ....                                  [ 66%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+============================== 27 passed in 9.91s ==============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 4 tests using 1 worker
+
+(node:44634) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/health.spec.ts:3:1 › health-only page connects to the real API through Vite (264ms)
+  ✓  2 tests/e2e/health.spec.ts:18:1 › page reports a health network failure without claiming readiness (218ms)
+  ✓  3 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (207ms)
+  ✓  4 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (113ms)
+
+  4 passed (3.3s)

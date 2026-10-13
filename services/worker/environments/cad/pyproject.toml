@@ -1,0 +1,8 @@
+[project]
+name = "openfea-cad-native"
+version = "0.1.0"
+requires-python = "==3.12.*"
+dependencies = ["cadquery-ocp==8.0.1.1.0", "numpy==2.5.4"]
+
+[tool.uv]
+package = false

@@ -1,0 +1,136 @@
+{
+  "reviewed_commit": "bc6af0041d8a6ef51b1ae5b100c3420708bd704d",
+  "scope": "Read-only native/evidence review plus controlled failure/invalid-approval probes. No benchmark approval; nominal labels in the tiny failure probe are not capacity measurements.",
+  "files": [
+    {
+      "path": "B01-result.json",
+      "bytes": 3213,
+      "sha256": "04347096836a1d46a5b671bf27ca5a15081d4f222742e402e3a76304f9bdd741"
+    },
+    {
+      "path": "B02-result.json",
+      "bytes": 3244,
+      "sha256": "07d636229d5a62c2ffb676affc296796ccea9a0aedabffdecd01cbfa6e687a61"
+    },
+    {
+      "path": "B07-result.json",
+      "bytes": 19537,
+      "sha256": "15bdd0fb6f4a88a1f1553561f270789730222e846ffdd56dac995a95a95fd48e"
+    },
+    {
+      "path": "B09-result.json",
+      "bytes": 2032,
+      "sha256": "79f29c6253ce8208e224556110ab234d701458c5514eb734ed33a3459c58163e"
+    },
+    {
+      "path": "bond-negatives-result.json",
+      "bytes": 3980,
+      "sha256": "d54b480fc64e863b3cd51bd2d4d4b68001a038a9bcad807fc024382eafa191d6"
+    },
+    {
+      "path": "browser/mesh-25000/browser.json",
+      "bytes": 3139,
+      "sha256": "e246dbf932bf83690be92e40a49de557a4b2ec142306518754958664341c4b0f"
+    },
+    {
+      "path": "browser/mesh-25000/browser.png",
+      "bytes": 220383,
+      "sha256": "4894cf9b2f6ca89e85db58f73cf235bfdc4200b19e96261dfd52e3ab0fb3c409"
+    },
+    {
+      "path": "browser/mesh-5000/browser.json",
+      "bytes": 3366,
+      "sha256": "af7b048de80c83a8a87205a5c35c44b4517cd04fa5feaf635f8291a8bcec418d"
+    },
+    {
+      "path": "browser/mesh-5000/browser.png",
+      "bytes": 242287,
+      "sha256": "77345732a8f6ea685d49c65f17cc182d61a80fd0db0ce70b6158187fd592661a"
+    },
+    {
+      "path": "browser-medium.log",
+      "bytes": 3218,
+      "sha256": "3853e7d24dbfcece56c2085f6a1a755461024938030402aa0534c5a9737eebc2"
+    },
+    {
+      "path": "browser-small.log",
+      "bytes": 3444,
+      "sha256": "3352cbd84b70e8531473ba69e96703c814225d60b71b333b29b35ba6c86c2698"
+    },
+    {
+      "path": "checks.log",
+      "bytes": 4915,
+      "sha256": "05770e1d9ac8a521b08520868fa0cd3ee711bb15db46dbabf067e0c3fc8257d2"
+    },
+    {
+      "path": "evidence-reference-audit.json",
+      "bytes": 6881,
+      "sha256": "0f5561bf60b2db8629b6f1b905ea736f6d94d3ab857271105fdc1be7c57fdfea"
+    },
+    {
+      "path": "final-checks.log",
+      "bytes": 573,
+      "sha256": "4a386a0855c3166000337a2ebb19c4983f577586a0e3cca83f9d27be762c7838"
+    },
+    {
+      "path": "native-inventory-integrity.json",
+      "bytes": 547,
+      "sha256": "58d255ddce6dda9061dd6ffc9f82f128ca93bd9c32bc79a1550096301c0e8b54"
+    },
+    {
+      "path": "owner-guards.json",
+      "bytes": 733,
+      "sha256": "b98359f9df484289c1845844b7c1b7993ce931070446959034e85d83fd97bedc"
+    },
+    {
+      "path": "retained-T006-integrity.json",
+      "bytes": 116,
+      "sha256": "21a68cb492c099ecd5255b4ba717b4b7abf8a677f1fa6714fe5536300ea13fd6"
+    },
+    {
+      "path": "reviewed-commit.txt",
+      "bytes": 41,
+      "sha256": "1ae05ab2335acf3617c4dc9f58dcb1c1b0d89338b2be0af082ea5e60b9558a1d"
+    },
+    {
+      "path": "signoff-probe-result.json",
+      "bytes": 431,
+      "sha256": "501065ee9b6a4d497b8462ad470a5850190eb53df7a04a7ddf51e3a2590b9ff2"
+    },
+    {
+      "path": "signoff-probe.log",
+      "bytes": 431,
+      "sha256": "501065ee9b6a4d497b8462ad470a5850190eb53df7a04a7ddf51e3a2590b9ff2"
+    },
+    {
+      "path": "signoff_probe.py",
+      "bytes": 1580,
+      "sha256": "c641d010834536280424505a66636eba5bb62d0e5a6885bd6c998456e101f5ec"
+    },
+    {
+      "path": "stop-probe-result.json",
+      "bytes": 2094,
+      "sha256": "a2c94d2bfd19048a90e9be0008ac416fbf40581de12696a6de9dd2adb6665c3a"
+    },
+    {
+      "path": "stop-probe.log",
+      "bytes": 13274,
+      "sha256": "4666d2647e65d1fb2d46dc1c1d0d34861c0ad4917cbc48c88b8109a23cce0041"
+    },
+    {
+      "path": "stop_probe.py",
+      "bytes": 1983,
+      "sha256": "ab5e562355c8355f4022a5371bb07c50e4dc7757c943e3fa906a83dfaa8dfc36"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 11414,
+      "sha256": "d1b93f51388c8f4630233fb64d8e026740bc7869bd88e22792b9568bfcd52d52"
+    },
+    {
+      "path": "verify_evidence.py",
+      "bytes": 5244,
+      "sha256": "3aaab25fc383e530e621e92328113410679987d062e859d461bc1826a696ca11"
+    }
+  ]
+}

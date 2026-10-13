@@ -1,0 +1,85 @@
+{
+  "scope": "Failure sequencing only; tiny real Gmsh meshes and actual exit-7 preparation child. Not a capacity/physics benchmark; manifests unchanged.",
+  "runner_exit_code": 2,
+  "calls": [
+    {
+      "directory": "mesh-5000",
+      "stage": "mesh",
+      "status": "completed",
+      "returncode": 0,
+      "actual_command": [
+        "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+        "-I",
+        "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+        "0.6",
+        "0",
+        "null"
+      ]
+    },
+    {
+      "directory": "mesh-5000",
+      "stage": "prepare",
+      "status": "native_failed",
+      "returncode": 7,
+      "actual_command": [
+        "/workspace/OpenFEA/.venv/bin/python",
+        "-I",
+        "-c",
+        "raise SystemExit(7)"
+      ]
+    },
+    {
+      "directory": "mesh-25000",
+      "stage": "mesh",
+      "status": "completed",
+      "returncode": 0,
+      "actual_command": [
+        "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+        "-I",
+        "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+        "0.6",
+        "0",
+        "null"
+      ]
+    },
+    {
+      "directory": "mesh-25000",
+      "stage": "prepare",
+      "status": "native_failed",
+      "returncode": 7,
+      "actual_command": [
+        "/workspace/OpenFEA/.venv/bin/python",
+        "-I",
+        "-c",
+        "raise SystemExit(7)"
+      ]
+    },
+    {
+      "directory": "mesh-100000",
+      "stage": "mesh",
+      "status": "completed",
+      "returncode": 0,
+      "actual_command": [
+        "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+        "-I",
+        "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+        "0.6",
+        "0",
+        "null"
+      ]
+    },
+    {
+      "directory": "mesh-100000",
+      "stage": "prepare",
+      "status": "native_failed",
+      "returncode": 7,
+      "actual_command": [
+        "/workspace/OpenFEA/.venv/bin/python",
+        "-I",
+        "-c",
+        "raise SystemExit(7)"
+      ]
+    }
+  ],
+  "finding_reproduced": true
+}

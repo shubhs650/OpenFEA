@@ -1,6 +1,8 @@
 # M0 feasibility and stop/go review
 
-Status: all experiments NOT RUN. Recommendations below are hypotheses, not results.
+Exit review, 2026-10-13 Asia/Calcutta: **NO-GO**. [Full review](validation/M0-exit-review.md) records 123 passing automated cases and two passing software display checks, but also reproduces invalid sign-off acceptance and continuation after native stage failure. Engineering approval and target WSL2/integrated-GPU evidence remain open. Passing development tests do not close the milestone.
+
+Status: F1 availability PASSED in [T002](validation/T002.md). T003/T004 supply F2/F3/F5 development evidence; [T005](validation/T005.md) proves limited zero-gap consistent mortar while retaining a failed native tie candidate. F4 engineering/formulation and physical-gap acceptance remains open. B01/B02/B09/B07 owner review is deferred; [T006](validation/T006.md) reviews F1–F7: F6 limited native cleanup passes; F7 cloud resource/software display diagnostics pass while target-laptop/integrated-GPU and large solve acceptance remain open. F8 unrun. Full M0 exit is open; development passes are not release acceptance.
 
 | Gate | Experiment | Required evidence | Failure response |
 |---|---|---|---|

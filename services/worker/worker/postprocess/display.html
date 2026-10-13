@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stress provenance — B09 development diagnostic</title>
+    <style>
+      body {
+        margin: 0;
+        background: #f5f7fa;
+        color: #182838;
+        font:
+          16px system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1000px;
+        margin: 32px auto;
+        padding: 24px;
+        background: white;
+        border: 1px solid #dbe3ec;
+        border-radius: 12px;
+      }
+      h1 {
+        font-size: 26px;
+        margin-top: 0;
+      }
+      p {
+        line-height: 1.6;
+      }
+      label {
+        margin-right: 16px;
+      }
+      select {
+        font: inherit;
+        padding: 7px;
+      }
+      svg {
+        width: 100%;
+        border: 1px solid #e2e8ee;
+        margin: 20px 0;
+      }
+      polygon {
+        stroke: #243c54;
+        stroke-width: 1;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #e2e8ee;
+        text-align: left;
+      }
+      .notice {
+        background: #fff5d9;
+        padding: 12px;
+      }
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Stress provenance: material interface</h1>
+      <p class="notice">
+        Development diagnostic — engineering-owner acceptance pending.
+      </p>
+      <p>
+        Two views of the same z=0 interface. Each element keeps its own six face
+        nodes and tensor values. Colors use element-owned values extrapolated
+        from raw DAT integration-point stresses. Values are in Pa; coordinates
+        are in m.
+      </p>
+      <label
+        >Field
+        <select id="field" aria-label="Stress field">
+          <option value="xx">σxx</option>
+          <option value="yy">σyy</option>
+          <option value="zz">σzz</option>
+          <option value="xy">τxy</option>
+          <option value="yz">τyz</option>
+          <option value="zx">τzx</option>
+          <option value="von_mises">von Mises</option>
+          <option value="principal_1">Largest principal stress</option>
+        </select></label
+      >
+      <label
+        >Shared node
+        <select id="node" aria-label="Shared interface node"></select
+      ></label>
+      <svg
+        id="view"
+        viewBox="0 0 800 230"
+        role="img"
+        aria-label="Separate material sides of shared interface"
+      ></svg>
+      <p id="location">
+        Element-node extrapolation from raw DAT; unaveraged by element. Global
+        Cartesian frame.
+      </p>
+      <table aria-label="Interface stress comparison">
+        <thead>
+          <tr>
+            <th>Source / side</th>
+            <th>Value (Pa)</th>
+            <th>Location and method</th>
+          </tr>
+        </thead>
+        <tbody id="comparison"></tbody>
+      </table>
+      <h2>Raw integration-point tensors</h2>
+      <p>
+        Component order: xx, yy, zz, xy, yz, zx. These eight native samples
+        remain separate from the derived display field.
+      </p>
+      <table aria-label="Raw tensor samples">
+        <thead>
+          <tr>
+            <th>Element / material / IP</th>
+            <th>Position (m)</th>
+            <th>Tensor (Pa)</th>
+          </tr>
+        </thead>
+        <tbody id="raw"></tbody>
+      </table>
+      <details>
+        <summary>Run provenance</summary>
+        <pre id="provenance"></pre>
+      </details>
+    </main>
+    <script id="result" type="application/json">
+      __RESULT_DATA__
+    </script>
+    <script>
+      "use strict";
+      const data = JSON.parse(document.querySelector("#result").textContent);
+      const select = document.querySelector("#field"),
+        nodeSelect = document.querySelector("#node");
+      const shared = data.mesh.elements["1"]
+        .filter((n) => data.mesh.elements["2"].includes(n))
+        .sort((a, b) => a - b);
+      for (const n of shared) {
+        const option = document.createElement("option");
+        option.value = n;
+        option.textContent = n;
+        nodeSelect.append(option);
+      }
+      function value(sample) {
+        const field = select.value;
+        return field === "von_mises"
+          ? sample.von_mises_pa
+          : field === "principal_1"
+            ? sample.principal_pa[0]
+            : sample.tensor_pa[data.components.indexOf(field)];
+      }
+      function row(parent, values, attributes = {}) {
+        const tr = document.createElement("tr");
+        for (const [k, v] of Object.entries(attributes)) tr.setAttribute(k, v);
+        for (const v of values) {
+          const td = document.createElement("td");
+          td.textContent = v;
+          tr.append(td);
+        }
+        parent.append(tr);
+      }
+      function render() {
+        const node = Number(nodeSelect.value),
+          svg = document.querySelector("#view"),
+          table = document.querySelector("#comparison");
+        svg.replaceChildren();
+        table.replaceChildren();
+        const samples = data.element_nodes.filter((p) => p.node_id === node),
+          values = samples.map(value),
+          minimum = Math.min(...values),
+          maximum = Math.max(...values);
+        for (const sample of samples) {
+          const fraction =
+            maximum === minimum
+              ? 0.5
+              : (value(sample) - minimum) / (maximum - minimum);
+          const polygon = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "polygon",
+          );
+          const offset = sample.element_id === 1 ? 70 : 460;
+          polygon.setAttribute(
+            "points",
+            `${offset},190 ${offset + 260},190 ${offset + 130},35`,
+          );
+          polygon.setAttribute("fill", `hsl(${220 - 200 * fraction} 72% 58%)`);
+          polygon.setAttribute("data-element", sample.element_id);
+          polygon.setAttribute("data-value", value(sample));
+          svg.append(polygon);
+          const label = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          label.setAttribute("x", offset + 70);
+          label.setAttribute("y", 215);
+          label.textContent = sample.material_id;
+          svg.append(label);
+          row(
+            table,
+            [
+              sample.material_id,
+              value(sample).toPrecision(9),
+              `Element ${sample.element_id}, node ${node}; derived from DAT IPs 1–4`,
+            ],
+            { "data-side": sample.material_id, "data-value": value(sample) },
+          );
+        }
+        const native = data.solver_averaged_nodes.find(
+          (p) => p.node_id === node,
+        );
+        row(
+          table,
+          [
+            "CCX FRD — solver-averaged diagnostic",
+            value(native).toPrecision(9),
+            `Node ${node}; may smear material interfaces`,
+          ],
+          { "data-side": "FRD", "data-value": value(native) },
+        );
+      }
+      select.addEventListener("change", render);
+      nodeSelect.addEventListener("change", render);
+      const raw = document.querySelector("#raw");
+      for (const sample of data.integration_points)
+        row(raw, [
+          `${sample.element_id} / ${sample.material_id} / ${sample.integration_point_id}`,
+          sample.position_m.join(", "),
+          sample.tensor_pa.map((v) => v.toPrecision(7)).join(", "),
+        ]);
+      document.querySelector("#provenance").textContent = JSON.stringify(
+        {
+          parser: data.parser,
+          revision: data.mesh.revision,
+          source_sha256: data.source_sha256,
+          warnings: data.warnings,
+        },
+        null,
+        2,
+      );
+      render();
+    </script>
+  </body>
+</html>

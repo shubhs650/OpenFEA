@@ -1,0 +1,7 @@
+{
+  "max_solver_adjustment_m": 0.0,
+  "changed_nodes_gt_1e12_m": [],
+  "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+  "source_sha256": "c3b9ac145861fa95f63fbe4e12372c0ba2c1ee42dfd17c8f695670b57348e6b2",
+  "deck_sha256": "e6d73c874544ff7e541cc2dfbcca30e341996045e43dcf7f80256896fd63f7aa"
+}

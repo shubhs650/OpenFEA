@@ -1,0 +1,61 @@
+{
+  "case": "B09",
+  "status": "DEVELOPMENT PASS; owner review pending",
+  "code_commit": "47d18b9f06df2bb85b373ebc450b2b0f7b3c0a6b",
+  "manifest_sha256": "c7b0292a588c27595ddf3494f09ec5641b38485afae99b0832d4fa23bcb456af",
+  "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision",
+  "ccx_version": "2.23",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "parser": "ccx-2.23-single-static-ascii-v1",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "threads": 1,
+  "mesh_sha256": "0c3e980877a09d1a9dc7e4f0194338317d27099fd07723102b2510380ec975e7",
+  "geometry_revision": "321fd15cb129df6a3138a7d049b11d63864a52b9243fd54dd2a740cf8b33af79",
+  "source_sha256": {
+    "dat": "8fa58f973eacbb8372c9ca27cbc7d6f31d520ce134b1bdb4172f3cd29edcc60c",
+    "frd": "a01804e1ad3512b20fc377429ccb2fb2847e079fe9e35390161d52c1a3b69e59",
+    "deck": "bb58cb40472c690995564f326b3bee217b14b6935485763f2faca9b9bc43edc5"
+  },
+  "stress_json_sha256": "e9fd0e1e003cbfed43e32d7b038757be67a0447fe7a52e1ec8c9e3107f379ac7",
+  "max_tensor_error_pa": 4.458871864727209e-07,
+  "shared_node_ids": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    7
+  ],
+  "raw_dat_xx_pa_by_material": {
+    "UPPER": 210000000.0,
+    "LOWER": 70000000.0
+  },
+  "frd_shared_xx_pa": [
+    139999000.0,
+    139999000.0,
+    139999000.0,
+    139999000.0,
+    139999000.0,
+    139999000.0
+  ],
+  "vtk": {
+    "vtk_version": "9.7.1",
+    "cells": 2,
+    "element_owned_points": 20,
+    "global_nodes": 14,
+    "integration_points": 8,
+    "cell_volumes_m3": [
+      0.16666666666666663,
+      0.16666666666666663
+    ],
+    "shared_nodes_duplicated": true,
+    "tensor_roundtrip": "exact",
+    "status": "PASS"
+  },
+  "warnings": [
+    "Development diagnostic; engineering-owner acceptance pending",
+    "Element-node values are derived by linear extrapolation from raw DAT IP tensors",
+    "FRD stress is solver-averaged and may smear material interfaces; diagnostic only"
+  ]
+}

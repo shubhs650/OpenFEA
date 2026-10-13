@@ -1,0 +1,10 @@
+{
+  "scope": "Invalid approval-metadata diagnostic only; real B01 native pipeline, unchanged frozen physical criteria/files; not an approved benchmark.",
+  "provided_signoff": "",
+  "requested_development": false,
+  "observed_status": "PASS",
+  "job_directory_created": true,
+  "real_native_runs": 2,
+  "manifest_sha256_unchanged": "1f5f2a3059c7557b9f1fff341572643732b8d44aca71c00cdb9aeeb3ea1f0a22",
+  "finding_reproduced": true
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "case": "hydrostatic",
+    "max_tensor_error_pa": 0.0,
+    "source_sha256": {
+      "dat": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+      "frd": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+      "deck": "11d269dcecc0f7b790723fc32db9ad6f67f49b0f94f13011228a19e963a3b002"
+    },
+    "raw_ip_count": 4,
+    "derived_node_count": 10
+  },
+  {
+    "case": "pure-shear",
+    "max_tensor_error_pa": 2.307692311704159,
+    "source_sha256": {
+      "dat": "6b114c7fa45e7f018a4e26335d9a20044a736acfbc24d4c48423f42221c01e6b",
+      "frd": "3bb03139dec7d5d5934a3a6e68bd9013283e3a9f660f57948f980480c2759256",
+      "deck": "16fea571d473e13f6bacf04c46e1d7f1ffc8789a2feca08a964f1fe90fe6a597"
+    },
+    "raw_ip_count": 4,
+    "derived_node_count": 10
+  },
+  {
+    "case": "varying-shear",
+    "max_tensor_error_pa": 3.7555169114851976,
+    "source_sha256": {
+      "dat": "87a78a9597f5f20df5857fd19118aa108d345df7eecd0305375d55a6af771e21",
+      "frd": "32c55d3d1e49180101137c26ca69e6a1cc3fd4cce07589fba18ac5871716a016",
+      "deck": "a3dbb800236dc4d57d67dec65e08176a274c45d928ba784dea4af68b34e518ce"
+    },
+    "raw_ip_count": 4,
+    "derived_node_count": 10
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "scope": "T001 Python ABI availability probe; these are not selected native version pins",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "glibc": [
+    "glibc",
+    "2.41"
+  ],
+  "wheels": [
+    {
+      "name": "cadquery_ocp",
+      "version": "8.0.1.1.0",
+      "filename": "cadquery_ocp-8.0.1.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/4f/0b/a86026c205b44fbdadc8e4312e0bc276973d71c43ddce9aa924c3bf2ff5a/cadquery_ocp-8.0.1.1.0-cp312-cp312-manylinux_2_28_x86_64.whl",
+      "sha256": "2490e0faa6c3ec029defc8b37c9cbc4662f77b6ba02f230ce760c5b2d3f74cb7",
+      "requires_python": "<3.15,>=3.11",
+      "license": "Apache-2.0",
+      "status": "downloaded and hash checked; not installed or imported"
+    },
+    {
+      "name": "gmsh",
+      "version": "4.15.2",
+      "filename": "gmsh-4.15.2-py2.py3-none-manylinux_2_24_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/ab/d4/336becb1488ac4fbab205043987128839c8c62d54e2036b7e887bd009040/gmsh-4.15.2-py2.py3-none-manylinux_2_24_x86_64.whl",
+      "sha256": "4076a948ce22625330d1413d4982e22b5c69fc2f0f7951f5df64c778cf54108c",
+      "requires_python": null,
+      "license": "GPLv2+",
+      "status": "downloaded and hash checked; not installed or imported"
+    },
+    {
+      "name": "numpy",
+      "version": "2.5.4",
+      "filename": "numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/43/a3/c799c62e19c337e6d3770b08e475887fb30ce8477d3c09efca6b2f0228a6/numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "fbde6962867ee75b48b0ee29b2b9372ec5d617799dbaf38e82dc0596f2f7738a",
+      "requires_python": ">=3.12",
+      "license": "BSD-3-Clause AND 0BSD AND MIT AND Zlib AND CC0-1.0",
+      "status": "downloaded and hash checked; not installed or imported"
+    },
+    {
+      "name": "vtk",
+      "version": "9.7.1",
+      "filename": "vtk-9.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/2c/98/4bf4bc0146f7342f987a48d796100a018867049711a56cf3ad13e448bb17/vtk-9.7.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+      "sha256": "04740a3bc2d492327d650fb9c4a9ff54e80f3a064d5ce677ef48c3b08fa96bcd",
+      "requires_python": null,
+      "license": "BSD",
+      "status": "downloaded and hash checked; not installed or imported"
+    }
+  ]
+}

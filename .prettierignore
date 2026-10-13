@@ -1,0 +1,25 @@
+package-lock.json
+uv.lock
+packages/contracts/openapi.json
+packages/contracts/api.d.ts
+docs/validation/dependencies.json
+docs/validation/wheel-probe.json
+docs/validation/native-dependencies.json
+docs/validation/T002-result.json
+# Native T004 JSON/HTML/XML are hash-linked run artifacts; preserve original bytes.
+docs/validation/results/T004/
+docs/validation/results/T005/
+docs/validation/results/T006/
+docs/validation/results/M0/
+scripts/native/toolchain-lock.json
+docs/validation/native-licenses/
+# Preserve the original documentation's formatting.
+*.md
+docs/**/*.md
+LICENSE
+.local/
+.venv/
+dist/
+node_modules/
+test-results/
+playwright-report/

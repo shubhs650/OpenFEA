@@ -1,0 +1,364 @@
+{
+  "code_commit": "bc6af0041d8a6ef51b1ae5b100c3420708bd704d",
+  "utc_started": "2026-10-13T06:11:14.278350+00:00",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "cpu_quota": "400000 100000",
+  "memory_limit": "34359738368",
+  "native_build_sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "threads": 1,
+  "status": "DEVELOPMENT ONLY; laptop/GPU/engineering acceptance pending",
+  "manifest_sha256": "6d9cbb0e66c1240b674a63786fd492c7dc01e32ed0b6096809438d6cb27c6fd8",
+  "edits": [
+    {
+      "status": "DEVELOPMENT PREVIEW; original retained; explicit apply is T013",
+      "source_revision": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901",
+      "preview_revision": "2d6ec88b631ff62b00e586abfd3e9be5448d105cc38c644d7f705527a06628e9",
+      "selected_face": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901:b1:f7",
+      "operation": "OCCT BRepAlgoAPI_Defeaturing",
+      "original_volume_m3": 0.9685840734641018,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.031415926535897976,
+      "expected_delta_m3": 0.031415926535897934,
+      "valid": true,
+      "mapping_status": "all prior face/mesh/result selections invalidated"
+    },
+    {
+      "status": "DEVELOPMENT PREVIEW; original retained; explicit apply is T013",
+      "source_revision": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28",
+      "preview_revision": "520cf2a491f8aa9c8b316e3868e102f90b54744087da64e39edb85e1cfed158b",
+      "selected_face": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28:b1:f3",
+      "operation": "OCCT BRepAlgoAPI_Defeaturing",
+      "original_volume_m3": 0.9978539816339743,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.0021460183660254595,
+      "expected_delta_m3": 0.0021460183660255176,
+      "valid": true,
+      "mapping_status": "all prior face/mesh/result selections invalidated"
+    }
+  ],
+  "runs": [
+    {
+      "target_elements": 5000,
+      "mesh_size_m": 0.1,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.14218828999992184,
+        "sampled_tree_peak_rss_bytes": 43003904,
+        "sampled_disk_peak_bytes": 27451,
+        "native_maxrss_bytes": 37269504,
+        "native_user_seconds": 0.08538899999999999,
+        "native_system_seconds": 0.029233,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.6",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 231,
+      "elements": 100,
+      "dofs": 693,
+      "free_equations": 183,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 56449,
+      "mesh_msh_bytes": 19112,
+      "mesh_sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c",
+      "prepare": {
+        "status": "native_failed",
+        "returncode": 7,
+        "wall_seconds": 0.04297381200012751,
+        "sampled_tree_peak_rss_bytes": 81920,
+        "sampled_disk_peak_bytes": 108439,
+        "native_maxrss_bytes": 9306112,
+        "native_user_seconds": 0.012997,
+        "native_system_seconds": 0.0,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "-c",
+          "raise SystemExit(7)"
+        ]
+      },
+      "remaining_stages": "not run; resource/native stop",
+      "artifacts": {
+        "prepare-usage.json": {
+          "bytes": 171,
+          "sha256": "9d1f60ffe65834baba92ff5142df4df95d8ce984a9e5aa147388cafadc7ffbe3"
+        },
+        "mesh-resources.json": {
+          "bytes": 559,
+          "sha256": "88594f6f24e514bfa4f4835cd0d1d8821ed9d745bd2b246a9ec5d7166b875c09"
+        },
+        "mesh-usage.json": {
+          "bytes": 188,
+          "sha256": "a8f5ce2c598d7114b3954d6cfa2043558e2c62b15c93f228ce86f540571066be"
+        },
+        "prepare.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "body1.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "geometry.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "mesh-summary.json": {
+          "bytes": 294,
+          "sha256": "44e70a0ed93d324d2a66f6c2a6cf1c5d51c30c12f0a125a42eafbf186c0c86d8"
+        },
+        "mesh.log": {
+          "bytes": 4386,
+          "sha256": "9b695bd0625c594d0d7bc8c81bca5c56e4c4a8a051d71749231d642933140713"
+        },
+        "mesh.json": {
+          "bytes": 56449,
+          "sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c"
+        },
+        "prepare-resources.json": {
+          "bytes": 457,
+          "sha256": "22c1210d573619ea832156efd260d0ff097cfeea5addb94e8b2e08a7e57c9f38"
+        },
+        "catalog.json": {
+          "bytes": 7890,
+          "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0"
+        },
+        "mesh.msh": {
+          "bytes": 19112,
+          "sha256": "6286960580731cfe7544d23e6adb1679cc96a8020849ef7ffd104272fe4e194e"
+        },
+        "input.step": {
+          "bytes": 15371,
+          "sha256": "a3fc1c213a61fad6746ad18399d3553c3dede9e7bb5178d461ff45887e60b87d"
+        }
+      }
+    },
+    {
+      "target_elements": 25000,
+      "mesh_size_m": 0.058,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.14430986200022744,
+        "sampled_tree_peak_rss_bytes": 43560960,
+        "sampled_disk_peak_bytes": 27451,
+        "native_maxrss_bytes": 37269504,
+        "native_user_seconds": 0.106809,
+        "native_system_seconds": 0.008319,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.6",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 231,
+      "elements": 100,
+      "dofs": 693,
+      "free_equations": 183,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 56449,
+      "mesh_msh_bytes": 19112,
+      "mesh_sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c",
+      "prepare": {
+        "status": "native_failed",
+        "returncode": 7,
+        "wall_seconds": 0.042100643000139826,
+        "sampled_tree_peak_rss_bytes": 81920,
+        "sampled_disk_peak_bytes": 108417,
+        "native_maxrss_bytes": 9306112,
+        "native_user_seconds": 0.0078049999999999994,
+        "native_system_seconds": 0.003848,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "-c",
+          "raise SystemExit(7)"
+        ]
+      },
+      "remaining_stages": "not run; resource/native stop",
+      "artifacts": {
+        "prepare-usage.json": {
+          "bytes": 189,
+          "sha256": "cbde7552df64408a529027dc8556ef7053c6bec97d40fea9eab31993a6989206"
+        },
+        "mesh-resources.json": {
+          "bytes": 548,
+          "sha256": "b69ebec098a7c2af9efc7efb34e9f3010605bd99b50e98f2ee709d49129050f5"
+        },
+        "mesh-usage.json": {
+          "bytes": 177,
+          "sha256": "d8c3091baf45475c5135bb022f499f981d014b8e2279ac824e4d567f889aa9ca"
+        },
+        "prepare.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "body1.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "geometry.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "mesh-summary.json": {
+          "bytes": 294,
+          "sha256": "44e70a0ed93d324d2a66f6c2a6cf1c5d51c30c12f0a125a42eafbf186c0c86d8"
+        },
+        "mesh.log": {
+          "bytes": 4386,
+          "sha256": "34fca640bf5c36a7a088a0c33e789d454946a7945ce073085dac20247b083309"
+        },
+        "mesh.json": {
+          "bytes": 56449,
+          "sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c"
+        },
+        "prepare-resources.json": {
+          "bytes": 476,
+          "sha256": "1afb3301273317c399198290ccfbd00e4c9ccc317c144af5b3f37bc67f98760d"
+        },
+        "catalog.json": {
+          "bytes": 7890,
+          "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0"
+        },
+        "mesh.msh": {
+          "bytes": 19112,
+          "sha256": "6286960580731cfe7544d23e6adb1679cc96a8020849ef7ffd104272fe4e194e"
+        },
+        "input.step": {
+          "bytes": 15371,
+          "sha256": "b26989af6c18542f964ef3c5c6bb7609165f3ef45adf009ea46db8dc8367d503"
+        }
+      }
+    },
+    {
+      "target_elements": 100000,
+      "mesh_size_m": 0.036,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.1282972100002553,
+        "sampled_tree_peak_rss_bytes": 45641728,
+        "sampled_disk_peak_bytes": 46563,
+        "native_maxrss_bytes": 37265408,
+        "native_user_seconds": 0.06339499999999999,
+        "native_system_seconds": 0.035783999999999996,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.6",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 231,
+      "elements": 100,
+      "dofs": 693,
+      "free_equations": 183,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 56449,
+      "mesh_msh_bytes": 19112,
+      "mesh_sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c",
+      "prepare": {
+        "status": "native_failed",
+        "returncode": 7,
+        "wall_seconds": 0.04088070899979357,
+        "sampled_tree_peak_rss_bytes": 81920,
+        "sampled_disk_peak_bytes": 108432,
+        "native_maxrss_bytes": 9306112,
+        "native_user_seconds": 0.008222,
+        "native_system_seconds": 0.004442,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "-c",
+          "raise SystemExit(7)"
+        ]
+      },
+      "remaining_stages": "not run; resource/native stop",
+      "artifacts": {
+        "prepare-usage.json": {
+          "bytes": 176,
+          "sha256": "6c1b58dc6a79815c9d6a9630c8358410e4efa766142ddb12afb1f29a215c3cda"
+        },
+        "mesh-resources.json": {
+          "bytes": 570,
+          "sha256": "c9f2e72d1a5ee438c709430198d4b9d6a7b86fb1f90c4dbb04918f333f36a736"
+        },
+        "mesh-usage.json": {
+          "bytes": 200,
+          "sha256": "52c626c6e8605c86f74b37d67f4587ac47d8682de13c1afcd283506db0fb6684"
+        },
+        "prepare.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "body1.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "geometry.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "mesh-summary.json": {
+          "bytes": 294,
+          "sha256": "44e70a0ed93d324d2a66f6c2a6cf1c5d51c30c12f0a125a42eafbf186c0c86d8"
+        },
+        "mesh.log": {
+          "bytes": 4356,
+          "sha256": "4f69a56dbaa660a9630618248b96609f21540b1ecca0c3b2c6d35faad21c27a6"
+        },
+        "mesh.json": {
+          "bytes": 56449,
+          "sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c"
+        },
+        "prepare-resources.json": {
+          "bytes": 462,
+          "sha256": "c93e8ae0bc12fb1d30111e5528bf4204085f57f2b84ef5adbef3cf49a62a92b9"
+        },
+        "catalog.json": {
+          "bytes": 7890,
+          "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0"
+        },
+        "mesh.msh": {
+          "bytes": 19112,
+          "sha256": "6286960580731cfe7544d23e6adb1679cc96a8020849ef7ffd104272fe4e194e"
+        },
+        "input.step": {
+          "bytes": 15371,
+          "sha256": "abb80018f4a719ac26b1600051d76ab4a00b6a3d63049dc43d0e5ca004fb0d9a"
+        }
+      }
+    }
+  ]
+}
+CONFIRMED: real preparation failure did not stop mesh graduation

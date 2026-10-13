@@ -1,0 +1,10 @@
+# Retain hash-verified upstream legal documents byte for byte, including whitespace.
+docs/validation/native-licenses/* -text whitespace=-trailing-space
+# Preserve retained native evidence/input/output hashes across platform line endings.
+docs/validation/results/T003/** -text whitespace=-trailing-space
+# Golden parser fixtures are retained real native outputs, including FRD padding.
+tests/fixtures/native/stress/* -text whitespace=-trailing-space
+docs/validation/results/T004/** -text whitespace=-trailing-space
+docs/validation/results/T005/** -text whitespace=-trailing-space
+docs/validation/results/T006/** -text whitespace=-trailing-space
+docs/validation/results/M0/** -text whitespace=-trailing-space

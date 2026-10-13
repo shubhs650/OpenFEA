@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "native_library_license_lock_hashes_checked": 1090,
+  "failures": [],
+  "inventory_scope": [
+    "CCX headers use GPLv2/GPLv2-or-later wording; review the complete source before publishing.",
+    "OCCT is LGPL-2.1 with the upstream exception; OCP binding metadata is Apache-2.0.",
+    "Gmsh includes the GPLv2-or-later linking exception and bundled components.",
+    "Wheel metadata and SBOMs do not establish redistribution compliance.",
+    "Project license deferred; preserve source/notice/relinking obligations."
+  ]
+}

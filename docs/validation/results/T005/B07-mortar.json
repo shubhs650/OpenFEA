@@ -1,0 +1,40 @@
+{
+  "id": "B07",
+  "revision": 2,
+  "source": "Independent uniaxial continuum solution u_x=F*x/(A*E), u_y=-nu*F*y/(A*E), u_z=-nu*F*z/(A*E), sigma_xx=F/A; separately meshed tied blocks versus separately generated monolithic reference",
+  "units": "m,N,Pa",
+  "geometry": "Two independent unit cubes [0,1]^3 and [1,2]x[0,1]^2; separate SI STEP/BREP bodies with coincident x=1 faces. Monolithic reference [0,2]x[0,1]^2; no fusing in bonded model",
+  "material": {
+    "E_pa": 210000000000,
+    "nu": 0.3
+  },
+  "element": "C3D10 affine, four native integration points per element",
+  "mesh_sizes_m": {
+    "left": 0.6,
+    "right": 0.4,
+    "monolithic": 0.4
+  },
+  "orientation_cases": ["left_master", "right_master"],
+  "loads": "Total +x force 1000000 N on x=2 immutable CAD face; consistent quadratic nodal integration",
+  "supports": "ux=0 on x=0; uy=uz=0 at origin; uz=0 at (0,1,0). Free lateral contraction; no artificial stiffness",
+  "tie": "Consistent planar mortar projection M_slave*u_slave=C_slave_master*u_master, exact degree-five overlap quadrature; internally generated CCX *EQUATION, all three translations, no node movement. Native *TIE remains a separately retained failed candidate.",
+  "coincidence_tolerance_m": 1e-8,
+  "expected_end_ux_m": 9.523809523809525e-6,
+  "expected_canonical_stress_pa": [1000000, 0, 0, 0, 0, 0],
+  "samples": "Every nodal displacement, every raw IP stress (including interface), end-face mean ux, explicit element-side probes at (0.5,0.25,0.25) and (1.5,0.25,0.25); all slave-node MPC residuals and binary-FRD coordinate audits",
+  "tolerances": {
+    "displacement_relative": 0.02,
+    "displacement_absolute_m": 1e-11,
+    "stress_relative": 0.05,
+    "stress_absolute_pa": 100,
+    "equilibrium_relative": 0.005,
+    "force_absolute_n": 0.01,
+    "moment_absolute_nm": 0.01,
+    "tie_residual_absolute_m": 2e-11,
+    "solver_adjustment_absolute_m": 1e-12
+  },
+  "exclusions": "None for this smooth constant-strain patch. No near-interface stress exclusion, smoothing or remeshing after snapshot",
+  "reason": "Proposed bonded versus monolithic 2% displacement/5% stress and 0.5% equilibrium limits in docs/VALIDATION.md; text-output absolute floors frozen before execution. Any uncovered intended node is a failure Native node-to-face sampling failed the unchanged patch criteria; revision 2 changes only the interface formulation, not the geometry, physical references, loads, sampling or tolerances.",
+  "negative_diagnostics": "Missing/partial master coverage, stale/same-body references, slave SPC/MPC conflicts, detached untied assembly; controlled 1e-5 m gap with default adjustment versus ADJUST=NO is a keyword/geometry audit only, not B08 or approved physical-gap behavior",
+  "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+}

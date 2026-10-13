@@ -1,0 +1,1631 @@
+{
+  "schema": 1,
+  "case": "hydrostatic",
+  "components": [
+    "xx",
+    "yy",
+    "zz",
+    "xy",
+    "yz",
+    "zx"
+  ],
+  "frame": "global_cartesian",
+  "units": {
+    "length": "m",
+    "stress": "Pa"
+  },
+  "mesh": {
+    "nodes": {
+      "1": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "2": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "3": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "4": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "5": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "6": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "7": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "8": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "9": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "10": [
+        0.0,
+        0.5,
+        0.5
+      ]
+    },
+    "elements": {
+      "1": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "bodies": {
+      "1": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1"
+    },
+    "materials": {
+      "1": "UPPER"
+    },
+    "revision": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415"
+  },
+  "parser": "ccx-2.23-single-static-ascii-v1",
+  "integration_points": [
+    {
+      "location": "integration_point",
+      "element_id": 1,
+      "integration_point_id": 1,
+      "node_id": null,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.1381966,
+        0.1381966,
+        0.1381966
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "native_DAT_integration_point",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "integration_point",
+      "element_id": 1,
+      "integration_point_id": 2,
+      "node_id": null,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.5854102,
+        0.1381966,
+        0.1381966
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 37,
+        "coordinate_line": 44,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "native_DAT_integration_point",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "integration_point",
+      "element_id": 1,
+      "integration_point_id": 3,
+      "node_id": null,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.1381966,
+        0.5854102,
+        0.1381966
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 38,
+        "coordinate_line": 45,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "native_DAT_integration_point",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "integration_point",
+      "element_id": 1,
+      "integration_point_id": 4,
+      "node_id": null,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.1381966,
+        0.1381966,
+        0.5854102
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 39,
+        "coordinate_line": 46,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "native_DAT_integration_point",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    }
+  ],
+  "element_nodes": [
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 2,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 3,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 4,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 5,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 6,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 7,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 8,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 9,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    },
+    {
+      "location": "element_node",
+      "element_id": 1,
+      "integration_point_id": null,
+      "node_id": 10,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "position_m": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "tensor_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.dat",
+        "source_sha256": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+        "line": 36,
+        "coordinate_line": 43,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "time": 1.0,
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "xz",
+          "yz"
+        ],
+        "method": "linear_C3D10_extrapolation_from_native_DAT_IP",
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "source_integration_points": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "source_lines": [
+          36,
+          37,
+          38,
+          39
+        ],
+        "warning": "Derived element-node values; not raw integration stresses"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        525000000.0,
+        525000000.0,
+        525000000.0
+      ]
+    }
+  ],
+  "solver_averaged_nodes": [
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 1,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 55,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 2,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 56,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 3,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 57,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 4,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 58,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 5,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 59,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 6,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 60,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 7,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 61,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 8,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 62,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 9,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 63,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    },
+    {
+      "location": "solver_averaged_node",
+      "element_id": null,
+      "integration_point_id": null,
+      "node_id": 10,
+      "body_id": null,
+      "material_id": null,
+      "position_m": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "tensor_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": {
+        "source": "analysis.frd",
+        "source_sha256": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+        "line": 64,
+        "parser": "ccx-2.23-single-static-ascii-v1",
+        "frame": "global_cartesian",
+        "units": "Pa",
+        "components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "source_components": [
+          "xx",
+          "yy",
+          "zz",
+          "xy",
+          "yz",
+          "zx"
+        ],
+        "method": "native_FRD_extrapolated_nodal_average",
+        "contributing_elements": [
+          1
+        ],
+        "mesh_sha256": "0808a44e5e046a89e854bf9f3f3ff55afa804dfbc2ed0819e40e9305b3d8e306",
+        "warning": "May average across material/body boundaries; diagnostic only"
+      },
+      "von_mises_pa": 0.0,
+      "principal_pa": [
+        524995000.0,
+        524995000.0,
+        524995000.0
+      ]
+    }
+  ],
+  "displacements_m": {
+    "1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "2": [
+      0.001,
+      0.0,
+      0.0
+    ],
+    "3": [
+      0.0,
+      0.001,
+      0.0
+    ],
+    "4": [
+      0.0,
+      0.0,
+      0.001
+    ],
+    "5": [
+      0.0005,
+      0.0,
+      0.0
+    ],
+    "6": [
+      0.0005,
+      0.0005,
+      0.0
+    ],
+    "7": [
+      0.0,
+      0.0005,
+      0.0
+    ],
+    "8": [
+      0.0,
+      0.0,
+      0.0005
+    ],
+    "9": [
+      0.0005,
+      0.0,
+      0.0005
+    ],
+    "10": [
+      0.0,
+      0.0005,
+      0.0005
+    ]
+  },
+  "source_sha256": {
+    "dat": "a2b607ea4e789c6d373bb50f0a0618049249d74e7f2e6938c6fc5f84d3e69c4a",
+    "frd": "3fb9aff7fcb78f19f2c1df5982df20262c3ac5b955fb8c9bd2c75f7f1ca281ad",
+    "deck": "11d269dcecc0f7b790723fc32db9ad6f67f49b0f94f13011228a19e963a3b002"
+  },
+  "warnings": [
+    "Development diagnostic; engineering-owner acceptance pending",
+    "Element-node values are derived by linear extrapolation from raw DAT IP tensors",
+    "FRD stress is solver-averaged and may smear material interfaces; diagnostic only"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "purpose": "T002 native availability smoke, not a signed release benchmark",
+  "fixture_origin": "project-authored synthetic affine field; SI isotropic Hooke law",
+  "owner_release_review": "pending; does not close F3/F5 or any B01-B14 benchmark",
+  "element": "one manually ordered C3D10; no Gmsh-to-CCX mapping claimed",
+  "units": { "length": "m", "stress": "Pa", "force": "N" },
+  "young_modulus_pa": 210000000000,
+  "poisson_ratio": 0.3,
+  "axial_strain": 0.001,
+  "expected_node2_ux_m": 0.001,
+  "expected_stress_pa": [210000000, 0, 0, 0, 0, 0],
+  "stress_order": ["xx", "yy", "zz", "xy", "xz", "yz"],
+  "reference_formula": "sigma_xx=E*epsilon_x; epsilon_y=epsilon_z=-nu*epsilon_x; all other stresses zero",
+  "relative_tolerance": 0.000001,
+  "displacement_absolute_tolerance_m": 0.000000000001,
+  "stress_absolute_tolerance_pa": 100,
+  "force_balance_absolute_tolerance_n": 10,
+  "expected_integration_points": 4,
+  "solver_equations": 1,
+  "policy": "Expectations and tolerances declared before first solve; never widen to obtain a pass. Full reference benchmark approvals remain separate."
+}

@@ -1,4 +1,6 @@
-# Benchmark registry — planned, not executed
+# Benchmark registry
+
+B01/B02 have [T003](T003.md), B09 has [T004](T004.md), and B07 has [T005](T005.md) development evidence. B07 native *TIE revision 1 failed; separately predeclared mortar revision 2 passes identical physical criteria within its documented scope. Frozen manifests remain under `tests/benchmarks/`; owner/formulation acceptance is pending. B03–B06, B08 and B10–B14 are unexecuted. Never treat development evidence as signed release acceptance.
 
 | ID | Case and purpose | Reference / sampled quantities | Planned task |
 |---|---|---|---|

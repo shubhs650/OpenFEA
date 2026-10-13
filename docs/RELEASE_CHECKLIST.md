@@ -2,6 +2,8 @@
 
 ## Local validated prototype
 
+Latest [M0 exit review](validation/M0-exit-review.md): **NO-GO**, 2026-10-13. Two software findings, engineering acceptance and target-hardware evidence remain open. The M0 box below stays unchecked.
+
 - [ ] M0 experiments and dependency-license inventory complete; no unsupported solver claims.
 - [ ] Actual STEP -> C3D10 -> CCX -> inspectable results -> report/archive workflow works.
 - [ ] Bracket and nonconforming bonded support complete; benchmark manifests signed before runs.

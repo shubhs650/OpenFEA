@@ -1,0 +1,26 @@
+[
+  {
+    "case": "B01",
+    "returncode": 2,
+    "job_created": false,
+    "stderr": "BLOCKED/FAILED: Engineering-owner manifest sign-off pending; use DEVELOPMENT=1 for diagnostics"
+  },
+  {
+    "case": "B02",
+    "returncode": 2,
+    "job_created": false,
+    "stderr": "BLOCKED/FAILED: Engineering-owner manifest sign-off pending; use DEVELOPMENT=1 for diagnostics"
+  },
+  {
+    "case": "B07",
+    "returncode": 2,
+    "job_created": false,
+    "stderr": "BLOCKED/FAILED: Engineering-owner B07 review pending; use DEVELOPMENT=1 for diagnostics"
+  },
+  {
+    "case": "B09",
+    "returncode": 2,
+    "job_created": false,
+    "stderr": "BLOCKED/FAILED: Engineering-owner B09 review pending; use DEVELOPMENT=1 for diagnostics"
+  }
+]
