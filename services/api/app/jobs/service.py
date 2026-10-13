@@ -10,6 +10,7 @@ from app.domain.errors import DomainError, not_found
 from app.domain.imports import FaceDisplay, GeometryDisplay
 from app.domain.jobs import JobInput, LocalJob, MeshPreview, MeshSource
 from app.domain.loads import load_state
+from app.domain.materials import body_status
 from app.persistence.jobs import JobRepository
 from worker.runtime import ROOT, sha256
 
@@ -42,6 +43,11 @@ class JobService:
             "services/worker/worker/calculix/results.py",
             "services/api/app/jobs/service.py",
             "services/api/app/jobs/runner.py",
+            "services/worker/worker/postprocess/tensors.py",
+            "services/worker/worker/runtime.py",
+            "services/worker/worker/resources.py",
+            "services/api/app/domain/jobs.py",
+            "services/api/app/persistence/jobs.py",
         ):
             policy["sources"][name] = sha256(ROOT / name)
         return policy
@@ -119,6 +125,14 @@ class JobService:
             policy=policy,
             mesh=source,
             deck_sha256=deck_hash,
+            warnings=[
+                warning
+                for assignment in snapshot.materials.assignments
+                for warning in body_status(assignment.body_id, assignment.material).warnings
+            ]
+            + load_state(
+                snapshot.analysis, snapshot.geometry, snapshot.materials, snapshot.loads, display
+            ).warnings,
         )
         path = directory / "snapshot.json"
         path.write_bytes(canonical(inputs.model_dump(mode="json")))

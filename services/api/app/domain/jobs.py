@@ -39,6 +39,7 @@ class JobInput(StrictModel):
     policy: dict[str, JsonValue]
     mesh: MeshSource | None = None
     deck_sha256: Hash | None = None
+    warnings: list[str] = Field(default_factory=list, max_length=200)
 
 
 class Artifact(StrictModel):

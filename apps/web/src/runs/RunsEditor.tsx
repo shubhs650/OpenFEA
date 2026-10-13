@@ -266,6 +266,10 @@ export function RunsEditor({
                 {j.reason_message} ({j.reason_code})
               </p>
             )}
+            {Array.isArray(j.summary.warnings) &&
+              j.summary.warnings.map((w) =>
+                typeof w === "string" ? <p key={w}>{w}</p> : null,
+              )}
             {j.status === "succeeded" && (
               <p>
                 {j.kind === "mesh"

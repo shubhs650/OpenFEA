@@ -213,10 +213,16 @@ class LocalWorker:
                     inputs.deck_sha256,
                     inputs.mesh.sha256,
                 )
+                summary["warnings"] = list(dict.fromkeys([*inputs.warnings, *summary["warnings"]]))
+                result["warnings"] = summary["warnings"]
                 (directory / "results.json").write_bytes(canonical(result))
                 paths["results.json"] = directory / "results.json"
             if cancel():
                 raise NativeStop("cancelled")
+            warnings = summary.get("warnings", [])
+            if not isinstance(warnings, list):
+                raise ValueError("Invalid warning manifest")
+            summary["warnings"] = list(dict.fromkeys([*inputs.warnings, *warnings]))
             status = "succeeded"
         except NativeStop as error:
             status = (
