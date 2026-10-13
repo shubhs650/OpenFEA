@@ -1,9 +1,9 @@
 # Progress and handoff
 
-Updated: 2026-10-13 (Asia/Calcutta)
-Current state: REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007–T010 COMPLETE; M0 owner-approved progression and later validation obligations preserved
-Next action: T011 — local mesh and asynchronous solve pipeline; M4/T030 retains local laptop and benchmark acceptance obligations
+Updated: 2026-10-13 UTC
+Current state: DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — T007–T011 COMPLETE; M0 owner-approved progression and later validation obligations preserved
+Next action: T012 — core results vertical slice; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -21,9 +21,10 @@ T007: COMPLETE
 T008: COMPLETE
 T009: COMPLETE
 T010: COMPLETE
-T011–T042: NOT STARTED
+T011: COMPLETE
+T012–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
-M1: T007–T010 COMPLETE; exit gate NOT RUN.
+M1: T007–T011 COMPLETE; exit gate NOT RUN.
 M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -31,6 +32,16 @@ B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner
 B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T011 completed — durable local mesh and solve jobs
+
+The browser submits durable mesh jobs, previews actual quadratic boundary connectivity, reviews a completed mesh and submits isolated CCX solves. Inputs, material/load provenance, warnings, tool/runtime/source hashes and limits are frozen before admission. Editing and browser closure cannot alter or cancel admitted work. Strict raw DAT/FRD finite/coverage/topology/frame/material validation and complete hashed manifests precede success; downloads retain their original snapshot.
+
+Atomic FIFO claim, attempt fencing, a unique active-job index and OS worker/native leases allow one heavy operation at a time. Native children retain the execution flock through sandbox shutdown. Pending jobs survive restart; interrupted processes are fenced before pending work starts, partial diagnostics are retained and no automatic retry occurs. Cancel remains pending until process death. Tombstones hide access/request cancellation atomically. Duplicate keys replay, changed payload conflicts and stale attempts cannot publish.
+
+Doctor, fast/build/smoke, full native regression plus changed-native replay, integration and browser checks pass: **315 distinct cases, 0 failed/skipped** (185 Python unit, 18 TS, 90 native, 9 integration, 13 Chromium). Actual axial/multi-material queued solves meet fixed 1e-13 m / 0.01 Pa / 0.001 N criteria: displacement error below 5e-16 m, raw tensor error 3.65e-12 Pa, two-body reaction error below 1.01e-5 N. Actual cancellation, CCX error, corrupt/missing output, namespace/symlink denials, API SIGKILL/restart and browser closure are tested. [Evidence](docs/validation/T011.md), [ADR-019](docs/adr/ADR-019.md) and [guide](docs/LOCAL_JOBS.md) retain hashes, commands, screenshot and limits.
+
+T011 is complete for bounded local queue/mesh/solve. Calculated contours/deformation/extrema/FoS remain T012; sizing/recovery/equilibrium/general assembly behavior remain later work. Current caps: 100 planar faces/3,000 affine C3D10 elements; 60 seconds/1,536 MiB RSS/192 MiB scratch per native stage; 180 seconds per job; 20 pending/active jobs. No dependency/native lock, binary build, frozen benchmark criterion or owner disposition changed. Laptop/GPU and owner acceptance remain deferred. Create the T011 PR; do not merge or start T012.
 
 ## T010 completed — face loads and deterministic deck
 
@@ -89,7 +100,7 @@ T007 is COMPLETE for its metadata/access scope under the recorded M0 owner progr
 
 ## What now works
 
-The React/Vite geometry workspace and FastAPI health/project/import APIs are operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. There is a real STEP import/display workflow, but no durable mesh/solve worker service, queue or reports.
+The React/Vite geometry workspace and FastAPI health/project/import APIs are operational. T002 provisions CPU CCX and isolated CAD/mesh/post environments. T003 provides real synthetic SI STEP→BREP→face-labelled triangles→Gmsh→C3D10/load/deck→CCX diagnostics. T004 adds raw DAT integration-point stress/COORD extraction, canonical tensors with source/entity/frame/material provenance, separately labelled native averaged FRD, element-owned extrapolation/probes, von Mises/principals, native VTK export and an interactive standalone material-jump fixture. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B09) runs actual diagnostics; unsigned acceptance fails closed. There is a real STEP import/display and bounded durable local mesh/solve workflow. Calculated result views and reports remain later work.
 
 T005 adds a limited real mortar connection experiment using CCX *EQUATION and native coordinate audits. Native *TIE failed the patch and is not a validated fallback. `make benchmark CASE=B07 DEVELOPMENT=1` passes both role cases within the planar unit/65-node scope, retaining all failed-candidate and negative evidence.
 
@@ -190,6 +201,6 @@ M0 was **approved by the owner for M1 progression with explicit deferrals** afte
 
 Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. Keep physical gaps unsupported until T019/B08. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-T007/T008 are COMPLETE with retained persistence and [real import/viewport evidence](docs/validation/T008.md). Next implementation is **T009**, NOT STARTED: unit/material editing against immutable body references. This session stops after T008. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+T007/T008 are COMPLETE with retained persistence and [real import/viewport evidence](docs/validation/T008.md). T009–T011 are now COMPLETE as recorded above. Next implementation is **T012**, NOT STARTED: core calculated result views. This session stops after the T011 PR. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

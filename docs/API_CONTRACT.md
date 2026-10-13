@@ -32,6 +32,14 @@ POST `/analyses/{id}/deck-exports` requires CSRF/analysis ETag and returns 201 e
 
 See [face loads/deck guide](LOADS_DECKS.md), [ADR-018](adr/ADR-018.md), generated contracts and [T010 evidence](validation/T010.md). Normals must be native verified; pre-T010 geometry needs reimport for pressure. Export snapshots are immutable; durable solve/run jobs remain T011.
 
+## Implemented T011 slice
+
+POST `/analyses/{id}/mesh-jobs` with `{}` and POST `/analyses/{id}/runs` with `{mesh_job_id}` return 202 durable job metadata and a job Location. Both require CSRF/analysis ETag/UUID Idempotency-Key (missing 428, invalid 422). Identical same-owner key/request replays its original job even after head edits; changed payload is 409. A run requires a completed mesh from the same analysis/geometry/tool contract, then freezes regenerated current deck/setup against that connectivity without remeshing. Pending/active cap is 20 (429); fixed planar/affine/3,000-element policy remains. No raw deck/caller command/sizing/billing input is accepted.
+
+GET `/analyses/{id}/jobs` lists the newest 100; `/jobs/{id}` returns actual status/stage/times/heartbeat, original revision/geometry/input hash, warnings, artifacts and events; `/jobs/{id}/events` returns owned history. POST `/jobs/{id}/cancel` requires CSRF, independent of mutable-analysis ETag: pending cancellation is immediate, active stays cancelling until death, terminal calls replay. Owner/tombstone/attempt checks apply throughout. Restart fences interrupted processes before resuming pending jobs, without automatic retry.
+
+GET `/jobs/{id}/mesh-display` returns actual tri6-derived display/catalog references for successful meshes. GET `/jobs/{id}/artifacts/{filename}` downloads only fixed-name snapshot/mesh/input/log/resource/DAT/FRD/parsed output with hash/size checks; corruption is 503. Snapshot is available from admission; results.json requires validated success. Failed/cancelled/interrupted files are diagnostic. GET `/local-worker` reports ready/waiting/blocked state. No browser timer implies completion. Hosted worker credentials/billing below remain planned. See [guide](LOCAL_JOBS.md), [ADR-019](adr/ADR-019.md), generated contracts and [evidence](validation/T011.md). Calculated result views are T012.
+
 ## Planned service routes
 
 | Method and route | Behavior |

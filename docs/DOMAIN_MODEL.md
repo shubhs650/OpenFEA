@@ -23,6 +23,8 @@ T007 implements `users`, `projects`, `geometry_revisions`, `analyses` and `analy
 | Report | run hash, selected views, generator version, warning set, user conclusion; immutable revision |
 | AuditEvent | access/admin/retention state changes without geometry or secrets |
 
+T011 adds `local_jobs`, immutable `local_job_inputs`/`local_job_events` and terminal/identity guards (migration 0005_local_jobs). Admission freezes analysis/geometry/material/load/source/warning/tool policy plus completed mesh/generated deck identities; immediate transactions enforce ownership/current revision/idempotency/quota. Atomic FIFO claim, a single-active index, attempt token and OS/native execution lease fence publication. Active cancel is nonterminal until confirmed death; tombstones cancel atomically. Pending survives restart; interrupted attempts are fenced/retained without retry. Complete owned verified manifests link raw/parsed output to frozen inputs. See [ADR-019](adr/ADR-019.md) and [evidence](validation/T011.md).
+
 ## Consistency rules
 
 T009 adds append-only `analysis_material_setups` keyed by analysis/revision (Alembic `0003_analysis_materials`). Stored setup separates display preset from canonical per-body material snapshots, preserves source units/values and reviewed provenance, and resolves assignments only within pinned geometry. Empty legacy drafts are explicit. Name edits carry setup forward; unit-only changes copy all quantities exactly. Library version checks protect newly confirmed examples and library edits cannot mutate stored history. These are analysis snapshots; copying them into actual immutable runs remains T011. See [materials/units](MATERIALS_UNITS.md) and [ADR-017](adr/ADR-017.md).
