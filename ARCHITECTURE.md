@@ -95,3 +95,5 @@ T005 development validates an experimental consistent planar mortar connection t
 T007 storage and local access semantics are specified in [ADR-015](docs/adr/ADR-015.md); its completed metadata slice does not implement the later engineering workflow.
 
 T008 import/picking and namespace/resource decisions are in [ADR-016](docs/adr/ADR-016.md). Its synchronous bounded inspection is not the later durable mesh/solve queue.
+
+T009 now persists canonical per-body materials and display preferences in immutable analysis revisions. Reviewed sample versions/provenance are copied, unit-only changes preserve all physical/source values exactly, and assignments resolve against the analysis's pinned geometry. The real browser restores that geometry on analysis selection; new imports do not repin it. [ADR-017](docs/adr/ADR-017.md) and [T009 evidence](docs/validation/T009.md) describe the boundary. Actual load/deck/run/results integration remains T010–T012.

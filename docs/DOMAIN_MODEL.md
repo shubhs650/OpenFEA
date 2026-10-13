@@ -25,6 +25,8 @@ T007 implements `users`, `projects`, `geometry_revisions`, `analyses` and `analy
 
 ## Consistency rules
 
+T009 adds append-only `analysis_material_setups` keyed by analysis/revision (Alembic `0003_analysis_materials`). Stored setup separates display preset from canonical per-body material snapshots, preserves source units/values and reviewed provenance, and resolves assignments only within pinned geometry. Empty legacy drafts are explicit. Name edits carry setup forward; unit-only changes copy all quantities exactly. Library version checks protect newly confirmed examples and library edits cannot mutate stored history. These are analysis snapshots; copying them into actual immutable runs remains T011. See [materials/units](MATERIALS_UNITS.md) and [ADR-017](adr/ADR-017.md).
+
 A changed analysis creates a new revision and cannot change a queued/running snapshot. New meshes invalidate dependent derived previews. A run can reuse a compatible mesh only if geometry and all mesh controls/tool contract hashes match. Material/load changes do not require remeshing unless their selections require changed geometry, but always create a new run snapshot.
 Duplication creates independent analysis state referencing immutable geometry. Archive import assigns new owner-scoped IDs and revalidates references; incoming owner IDs, URLs or executable scripts are ignored/rejected. Old immutable run snapshots may refer to an earlier geometry while the editor displays a newer one; UI must identify both.
 Delete project first tombstones access and cancels pending work; purge only after active processes terminate. Audit manifests preserve deletion timing without retaining model content forever. Backup retention and erasure deadlines are disclosed.

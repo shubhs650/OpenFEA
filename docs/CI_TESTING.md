@@ -32,6 +32,8 @@ Set timeouts, concurrency cancellation, path filtering and short artifact retent
 
 ## Evidence format
 
+T009 adds 34 distinct cases, bringing executed local totals to 148 Python unit, 11 TS unit, 59 native, 6 real-process integration and 10 Chromium (234 pass, 0 failures/skips). Native material cases execute nine actual axial solves using independent references; browser cases use native imported solids and real immutable saves. Tests also cover sample/version/provenance, exact unit-only copying, conflicts, migration/history and process restart. See [T009 evidence](validation/T009.md). No existing native/benchmark criterion or dependency changed.
+
 Commit, task, command, platform, versions, passed/failed/skipped counts, benchmark expected/actual/error/tolerance, resource metrics and links. Screenshots alone cannot prove numerical correctness. A failed/blocked native gate remains open even if frontend tests pass.
 
 T008 executed `make check test-native build smoke test-integration test-e2e`, plus doctor and changed-native checks: 124 Python unit, 7 TS unit, 56 native, 5 integration and 8 Chromium cases pass (200 distinct). Actual import/picking flows use native synthetic STEP, not mocked CAD. CI installs Bubblewrap explicitly; unsupported/missing namespaces remain a native gate failure. [T008 evidence](validation/T008.md) records versions/hashes and unexecuted Windows/hosted/engineering gates.

@@ -1,0 +1,130 @@
+{
+  "boundary_measurements": [
+    {
+      "absolute_error_si": 0.0,
+      "display": 210000.0,
+      "preset": "mm-N-MPa",
+      "quantity": "stress",
+      "reference_si": 210000000000.0,
+      "returned_si": 210000000000.0
+    },
+    {
+      "absolute_error_si": 9.094947017729282e-13,
+      "display": 7.85e-9,
+      "preset": "mm-N-MPa",
+      "quantity": "density",
+      "reference_si": 7850.0,
+      "returned_si": 7850.000000000001
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": -9806.65,
+      "preset": "mm-N-MPa",
+      "quantity": "acceleration",
+      "reference_si": -9.80665,
+      "returned_si": -9.80665
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 25.4,
+      "preset": "mm-N-MPa",
+      "quantity": "length",
+      "reference_si": 0.0254,
+      "returned_si": 0.0254
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 4.4482216152605,
+      "preset": "mm-N-MPa",
+      "quantity": "force",
+      "reference_si": 4.4482216152605,
+      "returned_si": 4.4482216152605
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 210000000000.0,
+      "preset": "m-N-Pa",
+      "quantity": "stress",
+      "reference_si": 210000000000.0,
+      "returned_si": 210000000000.0
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 7850.0,
+      "preset": "m-N-Pa",
+      "quantity": "density",
+      "reference_si": 7850.0,
+      "returned_si": 7850.0
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": -9.80665,
+      "preset": "m-N-Pa",
+      "quantity": "acceleration",
+      "reference_si": -9.80665,
+      "returned_si": -9.80665
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 0.0254,
+      "preset": "m-N-Pa",
+      "quantity": "length",
+      "reference_si": 0.0254,
+      "returned_si": 0.0254
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 4.4482216152605,
+      "preset": "m-N-Pa",
+      "quantity": "force",
+      "reference_si": 4.4482216152605,
+      "returned_si": 4.4482216152605
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 30457924.923343938,
+      "preset": "inch-lbf-psi",
+      "quantity": "stress",
+      "reference_si": 210000000000.0,
+      "returned_si": 210000000000.0
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 0.0007345444929610709,
+      "preset": "inch-lbf-psi",
+      "quantity": "density",
+      "reference_si": 7850.0,
+      "returned_si": 7850.0
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": -386.08858267716533,
+      "preset": "inch-lbf-psi",
+      "quantity": "acceleration",
+      "reference_si": -9.80665,
+      "returned_si": -9.80665
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 1.0,
+      "preset": "inch-lbf-psi",
+      "quantity": "length",
+      "reference_si": 0.0254,
+      "returned_si": 0.0254
+    },
+    {
+      "absolute_error_si": 0.0,
+      "display": 1.0,
+      "preset": "inch-lbf-psi",
+      "quantity": "force",
+      "reference_si": 4.4482216152605,
+      "returned_si": 4.4482216152605
+    }
+  ],
+  "criteria": {
+    "absolute": 1e-15,
+    "relative": 2e-16
+  },
+  "display_only_evidence": "Exact complete material/source equality over 15 real API unit edits, plus browser preset cycles; TS 100 redisplay cycles keep identical SI",
+  "display_only_snapshot_drift": 0
+}

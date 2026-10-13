@@ -1,0 +1,22 @@
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 10 tests using 1 worker
+
+(node:16334) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.6s)
+  ✓   2 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.0s)
+  ✓   3 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.9s)
+  ✓   4 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (337ms)
+  ✓   5 tests/e2e/health.spec.ts:19:1 › page reports a health network failure without claiming readiness (260ms)
+  ✓   6 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (3.2s)
+  ✓   7 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (4.5s)
+  ✓   8 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (283ms)
+  ✓   9 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (179ms)
+  ✓  10 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (98ms)
+
+  10 passed (23.9s)

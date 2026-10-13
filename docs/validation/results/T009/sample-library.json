@@ -1,0 +1,64 @@
+[
+  {
+    "library_id": "al-6061-t6-rod",
+    "library_version": "2026-10-13.1",
+    "properties": {
+      "density_kg_m3": 2700.0,
+      "poisson_ratio": 0.33,
+      "yield_strength_pa": 276000000.0,
+      "young_modulus_pa": 68300000000.0
+    },
+    "provenance": {
+      "assumptions": "Use the datasheet metric column: E=68.3 GPa, density=2.70 Mg/m\u00b3, typical yield=276 MPa. Poisson ratio 0.33 is an explicit project assumption, not a sourced measurement. Isotropic approximation; typical values are not certified allowables. Confirm suitability for your product, direction and temperature.",
+      "condition": "T6/T651 rod and bar; typical properties",
+      "grade": "6061",
+      "name": "Aluminium 6061-T6 rod/bar example",
+      "sources": [
+        {
+          "accessed_on": "2026-10-13",
+          "title": "Kaiser Aluminum KA-RBH-6061-8.10, pp. 1\u20132",
+          "url": "https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1025/Kaiser_Aluminum_6061_Rod_and_Bar.pdf"
+        }
+      ],
+      "temperature_note": "Room-temperature example; density reference 20 \u00b0C"
+    },
+    "source_units": "m-N-Pa",
+    "source_values": {
+      "density": 2700.0,
+      "poisson_ratio": 0.33,
+      "yield_strength": 276000000.0,
+      "young_modulus": 68300000000.0
+    }
+  },
+  {
+    "library_id": "stainless-304",
+    "library_version": "2026-10-13.1",
+    "properties": {
+      "density_kg_m3": 7900.0,
+      "poisson_ratio": 0.3,
+      "yield_strength_pa": null,
+      "young_modulus_pa": 200000000000.0
+    },
+    "provenance": {
+      "assumptions": "E=200 GPa and density=7.9 kg/dm\u00b3 from the metric physical-properties table. Poisson ratio 0.30 is an explicit project assumption. Yield is intentionally omitted because product form/condition must be specified. Isotropic room-temperature example, not a certified allowable.",
+      "condition": "Core 304/4301; product form unspecified",
+      "grade": "EN 1.4301 / UNS S30400",
+      "name": "Stainless 304/4301 example",
+      "sources": [
+        {
+          "accessed_on": "2026-10-13",
+          "title": "Outokumpu Core range datasheet, physical properties p. 10",
+          "url": "https://www.outokumpu.com/-/media/files/products/core/outokumpu-core-range-datasheet.pdf"
+        }
+      ],
+      "temperature_note": "Physical properties at 20 \u00b0C"
+    },
+    "source_units": "m-N-Pa",
+    "source_values": {
+      "density": 7900.0,
+      "poisson_ratio": 0.3,
+      "yield_strength": null,
+      "young_modulus": 200000000000.0
+    }
+  }
+]

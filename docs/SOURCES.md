@@ -17,5 +17,8 @@ Checked 2026-10-12. Architectural recommendations are original project decisions
 | S11 | https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html | Regional bucket selection; no blanket locality promise for every surrounding service |
 | S12 | https://ansyshelp.ansys.com/public/Views/Secured/corp/v242/en/ans_vm/Hlp_V_VMTOC.html | Official verification case index; verify applicability and reproduction rights per case |
 | S13 | https://www.code-aster.org/V2/doc/default/en/index.php | Candidate official documentation entry; retrieval failed during planning, exact reference case unresolved |
+| S14 | https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1025/Kaiser_Aluminum_6061_Rod_and_Bar.pdf | Checked 2026-10-13; KA-RBH-6061-8.10 metric typical E/yield and nominal density; assumed ν is separately identified |
+| S15 | https://www.outokumpu.com/-/media/files/products/core/outokumpu-core-range-datasheet.pdf | Checked 2026-10-13; Core 304/4301 physical properties; unspecified product form prevents sample yield selection |
+| S16 | https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8 | Checked 2026-10-13; SI conversion reference; exact definitions and dimensional derivation underpin T009 presets |
 
 No AWS hourly prices have been verified or quoted. F8/T033 must collect dated Indian-region prices rather than using numbers from memory. No proprietary verification model or manual is included in this kit.
