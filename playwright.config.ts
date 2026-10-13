@@ -1,4 +1,6 @@
 import { defineConfig } from "@playwright/test";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 // Use dedicated ports and fail if occupied; never reuse an unrelated service.
 export default defineConfig({
@@ -16,6 +18,7 @@ export default defineConfig({
       FEA_ENV: "test",
       FEA_AUTH_MODE: "local",
       FEA_BIND_HOST: "127.0.0.1",
+      FEA_DATA_ROOT: join(tmpdir(), `openfea-e2e-${process.pid}`),
     },
     reuseExistingServer: false,
     timeout: 60_000,

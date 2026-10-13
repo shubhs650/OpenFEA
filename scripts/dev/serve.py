@@ -61,6 +61,7 @@ def main() -> int:
                 "uvicorn",
                 "app.main:create_app",
                 "--factory",
+                "--no-proxy-headers",
                 "--host",
                 settings.bind_host,
                 "--port",

@@ -15,16 +15,21 @@ def local_environment(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
 
 
 def test_health_contract() -> None:
-    with TestClient(create_app()) as client:
+    with TestClient(
+        create_app(), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)
+    ) as client:
         response = client.get("/api/v1/health")
         assert response.status_code == 200
         assert response.json() == {"status": "ok", "service": "openfea-api", "stage": "bootstrap"}
         schema = client.get("/api/v1/openapi.json").json()
-        assert set(schema["paths"]) == {"/api/v1/health"}
+        assert "/api/v1/projects" in schema["paths"]
+        assert "/api/v1/health" in schema["paths"]
 
 
 def test_no_solver_routes() -> None:
-    with TestClient(create_app()) as client:
+    with TestClient(
+        create_app(), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)
+    ) as client:
         assert client.post("/api/v1/analyses/example/runs").status_code == 404
 
 

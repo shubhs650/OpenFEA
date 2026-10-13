@@ -71,7 +71,7 @@ def main() -> int:
             }
         )
     report = {
-        "scope": "T001 locked development dependencies; not a redistribution approval",
+        "scope": "Locked development dependencies through T007; not a redistribution approval",
         "python": python,
         "npm": npm,
     }
