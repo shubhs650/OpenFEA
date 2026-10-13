@@ -1,0 +1,26 @@
+{
+  "id": "T006",
+  "revision": 1,
+  "status": "DEVELOPMENT ONLY; not an engineering or laptop capacity acceptance manifest",
+  "geometry": "Synthetic unit cube in metres; native Gmsh tetra10 with linear midsides",
+  "workloads": [
+    { "target_elements": 5000, "mesh_size_m": 0.1 },
+    { "target_elements": 25000, "mesh_size_m": 0.058 },
+    { "target_elements": 100000, "mesh_size_m": 0.036 }
+  ],
+  "count_policy": "Targets are approximate; report actual native element/node counts, never relabel",
+  "physics": "Existing frozen B01 affine displacement patch, all nodes and all raw IP tensors; unchanged tolerances, engineering review pending",
+  "solve_admission_elements": 30000,
+  "solve_admission_free_equations": 120000,
+  "budget": {
+    "rss_mib": 1536,
+    "scratch_mib": 256,
+    "wall_seconds": 90,
+    "threads": 1
+  },
+  "native_limits": "Existing launcher: 4 GiB AS, 60 s CPU per process, 64 MiB per file, no sockets",
+  "browser": "Real exterior tri6 subdivided into 4 triangles; native ux and raw element IP1 xx, 60 rotations and field switch. Headless software rendering is not integrated-GPU acceptance.",
+  "failure_policy": "Stop on stage failure; no retries or automatic coarsening. Admission rejects large solve; explicit coarser request required.",
+  "cleanup": "OCCT copy then BRepAlgoAPI_Defeaturing selected cylindrical face of synthetic radius 0.1 m through-hole or single straight-edge fillet. Volume delta absolute tolerance 1e-10 m3. No general healing/remapping or product apply/undo.",
+  "reviewer_signoff": "PENDING; user kept earlier physical benchmarks development-only"
+}

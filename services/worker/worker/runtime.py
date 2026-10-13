@@ -54,11 +54,8 @@ def verified_tool(name: Literal["ccx", "netdeny"]) -> Path:
     return path.resolve()
 
 
-def execute(
-    command: list[str], directory: Path, timeout: float = 90
-) -> subprocess.CompletedProcess[str]:
-    launcher = verified_tool("netdeny")
-    environment = {
+def native_environment(directory: Path) -> dict[str, str]:
+    return {
         "PATH": "/usr/bin:/bin",
         "HOME": str(directory),
         "TMPDIR": str(directory),
@@ -70,10 +67,16 @@ def execute(
         "MPLCONFIGDIR": str(directory / ".matplotlib"),
         "PYTHONNOUSERSITE": "1",
     }
+
+
+def execute(
+    command: list[str], directory: Path, timeout: float = 90
+) -> subprocess.CompletedProcess[str]:
+    launcher = verified_tool("netdeny")
     process = subprocess.Popen(
         [str(launcher), *command],
         cwd=directory,
-        env=environment,
+        env=native_environment(directory),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

@@ -129,6 +129,23 @@ Path("mesh.json").write_text(
     + "\n"
 )
 expected_tetrahedra = len(elements)
+boundary_nodes = {n for values in boundary.values() for face in values for n in face["nodes"]}
+Path("mesh-summary.json").write_text(
+    json.dumps(
+        {
+            "nodes": len(nodes),
+            "elements": expected_tetrahedra,
+            "dofs": 3 * len(nodes),
+            "free_equations": 3 * (len(nodes) - len(boundary_nodes)),
+            "equation_scope": "B01 full exterior prescribed-displacement patch only",
+            "mesh_json_bytes": Path("mesh.json").stat().st_size,
+            "mesh_msh_bytes": Path("mesh.msh").stat().st_size,
+            "mesh_sha256": hashlib.sha256(Path("mesh.json").read_bytes()).hexdigest(),
+        },
+        indent=2,
+    )
+    + "\n"
+)
 gmsh.clear()
 gmsh.open("mesh.msh")
 saved_types, saved_tags, _saved_connectivity = gmsh.model.mesh.getElements(3)
