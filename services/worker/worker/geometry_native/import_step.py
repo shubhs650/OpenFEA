@@ -22,6 +22,7 @@ from OCP.collections import (
     IndexedMap_TopoDS_Shape_TopTools_ShapeMapHasher as IndexedMap_TopoDS_Shape,
 )
 from OCP.collections import Sequence_TCollection_AsciiString
+from OCP.GeomAbs import GeomAbs_Plane
 from OCP.gp import gp_Pnt, gp_Trsf
 from OCP.GProp import GProp_GProps
 from OCP.IFSelect import IFSelect_RetDone
@@ -198,6 +199,11 @@ def inspect():
                     },
                 }
             )
+            surface = BRepAdaptor_Surface(face)
+            if surface.GetType() == GeomAbs_Plane:
+                normal = surface.Plane().Axis().Direction().Coord()
+                sign = -1 if face.Orientation() == TopAbs_REVERSED else 1
+                local[-1]["signature"]["outward_normal"] = [sign * v for v in normal]
         for face in local:
             face["neighbors"] = sorted(
                 other["id"]
@@ -231,7 +237,9 @@ def inspect():
                 triangles = []
                 for i in range(1, mesh.NbTriangles() + 1):
                     ids = [v - 1 for v in mesh.Triangle(i).Get()]
-                    if face.Orientation() == TopAbs_REVERSED:
+                    # ModifiedShape returns the underlying copied face, which can
+                    # lose its orientation in the owning solid. Use the original.
+                    if original.Orientation() == TopAbs_REVERSED:
                         ids[1], ids[2] = ids[2], ids[1]
                     triangles.append(ids)
                 display[lod].append(

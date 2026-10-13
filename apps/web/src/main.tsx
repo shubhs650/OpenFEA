@@ -24,8 +24,8 @@ function App() {
       </header>
       <Workspace />
       <footer>
-        Geometry and material setup. Load, mesh, solve and result features are
-        not available yet.
+        Geometry, materials and face loads with checked coarse deck export.
+        Solving and calculated results are not available yet.
       </footer>
     </main>
   );

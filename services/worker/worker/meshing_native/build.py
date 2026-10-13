@@ -19,6 +19,9 @@ revision = hashlib.sha256(Path("geometry.brep").read_bytes()).hexdigest()
 if revision != catalog["revision"]:
     raise ValueError("Stale BREP revision")
 gmsh.initialize()
+if len(sys.argv) > 4:
+    for option in ("FixDegenerated", "FixSmallEdges", "FixSmallFaces", "SewFaces", "MakeSolids"):
+        gmsh.option.setNumber("Geometry.OCC" + option, 0)
 gmsh.option.setNumber("General.NumThreads", 1)
 gmsh.option.setNumber("Mesh.MaxNumThreads3D", 1)
 gmsh.option.setNumber("Mesh.MeshSizeMin", float(sys.argv[1]))
@@ -75,6 +78,10 @@ for index, (body, volume) in enumerate(sorted(body_volumes.items()), 1):
     gmsh.model.addPhysicalGroup(3, [volume], index)
     gmsh.model.setPhysicalName(3, index, body)
 gmsh.model.mesh.generate(3)
+if len(sys.argv) > 4:
+    _types, _tags, _connectivity = gmsh.model.mesh.getElements(3)
+    if sum(len(tags) for tags in _tags) > int(sys.argv[4]):
+        raise ValueError("Preview mesh exceeds the fixed element cap; no automatic coarsening")
 tags, xyz, _ = gmsh.model.mesh.getNodes()
 nodes = {int(n): tuple(float(v) for v in xyz[3 * i : 3 * i + 3]) for i, n in enumerate(tags)}
 elements = {}

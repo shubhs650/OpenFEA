@@ -9,6 +9,7 @@ import {
   type Inspection,
   type Project,
   type Upload,
+  type LoadState,
 } from "./api";
 import { Viewport } from "./Viewport";
 import { MaterialsEditor } from "../materials/MaterialsEditor";
@@ -19,6 +20,7 @@ export function Workspace() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [project, setProject] = useState<Project | null>(null);
   const [analysisId, setAnalysisId] = useState("");
+  const [loadPreview, setLoadPreview] = useState<LoadState | null>(null);
   const [name, setName] = useState("");
   const [geometry, setGeometry] = useState<Geometry | null>(null);
   const [latestGeometry, setLatestGeometry] = useState<Geometry | null>(null);
@@ -383,6 +385,12 @@ export function Workspace() {
             selected={selected}
             visible={visible}
             toggle={toggle}
+            markers={
+              loadPreview?.analysis_id === analysisId &&
+              loadPreview.geometry_revision_id === geometry.id
+                ? loadPreview.markers
+                : []
+            }
           />
         ) : (
           <div className="empty-viewport">
@@ -447,6 +455,8 @@ export function Workspace() {
             }}
             busy={busy}
             setBusy={setBusy}
+            selected={selected}
+            preview={setLoadPreview}
           />
         )}
       </div>

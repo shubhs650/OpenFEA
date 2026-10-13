@@ -10,6 +10,13 @@ from uuid import UUID, uuid4
 from sqlalchemy import Connection, text
 
 from app.domain.errors import DomainError, not_found, stale_revision
+from app.domain.loads import (
+    DeckExport,
+    DeckSnapshot,
+    LoadAssignment,
+    LoadSetup,
+    validate_assignment,
+)
 from app.domain.materials import (
     BodyMaterial,
     MaterialSetup,
@@ -271,6 +278,7 @@ class Repository:
         payload: AnalysisCreate,
         timestamp: str,
         setup: MaterialSetup | None = None,
+        loads: LoadSetup | None = None,
     ) -> None:
         connection.execute(
             text("""INSERT INTO analysis_revisions VALUES
@@ -292,6 +300,146 @@ class Repository:
             text("INSERT INTO analysis_material_setups VALUES (:id, :revision, :setup)"),
             {"id": str(analysis), "revision": revision, "setup": setup.model_dump_json()},
         )
+        if loads is None:
+            loads = Repository._load_setup(connection, analysis, revision - 1)
+        connection.execute(
+            text("INSERT INTO analysis_load_setups VALUES (:id, :revision, :setup)"),
+            {"id": str(analysis), "revision": revision, "setup": loads.model_dump_json()},
+        )
+
+    @staticmethod
+    def _load_setup(connection: Connection, analysis: UUID, revision: int) -> LoadSetup:
+        raw = connection.execute(
+            text(
+                "SELECT setup_json FROM analysis_load_setups "
+                "WHERE analysis_id=:id AND revision=:revision"
+            ),
+            {"id": str(analysis), "revision": revision},
+        ).scalar_one_or_none()
+        return LoadSetup.model_validate_json(raw) if raw is not None else LoadSetup()
+
+    def load_inputs(
+        self, owner: UUID, identifier: UUID, revision: int | None = None
+    ) -> tuple[Analysis, GeometryRevision | None, MaterialSetup, LoadSetup]:
+        with self.database.engine.connect() as connection, connection.begin():
+            analysis = self._analysis(connection, owner, identifier, revision)
+            geometry = (
+                self._geometry(
+                    connection, owner, analysis.geometry_revision_id, analysis.project_id
+                )
+                if analysis.geometry_revision_id
+                else None
+            )
+            return (
+                analysis,
+                geometry,
+                self._material_setup(connection, identifier, analysis.revision),
+                self._load_setup(connection, identifier, analysis.revision),
+            )
+
+    def edit_loads(
+        self,
+        owner: UUID,
+        identifier: UUID,
+        expected: int,
+        item: LoadAssignment | None,
+        remove: UUID | None = None,
+    ) -> None:
+        with self.write() as connection:
+            current = self._analysis(connection, owner, identifier)
+            if current.revision != expected:
+                raise stale_revision()
+            previous = self._load_setup(connection, identifier, expected)
+            assignments = list(previous.assignments)
+            if item is not None:
+                if current.geometry_revision_id is None:
+                    raise DomainError(409, "geometry_required", "Accept geometry first")
+                geometry = self._geometry(
+                    connection, owner, current.geometry_revision_id, current.project_id
+                )
+                validate_assignment(geometry, previous, item)
+                assignments.append(item)
+            elif remove is not None:
+                if remove not in {a.id for a in assignments}:
+                    raise not_found()
+                assignments = [a for a in assignments if a.id != remove]
+            if len(assignments) > 50:
+                raise DomainError(422, "load_limit", "At most 50 face assignments are supported")
+            timestamp = now()
+            self._insert_analysis_revision(
+                connection,
+                identifier,
+                current.project_id,
+                expected + 1,
+                AnalysisCreate(
+                    name=current.name, geometry_revision_id=current.geometry_revision_id
+                ),
+                timestamp,
+                loads=LoadSetup(assignments=assignments),
+            )
+            connection.execute(
+                text(
+                    "UPDATE analyses SET head_revision=head_revision+1, "
+                    "updated_at=:time WHERE id=:id"
+                ),
+                {"id": str(identifier), "time": timestamp},
+            )
+
+    def export(self, owner: UUID, identifier: UUID) -> tuple[DeckExport, DeckSnapshot]:
+        with self.database.engine.connect() as connection:
+            row = (
+                connection.execute(
+                    text("SELECT * FROM deck_exports WHERE id=:id"), {"id": str(identifier)}
+                )
+                .mappings()
+                .one_or_none()
+            )
+            if row is None:
+                raise not_found()
+            self._analysis(connection, owner, UUID(row["analysis_id"]), row["revision"])
+            return (
+                DeckExport.model_validate_json(row["metadata_json"]),
+                DeckSnapshot.model_validate_json(row["snapshot_json"]),
+            )
+
+    def cached_export(self, owner: UUID, digest: str) -> DeckExport | None:
+        with self.database.engine.connect() as connection:
+            identifier = connection.execute(
+                text("SELECT id FROM deck_exports WHERE snapshot_sha256=:sha"), {"sha": digest}
+            ).scalar_one_or_none()
+        return self.export(owner, UUID(identifier))[0] if identifier else None
+
+    def list_exports(self, owner: UUID, analysis: UUID) -> list[DeckExport]:
+        with self.database.engine.connect() as connection:
+            self._analysis(connection, owner, analysis)
+            rows = connection.execute(
+                text(
+                    "SELECT metadata_json FROM deck_exports "
+                    "WHERE analysis_id=:id ORDER BY revision DESC, id LIMIT 100"
+                ),
+                {"id": str(analysis)},
+            ).scalars()
+            return [DeckExport.model_validate_json(row) for row in rows]
+
+    def save_export(self, owner: UUID, metadata: DeckExport, snapshot: DeckSnapshot) -> None:
+        with self.write() as connection:
+            current = self._analysis(connection, owner, metadata.analysis_id)
+            if current.revision != metadata.analysis_revision:
+                raise stale_revision()
+            connection.execute(
+                text(
+                    "INSERT INTO deck_exports VALUES "
+                    "(:id,:analysis,:revision,:sha,:metadata,:snapshot)"
+                ),
+                {
+                    "id": str(metadata.id),
+                    "analysis": str(metadata.analysis_id),
+                    "revision": metadata.analysis_revision,
+                    "sha": metadata.snapshot_sha256,
+                    "metadata": metadata.model_dump_json(),
+                    "snapshot": snapshot.model_dump_json(),
+                },
+            )
 
     @staticmethod
     def _material_setup(connection: Connection, analysis: UUID, revision: int) -> MaterialSetup:

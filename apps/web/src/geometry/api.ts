@@ -11,6 +11,9 @@ export type MaterialSnapshot = components["schemas"]["MaterialSnapshot"];
 export type MaterialExample = components["schemas"]["MaterialExample"];
 export type MaterialAssignment = components["schemas"]["MaterialAssignment"];
 export type UnitPreset = components["schemas"]["UnitPreset"];
+export type LoadState = components["schemas"]["LoadState"];
+export type LoadMarker = components["schemas"]["LoadMarker"];
+export type DeckExport = components["schemas"]["DeckExport"];
 export class RequestError extends Error {
   constructor(
     message: string,

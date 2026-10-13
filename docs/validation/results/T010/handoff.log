@@ -1,0 +1,58 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+100 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 79 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 168 items
+
+tests/unit/test_api.py .........                                         [  5%]
+tests/unit/test_approval.py ................                             [ 14%]
+tests/unit/test_bonds.py ................                                [ 24%]
+tests/unit/test_face_loads.py ....................                       [ 36%]
+tests/unit/test_imports.py ......                                        [ 39%]
+tests/unit/test_materials.py ........................                    [ 54%]
+tests/unit/test_projects.py ............................                 [ 70%]
+tests/unit/test_quadratic.py .....................                       [ 83%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 168 passed in 7.24s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  16:54:36
+   Duration  344ms (tests 53%, import 26%, worker 10%, transform 10%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpu4r3sqdp/openapi.json → /tmp/tmpu4r3sqdp/api.d.ts [124.7ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 117 Markdown files; 42 task statuses and acyclic dependencies
