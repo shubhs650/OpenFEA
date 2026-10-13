@@ -1,12 +1,14 @@
 [project]
 name = "openfea-dev"
 version = "0.1.0"
-description = "Local FEA prototype development tools and health bootstrap"
+description = "Local FEA prototype development tools and persistent project API"
 requires-python = "==3.12.*"
 dependencies = [
   "fastapi==0.143.0",
   "pydantic==2.14.1",
   "uvicorn==0.54.0",
+  "SQLAlchemy==2.1.4",
+  "alembic==1.20.0",
 ]
 
 [dependency-groups]

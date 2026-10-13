@@ -25,8 +25,8 @@ doctor:
 dev:
 	bash scripts/codex/start.sh
 lint:
-	.venv/bin/ruff check services scripts tests
-	.venv/bin/ruff format --check services scripts tests
+	.venv/bin/ruff check services migrations scripts tests
+	.venv/bin/ruff format --check services migrations scripts tests
 	npm run lint
 typecheck:
 	.venv/bin/mypy
@@ -60,6 +60,6 @@ resource-browser:
 benchmark-all:
 	@bash scripts/ci/blocked.sh 'release benchmarks' 'reviewed manifests and native pipeline'
 test-security:
-	@bash scripts/ci/blocked.sh 'full security suite' 'ownership, archive and job implementations; local startup guards run in test-unit'
+	@bash scripts/ci/blocked.sh 'full security suite' 'archive, hosted auth, caps and lease-race implementations; T007 local ownership/session guards run in test-unit'
 test-reports:
 	@bash scripts/ci/blocked.sh 'reports' 'T025-T026'

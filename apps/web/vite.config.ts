@@ -7,7 +7,11 @@ export default defineConfig({
     host: "127.0.0.1",
     strictPort: true,
     proxy: {
-      "/api": `http://127.0.0.1:${process.env.FEA_API_PORT ?? "8000"}`,
+      "/api": {
+        target: `http://127.0.0.1:${process.env.FEA_API_PORT ?? "8000"}`,
+        // Preserve the browser authority for the API's same-origin write check.
+        changeOrigin: false,
+      },
     },
   },
   test: { include: ["apps/web/src/**/*.test.ts"], environment: "node" },

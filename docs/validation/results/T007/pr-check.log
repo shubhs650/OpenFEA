@@ -1,0 +1,55 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+70 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 55 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 118 items
+
+tests/unit/test_api.py .........                                         [  7%]
+tests/unit/test_approval.py ................                             [ 21%]
+tests/unit/test_bonds.py ................                                [ 34%]
+tests/unit/test_projects.py ............................                 [ 58%]
+tests/unit/test_quadratic.py .....................                       [ 76%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 118 passed in 1.41s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  09:30:12
+   Duration  130ms (tests 61%, import 20%, transform 11%, worker 7%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmppiicot3x/openapi.json → /tmp/tmppiicot3x/api.d.ts [88.7ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 108 Markdown files; 42 task statuses and acyclic dependencies

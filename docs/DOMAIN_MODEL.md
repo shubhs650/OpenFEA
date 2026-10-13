@@ -2,6 +2,8 @@
 
 UUID identifiers; UTC timestamps; dimensional canonical SI values; integer minor currency units or fixed decimals, never binary floating-point currency. Schema versions are explicit and migrations tested.
 
+T007 implements `users`, `projects`, `geometry_revisions`, `analyses` and `analysis_revisions` with Alembic revision `0001_local_projects`. Local owner creation and revision writes are transactional; geometry/analysis history is append-only with UPDATE/DELETE triggers. Analyses inherit ownership through their project, and same-project foreign keys protect geometry/parent references. Project tombstones hide all child lookups. A draft without geometry is explicit, not runnable. The remaining entities below are planned. [ADR-015](adr/ADR-015.md) and [T007 evidence](validation/T007.md) describe the tested boundary; T008 must verify actual CAD artifacts before registering metadata.
+
 | Entity | Key fields and invariants |
 |---|---|
 | User | id, OIDC subject, verified email, allowlist state; identity is subject, not mutable email alone |

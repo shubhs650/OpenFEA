@@ -20,6 +20,8 @@ T001 pins Node LTS 24.19.0, npm 11.9.0, Python 3.12.14 and uv 0.12.23; see [ADR-
 
 Isolation by subprocess is an engineering boundary, not a blanket exemption from license obligations. Do not publish an MIT/AGPL/GPL license file by guesswork. Record license review and owner selection in ADR-006 before public code/container release. Documentation kit is supplied for the user's project; this does not relicense third-party sources.
 
+T007 adds SQLAlchemy **2.1.4** (MIT), Alembic **1.20.0** (MIT), Mako **1.4.3** (MIT) and MarkupSafe **3.0.4** (BSD-3-Clause) to the root lock and inventory. Existing root/native/browser versions remain unchanged; actual reversible SQLite migrations and local API behavior are tested in [T007 evidence](validation/T007.md). This is not a final redistribution approval.
+
 ## T002 pinned native matrix
 
 Native availability is now executed evidence. Historical T001 wheel downloads remain an ABI probe; actual installation pins are the three worker environment uv locks and `scripts/native/toolchain-lock.json`. [ADR-010](adr/ADR-010.md), [native setup](NATIVE_TOOLS.md) and [T002 results](validation/T002.md) describe the tested configuration.

@@ -1,0 +1,223 @@
+{
+  "artifacts": {
+    "doctor.log": {
+      "bytes": 547,
+      "sha256": "1d09f131960caab81d509a4758790b637055f31d06b3fe37f9fa802e9ea550de"
+    },
+    "gates.log": {
+      "bytes": 4186,
+      "sha256": "1c5eec9c6919a48680328c4503fffdb16984f06b347c6be4c4e8162896c16964"
+    },
+    "handoff-check.log": {
+      "bytes": 1913,
+      "sha256": "cd70a022fb334d5d7cd8353c43c5efb7c9c513faddb5603d20d354def945c78a"
+    },
+    "pr-check.log": {
+      "bytes": 1913,
+      "sha256": "02a0040a6af7928b7459a49bb91ea4e6f7373a292a77810394bc7d64ad5d3a42"
+    }
+  },
+  "base_commit": "8e1e1a567c75cec572eecdbc29abc0180c731bd8",
+  "checks": {
+    "doctor": {
+      "exit_code": 0
+    },
+    "gates": {
+      "chromium": 5,
+      "command": "make contracts check build smoke test-integration test-e2e",
+      "distinct_passed": 135,
+      "exit_code": 0,
+      "failed": 0,
+      "integration": 5,
+      "python_unit": 118,
+      "skipped": 0,
+      "typescript_unit": 7
+    },
+    "handoff_check": {
+      "command": "make check",
+      "exit_code": 0,
+      "markdown_files": 107,
+      "tasks": 42
+    },
+    "lock_and_diff": {
+      "exit_code": 0
+    },
+    "migration_cli": {
+      "commands": ["upgrade head", "downgrade base", "upgrade head"],
+      "exit_codes": [0, 0, 0]
+    },
+    "new_cases": {
+      "chromium": 1,
+      "integration": 1,
+      "python_unit": 28
+    },
+    "pr_preparation": {
+      "code_changed_since_implementation": false,
+      "command": "make check",
+      "exit_code": 0,
+      "markdown_files": 108,
+      "tasks": 42
+    }
+  },
+  "executed_on": "2026-10-13",
+  "formal_task_status": "COMPLETE",
+  "implementation_commit": "62ec5483e15f1e54a02b560a2aa19abb061a6cb7",
+  "not_run": [
+    "full native suite",
+    "benchmarks",
+    "full security/reports",
+    "target WSL2 hardware",
+    "hosted CI",
+    "M1 exit"
+  ],
+  "numerical_error": null,
+  "owner_progression_record": "docs/validation/M0-owner-decision.md",
+  "pr_base_commit": "47f004676e8fdb20a6c8032326d589b21a8c5a94",
+  "scope": "local metadata/access; no CAD or numerical acceptance claim",
+  "source_files": {
+    ".gitignore": {
+      "bytes": 160,
+      "sha256": "36f4e1b94793df3c81f32d77f9f0a526a9a79a8e7946d4e950ed2293b7d16ae1"
+    },
+    "Makefile": {
+      "bytes": 2542,
+      "sha256": "e4e66db36255fd9b217473eae9246058a3de2e8b5f7b2a327c0a33241ec89857"
+    },
+    "apps/web/vite.config.ts": {
+      "bytes": 509,
+      "sha256": "744e8e4b5c3822d0f6a374b5f0f5e810a9a039424283dea753f8f63d2ca401b9"
+    },
+    "docs/validation/dependencies.json": {
+      "bytes": 169230,
+      "sha256": "344d6dcffe0af2e7a2ff76ff0bef050a07e240f6ddd3115bce35b86a83589461"
+    },
+    "migrations/env.py": {
+      "bytes": 299,
+      "sha256": "fa526d2fa19604e6619ba2ca8ee4f779e88113b5cf858ce16d28d94f1e1ae406"
+    },
+    "migrations/versions/0001_local_projects.py": {
+      "bytes": 2923,
+      "sha256": "204d3317a63779641bedff19aeee094621dab64a26ce9ce5d2c3cf23759d785e"
+    },
+    "packages/contracts/api.d.ts": {
+      "bytes": 57122,
+      "sha256": "7d77be292d835c8fd8946eb6298f5e9d98f035cdd55c0de2da6556038166dcda"
+    },
+    "packages/contracts/openapi.json": {
+      "bytes": 67204,
+      "sha256": "9a2ad6844a0e15faaebd0a873183193b0e542dc481a277d634fc48d09e2a00a4"
+    },
+    "playwright.config.ts": {
+      "bytes": 820,
+      "sha256": "f1a3e0b288827aad541b4d7733c11b84aa28d296e1fe50ddd8d03ec3d98ae892"
+    },
+    "pyproject.toml": {
+      "bytes": 1399,
+      "sha256": "f43d99691717d167dde62f2a6b1d8ab983bffaec20bc484d1c993de1a898646d"
+    },
+    "scripts/ci/dependency_report.py": {
+      "bytes": 3578,
+      "sha256": "a16cc1c80becb0a12575367702196d47b387cf262b53bb76c3b9b332e19e0cca"
+    },
+    "scripts/dev/migrate.py": {
+      "bytes": 793,
+      "sha256": "db82e3342036f881515975952fdb50fc580dd6fb41763831cfb62930c0e406a4"
+    },
+    "scripts/dev/serve.py": {
+      "bytes": 6092,
+      "sha256": "390f5c7a8c1b496b175eedbda99bdf739dfa71639dd3e66f66733f6717f7b7c7"
+    },
+    "services/api/app/auth/__init__.py": {
+      "bytes": 82,
+      "sha256": "6ff23cd9d240c0a88a08f3c97504d6a70630fbde77b400347d3c24fb09dd1529"
+    },
+    "services/api/app/auth/body_limit.py": {
+      "bytes": 2268,
+      "sha256": "09a437f3623d0935425465689e39c3518e1619c3d915f547598c084777e2923d"
+    },
+    "services/api/app/auth/local.py": {
+      "bytes": 3110,
+      "sha256": "60330169e4e493e337ca840004224e529bb922a999fb63e51f424eba226b7f14"
+    },
+    "services/api/app/domain/__init__.py": {
+      "bytes": 50,
+      "sha256": "c07f19afe2a0b11c8cdad75b0026bc2382c83b6d99ba918398616ba46be458d5"
+    },
+    "services/api/app/domain/errors.py": {
+      "bytes": 596,
+      "sha256": "7dc3bae15feb6b33c2759bd4f9da67845708d928765b08982f03cba49327614e"
+    },
+    "services/api/app/domain/models.py": {
+      "bytes": 3211,
+      "sha256": "853b9d31bc8768cc0432ebd234b0de62d402bad5cb48928f8f87757c3b20c390"
+    },
+    "services/api/app/main.py": {
+      "bytes": 4559,
+      "sha256": "47396802db1d416e0a65d8553a2a51a4035e7b11f06acfc3c48d164d6daf30d1"
+    },
+    "services/api/app/persistence/__init__.py": {
+      "bytes": 59,
+      "sha256": "3ec23c1b538372969f1254a72f0cb95fb10ce0b26aa23fb46f6dc8064fb8563f"
+    },
+    "services/api/app/persistence/database.py": {
+      "bytes": 1979,
+      "sha256": "d42a25f05f40fa9a3d07126551081b6961e617f6e72e5eb0c92c573534a8b9c3"
+    },
+    "services/api/app/persistence/repository.py": {
+      "bytes": 13401,
+      "sha256": "b37d4be05f27afa166aeffa5a194d085648b6c36662da259c535b0908c6805ba"
+    },
+    "services/api/app/routes/__init__.py": {
+      "bytes": 35,
+      "sha256": "020f209d10036fd512defb876add30e56642b4a3ad9cce618739f8f4d54b6781"
+    },
+    "services/api/app/routes/projects.py": {
+      "bytes": 5253,
+      "sha256": "b0bc8c2b8399118f96c262fcf10e5101c7ef624ea3ae82fd0769094fc604c452"
+    },
+    "tests/e2e/projects.spec.ts": {
+      "bytes": 2546,
+      "sha256": "882396e43c6bf3da63382baf0de7eb38def82fbb05c3670632c2a506230b1608"
+    },
+    "tests/integration/test_persistence.py": {
+      "bytes": 6195,
+      "sha256": "cb5e546fdf3d0c31bdebfb3649da8a5ac11876915d87db4c688572162b7391b5"
+    },
+    "tests/unit/test_api.py": {
+      "bytes": 1742,
+      "sha256": "e1f397b32c9dd6dda0fb2c6844427ee354f1aa19f5ee92ca4faab04a405fe7cb"
+    },
+    "tests/unit/test_projects.py": {
+      "bytes": 20189,
+      "sha256": "8c91c689ae8e47c75c471bd5d5584aa4039bbdb5b96e169b47eefef53cee3631"
+    },
+    "uv.lock": {
+      "bytes": 63481,
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+    }
+  },
+  "task": "T007",
+  "timezone": "Asia/Calcutta",
+  "tools": {
+    "alembic": "1.20.0",
+    "chromium": "156.0.8078.4",
+    "fastapi": "0.143.0",
+    "mako": "1.4.3",
+    "markupsafe": "3.0.4",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "playwright": "1.64.0",
+    "pydantic": "2.14.1",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "sqlalchemy": "2.1.4",
+    "sqlite": "3.53.1",
+    "typescript": "5.9.3",
+    "uv": "0.12.23",
+    "uvicorn": "0.54.0",
+    "vite": "8.3.4"
+  }
+}
