@@ -1,0 +1,921 @@
+{
+  "edit": {
+    "id": "eb703909-080d-4596-9357-a1a59da97b87",
+    "project_id": "9b17f607-d89c-435a-80e4-fa9b86fd317b",
+    "project_revision": 2,
+    "source_geometry_id": "c28540f0-9b3e-4cb3-8351-b2b343817d06",
+    "request": {
+      "operation": "remove_feature",
+      "face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7",
+      "analysis_id": null,
+      "analysis_revision": null
+    },
+    "status": "ready",
+    "metadata": {
+      "source_sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+      "brep_sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+      "units": {
+        "source_length_unit": "m",
+        "canonical_length_unit": "m",
+        "confirmed": true
+      },
+      "bodies": [
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1"
+        }
+      ],
+      "faces": [
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -1.0,
+              -0.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              -1.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              0.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              -0.0,
+              -1.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              1.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              1.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              1.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              1.0,
+              0.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5"
+          ]
+        }
+      ],
+      "edit_recipe": {
+        "operation": "selected_defeaturing",
+        "feature": "hole",
+        "source_brep_sha256": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1",
+        "selected_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7"
+      },
+      "validation": {
+        "ocp_version": "8.0.1.1.0",
+        "valid_solids": true,
+        "shape_processing": "OCCT BRepAlgoAPI_Defeaturing on deep copy",
+        "bounds_m": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "unit_origin": "step_metadata",
+        "artifacts": {
+          "geometry.brep": {
+            "sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+            "size_bytes": 2490
+          },
+          "body1.brep": {
+            "sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+            "size_bytes": 2490
+          },
+          "display-coarse.json": {
+            "sha256": "24186ac9e45da825c947e990993ff91470f7f81a17f5fd44a3fe9448ef897a30",
+            "size_bytes": 1837
+          },
+          "display-fine.json": {
+            "sha256": "3c6d2242e99d3d8dd2cd51c3921dcc2e0d8a76b37bace78ec55e028d29f2925c",
+            "size_bytes": 1835
+          },
+          "source.step": {
+            "sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+            "size_bytes": 18991
+          }
+        },
+        "warnings": [
+          "Bounded M0 unit-solid cleanup only; automatic healing is unavailable.",
+          "Changed, removed, split or merged face assignments require explicit reselection."
+        ],
+        "runtime": {
+          "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+          "bubblewrap_version": "bubblewrap 0.12.0",
+          "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+          "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+          "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+          "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+          "worker_sha256": "822e03de87bc0dc50c4623bff1cc8207858a644ee7a8e5b5da93439373a8ba43",
+          "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+          "wall_seconds": 0.9975083840001844,
+          "sampled_peak_rss_bytes": 247844864,
+          "wall_limit_seconds": 60,
+          "rss_limit_mib": 1536,
+          "output_limit_mib": 192,
+          "filesystem_isolated": true,
+          "network_disabled": true
+        }
+      }
+    },
+    "preview": {
+      "feature": "hole",
+      "original_volume_m3": 0.9685840734641007,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.031415926535899086,
+      "expected_delta_m3": 0.031415926535897934,
+      "mappings": [
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+          "target_face_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+          "status": "unchanged"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+          "target_face_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+          "status": "unchanged"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+          "target_face_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+          "status": "unchanged"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5",
+          "target_face_id": null,
+          "status": "changed_or_ambiguous"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6",
+          "target_face_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6",
+          "status": "unchanged"
+        },
+        {
+          "source_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7",
+          "target_face_id": null,
+          "status": "removed"
+        }
+      ]
+    },
+    "error": null,
+    "result_geometry_id": null,
+    "result_analysis_revision": null,
+    "result_project_revision": null
+  },
+  "applied": {
+    "project": {
+      "id": "9b17f607-d89c-435a-80e4-fa9b86fd317b",
+      "owner_id": "996f715c-c09f-4015-81f6-ae99fd7f2876",
+      "name": "Real synthetic CAD",
+      "revision": 3,
+      "created_at": "2026-10-13T22:09:17.084310Z",
+      "updated_at": "2026-10-13T22:09:19.181669Z"
+    },
+    "geometry": {
+      "source_sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+      "brep_sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+      "units": {
+        "source_length_unit": "m",
+        "canonical_length_unit": "m",
+        "confirmed": true
+      },
+      "bodies": [
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1"
+        }
+      ],
+      "faces": [
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -1.0,
+              -0.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              -1.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              0.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              -0.0,
+              -1.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              1.0,
+              0.5
+            ],
+            "bounds_m": [
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              -0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              0.5,
+              0.5,
+              1.0
+            ],
+            "bounds_m": [
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f1",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6"
+          ]
+        },
+        {
+          "id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f6",
+          "body_id": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1",
+          "signature": {
+            "area_m2": 1.0,
+            "center_m": [
+              1.0,
+              0.5,
+              0.5
+            ],
+            "bounds_m": [
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+            "outward_normal": [
+              1.0,
+              0.0,
+              -0.0
+            ]
+          },
+          "neighbors": [
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f2",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f3",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f4",
+            "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c:b1:f5"
+          ]
+        }
+      ],
+      "edit_recipe": {
+        "operation": "selected_defeaturing",
+        "feature": "hole",
+        "source_brep_sha256": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1",
+        "selected_face_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7"
+      },
+      "validation": {
+        "ocp_version": "8.0.1.1.0",
+        "valid_solids": true,
+        "shape_processing": "OCCT BRepAlgoAPI_Defeaturing on deep copy",
+        "bounds_m": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "unit_origin": "step_metadata",
+        "artifacts": {
+          "geometry.brep": {
+            "sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+            "size_bytes": 2490
+          },
+          "body1.brep": {
+            "sha256": "6b81b2b63661d67458874c8f35adfe433749b452ce9a2ebd6d751d7b5515842c",
+            "size_bytes": 2490
+          },
+          "display-coarse.json": {
+            "sha256": "24186ac9e45da825c947e990993ff91470f7f81a17f5fd44a3fe9448ef897a30",
+            "size_bytes": 1837
+          },
+          "display-fine.json": {
+            "sha256": "3c6d2242e99d3d8dd2cd51c3921dcc2e0d8a76b37bace78ec55e028d29f2925c",
+            "size_bytes": 1835
+          },
+          "source.step": {
+            "sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+            "size_bytes": 18991
+          }
+        },
+        "warnings": [
+          "Bounded M0 unit-solid cleanup only; automatic healing is unavailable.",
+          "Changed, removed, split or merged face assignments require explicit reselection."
+        ],
+        "runtime": {
+          "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+          "bubblewrap_version": "bubblewrap 0.12.0",
+          "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+          "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+          "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+          "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+          "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+          "worker_sha256": "822e03de87bc0dc50c4623bff1cc8207858a644ee7a8e5b5da93439373a8ba43",
+          "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+          "wall_seconds": 0.9975083840001844,
+          "sampled_peak_rss_bytes": 247844864,
+          "wall_limit_seconds": 60,
+          "rss_limit_mib": 1536,
+          "output_limit_mib": 192,
+          "filesystem_isolated": true,
+          "network_disabled": true
+        }
+      },
+      "id": "9416102c-c33d-42ac-87dc-80bd82e5d371",
+      "project_id": "9b17f607-d89c-435a-80e4-fa9b86fd317b",
+      "parent_id": "c28540f0-9b3e-4cb3-8351-b2b343817d06",
+      "created_at": "2026-10-13T22:09:19.181669Z"
+    },
+    "analysis": null
+  },
+  "restored": {
+    "source_sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+    "brep_sha256": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1",
+    "units": {
+      "source_length_unit": "m",
+      "canonical_length_unit": "m",
+      "confirmed": true
+    },
+    "bodies": [
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1"
+      }
+    ],
+    "faces": [
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            0.0,
+            0.5,
+            0.5
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -1.0,
+            -0.0,
+            0.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            0.5,
+            0.0,
+            0.5
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            0.0,
+            -1.0,
+            -0.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 0.9685840734641021,
+          "center_m": [
+            0.5,
+            0.5,
+            1.0
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            0.5,
+            1.0,
+            0.5
+          ],
+          "bounds_m": [
+            0.0,
+            1.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 0.9685840734641021,
+          "center_m": [
+            0.5,
+            0.5,
+            0.0
+          ],
+          "bounds_m": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            -0.0,
+            -0.0,
+            -1.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f1",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f6",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 1.0,
+          "center_m": [
+            1.0,
+            0.5,
+            0.5
+          ],
+          "bounds_m": [
+            1.0,
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Plane",
+          "outward_normal": [
+            1.0,
+            0.0,
+            -0.0
+          ]
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f2",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f4",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5"
+        ]
+      },
+      {
+        "id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f7",
+        "body_id": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1",
+        "signature": {
+          "area_m2": 0.6283185307180001,
+          "center_m": [
+            0.5000000000000066,
+            0.5,
+            0.5000000000000001
+          ],
+          "bounds_m": [
+            0.4,
+            0.4,
+            0.0,
+            0.6,
+            0.6,
+            1.0
+          ],
+          "surface_type": "GeomAbs_SurfaceType.GeomAbs_Cylinder"
+        },
+        "neighbors": [
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f3",
+          "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1:b1:f5"
+        ]
+      }
+    ],
+    "edit_recipe": {
+      "operation": "undo_cleanup",
+      "edit_id": "eb703909-080d-4596-9357-a1a59da97b87",
+      "restored_geometry_id": "c28540f0-9b3e-4cb3-8351-b2b343817d06"
+    },
+    "validation": {
+      "ocp_version": "8.0.1.1.0",
+      "valid_solids": true,
+      "shape_processing": "empty FromSTEP sequence",
+      "bounds_m": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "unit_origin": "step_metadata",
+      "artifacts": {
+        "geometry.brep": {
+          "sha256": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1",
+          "size_bytes": 2868
+        },
+        "body1.brep": {
+          "sha256": "6cc6ea591b68359542a830a651b8b43a6dff86f0c744183e82e5a0ef33ebdcb1",
+          "size_bytes": 2868
+        },
+        "display-coarse.json": {
+          "sha256": "82dfd5c7b8a37677f10a5c6ef6b9148a6aa15083ad0f38fbcc58b646bd5bf08a",
+          "size_bytes": 8662
+        },
+        "display-fine.json": {
+          "sha256": "ad7e4396e8d3e43c85fc53d92381fa1fa8a1cce74085893066961d2f2d119b49",
+          "size_bytes": 20126
+        },
+        "source.step": {
+          "sha256": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+          "size_bytes": 18991
+        }
+      },
+      "warnings": [],
+      "runtime": {
+        "bubblewrap_sha256": "573236e5328ac2ebb08f59ae3a9805b4f8d12bdef14be8af4450d5463294985f",
+        "bubblewrap_version": "bubblewrap 0.12.0",
+        "netdeny_sha256": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+        "cad_python_sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+        "cad_binding_sha256": "d6d3903b9760725ff699c77f6c2f3b779c37395c1d3f0595092fe0e119ba3d56",
+        "cad_lock_sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+        "process_filter_sha256": "dd93d8b7f35478ab23a26a57a8710d955d75011b716268b29a35232d2518aa8b",
+        "worker_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+        "exporter_sha256": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+        "wall_seconds": 1.0326916999999867,
+        "sampled_peak_rss_bytes": 247980032,
+        "wall_limit_seconds": 60,
+        "rss_limit_mib": 1536,
+        "output_limit_mib": 192,
+        "filesystem_isolated": true,
+        "network_disabled": true
+      }
+    },
+    "id": "22dff23b-fc35-4112-b784-69367abcc0d1",
+    "project_id": "9b17f607-d89c-435a-80e4-fa9b86fd317b",
+    "parent_id": "9416102c-c33d-42ac-87dc-80bd82e5d371",
+    "created_at": "2026-10-13T22:09:19.190040Z"
+  }
+}

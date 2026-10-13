@@ -70,6 +70,7 @@ class LoadAssignment(StrictModel):
     source_pressure: float | None = None
     source_force: Vec | None = None
     combine_confirmed: bool = False
+    review_faces: list[CatalogID] = Field(default_factory=list)
 
 
 class LoadSetup(StrictModel):
@@ -227,7 +228,8 @@ def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: Load
                 "Basic pressure currently supports planar faces only",
             )
     overlaps = any(
-        old.id != item.id
+        not old.review_faces
+        and old.id != item.id
         and old.kind != "fixed"
         and item.kind != "fixed"
         and set(old.face_ids) & set(item.face_ids)
@@ -255,7 +257,12 @@ def load_state(
         blockers.append("Accept geometry and create a geometry-pinned analysis.")
     else:
         assigned = {a.body_id for a in materials.assignments}
-        fixed = {f for a in setup.assignments if a.kind == "fixed" for f in a.face_ids}
+        fixed = {
+            f
+            for a in setup.assignments
+            if a.kind == "fixed" and not a.review_faces
+            for f in a.face_ids
+        }
         for index, body in enumerate(geometry.bodies, 1):
             if body.id not in assigned:
                 blockers.append(f"Body {index} needs a confirmed material.")
@@ -264,6 +271,16 @@ def load_state(
         if not any(a.kind != "fixed" for a in setup.assignments):
             blockers.append("Add a nonzero pressure or total force.")
         for item in setup.assignments:
+            if item.review_faces:
+                blockers.append(
+                    f"{item.name}: geometry changed. Reselect the intended faces before meshing: "
+                    + ", ".join(item.review_faces)
+                )
+                continue
+            if item.geometry_revision_id != geometry.id:
+                raise DomainError(
+                    422, "stale_geometry", "Saved assignment belongs to another geometry revision"
+                )
             metrics = [face_metrics(geometry, f) for f in item.face_ids]
             area = sum(m[0] for m in metrics)
             resultant: Vec = (0, 0, 0)

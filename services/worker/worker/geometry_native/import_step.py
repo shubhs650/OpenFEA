@@ -129,6 +129,10 @@ def inspect():
         transform = gp_Trsf()
         transform.SetScale(gp_Pnt(0, 0, 0), {"m": 1.0, "mm": 0.001, "inch": 0.0254}[unit])
         shape = BRepBuilderAPI_Transform(shape, transform, True).Shape()
+    return export_shape(shape, digest(source), unit, detected)
+
+
+def export_shape(shape, source_sha256, unit, detected):
     solids = explore(shape, TopAbs_SOLID)
     if not 1 <= len(solids) <= 10:
         fail(
@@ -285,7 +289,7 @@ def inspect():
             "warnings": warning,
         },
         "metadata": {
-            "source_sha256": digest(source),
+            "source_sha256": source_sha256,
             "brep_sha256": revision,
             "units": {"source_length_unit": unit, "canonical_length_unit": "m", "confirmed": True},
             "bodies": [{"id": b["id"]} for b in body_display],
@@ -303,10 +307,11 @@ def inspect():
     }
 
 
-try:
-    if importlib.metadata.version("cadquery-ocp") != "8.0.1.1.0":
-        raise RuntimeError("Unpinned CAD binding")
-    result = inspect()
-except InvalidModel as failure:
-    result = {"status": "failed", "error_code": failure.code, "error_message": failure.message}
-write_json("inspection.json", result)
+if __name__ == "__main__":
+    try:
+        if importlib.metadata.version("cadquery-ocp") != "8.0.1.1.0":
+            raise RuntimeError("Unpinned CAD binding")
+        result = inspect()
+    except InvalidModel as failure:
+        result = {"status": "failed", "error_code": failure.code, "error_message": failure.message}
+    write_json("inspection.json", result)

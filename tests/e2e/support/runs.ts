@@ -8,6 +8,7 @@ export async function prepared(
   name: string,
   bracket = false,
   yieldStrength: number | null = bracket ? 276 : null,
+  fixture = "cube-m.step",
 ) {
   await page.goto("/");
   await page.getByLabel("New project name").fill(name);
@@ -22,7 +23,7 @@ export async function prepared(
       resolve(
         bracket
           ? "tests/fixtures/geometry/bracket-m.step"
-          : "tests/fixtures/geometry/cube-m.step",
+          : `tests/fixtures/geometry/${fixture}`,
       ),
     );
   await page
@@ -98,12 +99,12 @@ export async function prepared(
   const fixed = geometry.faces.find((f) =>
     bracket
       ? Math.abs((f.signature.center_m as number[])[2] - 0.06) < 1e-10
-      : (f.signature.center_m as number[])[0] === 0,
+      : Math.abs((f.signature.center_m as number[])[0]) < 1e-10,
   )!;
   const loaded = geometry.faces.find((f) =>
     bracket
       ? Math.abs((f.signature.center_m as number[])[0] - 0.08) < 1e-10
-      : (f.signature.center_m as number[])[0] === 1,
+      : Math.abs((f.signature.center_m as number[])[0] - 1) < 1e-10,
   )!;
   await page.locator(`[data-face-id="${fixed.id}"]`).click();
   await page.getByLabel("Assignment name").fill("Fixed root");

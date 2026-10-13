@@ -57,7 +57,7 @@ Avoid generic plugin systems before a second implementation exists. Each adapter
 
 ## Geometry and mesh pipeline
 
-STEP upload -> checksum and unit inspection -> OCCT import/validity -> immutable BREP revision and face/body catalog -> tessellation with per-triangle face IDs. Apply repair/defeaturing to a copy; show geometric differences before commit. Undo selects an earlier revision, never mutates an existing run.
+STEP upload -> checksum and unit inspection -> OCCT import/validity -> immutable BREP revision and face/body catalog -> tessellation with per-triangle face IDs. Apply repair/defeaturing to a copy; show geometric differences before commit. T013 implements bounded M0 feature preview/apply/undo through the real workspace/API; [ADR-021](docs/adr/ADR-021.md) defines verified whole-face remapping and explicit invalidation. Undo appends a revision using earlier immutable artifacts/setup, never mutating an existing run. General healing/defeaturing is unsupported.
 Export canonical geometry for Gmsh; reconstruct CAD-to-mesh mapping using verified body/face signatures, adjacency and geometric checks. Preserve catalog identifiers through physical groups only after one-to-one mapping validation. Ambiguous mappings stop assignment transfer; proximity alone is insufficient.
 Mesh each bonded body independently for nonconforming tie validation; do not fuse bodies and pretend material interfaces are bonded constraints. Export nodes, C3D10 connectivity, boundary faces, body memberships and original face membership. Validate quadratic Jacobians and applied selections after meshing.
 

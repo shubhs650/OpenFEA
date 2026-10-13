@@ -517,6 +517,147 @@
         "title": "DisplayUnitsPatch",
         "type": "object"
       },
+      "EditCommit": {
+        "additionalProperties": false,
+        "properties": {
+          "preview_id": {
+            "format": "uuid",
+            "title": "Preview Id",
+            "type": "string"
+          },
+          "reviewed": {
+            "const": true,
+            "title": "Reviewed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "preview_id",
+          "reviewed"
+        ],
+        "title": "EditCommit",
+        "type": "object"
+      },
+      "EditCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Id"
+          },
+          "analysis_revision": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Revision"
+          },
+          "face_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Face Id",
+            "type": "string"
+          },
+          "operation": {
+            "const": "remove_feature",
+            "title": "Operation",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation",
+          "face_id"
+        ],
+        "title": "EditCreate",
+        "type": "object"
+      },
+      "EditPreview": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_delta_m3": {
+            "title": "Expected Delta M3",
+            "type": "number"
+          },
+          "feature": {
+            "enum": [
+              "hole",
+              "fillet"
+            ],
+            "title": "Feature",
+            "type": "string"
+          },
+          "mappings": {
+            "items": {
+              "$ref": "#/components/schemas/FaceMapping"
+            },
+            "title": "Mappings",
+            "type": "array"
+          },
+          "original_volume_m3": {
+            "title": "Original Volume M3",
+            "type": "number"
+          },
+          "preview_volume_m3": {
+            "title": "Preview Volume M3",
+            "type": "number"
+          },
+          "volume_delta_m3": {
+            "title": "Volume Delta M3",
+            "type": "number"
+          }
+        },
+        "required": [
+          "feature",
+          "original_volume_m3",
+          "preview_volume_m3",
+          "volume_delta_m3",
+          "expected_delta_m3",
+          "mappings"
+        ],
+        "title": "EditPreview",
+        "type": "object"
+      },
+      "EditResult": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Analysis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/GeometryRevision"
+          },
+          "project": {
+            "$ref": "#/components/schemas/Project"
+          }
+        },
+        "required": [
+          "project",
+          "geometry",
+          "analysis"
+        ],
+        "title": "EditResult",
+        "type": "object"
+      },
       "ErrorResponse": {
         "additionalProperties": false,
         "properties": {
@@ -612,6 +753,46 @@
           "triangles"
         ],
         "title": "FaceDisplay",
+        "type": "object"
+      },
+      "FaceMapping": {
+        "additionalProperties": false,
+        "properties": {
+          "source_face_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Source Face Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "unchanged",
+              "removed",
+              "changed_or_ambiguous"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "target_face_id": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Face Id"
+          }
+        },
+        "required": [
+          "source_face_id",
+          "target_face_id",
+          "status"
+        ],
+        "title": "FaceMapping",
         "type": "object"
       },
       "FixedInput": {
@@ -773,6 +954,118 @@
         "title": "GeometryDisplay",
         "type": "object"
       },
+      "GeometryEdit": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GeometryMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "preview": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EditPreview"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "project_id": {
+            "format": "uuid",
+            "title": "Project Id",
+            "type": "string"
+          },
+          "project_revision": {
+            "title": "Project Revision",
+            "type": "integer"
+          },
+          "request": {
+            "$ref": "#/components/schemas/EditCreate"
+          },
+          "result_analysis_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Analysis Revision"
+          },
+          "result_geometry_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Geometry Id"
+          },
+          "result_project_revision": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Project Revision"
+          },
+          "source_geometry_id": {
+            "format": "uuid",
+            "title": "Source Geometry Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "failed",
+              "committed",
+              "undone"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "project_id",
+          "project_revision",
+          "source_geometry_id",
+          "request",
+          "status"
+        ],
+        "title": "GeometryEdit",
+        "type": "object"
+      },
       "GeometryImport": {
         "additionalProperties": false,
         "properties": {
@@ -859,6 +1152,65 @@
           "status"
         ],
         "title": "GeometryImport",
+        "type": "object"
+      },
+      "GeometryMetadata": {
+        "additionalProperties": false,
+        "description": "Only the trusted CAD adapter may register metadata after validating its bytes.",
+        "properties": {
+          "bodies": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogBody"
+            },
+            "minItems": 1,
+            "title": "Bodies",
+            "type": "array"
+          },
+          "brep_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Brep Sha256",
+            "type": "string"
+          },
+          "edit_recipe": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Edit Recipe",
+            "type": "object"
+          },
+          "faces": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogFace"
+            },
+            "minItems": 1,
+            "title": "Faces",
+            "type": "array"
+          },
+          "source_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Source Sha256",
+            "type": "string"
+          },
+          "units": {
+            "$ref": "#/components/schemas/UnitsDecision"
+          },
+          "validation": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Validation",
+            "type": "object"
+          }
+        },
+        "required": [
+          "source_sha256",
+          "brep_sha256",
+          "units",
+          "bodies",
+          "faces",
+          "validation"
+        ],
+        "title": "GeometryMetadata",
         "type": "object"
       },
       "GeometryPage": {
@@ -1297,6 +1649,15 @@
               }
             ],
             "title": "Pressure Pa"
+          },
+          "review_faces": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Review Faces",
+            "type": "array"
           },
           "source_force": {
             "anyOf": [
@@ -2426,6 +2787,44 @@
           "limit"
         ],
         "title": "ProjectPage",
+        "type": "object"
+      },
+      "ReselectFaces": {
+        "additionalProperties": false,
+        "properties": {
+          "combine_confirmed": {
+            "default": false,
+            "title": "Combine Confirmed",
+            "type": "boolean"
+          },
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "reviewed": {
+            "const": true,
+            "title": "Reviewed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "face_ids",
+          "reviewed"
+        ],
+        "title": "ReselectFaces",
         "type": "object"
       },
       "ResultData": {
@@ -4678,6 +5077,195 @@
         "summary": "Remove"
       }
     },
+    "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/faces": {
+      "put": {
+        "operationId": "reselect_api_v1_analyses__analysis_id__loads__assignment_id__faces_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "assignment_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Assignment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReselectFaces"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoadState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Reselect"
+      }
+    },
     "/api/v1/analyses/{analysis_id}/materials": {
       "get": {
         "operationId": "get_materials_api_v1_analyses__analysis_id__materials_get",
@@ -6523,6 +7111,495 @@
         "summary": "Snapshot"
       }
     },
+    "/api/v1/geometry-edits/{edit_id}": {
+      "get": {
+        "operationId": "get_api_v1_geometry_edits__edit_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "edit_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Edit Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeometryEdit"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Get"
+      }
+    },
+    "/api/v1/geometry-edits/{edit_id}/display": {
+      "get": {
+        "operationId": "display_api_v1_geometry_edits__edit_id__display_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "edit_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Edit Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lod",
+            "required": false,
+            "schema": {
+              "default": "coarse",
+              "enum": [
+                "coarse",
+                "fine"
+              ],
+              "title": "Lod",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeometryDisplay"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Display"
+      }
+    },
+    "/api/v1/geometry-edits/{edit_id}/undo": {
+      "post": {
+        "operationId": "undo_api_v1_geometry_edits__edit_id__undo_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "edit_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Edit Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Undo"
+      }
+    },
     "/api/v1/geometry-imports/{import_id}": {
       "get": {
         "operationId": "get_inspection_api_v1_geometry_imports__import_id__get",
@@ -7479,6 +8556,364 @@
           }
         ],
         "summary": "Get Display"
+      }
+    },
+    "/api/v1/geometry/{geometry_id}/edit-commits": {
+      "post": {
+        "operationId": "commit_api_v1_geometry__geometry_id__edit_commits_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "geometry_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Geometry Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditCommit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Commit"
+      }
+    },
+    "/api/v1/geometry/{geometry_id}/edits": {
+      "post": {
+        "operationId": "preview_api_v1_geometry__geometry_id__edits_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "geometry_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Geometry Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeometryEdit"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Preview"
       }
     },
     "/api/v1/health": {

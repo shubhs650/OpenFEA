@@ -1,0 +1,159 @@
+{
+  "artifacts": {
+    "cleanup-viewport.png": {
+      "sha256": "781885ff7e1a65de85d6dfb20df958adf4cb4e8034b4979dada2f0ec36aedd57",
+      "size_bytes": 9606
+    },
+    "fillet.json": {
+      "sha256": "ea02a00009007cfe62ee45a6ab7bcdaf49321b8d1b549a9b06a22d3252312c92",
+      "size_bytes": 32859
+    },
+    "hole.json": {
+      "sha256": "d2213094ee2360d524e36b3c8c9d88d1ec629c6e24b10f322204cdc3e570ddc2",
+      "size_bytes": 32588
+    },
+    "old-run-after-undo.png": {
+      "sha256": "afa68a5e1b6aa50d5069ec79d27d8c0022d367f076dc6dc85fa2bb180ab658f2",
+      "size_bytes": 748687
+    },
+    "restart.json": {
+      "sha256": "c67d8bcc6948592b8db72aca5cc2ab98c56a07e7285e3c128b2c9321d2e8c867",
+      "size_bytes": 218
+    }
+  },
+  "base_commit": "95da2ee",
+  "commands": [
+    {
+      "command": "uv sync --locked --python 3.12.14; npm ci; pinned playwright install chromium --only-shell",
+      "result": "passed; restored missing startup packages, no lock changes"
+    },
+    {
+      "command": "make doctor",
+      "result": "passed: actual CAD/mesh/post/import sandbox/native binary hashes"
+    },
+    {
+      "command": "make check build smoke",
+      "result": "passed: lint/format/types/contracts/docs, 220 Python unit, 21 TypeScript, build and HTTP smoke"
+    },
+    {
+      "command": "make test-native",
+      "result": "initial regression 105 passed, 1 failed, 0 skipped (106 cases before adding unsupported/split and fillet solve cases); zero-stress overlap-preview regression fixed"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_geometry_edits.py tests/native/test_result_views.py -q",
+      "result": "18 passed, 0 failed/skipped: corrected native result replay plus 10 cleanup cases"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_geometry_edits.py -q",
+      "result": "11 passed, 0 failed/skipped after adding actual fillet mesh/solve case"
+    },
+    {
+      "command": "make test-integration",
+      "result": "11 passed, 0 failed/skipped; real three-process preview/apply/undo restart added"
+    },
+    {
+      "command": "make test-e2e",
+      "result": "17 passed, 0 failed/skipped after correcting test selectors and the overlap-preview regression"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=$PWD/.local/browsers npm run test:e2e -- tests/e2e/edits.spec.ts",
+      "result": "2 passed, 0 failed/skipped after native version check and preview visibility fix; actual nonblank viewport and frozen old-run screenshot inspected"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "corrections": [
+    "Root Python/npm startup omitted some locked dependencies; locked installs restored them without lock edits.",
+    "Frozen Pydantic record updates changed to immutable copies.",
+    "Saved load preview must check geometry identity without re-demanding overlap confirmation from a previously saved peer; confirmation remains mandatory on the new assignment.",
+    "Test selectors corrected; pipeline browser test uses existing 45-second long-workflow policy rather than changing 60-second native caps.",
+    "Preview body visibility used old body IDs; fixed and actual nonblank rendered viewport checked."
+  ],
+  "criteria": {
+    "face_area_and_symmetric_trim_difference_m2": 1e-10,
+    "face_bounds_absolute_m": 1e-10,
+    "feature_delta_absolute_m3": 1e-10,
+    "mapping": "complete unique one-to-one unchanged full trimmed faces only; otherwise whole assignment blocked",
+    "plane_normal_absolute": 1e-10,
+    "scope": "two M0 unit-solid features only; development evidence, owner benchmark/laptop acceptance deferred",
+    "source_and_result_symmetric_solid_difference_m3": 1e-10,
+    "unit_volume_absolute_m3": 1e-10
+  },
+  "date": "2026-10-14",
+  "distinct_verified_cases": {
+    "chromium": 17,
+    "failed_after_corrections": 0,
+    "integration": 11,
+    "native": 109,
+    "python_unit": 220,
+    "skipped": 0,
+    "total": 378,
+    "typescript_unit": 21
+  },
+  "implementation_commit": "0237cf30282d0c936ae344b90fd4d90269cffcde",
+  "numerical_measurements": {
+    "fillet": {
+      "feature_delta_error_m3": 1.6124254709204422e-15,
+      "unchanged_faces": 2,
+      "unit_volume_error_m3": 2.220446049250313e-16
+    },
+    "hole": {
+      "feature_delta_error_m3": 1.1518563880486e-15,
+      "unchanged_faces": 4,
+      "unit_volume_error_m3": 2.220446049250313e-16
+    }
+  },
+  "platform": {
+    "bubblewrap": "0.12.0",
+    "cadquery_ocp": "8.0.1.1.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "python": "3.12.14",
+    "system": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "uv": "0.12.23"
+  },
+  "source_and_lock_sha256": {
+    "apps/web/src/geometry/GeometryEdits.tsx": "780d332fd2d072358788cc072be70b20a45a073cb640f4f3fa5beba7004a8a49",
+    "apps/web/src/geometry/Workspace.tsx": "59455d0b5a88bc4f696d0624f65bbf1d0f6e724127980bf1177f5d5a8f23987c",
+    "apps/web/src/loads/LoadsEditor.tsx": "8b6bc25e5728e5d0c36a3f25e1849fa58f1a4dd0994d43ed53f747246e836c9d",
+    "migrations/versions/0006_geometry_edits.py": "cd524e2b06494dcf645d4c5d33468f021b53aeeb6dd9d52ce320cb4f564524db",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "packages/contracts/api.d.ts": "76d4b2ab2c3d242943d5c66697aa3c13cdf5d99e4d7dfb53250182e47f3247d8",
+    "packages/contracts/openapi.json": "f8fbaa5ae821906c8fbad5a1dc0086a174bc800ad748c540343732a0e600f49b",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+    "services/api/app/domain/edit_service.py": "b039701728f990f56da55a4bac5380b1a7974e00081e1951ea6f8948281439eb",
+    "services/api/app/domain/edits.py": "b2a99af5cf6a61329ab60a35706c6e632ce504ce76c3e786cb2586c7f3241d83",
+    "services/api/app/domain/loads.py": "269af63c185a54b88318c72f18c8cc983a5154ee855efd248686a02b770518f4",
+    "services/api/app/main.py": "90329351b507be001cdac637535cfb31bb9de65d9fd0ebb7113c0fb14e65bdcc",
+    "services/api/app/persistence/edits.py": "24963515981dd2a376eefd2a9a4949d6ee408dbd58d9216f28d23097e726f7f6",
+    "services/api/app/persistence/repository.py": "ec6832b69e7dc56c1eb1b79bb1a368f1e92c7d612bff72e6f27f8aacdbd1885e",
+    "services/api/app/routes/edits.py": "1ae6491fa715e8e98859a0c257ead6fd132314f080db86fe8b929354a8fa32ae",
+    "services/api/app/storage/geometry.py": "83d4c15e38c4122b9dc1f6d84be7fd34864f85932581091b04bc6434ad27ff6f",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "services/worker/worker/geometry_native/edit.py": "822e03de87bc0dc50c4623bff1cc8207858a644ee7a8e5b5da93439373a8ba43",
+    "services/worker/worker/geometry_native/edit_fixtures.py": "1367aef715bcc1d28edea871796d5b15b4f380a459257410f970367c03bcc0ae",
+    "services/worker/worker/geometry_native/import_step.py": "48e73f21b393a67c183dfb59fecb5c492ec59e903027133c4e91f081bdc5ff4f",
+    "services/worker/worker/step_import.py": "c87a0bf6bed15c4b8600220f9ea652f09c24e28a51a56f8ecfbc33011b242bda",
+    "tests/e2e/edits.spec.ts": "905b9f0798aa96ec268c5a5c0160f0d3d44b916ed294dae9b7bec68ee55a20d7",
+    "tests/e2e/support/runs.ts": "20d47768c3277fffe96ce534b1bddae9315fc592ccee46ebf0a82ff1b1e30c7b",
+    "tests/fixtures/geometry/fillet-m.step": "4fd47c119fba87941607733bb74978495394bf076ed2601c2af44a5f648a10c6",
+    "tests/fixtures/geometry/fillet-unsupported-m.step": "718f81e2bc78532e3afb55918715849b83fa0496498ba1347c1928e1bccd1ad8",
+    "tests/fixtures/geometry/hole-m.step": "6a30f26dd14a301a924d7aec9b0794f7120b03749a955ca793a8f94fef7fc91f",
+    "tests/fixtures/geometry/hole-split-m.step": "3a3e9d7521543d91b9ea0a0bcce1e05090939f23cfc8f2a3aa8d119af1446243",
+    "tests/integration/test_geometry_edits.py": "ed748a54261c85ac2dcae22429b8de535f4cd57c2f55f1e5a094ead62c833b40",
+    "tests/native/test_geometry_edits.py": "33debe4d740b90c474aa781f223df225ebf8cc8e73e9c2dcf6ab57c04d569b46",
+    "tests/unit/test_geometry_edits.py": "effbbeccff71b7a97af746310aaade9aa64898085d335cb6e48ccf288dca15f8",
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+  },
+  "timezone": "Asia/Calcutta",
+  "unexecuted": [
+    "Windows/Edge/target laptop/headed GPU and maximum-cap performance",
+    "Owner-signed engineering benchmark acceptance",
+    "M2 exit gate (T014-T018 pending); M3/M4 acceptance",
+    "General geometry repair/arbitrary defeaturing; cloud deployment/billing and full release security/report suites"
+  ]
+}
