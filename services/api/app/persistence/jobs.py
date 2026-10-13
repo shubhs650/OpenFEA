@@ -169,6 +169,18 @@ class JobRepository:
             self.event(connection, str(identifier))
             return self.model(connection, self.row(connection, identifier))
 
+    def pending(self) -> bool:
+        with self.projects.database.engine.connect() as connection:
+            return bool(
+                connection.execute(
+                    text(
+                        "SELECT EXISTS(SELECT 1 FROM local_jobs j "
+                        "JOIN projects p ON p.id=j.project_id "
+                        "WHERE j.status='queued' AND p.deleted_at IS NULL)"
+                    )
+                ).scalar_one()
+            )
+
     def claim(self, worker: UUID) -> tuple[LocalJob, UUID, UUID] | None:
         with self.projects.write() as connection:
             if connection.execute(

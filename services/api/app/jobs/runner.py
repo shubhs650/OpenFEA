@@ -86,6 +86,15 @@ class LocalWorker:
                         self.state = "waiting_for_worker"
                         self.stop.wait(0.2)
                         continue
+                    # An empty queue needs no native lease, including startup
+                    # without interrupted attempts. Avoid racing synchronous CAD
+                    # imports/deck exports merely to discover there is no work.
+                    if not recovered and not self.repository.interrupted():
+                        recovered = True
+                    if recovered and not self.repository.pending():
+                        self.state = "ready"
+                        self.stop.wait(0.1)
+                        continue
                     with (self.storage.root / "native-import.lock").open("a+b") as native_lock:
                         try:
                             fcntl.flock(native_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

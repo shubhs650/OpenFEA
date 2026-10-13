@@ -1,6 +1,8 @@
 """Metadata-only queue races, fencing, immutable inputs and owned API reads."""
 
+import fcntl
 import hashlib
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -25,6 +27,36 @@ from worker.local_solve import validate_outputs
 
 application = material_tests.application
 client = material_tests.client
+
+
+def test_idle_worker_never_acquires_native_lease(
+    application: FastAPI, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    polls, observed = 0, threading.Event()
+    pending = JobRepository.pending
+    flock = fcntl.flock
+    attempts: list[str] = []
+
+    def observe_pending(repository: JobRepository) -> bool:
+        nonlocal polls
+        result = pending(repository)
+        polls += 1
+        if polls >= 3:
+            observed.set()
+        return result
+
+    def observe_lock(descriptor: Any, operation: int) -> None:
+        fd = descriptor if isinstance(descriptor, int) else descriptor.fileno()
+        if Path(f"/proc/self/fd/{fd}").resolve().name == "native-import.lock":
+            attempts.append("native")
+        flock(descriptor, operation)
+
+    monkeypatch.setattr(JobRepository, "pending", observe_pending)
+    monkeypatch.setattr(fcntl, "flock", observe_lock)
+    with TestClient(application, base_url="http://127.0.0.1"):
+        assert observed.wait(3), "Idle queue must keep polling without a native lease"
+        assert application.state.local_worker.state == "ready"
+        assert attempts == []
 
 
 def queued(client: TestClient, application: FastAPI) -> tuple[JobRepository, UUID, JobInput]:
