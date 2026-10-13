@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build"
   },
   "dependencies": {
+    "@kitware/vtk.js": "37.4.2",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-13. T001 provides health API/UI; T007 adds persistent owner-scoped project/analysis metadata and guarded local sessions; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. The [M0 owner decision](docs/validation/M0-owner-decision.md) permits M1 progression with formal benchmark and laptop acceptance deferred. General connection support and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030, with AWS backend work later.
+2026-10-13. T001 provides health API/UI; T007 adds persistent owner-scoped metadata/sessions and T008 adds sandboxed STEP inspection, confirmed immutable artifacts and actual vtk.js face selection; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. The [M0 owner decision](docs/validation/M0-owner-decision.md) permits M1 progression with formal benchmark and laptop acceptance deferred. General connection support and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030, with AWS backend work later.
 
 ## Shape of the system
 
@@ -93,3 +93,5 @@ T004 development now demonstrates native global DAT S/COORD, explicitly averaged
 T005 development validates an experimental consistent planar mortar connection through CCX *EQUATION for the two-block patch. Native node-to-face *TIE failed the frozen patch and is retained as rejected. Independent body/face IDs and meshes are preserved; geometry audits use a narrow binary-coordinate reader. Larger/general connections and physical gaps remain unvalidated. See [ADR-013](docs/adr/ADR-013.md); owner acceptance is open.
 
 T007 storage and local access semantics are specified in [ADR-015](docs/adr/ADR-015.md); its completed metadata slice does not implement the later engineering workflow.
+
+T008 import/picking and namespace/resource decisions are in [ADR-016](docs/adr/ADR-016.md). Its synchronous bounded inspection is not the later durable mesh/solve queue.

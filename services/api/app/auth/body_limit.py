@@ -1,5 +1,7 @@
 """Bound metadata bytes before JSON parsing, including a falsely declared length."""
 
+import re
+
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
@@ -28,6 +30,20 @@ class MetadataBodyLimit:
         length = request.headers.get("content-length")
         if length is None:
             await reject(411, "length_required", "A request size is required")
+            return
+        if scope["method"] == "PUT" and re.fullmatch(
+            r"/api/v1/geometry-uploads/[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/content",
+            scope["path"],
+        ):
+            if (
+                not length.isascii()
+                or not length.isdecimal()
+                or len(length) > 10
+                or int(length) > 16777216
+            ):
+                await reject(413, "upload_size", "STEP uploads are limited to 16 MiB")
+                return
+            await self.app(scope, receive, send)
             return
         if (
             not length.isascii()

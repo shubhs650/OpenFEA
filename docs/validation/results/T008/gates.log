@@ -1,0 +1,134 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+82 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 64 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 124 items
+
+tests/unit/test_api.py .........                                         [  7%]
+tests/unit/test_approval.py ................                             [ 20%]
+tests/unit/test_bonds.py ................                                [ 33%]
+tests/unit/test_imports.py ......                                        [ 37%]
+tests/unit/test_projects.py ............................                 [ 60%]
+tests/unit/test_quadratic.py .....................                       [ 77%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 124 passed in 2.12s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  10:56:45
+   Duration  143ms (tests 42%, transform 38%, import 15%, worker 5%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmp3k6mhfkg/openapi.json → /tmp/tmp3k6mhfkg/api.d.ts [78ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 108 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 54 items
+
+tests/native/test_bond_native.py ...                                     [  5%]
+tests/native/test_cleanup_resources.py ....                              [ 12%]
+tests/native/test_feasibility_stops.py ........                          [ 27%]
+tests/native/test_mapping.py ..............                              [ 53%]
+tests/native/test_step_import.py ............                            [ 75%]
+tests/native/test_stress_native.py ....                                  [ 83%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+============================= 54 passed in 58.33s ==============================
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 386 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.27 kB
+dist/assets/index-B5PeWtHf.css      2.31 kB │ gzip:   0.97 kB
+dist/assets/index-DqvEWGCC.js   1,074.22 kB │ gzip: 298.02 kB
+
+✓ built in 288ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=7172
+STARTED api pid=7193
+STARTED web pid=7194
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 5 items
+
+tests/integration/test_persistence.py .                                  [ 20%]
+tests/integration/test_startup.py ....                                   [100%]
+
+============================== 5 passed in 6.99s ===============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 7 tests using 1 worker
+
+(node:7563) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/geometry.spec.ts:5:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.1s)
+  ✓  2 tests/e2e/geometry.spec.ts:137:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.2s)
+  ✓  3 tests/e2e/health.spec.ts:3:1 › health-only page connects to the real API through Vite (294ms)
+  ✓  4 tests/e2e/health.spec.ts:18:1 › page reports a health network failure without claiming readiness (310ms)
+  ✓  5 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (267ms)
+  ✓  6 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (222ms)
+  ✓  7 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (106ms)
+
+  7 passed (10.7s)

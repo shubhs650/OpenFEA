@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { getHealth } from "./health";
+import { Workspace } from "./geometry/Workspace";
 import "./style.css";
 
 function App() {
@@ -17,9 +18,14 @@ function App() {
   }, []);
   return (
     <main>
-      <h1>FEA development</h1>
-      <p role="status">{status}</p>
-      <p>Development health check. Analysis features are not available yet.</p>
+      <header>
+        <h1>FEA development</h1>
+        <span role="status">{status}</span>
+      </header>
+      <Workspace />
+      <footer>
+        Geometry workspace. Analysis features are not available yet.
+      </footer>
     </main>
   );
 }

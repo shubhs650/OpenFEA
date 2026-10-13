@@ -24,7 +24,8 @@ from app.persistence.repository import Repository
 router = APIRouter(
     prefix="/api/v1",
     responses={
-        status: {"model": ErrorResponse} for status in (401, 403, 404, 409, 411, 413, 422, 428, 503)
+        status: {"model": ErrorResponse}
+        for status in (401, 403, 404, 409, 411, 413, 422, 428, 429, 503)
     },
 )
 Owner = Annotated[UUID, Depends(current_owner)]
