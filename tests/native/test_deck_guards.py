@@ -100,8 +100,10 @@ def test_edit_during_export_cannot_publish_stale_inputs(
     state = assign(client, path, geometry, "force", [loaded], units="m-N-Pa", force=[100, 0, 0])
     original = deck_mesh.mesh_snapshot
 
-    def concurrent(inputs: Path, output: Path, sizes: list[float]) -> dict[str, Any]:
-        mesh = original(inputs, output, sizes)
+    def concurrent(
+        inputs: Path, output: Path, sizes: list[float], **options: Any
+    ) -> dict[str, Any]:
+        mesh = original(inputs, output, sizes, **options)
         application.state.repository.edit_analysis(
             application.state.owner,
             UUID(path.split("/")[-1]),
@@ -167,11 +169,13 @@ value['private_hidden']=not Path("""
         + repr(str(sentinel))
         + """).exists()
 Path('mesh.json').write_text(json.dumps(value))
+Path('mesh-status.json').write_text(json.dumps({'status':'passed'}))
 """
     )
     inputs = tmp_path / "inputs"
     inputs.mkdir()
     (inputs / "catalog.json").write_text("{}")
     monkeypatch.setattr(deck_mesh, "ROOT", root)
-    result = deck_mesh.mesh_snapshot(inputs, tmp_path / "out", [0.5])
+    # Trusted isolation probe only, not a numerically valid mesh/job.
+    result = deck_mesh._mesh_attempt(inputs, tmp_path / "out", [0.5])
     assert result == {"network": True, "fork": True, "write": True, "private_hidden": True}

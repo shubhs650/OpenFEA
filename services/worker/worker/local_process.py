@@ -35,6 +35,7 @@ class NativeControl:
     cancel: Callable[[], bool]
     started: Callable[[int, str], None]
     lease_fd: int
+    mesh_attempt: Callable[[int, str, int], None] | None = None
 
 
 def supervise(

@@ -15,8 +15,10 @@ from app.domain.errors import DomainError
 from app.domain.jobs import Artifact, JobInput, LocalJob, Status
 from app.domain.loads import load_state
 from app.jobs.service import JobService
+from worker.deck_mesh import MeshFailure
 from worker.local_process import NativeControl, NativeStop, fence
 from worker.local_solve import solve_snapshot, validate_outputs
+from worker.mesh_quality import mesh_quality
 from worker.step_import import ImportSandboxError
 
 
@@ -64,6 +66,15 @@ class LocalWorker:
                         "analysis.frd": directory / "output/analysis.frd",
                     }
                 )
+            if row["kind"] == "mesh":
+                paths["recovery.json"] = directory / "output/recovery.json"
+                for number in range(1, 4):
+                    paths[f"mesh-attempt-{number}.log"] = (
+                        directory / f"output/attempt-{number}/native.log"
+                    )
+                    paths[f"mesh-attempt-{number}-resources.json"] = (
+                        directory / f"output/attempt-{number}/resources.json"
+                    )
             artifacts, _ = self.capture(UUID(row["project_id"]), paths)
             self.repository.finish(
                 UUID(row["id"]),
@@ -143,6 +154,15 @@ class LocalWorker:
                 job.id, token, pid=pid, process_start=identity
             ),
             lease_fd,
+            lambda number, profile, total: self.repository.pulse(
+                job.id,
+                token,
+                progress={
+                    "mesh_attempt": number,
+                    "mesh_profile": profile,
+                    "max_mesh_attempts": total,
+                },
+            ),
         )
         status: Status = "failed"
         reason, message = None, None
@@ -177,6 +197,14 @@ class LocalWorker:
                     }
                 )
                 self.repository.pulse(job.id, token, stage="validating")
+                quality = mesh_quality(mesh)
+                if not quality["accepted"]:
+                    raise ValueError("Host quality verification refused the mesh")
+                summary = {
+                    "nodes": len(mesh["nodes"]),
+                    "elements": len(mesh["elements"]),
+                    "quality": {k: v for k, v in quality.items() if k != "cells"},
+                }
                 preview = load_state(
                     snapshot.analysis,
                     snapshot.geometry,
@@ -184,9 +212,16 @@ class LocalWorker:
                     snapshot.loads,
                     inputs.display,
                 )
-                deck, summary = deck_for(snapshot, mesh, preview, stress_coordinates=True)
-                (directory / "analysis.inp").write_text(deck)
-                paths["analysis.inp"] = directory / "analysis.inp"
+                if quality["all_affine"] and not preview.blockers:
+                    deck, detail = deck_for(snapshot, mesh, preview, stress_coordinates=True)
+                    summary.update(detail)
+                    (directory / "analysis.inp").write_text(deck)
+                    paths["analysis.inp"] = directory / "analysis.inp"
+                else:
+                    summary["warnings"] = [
+                        "Mesh preview only: complete setup and validated "
+                        "affine/planar loads are required for solve."
+                    ]
             else:
                 assert inputs.mesh is not None and inputs.deck_sha256 is not None
                 raw_mesh = self.storage.read(job.project_id, inputs.mesh.sha256)
@@ -245,6 +280,8 @@ class LocalWorker:
             message = "Native execution stopped; no validated result was published"
         except DomainError as error:
             reason, message = error.code, error.message
+        except MeshFailure as error:
+            reason, message, summary = error.reason, str(error), error.summary
         except ImportSandboxError:
             reason, message = (
                 "native_failed",
@@ -265,8 +302,27 @@ class LocalWorker:
                 {
                     "mesh.log": directory / "output/native.log",
                     "resources.json": directory / "output/resources.json",
+                    "mesh.json": directory / "output/mesh.json",
+                    "recovery.json": directory / "output/recovery.json",
+                    **{
+                        f"mesh-attempt-{n}.log": directory / f"output/mesh-attempt-{n}.log"
+                        for n in range(1, 4)
+                    },
+                    **{
+                        f"mesh-attempt-{n}-resources.json": directory
+                        / f"output/mesh-attempt-{n}-resources.json"
+                        for n in range(1, 4)
+                    },
                 }
             )
+            report = directory / "output/recovery.json"
+            if report.is_file() and not report.is_symlink():
+                summary.update(json.loads(self.storage.read_fixed(report)))
+        paths = {
+            name: path
+            for name, path in paths.items()
+            if not name.startswith("mesh-attempt-") or path.exists()
+        }
         artifacts, integrity = self.capture(job.project_id, paths, required=status == "succeeded")
         if not integrity:
             status, reason, message = (

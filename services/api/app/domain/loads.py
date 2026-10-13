@@ -10,6 +10,7 @@ from app.domain.base import StrictModel
 from app.domain.errors import DomainError
 from app.domain.imports import GeometryDisplay
 from app.domain.materials import MaterialSetup
+from app.domain.mesh import MeshSetup
 from app.domain.models import Analysis, CatalogID, GeometryRevision, Hash, Name
 from app.domain.units import PresetID, to_si
 from worker.meshing import Vec, add, cross, norm, scale, sub
@@ -114,6 +115,7 @@ class DeckSnapshot(StrictModel):
     geometry: GeometryRevision
     materials: MaterialSetup
     loads: LoadSetup
+    mesh_setup: MeshSetup = Field(default_factory=MeshSetup)
 
 
 class DeckExport(StrictModel):

@@ -13,6 +13,7 @@ from app.domain.loads import load_state
 from app.domain.materials import body_status
 from app.domain.results import ResultData, ResultView
 from app.persistence.jobs import JobRepository
+from worker.mesh_quality import mesh_quality
 from worker.postprocess.view import build_view
 from worker.runtime import ROOT, sha256
 
@@ -71,7 +72,7 @@ class JobService:
         existing = self.repository.existing(owner, key, request_hash)
         if existing is not None:
             return existing
-        snapshot, display = self.decks.freeze(owner, analysis, expected)
+        snapshot, display = self.decks.freeze(owner, analysis, expected, mesh_only=mesh_job is None)
         try:
             policy = self.policy()
         except (RuntimeError, OSError):
@@ -91,6 +92,20 @@ class JobService:
                     422, "incompatible_mesh", "Select a completed mesh for this analysis geometry"
                 )
             previous = self.repository.inputs(owner, mesh_job)
+
+            def physical(value: Any) -> dict[str, Any]:
+                return {
+                    "global_size_m": value.global_size_m,
+                    "curvature_elements": value.curvature_elements,
+                    "local_sizes": [(s.kind, s.entity_id, s.size_m) for s in value.local_sizes],
+                }
+
+            if physical(previous.snapshot.mesh_setup) != physical(snapshot.mesh_setup):
+                raise DomainError(
+                    422,
+                    "incompatible_mesh_controls",
+                    "Sizing or curvature changed. Generate a new mesh before solving",
+                )
             if previous.policy != policy:
                 raise DomainError(
                     409,
@@ -158,11 +173,54 @@ class JobService:
 
     def mesh_preview(self, owner: UUID, identifier: UUID) -> MeshPreview:
         job = self.repository.get(owner, identifier)
-        if job.status != "succeeded" or job.kind != "mesh":
+        if (
+            job.status not in ("succeeded", "failed")
+            or job.kind != "mesh"
+            or "mesh.json" not in job.artifacts
+        ):
             raise DomainError(409, "mesh_unavailable", "A checked mesh has not completed")
         inputs = self.repository.inputs(owner, identifier)
         mesh = json.loads(self.artifact(owner, identifier, "mesh.json")[0])
-        # Subdivide every affine tri6 into four display triangles; midsides remain
+        if (
+            mesh["revision"] != inputs.snapshot.geometry.brep_sha256
+            or mesh["units"] != "m"
+            or set(mesh["boundary"]) != {f.id for f in inputs.snapshot.geometry.faces}
+        ):
+            raise DomainError(503, "mesh_integrity", "Mesh identity or boundary mapping disagrees")
+        quality = mesh_quality(mesh)
+        quality_faces = []
+        from worker.meshing import face_nodes
+
+        grouped: dict[tuple[str, str], dict[str, Any]] = {}
+        metrics = {str(c["element_id"]): c for c in quality["cells"]}
+        for eid, connectivity in mesh["elements"].items():
+            bucket = (
+                "failed"
+                if not metrics[eid]["accepted"]
+                else "warning"
+                if metrics[eid]["mean_ratio"] < 0.2
+                else "passed"
+            )
+            body = mesh["owners"][eid]
+            group = grouped.setdefault((body, bucket), {"points": [], "triangles": []})
+            for face_number in range(1, 5):
+                ns = face_nodes(connectivity, face_number)
+                offset = len(group["points"])
+                group["points"].extend(mesh["nodes"][str(n)] for n in ns)
+                group["triangles"].extend(
+                    tuple(offset + i for i in tri)
+                    for tri in ((0, 3, 5), (3, 1, 4), (5, 4, 2), (3, 4, 5))
+                )
+        for (body, bucket), group in grouped.items():
+            quality_faces.append(
+                FaceDisplay(
+                    id=f"quality:{body}:{bucket}",
+                    body_id=body,
+                    points_m=group["points"],
+                    triangles=group["triangles"],
+                )
+            )
+        # Subdivide every tri6 into four display triangles; midsides remain
         # real mesh nodes. Catalog face IDs are retained for picking and loads.
         faces = []
         for catalog in inputs.snapshot.geometry.faces:
@@ -180,12 +238,20 @@ class JobService:
                     triangles=triangles,
                 )
             )
+        self.repository.get(owner, identifier)
         return MeshPreview(
             job_id=identifier,
             analysis_id=job.analysis_id,
             geometry_revision_id=job.geometry_revision_id,
             nodes=len(mesh["nodes"]),
             elements=len(mesh["elements"]),
+            quality=quality,
+            quality_display=GeometryDisplay(
+                brep_sha256=inputs.snapshot.geometry.brep_sha256,
+                lod="coarse",
+                bodies=inputs.display.bodies,
+                faces=quality_faces,
+            ),
             display=GeometryDisplay(
                 brep_sha256=inputs.snapshot.geometry.brep_sha256,
                 lod="coarse",

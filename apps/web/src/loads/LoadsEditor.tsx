@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { MeshEditor } from "../mesh/MeshEditor";
 import { RunsEditor } from "../runs/RunsEditor";
 import type { ResultPresentation } from "../results/presentation";
 import {
@@ -38,6 +39,7 @@ export function LoadsEditor({
   showMesh,
   showResult,
 }: Props) {
+  const [meshReady, setMeshReady] = useState(false);
   const [state, setState] = useState<LoadState | null>(null);
   const [exports, setExports] = useState<DeckExport[]>([]);
   const [kind, setKind] = useState("fixed");
@@ -362,11 +364,28 @@ export function LoadsEditor({
           </li>
         ))}
       </ul>
+      <MeshEditor
+        analysisId={analysisId}
+        revision={revision}
+        geometryId={geometryId}
+        selected={selected}
+        preset={preset}
+        busy={busy}
+        setBusy={setBusy}
+        saved={saved}
+        ready={setMeshReady}
+      />
       <RunsEditor
         analysisId={analysisId}
         revision={revision}
         geometryId={geometryId}
         ready={aligned && !conflict && !!state && !state.blockers.length}
+        meshReady={
+          meshReady &&
+          aligned &&
+          !conflict &&
+          !state?.setup.assignments?.some((a) => a.review_faces?.length)
+        }
         busy={busy}
         setBusy={setBusy}
         showMesh={showMesh}

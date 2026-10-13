@@ -8,6 +8,7 @@ from app.domain.edits import EditResult, GeometryEdit
 from app.domain.errors import DomainError, not_found, stale_revision
 from app.domain.loads import LoadAssignment, LoadSetup
 from app.domain.materials import BodyMaterial, MaterialSetup
+from app.domain.mesh import MeshSetup
 from app.domain.models import AnalysisCreate, GeometryMetadata, GeometryRevision
 from app.persistence.repository import Repository, now
 
@@ -210,6 +211,7 @@ class EditRepository:
         geometry: UUID,
         materials: MaterialSetup,
         loads: LoadSetup,
+        mesh: MeshSetup | None = None,
     ) -> None:
         timestamp = now()
         self.projects._insert_analysis_revision(
@@ -221,6 +223,7 @@ class EditRepository:
             timestamp,
             materials,
             loads,
+            mesh,
         )
         connection.execute(
             text("UPDATE analyses SET head_revision=:revision,updated_at=:time WHERE id=:id"),
@@ -284,6 +287,9 @@ class EditRepository:
                         ]
                     }
                 )
+                mesh = self.projects._mesh_setup(connection, previous.id, previous.revision)
+                if mesh.geometry_revision_id == source.id:
+                    mesh = mesh.model_copy(update={"geometry_revision_id": geometry.id})
                 self._analysis(
                     connection,
                     previous.id,
@@ -293,6 +299,7 @@ class EditRepository:
                     geometry.id,
                     setup,
                     loads,
+                    mesh,
                 )
                 result_analysis_revision = analysis.revision + 1
             edit = edit.model_copy(

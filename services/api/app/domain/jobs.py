@@ -86,3 +86,5 @@ class MeshPreview(StrictModel):
     nodes: int
     elements: int
     display: GeometryDisplay
+    quality: dict[str, JsonValue] = Field(default_factory=dict)
+    quality_display: GeometryDisplay | None = None

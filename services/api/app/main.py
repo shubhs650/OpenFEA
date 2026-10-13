@@ -30,6 +30,7 @@ from app.routes import imports as _imports  # noqa: F401
 from app.routes import jobs as _jobs  # noqa: F401
 from app.routes import loads as _loads  # noqa: F401
 from app.routes import materials as _materials  # noqa: F401
+from app.routes import mesh as _mesh  # noqa: F401
 from app.routes.projects import router
 from app.storage.geometry import GeometryStorage
 

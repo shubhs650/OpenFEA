@@ -24,6 +24,7 @@ from app.domain.materials import (
     MaterialState,
     body_status,
 )
+from app.domain.mesh import MeshSetup
 from app.domain.models import (
     Analysis,
     AnalysisCreate,
@@ -316,6 +317,7 @@ class Repository:
         timestamp: str,
         setup: MaterialSetup | None = None,
         loads: LoadSetup | None = None,
+        mesh: MeshSetup | None = None,
     ) -> None:
         connection.execute(
             text("""INSERT INTO analysis_revisions VALUES
@@ -343,6 +345,77 @@ class Repository:
             text("INSERT INTO analysis_load_setups VALUES (:id, :revision, :setup)"),
             {"id": str(analysis), "revision": revision, "setup": loads.model_dump_json()},
         )
+
+        mesh_table = connection.execute(
+            text(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='analysis_mesh_setups'"
+            )
+        ).scalar_one_or_none()
+        if mesh_table is None:
+            schema = connection.execute(
+                text("SELECT version_num FROM alembic_version")
+            ).scalar_one()
+            if mesh is None and schema[:4] in {f"000{i}" for i in range(1, 7)}:
+                return  # Explicit pre-T014 migration fixture; no mesh feature exists yet.
+            raise DomainError(503, "database_integrity", "Mesh setup schema is unavailable")
+        if mesh is None:
+            mesh = Repository._mesh_setup(connection, analysis, revision - 1)
+        connection.execute(
+            text("INSERT INTO analysis_mesh_setups VALUES (:id,:revision,:setup)"),
+            {"id": str(analysis), "revision": revision, "setup": mesh.model_dump_json()},
+        )
+
+    @staticmethod
+    def _mesh_setup(connection: Connection, analysis: UUID, revision: int) -> MeshSetup:
+        raw = connection.execute(
+            text(
+                "SELECT setup_json FROM analysis_mesh_setups "
+                "WHERE analysis_id=:id AND revision=:revision"
+            ),
+            {"id": str(analysis), "revision": revision},
+        ).scalar_one_or_none()
+        return MeshSetup.model_validate_json(raw) if raw is not None else MeshSetup()
+
+    def mesh_setup(
+        self, owner: UUID, analysis: UUID, revision: int | None = None
+    ) -> tuple[Analysis, GeometryRevision | None, MeshSetup]:
+        with self.database.engine.connect() as connection, connection.begin():
+            current = self._analysis(connection, owner, analysis, revision)
+            geometry = (
+                self._geometry(connection, owner, current.geometry_revision_id)
+                if current.geometry_revision_id
+                else None
+            )
+            return current, geometry, self._mesh_setup(connection, analysis, current.revision)
+
+    def edit_mesh_setup(self, owner: UUID, analysis: UUID, expected: int, setup: MeshSetup) -> None:
+        with self.write() as connection:
+            current = self._analysis(connection, owner, analysis)
+            if current.revision != expected:
+                raise stale_revision()
+            if setup.geometry_revision_id != current.geometry_revision_id:
+                raise DomainError(
+                    422, "stale_mesh_controls", "Mesh controls must match the analysis geometry"
+                )
+            timestamp = now()
+            self._insert_analysis_revision(
+                connection,
+                analysis,
+                current.project_id,
+                expected + 1,
+                AnalysisCreate(
+                    name=current.name, geometry_revision_id=current.geometry_revision_id
+                ),
+                timestamp,
+                mesh=setup,
+            )
+            connection.execute(
+                text(
+                    "UPDATE analyses SET head_revision=head_revision+1,"
+                    "updated_at=:time WHERE id=:id"
+                ),
+                {"time": timestamp, "id": str(analysis)},
+            )
 
     @staticmethod
     def _load_setup(connection: Connection, analysis: UUID, revision: int) -> LoadSetup:

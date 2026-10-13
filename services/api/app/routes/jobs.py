@@ -39,6 +39,13 @@ Filename = Literal[
     "analysis.frd",
     "resources.json",
     "results.json",
+    "recovery.json",
+    "mesh-attempt-1.log",
+    "mesh-attempt-2.log",
+    "mesh-attempt-3.log",
+    "mesh-attempt-1-resources.json",
+    "mesh-attempt-2-resources.json",
+    "mesh-attempt-3-resources.json",
 ]
 
 
