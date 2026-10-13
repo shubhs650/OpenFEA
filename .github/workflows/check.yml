@@ -27,11 +27,26 @@ jobs:
       - name: Native compiler prerequisite
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor
           mkdir -p .local/ci-toolchain
           ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
           echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"
           # Setup independently enforces GCC 14.2.0 and every native artifact digest.
+      - name: Permit Bubblewrap namespaces on the ephemeral Ubuntu runner
+        run: |
+          # Ubuntu 24.04's default unprivileged-userns policy denies the private
+          # loopback setup. Permit only the installed launcher; keep global policy.
+          sudo tee /etc/apparmor.d/openfea-ci-bwrap >/dev/null <<'PROFILE'
+          abi <abi/4.0>,
+          profile openfea-ci-bwrap /usr/bin/bwrap flags=(unconfined) {
+            userns,
+          }
+          PROFILE
+          sudo apparmor_parser -r /etc/apparmor.d/openfea-ci-bwrap
+          # Fail before rebuilding tools if the runner still cannot isolate jobs.
+          bwrap --unshare-all --die-with-parent --cap-drop ALL \
+            --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 \
+            /usr/bin/true
       - run: make setup
       - run: make check build smoke test-integration test-e2e
       - name: Verify runner failure propagation

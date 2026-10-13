@@ -40,7 +40,9 @@ Decision-record verification: `make doctor check` passed in the current Codex Cl
 
 ## T008 executed validation — 2026-10-13
 
-PR #5 hosted run `38392031074` failed during `make setup` at the synthetic namespace-isolated STEP doctor probe; test stages did not execute. Doctor now prints the bounded synthetic launcher transcript before temporary cleanup so runner failures can be diagnosed. Local `make check doctor` passes (124 Python unit and 7 TS unit, no failures/skips). Hosted CI remains open until a successful run is recorded.
+PR #5 hosted run `38392031074` failed during `make setup` at the synthetic namespace-isolated STEP doctor probe; test stages did not execute. Bounded doctor diagnostics in `3d29956` exposed `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted` on run `38410679299`. CI now loads a `/usr/bin/bwrap`-specific AppArmor user-namespace profile and performs a trusted namespace preflight before native provisioning. Global runner policy and application sandbox restrictions are preserved. Local `make check doctor` passes (124 Python unit and 7 TS unit, no failures/skips). Hosted CI remains open until a successful run is recorded.
+
+The Ubuntu `bubblewrap_0.9.0-1ubuntu0.3_amd64.deb` executable was extracted into ignored scratch storage and used through a command-local PATH for `make doctor` and `.venv/bin/python -m pytest tests/native/test_step_import.py`: actual import probe and all 14 native import/API/security cases pass (0 failed/skipped). This checks launcher-version compatibility in the cloud host, not the Ubuntu AppArmor policy; the hosted preflight remains the policy verification.
 
 The browser now creates/opens real projects, uploads STEP bytes with actual progress, runs isolated OCCT inspection, requires missing-unit/dimensions/body-count confirmation, and renders saved immutable multi-body geometry with vtk.js. Face picks resolve to the catalog within the geometry revision, survive camera/LOD changes, and work with body hide/isolate/tree controls. Invalid/surface/free-wire models, contradictory units, stale confirmations and corrupt artifacts refuse without modifying accepted geometry.
 
