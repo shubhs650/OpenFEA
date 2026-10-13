@@ -118,6 +118,12 @@ def test_cli_exits_nonzero_after_real_mesh_stage_failure(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     output = tmp_path / "new-run"
+    read_text = Path.read_text
+
+    def no_cgroup_v2(path: Path, *args: Any, **kwargs: Any) -> str:
+        if path == Path("/sys/fs/cgroup/cpu.max") or path == Path("/sys/fs/cgroup/memory.max"):
+            raise FileNotFoundError(path)
+        return read_text(path, *args, **kwargs)
 
     def fail_mesh(command: list[str], directory: Path, name: str, **limits: Any) -> dict[str, Any]:
         assert name == "mesh"
@@ -125,9 +131,11 @@ def test_cli_exits_nonzero_after_real_mesh_stage_failure(
         return measured_native(child, directory, name, **limits)
 
     monkeypatch.setattr(feasibility, "measured_native", fail_mesh)
+    monkeypatch.setattr(Path, "read_text", no_cgroup_v2)
     monkeypatch.setattr(sys, "argv", ["feasibility.py", "--meshes", "--output", str(output)])
     assert feasibility.main() == 2
     saved = json.loads((output / "result.json").read_text())
+    assert saved["cpu_quota"] is None and saved["memory_limit"] is None
     assert len(saved["edits"]) == 2  # real native cleanup still completed
     assert saved["runs"][0]["mesh"]["status"] == "native_failed"
     assert all(run["status"].startswith("NOT RUN") for run in saved["runs"][1:])

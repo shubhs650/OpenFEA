@@ -14,6 +14,14 @@ from worker.resources import measured_native
 from worker.runtime import NATIVE, ROOT, sha256, synthetic_geometry, verified_tool
 
 
+def cgroup_value(name: str) -> str | None:
+    """Hosted runners may expose a different cgroup layout or no cgroup files."""
+    try:
+        return (Path("/sys/fs/cgroup") / name).read_text().strip()
+    except OSError:
+        return None
+
+
 def run_workloads(
     output: Path, manifest: dict[str, Any], limits: dict[str, Any], result: dict[str, Any]
 ) -> bool:
@@ -174,8 +182,8 @@ def main() -> int:
         ).strip(),
         "utc_started": datetime.now(UTC).isoformat(),
         "platform": platform.platform(),
-        "cpu_quota": Path("/sys/fs/cgroup/cpu.max").read_text().strip(),
-        "memory_limit": Path("/sys/fs/cgroup/memory.max").read_text().strip(),
+        "cpu_quota": cgroup_value("cpu.max"),
+        "memory_limit": cgroup_value("memory.max"),
         "native_build_sha256": sha256(NATIVE / "build.json"),
         "ccx_sha256": sha256(verified_tool("ccx")),
         "threads": 1,
