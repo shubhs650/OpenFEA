@@ -1,16 +1,16 @@
 # Task index
 
-T001 provides the health bootstrap; T002 provisions native tools. T003–T006 development implementations/experiments and T007 local metadata persistence are delivered. Engineering and target-laptop acceptance remain deferred; T007 formal status follows that predecessor dependency convention. T008–T042 remain NOT STARTED. Explicit T004/T005/T006/T007 requests authorize bounded development without creating missing acceptance evidence. The T007 request supersedes the old scheduling block. The objective stops at M4/T030; the historical [M0 exit review](docs/validation/M0-exit-review.md) remains NO-GO until a repeated evidence-backed exit decision. No M1 exit gate is claimed.
+T001–T006 development deliverables are COMPLETE under the [M0 owner decision](docs/validation/M0-owner-decision.md), which approves progression to M1 and defers formal benchmark and target-laptop acceptance. The earlier [M0 exit review](docs/validation/M0-exit-review.md) remains historical NO-GO evidence; PR #2 corrected M0-R1/M0-R2. T007 local metadata persistence and task checks are COMPLETE. T008–T042 remain NOT STARTED; T008 is next. M1–M4 development runs in Codex Cloud; local laptop acceptance occurs at M4/T030. AWS backend work starts only in its later milestone.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
 | [T001](docs/tasks/T001.md) | M0 | Bootstrap repository and command contracts | none | COMPLETE |
 | [T002](docs/tasks/T002.md) | M0 | Provision native tools and license inventory | T001 | COMPLETE |
-| [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | IN PROGRESS |
-| [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | IN PROGRESS |
-| [T005](docs/tasks/T005.md) | M0 | Prove independently meshed bonded connection | T003 | IN PROGRESS |
-| [T006](docs/tasks/T006.md) | M0 | Cleanup and resource feasibility review | T004,T005 | IN PROGRESS |
-| [T007](docs/tasks/T007.md) | M1 | Persist projects and local ownership | T006 | IN PROGRESS |
+| [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | COMPLETE |
+| [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | COMPLETE |
+| [T005](docs/tasks/T005.md) | M0 | Prove independently meshed bonded connection | T003 | COMPLETE |
+| [T006](docs/tasks/T006.md) | M0 | Cleanup and resource feasibility review | T004,T005 | COMPLETE |
+| [T007](docs/tasks/T007.md) | M1 | Persist projects and local ownership | T006 | COMPLETE |
 | [T008](docs/tasks/T008.md) | M1 | STEP import and selectable viewport | T007 | NOT STARTED |
 | [T009](docs/tasks/T009.md) | M1 | Units and material editor | T008 | NOT STARTED |
 | [T010](docs/tasks/T010.md) | M1 | Basic face loads and deterministic deck | T009 | NOT STARTED |

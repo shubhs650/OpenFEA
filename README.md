@@ -1,7 +1,7 @@
 # Cloud FEA prototype — development starter kit
 
 Planning baseline: 12 October 2026. Working title only; no product name or domain has been chosen.
-This repository contains a health-only React page, a persistent local project/analysis metadata API and real synthetic CAD/mesh/load/CCX/stress/bond diagnostics. T005 rejects a failed native tie candidate and proves an experimental consistent mortar connection on a limited planar patch. B01/B02/B09/B07 development evidence exists; T006 adds limited immutable native cleanup and measured cloud meshes/solves/display. T007 adds SQLite ownership/revisions and guarded local API access. Owner acceptance, general engineering workflow and target-laptop/integrated-GPU capacity remain open.
+This repository contains a health-only React page, a persistent local project/analysis metadata API and real synthetic CAD/mesh/load/CCX/stress/bond diagnostics. T005 rejects a failed native tie candidate and proves an experimental consistent mortar connection on a limited planar patch. B01/B02/B09/B07 development evidence exists; T006 adds limited immutable native cleanup and measured cloud meshes/solves/display. The owner approved M0 progression with exact benchmark and laptop validation deferred. The general application workflow remains future work.
 The current objective is the validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations are outside this stage.
 
 ## Run the bootstrap
@@ -12,7 +12,7 @@ See [development setup](docs/DEVELOPMENT.md), [local project API](docs/PERSISTEN
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review T001–T007 evidence in the [task index](TASKS.md). The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: invalid approval handling and failed-stage graduation now have focused fixes, while owner/target-hardware acceptance and a repeated gate decision remain open. T007 development is delivered following an explicit request; formal predecessor acceptance remains open.
+3. Review T001–T007 evidence in the [task index](TASKS.md), the historical [M0 NO-GO review](docs/validation/M0-exit-review.md), and the later [owner progression decision](docs/validation/M0-owner-decision.md). PR #2 fixed both reproduced software defects. T007 is COMPLETE and T008 is next; benchmark sign-offs and local laptop acceptance remain pending.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 

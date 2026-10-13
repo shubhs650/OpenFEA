@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-13. T001 provides health API/UI; T007 now adds persistent owner-scoped project/analysis metadata and guarded local sessions; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. Engineering acceptance, general connection support, target-laptop/integrated-GPU capacity and the full application engineering pipeline remain open. [ADR-015](docs/adr/ADR-015.md) specifies T007 storage and local access semantics. This stage ends at the validated local prototype through M4/T030.
+2026-10-13. T001 provides health API/UI; T007 adds persistent owner-scoped project/analysis metadata and guarded local sessions; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. The [M0 owner decision](docs/validation/M0-owner-decision.md) permits M1 progression with formal benchmark and laptop acceptance deferred. General connection support and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030, with AWS backend work later.
 
 ## Shape of the system
 
@@ -91,3 +91,5 @@ M0 proves CAD/mesh mapping, ties, raw stress extraction, open-source dependency 
 T004 development now demonstrates native global DAT S/COORD, explicitly averaged FRD and element-owned linear extrapolation/probes for affine C3D10. VTK duplicates points at material interfaces; standalone HTML/SVG proves minimal display semantics. The vtk.js product viewer/full flow remain later work. See [ADR-012](docs/adr/ADR-012.md); engineering-owner acceptance is open.
 
 T005 development validates an experimental consistent planar mortar connection through CCX *EQUATION for the two-block patch. Native node-to-face *TIE failed the frozen patch and is retained as rejected. Independent body/face IDs and meshes are preserved; geometry audits use a narrow binary-coordinate reader. Larger/general connections and physical gaps remain unvalidated. See [ADR-013](docs/adr/ADR-013.md); owner acceptance is open.
+
+T007 storage and local access semantics are specified in [ADR-015](docs/adr/ADR-015.md); its completed metadata slice does not implement the later engineering workflow.
