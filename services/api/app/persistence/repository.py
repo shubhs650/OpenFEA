@@ -395,6 +395,7 @@ class Repository:
                     connection, owner, current.geometry_revision_id, current.project_id
                 )
                 validate_assignment(geometry, previous, item)
+                assignments = [a for a in assignments if a.id != item.id]
                 assignments.append(item)
             elif remove is not None:
                 if remove not in {a.id for a in assignments}:

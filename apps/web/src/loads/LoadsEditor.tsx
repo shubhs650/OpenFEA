@@ -284,6 +284,32 @@ export function LoadsEditor({
                   ` · ${(a.pressure_pa / preset.stress.to_si).toPrecision(6)} ${preset.stress.label} (${a.pressure_pa > 0 ? "inward" : "outward"})`}
                 {a.force_n &&
                   ` · [${a.force_n.map((v) => (v / preset.force.to_si).toPrecision(6)).join(", ")}] ${preset.force.label}`}
+                {!!a.review_faces?.length && (
+                  <>
+                    <p>
+                      Needs geometry review: {a.review_faces.join(", ")}. Select
+                      all intended replacement faces; the saved SI load remains
+                      unchanged.
+                    </p>
+                    <button
+                      disabled={busy || conflict || !aligned || !selected.size}
+                      onClick={() =>
+                        void change(
+                          `/loads/${a.id}/faces`,
+                          {
+                            geometry_revision_id: geometryId,
+                            face_ids: [...selected],
+                            reviewed: true,
+                            combine_confirmed: combine,
+                          },
+                          "PUT",
+                        )
+                      }
+                    >
+                      Reselect faces for {a.name}
+                    </button>
+                  </>
+                )}
                 <button
                   disabled={busy || conflict || !aligned}
                   onClick={() =>

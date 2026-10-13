@@ -65,7 +65,13 @@ def scratch_usage(directory: Path) -> int:
     return size
 
 
-def inspect_step(source: Path, output: Path, unit: str | None = None) -> dict[str, Any]:
+def inspect_step(
+    source: Path,
+    output: Path,
+    unit: str | None = None,
+    *,
+    edit: tuple[Path, str] | None = None,
+) -> dict[str, Any]:
     bubblewrap = shutil.which("bwrap")
     if bubblewrap is None:
         raise ImportSandboxError("Bubblewrap is required for isolated STEP imports")
@@ -127,6 +133,17 @@ def inspect_step(source: Path, output: Path, unit: str | None = None) -> dict[st
         "/import.py",
         unit or "auto",
     ]
+    if edit is not None:
+        metadata_path, face_id = edit
+        command[1:1] = [
+            "--ro-bind",
+            str(metadata_path),
+            "/work/metadata.json",
+            "--ro-bind",
+            str(ROOT / "services/worker/worker/geometry_native/edit.py"),
+            "/edit.py",
+        ]
+        command[-2:] = ["/edit.py", face_id]
     if Path("/etc/ld.so.cache").is_file():
         command[1:1] = ["--ro-bind", "/etc/ld.so.cache", "/etc/ld.so.cache"]
     filter_path = output.parent / "process-filter.bpf"
@@ -195,7 +212,14 @@ def inspect_step(source: Path, output: Path, unit: str | None = None) -> dict[st
             ),
             "cad_lock_sha256": sha256(ROOT / "services/worker/environments/cad/uv.lock"),
             "process_filter_sha256": sha256(filter_path),
-            "worker_sha256": sha256(ROOT / "services/worker/worker/geometry_native/import_step.py"),
+            "worker_sha256": sha256(
+                ROOT
+                / "services/worker/worker/geometry_native"
+                / ("edit.py" if edit else "import_step.py")
+            ),
+            "exporter_sha256": sha256(
+                ROOT / "services/worker/worker/geometry_native/import_step.py"
+            ),
             "wall_seconds": time.monotonic() - started,
             "sampled_peak_rss_bytes": peak,
             "wall_limit_seconds": 60,

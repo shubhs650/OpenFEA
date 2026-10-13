@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   api,
   mutate,
@@ -12,6 +12,7 @@ import {
   type LoadState,
   type MeshPreview,
 } from "./api";
+import { GeometryEdits } from "./GeometryEdits";
 import { Viewport } from "./Viewport";
 import { MaterialsEditor } from "../materials/MaterialsEditor";
 import { ResultViewport } from "../results/ResultViewport";
@@ -24,6 +25,12 @@ export function Workspace() {
   const [project, setProject] = useState<Project | null>(null);
   const [analysisId, setAnalysisId] = useState("");
   const [loadPreview, setLoadPreview] = useState<LoadState | null>(null);
+  const [editDisplay, setEditDisplay] = useState<Display | null>(null);
+  const [editHighlights, setEditHighlights] = useState<Set<string> | null>(
+    null,
+  );
+  const [editorEpoch, setEditorEpoch] = useState(0);
+  const [editingPreview, setEditingPreview] = useState(false);
   const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
   const [resultPresentation, setResultPresentation] =
     useState<ResultPresentation | null>(null);
@@ -62,6 +69,9 @@ export function Workspace() {
   useEffect(() => {
     let current = true;
     setSelected(new Set());
+    setEditDisplay(null);
+    setEditHighlights(null);
+    setEditingPreview(false);
     setAnalysisId("");
     displayedRevision.current = null;
     setGeometry(null);
@@ -113,6 +123,7 @@ export function Workspace() {
   }, [geometry, lod]);
 
   function toggle(face: string) {
+    if (editingPreview || busy) return;
     setSelected((previous) => {
       const next = new Set(previous);
       if (next.has(face)) next.delete(face);
@@ -214,10 +225,21 @@ export function Workspace() {
       ? meshPreview
       : null;
   const activeResult =
-    resultPresentation?.view.analysis_id === analysisId &&
-    resultPresentation.view.geometry_revision_id === geometry?.id
+    resultPresentation?.view.analysis_id === analysisId
       ? resultPresentation
       : null;
+  const previewVisible = useMemo(
+    () =>
+      editDisplay ? new Set(editDisplay.bodies.map((b) => b.id)) : visible,
+    [editDisplay, visible],
+  );
+  const resultVisible = useMemo(
+    () =>
+      activeResult && activeResult.view.geometry_revision_id !== geometry?.id
+        ? new Set(activeResult.view.data.vertices.map((v) => v.body_id))
+        : visible,
+    [activeResult, geometry?.id, visible],
+  );
   return (
     <div className="workspace">
       <aside className="panel">
@@ -394,16 +416,20 @@ export function Workspace() {
         )}
       </aside>
       <div className="geometry-content">
-        {activeResult ? (
-          <ResultViewport presentation={activeResult} visible={visible} />
+        {activeResult && !editingPreview ? (
+          <ResultViewport presentation={activeResult} visible={resultVisible} />
         ) : shown && geometry ? (
           <Viewport
-            display={activeMesh?.display ?? shown}
-            revision={geometry.id}
-            selected={selected}
-            visible={visible}
+            display={
+              editDisplay ??
+              (editingPreview ? shown : (activeMesh?.display ?? shown))
+            }
+            revision={editDisplay?.brep_sha256 ?? geometry.id}
+            selected={editHighlights ?? selected}
+            visible={previewVisible}
             toggle={toggle}
             markers={
+              !editingPreview &&
               loadPreview?.analysis_id === analysisId &&
               loadPreview.geometry_revision_id === geometry.id
                 ? loadPreview.markers
@@ -425,7 +451,7 @@ export function Workspace() {
         )}
         {geometry && shown && (
           <section className="selection-panel">
-            {activeMesh && (
+            {activeMesh && !editingPreview && (
               <p data-mesh-job={activeMesh.job_id}>
                 Generated mesh: {activeMesh.nodes} nodes · {activeMesh.elements}{" "}
                 C3D10 elements. Boundary triangles show the actual quadratic
@@ -461,9 +487,40 @@ export function Workspace() {
             </ul>
           </section>
         )}
+        {project && geometry && (
+          <GeometryEdits
+            key={project.id}
+            project={project}
+            geometry={geometry}
+            analysisId={analysisId}
+            selected={selected}
+            busy={busy}
+            setBusy={setBusy}
+            showPreview={(data, highlights) => {
+              setEditDisplay(data);
+              setEditHighlights(highlights ?? null);
+              setEditingPreview(!!data || !!highlights);
+            }}
+            applied={(result) => {
+              setProject(result.project);
+              setProjects((all) =>
+                all.map((p) =>
+                  p.id === result.project.id ? result.project : p,
+                ),
+              );
+              setGeometry(result.geometry);
+              setLatestGeometry(result.geometry);
+              setSelected(new Set());
+              setMeshPreview(null);
+              setResultPresentation(null);
+              setLoadPreview(null);
+              setEditorEpoch((old) => old + 1);
+            }}
+          />
+        )}
         {project && (
           <MaterialsEditor
-            key={project.id}
+            key={`${project.id}:${editorEpoch}`}
             project={project}
             geometry={geometry}
             analysisId={analysisId}
@@ -478,7 +535,7 @@ export function Workspace() {
               setGeometry(pinned);
               setSelected(new Set());
             }}
-            busy={busy}
+            busy={busy || editingPreview}
             setBusy={setBusy}
             selected={selected}
             preview={setLoadPreview}

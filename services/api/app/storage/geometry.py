@@ -16,7 +16,7 @@ class GeometryStorage:
         self.root = root.resolve()
 
     def directory(self, kind: str, identifier: UUID) -> Path:
-        if kind not in ("uploads", "imports", "artifacts", "exports", "jobs"):
+        if kind not in ("uploads", "imports", "artifacts", "exports", "jobs", "edits"):
             raise ValueError("Unknown storage namespace")
         path = self.root / kind / str(identifier)
         if not path.resolve().is_relative_to(self.root):
