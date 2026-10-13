@@ -71,6 +71,14 @@ def test_real_metadata_units_convert_to_metres(client: TestClient, fixture: str)
     )
     assert response.status_code == 200, response.text
     geometry = response.json()
+    repeated = client.post(
+        f"/api/v1/geometry-imports/{preview['id']}/confirm",
+        json={"dimensions_confirmed": True},
+        headers={"If-Match": '"2"'},
+    )
+    assert repeated.status_code == 200 and repeated.json()["id"] == geometry["id"]
+    assert repeated.headers["etag"] == '"2"'
+    assert client.get(f"/api/v1/projects/{project}/geometry").json()["total"] == 1
     assert client.get(f"/api/v1/projects/{project}").json()["revision"] == 2
     assert geometry["validation"]["valid_solids"] is True
     display = client.get(f"/api/v1/geometry/{geometry['id']}/display").json()

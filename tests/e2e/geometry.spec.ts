@@ -2,6 +2,84 @@ import { expect, test } from "@playwright/test";
 import type { components } from "../../packages/contracts/api";
 import { resolve } from "node:path";
 
+test("curved STEP picks survive actual triangle-count changes and replacement never mixes revisions", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByLabel("New project name").fill("Curved viewport fixture");
+  await page
+    .getByRole("button", { name: "Create project", exact: true })
+    .click();
+  for (const file of ["two-m.step", "cylinder-m.step"]) {
+    await page
+      .getByLabel("STEP file")
+      .setInputFiles(resolve(`tests/fixtures/geometry/${file}`));
+    await page
+      .getByRole("button", { name: "Upload and inspect", exact: true })
+      .click();
+    await expect(
+      page.getByLabel("I confirm the dimensions and body count"),
+    ).toBeVisible();
+    await page.getByLabel("I confirm the dimensions and body count").check();
+    if (file === "cylinder-m.step") {
+      // Hold the real response so the replacement guard is exercised before data arrives.
+      await page.route("**/geometry/*/display?lod=coarse", async (route) => {
+        const response = await route.fetch();
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await route.fulfill({ response });
+      });
+    }
+    await page
+      .getByRole("button", { name: "Accept geometry", exact: true })
+      .click();
+    if (file === "cylinder-m.step") {
+      await expect(
+        page.getByRole("heading", { name: "Loading geometry…", exact: true }),
+      ).toBeVisible();
+    }
+    await expect(page.getByLabel("Geometry viewport")).toBeVisible();
+  }
+  await expect(page.locator(".viewport-caption")).toContainText(
+    "1 bodies · 3 faces",
+  );
+  await page.unrouteAll({ behavior: "wait" });
+  const revision = await page
+    .getByLabel("Geometry viewport")
+    .getAttribute("data-revision");
+  const coarseCount = await page.locator(".viewport-caption").textContent();
+  await page.getByRole("button", { name: "Front", exact: true }).click();
+  const bounds = await page
+    .getByLabel("Geometry viewport")
+    .locator("canvas")
+    .boundingBox();
+  await page.mouse.click(
+    bounds!.x + bounds!.width / 2,
+    bounds!.y + bounds!.height / 2,
+  );
+  await expect(page.locator("[data-selected-face]")).toHaveCount(1);
+  const selected = await page
+    .locator("[data-selected-face]")
+    .getAttribute("data-selected-face");
+  const fine = page.waitForResponse(
+    (r) =>
+      r.url().includes(`/geometry/${revision}/display?lod=fine`) &&
+      r.status() === 200,
+  );
+  await page.getByLabel("Display detail").selectOption("fine");
+  await fine;
+  await expect(page.locator(".viewport-caption")).not.toHaveText(coarseCount!);
+  await expect(page.locator("[data-selected-face]")).toHaveAttribute(
+    "data-selected-face",
+    selected!,
+  );
+  const response = await page.request.get(`/api/v1/geometry/${revision}`);
+  const geometry: components["schemas"]["GeometryRevision"] =
+    await response.json();
+  const face = geometry.faces.find((f) => f.id === selected);
+  expect(face?.body_id).toBe(geometry.bodies[0].id);
+  expect((face?.signature.center_m as number[])[2]).toBeCloseTo(1, 9);
+});
+
 test("real multibody STEP, vtk picking, camera and LOD preserve catalog references", async ({
   page,
 }, testInfo) => {

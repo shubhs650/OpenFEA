@@ -99,7 +99,7 @@ def confirm_import(
     response: Response,
 ) -> GeometryRevision:
     geometry = service.confirm(owner, import_id, revision)
-    etag(response, revision + 1)
+    etag(response, service.repository.projects.get_project(owner, geometry.project_id).revision)
     return geometry
 
 

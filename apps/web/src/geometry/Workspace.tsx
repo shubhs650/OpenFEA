@@ -185,6 +185,11 @@ export function Workspace() {
     }
   }
   const details = inspection?.inspection;
+  const shown =
+    geometry?.project_id === project?.id &&
+    display?.brep_sha256 === geometry?.brep_sha256
+      ? display
+      : null;
   return (
     <div className="workspace">
       <aside className="panel">
@@ -312,17 +317,15 @@ export function Workspace() {
         )}
         <p aria-live="polite">{stage}</p>
         {error && <p role="alert">{error}</p>}
-        {display && (
+        {shown && (
           <>
             <h2>Bodies and faces</h2>
             <button
-              onClick={() =>
-                setVisible(new Set(display.bodies.map((b) => b.id)))
-              }
+              onClick={() => setVisible(new Set(shown.bodies.map((b) => b.id)))}
             >
               Show all bodies
             </button>
-            {display.bodies.map((body, index) => (
+            {shown.bodies.map((body, index) => (
               <section className="body-tree" key={body.id}>
                 <label className="check">
                   <input
@@ -344,7 +347,7 @@ export function Workspace() {
                 </button>
                 <details>
                   <summary>Faces</summary>
-                  {display.faces
+                  {shown.faces
                     .filter((f) => f.body_id === body.id)
                     .map((face, fi) => (
                       <button
@@ -363,9 +366,9 @@ export function Workspace() {
         )}
       </aside>
       <div className="geometry-content">
-        {display && geometry ? (
+        {shown && geometry ? (
           <Viewport
-            display={display}
+            display={shown}
             revision={geometry.id}
             selected={selected}
             visible={visible}
@@ -373,14 +376,18 @@ export function Workspace() {
           />
         ) : (
           <div className="empty-viewport">
-            <h2>Bring in your solid model</h2>
+            <h2>
+              {geometry?.project_id === project?.id
+                ? "Loading geometry…"
+                : "Bring in your solid model"}
+            </h2>
             <p>
               Create or open a project, then import a STEP file and confirm its
               size.
             </p>
           </div>
         )}
-        {geometry && display && (
+        {geometry && shown && (
           <section className="selection-panel">
             <label>
               Display detail
