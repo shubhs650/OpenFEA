@@ -88,3 +88,7 @@ Next implementation ID remains **T007**, blocked by M0. No later task, deploymen
 ## Subsequent software correction (2026-10-13)
 
 This document records the original NO-GO review at `bc6af004`; its reproduced failures and retained artifacts are historical. M0-R1 and M0-R2 now have focused code fixes and regressions. Non-development benchmark execution requires an explicit owner/date/disposition record bound to the exact criteria hash; all committed records remain pending. The native workload ladder now persists a failed stage, marks later workloads not run and returns nonzero. Real bounded-child regressions cover mesh, prepare, solve, post and RSS stops. The full current local check command passed 147 distinct automated cases (90 Python unit, 7 TypeScript unit, 42 native, 4 lifecycle and 4 Chromium) with none failed or skipped. See [PROGRESS.md](../../PROGRESS.md) and [VALIDATION.md](../VALIDATION.md). **The M0 decision remains NO-GO** because engineering/formulation approval, target WSL2/integrated-GPU evidence and a repeated exit review are still pending.
+
+## Subsequent owner decision (2026-10-13)
+
+The product owner then [approved M0 progression under explicit deferrals](M0-owner-decision.md). This later decision supersedes the historical NO-GO for starting M1, while keeping exact benchmark sign-offs and M4 laptop validation pending. Nothing in the original review or its evidence was retroactively reclassified as accepted benchmark output.

@@ -2,23 +2,23 @@
 
 Updated: 2026-10-13 (Asia/Calcutta)
 Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M0 — EXIT REVIEW NO-GO; M0-R1/M0-R2 corrected locally, owner/formulation and target-hardware acceptance open
-Next action: review M0-R1/M0-R2 corrections, obtain owner/target-hardware evidence and repeat M0 exit review; T007 remains blocked
+Current milestone: M1 — READY TO START; M0 owner-approved progression with explicit validation deferrals
+Next action: T007 — local project persistence and ownership; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005/T006 requests authorize bounded development while predecessor review remains open. T006 development is delivered; the subsequent M0 exit review remains NO-GO. No M1 implementation starts in this review.
+Fully working, validated LOCAL prototype through M4/T030. Develop and test M1–M4 in Codex Cloud with synthetic/public fixtures; validate the completed local workflow on the owner's laptop at the M4 gate. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001–T006 development deliverables are complete under the [owner's M0 progression exception](docs/validation/M0-owner-decision.md). Formal engineering benchmark sign-offs and target-laptop performance evidence remain deferred. No M1 implementation was added by this decision record.
 
 ## Implementation status
 
 T001: COMPLETE
 T002: COMPLETE
-T003: IN PROGRESS
-T004: IN PROGRESS
-T005: IN PROGRESS
-T006: IN PROGRESS
+T003: COMPLETE
+T004: COMPLETE
+T005: COMPLETE
+T006: COMPLETE
 T007–T042: NOT STARTED
-M0: EXIT REVIEW NO-GO — M0-R1/M0-R2 fixes tested; engineering and target-hardware acceptance remain open.
+M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -26,6 +26,14 @@ B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner
 B03–B06, B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## Owner M0 decision and development sequence
+
+On 2026-10-13 Asia/Calcutta, the product owner explicitly approved M0 and directed that development through M4 occur in Codex Cloud, with local laptop validation at the end of M4. [Decision record](docs/validation/M0-owner-decision.md) quotes the instruction and records the exception. The owner described an i5 10th-generation-equivalent gaming laptop with a 1650-class 4 GB GPU; this is context, not measured OpenFEA capacity. The earlier NO-GO remains historical evidence at its reviewed commit. M0-R1/M0-R2 were corrected in [merged PR #2](https://github.com/shubhs650/OpenFEA/pull/2), whose hosted checks passed. The local development task statuses T003–T006 are now COMPLETE under the bounded owner exception, and T007 is unblocked but NOT STARTED.
+
+The exception does not approve B01/B02/B07-mortar/B09 exact assumptions/tolerances: their manifests remain `PENDING` and previous runs remain development-only. Formal hash-bound owner review and reruns are still required before accepted benchmark claims; the M3 assembly gate retains bond-specific evidence and M4/T030 must close the local numerical/workflow gate. Existing mortar support is the limited planar zero-gap unit patch with at most 65 trace nodes per side. Native `*TIE` stays rejected, physical gaps stay disabled until T019/B08, and cloud capacity numbers cannot be advertised as laptop capacity. Current native/admission limits remain. No AWS resources are provisioned; AWS backend work is a later M5 stage after its own cost/security gates.
+
+Decision-record verification: `make doctor check` passed in the current Codex Cloud checkout (90 Python unit and 7 TypeScript unit cases, 0 failed/skipped; lint, format, types, contracts and 105-document/42-task graph checks passed). `git diff --check` passed; benchmark manifests, numerical code and dependency locks were not changed. The merged PR #2 already passed its full hosted native/bootstrap check. Cloud startup instructions were saved as an updated review draft reflecting this decision; saving does not publish or activate that draft.
 
 ## What now works
 
@@ -45,11 +53,11 @@ Reviewed commit `bc6af0041d8a6ef51b1ae5b100c3420708bd704d`, 2026-10-13 Asia/Calc
 - **1,090** inventory/runtime/library/license/lock hashes, **29** key retained/current-manifest/source hashes and **99** T006 artifact byte counts/hashes pass. Four independent reference calculations match B01/B02/B07-mortar/B09; proposed acceptance still requires owner/date/criteria-hash records and approved reruns.
 - F1/inventory and limited F6 feasibility supported; F2/F3/F5 development-only; F4 alternative-formulation/scope review open; F7 needs software correction plus actual WSL2 conservative capacity/headed integrated-GPU evidence. 100k solve is unrun by policy, not a forced M0 capacity guarantee. Resolve the F4 zero-gap-versus-T019/B08 boundary explicitly with the owner.
 
-This review records the two code defects; it does **not** implement their fixes, invent approval, close T003–T006/M0 or start T007. Public license, later release/security/report/hosted CI and AWS/beta are separate unexecuted/deferred gates. Saved startup instructions retain the NO-GO outcome without publication.
+At that historical review, the two defects were recorded but not fixed; no approval, T003–T006/M0 closure or T007 work was claimed. Public license, later release/security/report/hosted CI and AWS/beta were separate unexecuted/deferred gates. Startup instructions then retained the NO-GO outcome without publication; a later draft now reflects the owner's decision.
 
 ## M0-R1/M0-R2 follow-up — 2026-10-13
 
-The two reproduced software defects now have focused fixes, without changing frozen B01/B02/B07/B09/T006 manifests, physical tolerances, native limits or owner dispositions. M0 remains **NO-GO** until independent review, owner/formulation acceptance, target-laptop evidence and a repeated exit decision.
+At the software-fix follow-up, before the owner's later progression decision, the two reproduced defects had focused fixes without changing frozen B01/B02/B07/B09/T006 manifests, physical tolerances, native limits or owner dispositions. M0 was still **NO-GO** at that point. The subsequent owner exception is recorded above.
 
 - M0-R1: one validator requires an explicit `APPROVED` disposition, nonempty owner, ISO review date and a SHA-256 binding to every benchmark criterion except the approval field. Empty, whitespace, pending, rejected, malformed and stale records refuse before creating a job across B01/B02/B07/B09. An explicit development run remains labelled development-only even if an approved record is supplied. The positive bound-record unit case is synthetic test metadata, **not** owner approval; all committed manifests remain PENDING. B09's successful non-development status now follows the same approval rule.
 - M0-R2: the declared native ladder stops after any mesh/prepare/solve/post stage failure or resource stop, saves the failed stage and marks all later workloads `NOT RUN`. A prelaunch resource error is saved as `stage_error`; invalid expected mesh/display artifacts fail the run. A successful mesh rejected by the explicit solve cap remains a separate admission/coarsening outcome. Focused native regressions used tiny real Gmsh meshes, actual exit-7 children, the real RSS watchdog and a real cleanup/CLI exit-2 case. They are sequencing checks, not capacity or physics benchmarks.
@@ -126,10 +134,10 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-M0 exit decision is **NO-GO**. M0-R1 and M0-R2 now have focused corrections and native/approval regressions. Review the fixes, preserve all physical criteria, actual native semantics and limits, then complete owner/target acceptance and repeat the exit decision. Current passing suites do not establish a passed milestone.
+M0 was **approved by the owner for M1 progression with explicit deferrals** after the historical NO-GO and PR #2 software fixes. Preserve all frozen criteria, native semantics and limits. The next gate work is exact benchmark/formulation review, M3 assembly validation and M4 local laptop/end-to-end acceptance. Current passing development suites do not establish those later acceptances.
 
-Then obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash, including an explicit disposition of the F4 small-gap overview versus planned T019/B08. Reproduce resource/headed display on the existing 16 GiB WSL2 laptop/integrated GPU and choose a conservative measured cap. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and repeat the gate decision, or record a specific product-approved scope exception with disabled features/deferred deliverables.
+Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. Keep physical gaps unsupported until T019/B08. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-Next implementation task is **T007**, still NOT STARTED and blocked by M0. Review request does not authorize milestone advancement. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+Next implementation task is **T007**, NOT STARTED and now unblocked by the owner decision. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

@@ -2,11 +2,11 @@
 
 Execution is milestone-gated and dependency-ordered. No calendar estimate is promised for this lean personal project.
 
-Current authorized objective: fully working, validated LOCAL prototype through M4/T030. AWS, Google authentication, commercial billing and beta remain outside this stage. T001/T002 are complete; T003–T006 development experiments are delivered with engineering acceptance deferred. Explicit later task requests authorize bounded development without closing predecessor gates. Stop after the requested task. T006 cloud measurements/limited cleanup are delivered; M0 owner/hardware acceptance remains open. The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO with two software findings plus owner/target-hardware acceptance outstanding. T007 is next, not started and blocked; review requests do not authorize advancement.
+Current authorized objective: fully working, validated LOCAL prototype through M4/T030. Build and test M1–M4 in Codex Cloud; validate the complete local workflow on the owner's laptop at M4/T030. AWS, Google authentication, commercial billing and beta remain outside this stage. T001–T006 are complete for their bounded M0 development deliverables under the [owner-approved progression exception](docs/validation/M0-owner-decision.md). The historical [M0 NO-GO review](docs/validation/M0-exit-review.md) and PR #2 corrections remain recorded. Exact benchmark acceptance, broader bonding and target-laptop performance evidence are deferred, not declared passed. T007 is next and unblocked, but NOT STARTED. Continue one bounded task at a time.
 
 | Milestone | Tasks | Exit evidence |
 |---|---|---|
-| [M0: Feasibility and engineering foundations](docs/plan/M0.md) | T001–T006 | F1–F5 pass with native evidence; F6 supported cleanup scope explicit; F7 measured capacity; licenses inventoried. |
+| [M0: Feasibility and engineering foundations](docs/plan/M0.md) | T001–T006 | Owner-approved progression on bounded real native/cloud evidence; formal benchmark and laptop evidence deferred by recorded exception. |
 | [M1: One real local vertical slice](docs/plan/M1.md) | T007–T012 | STEP -> assigned material/load -> real C3D10 -> real CCX -> truthful results; local data survives restart. |
 | [M2: Complete single-part setup](docs/plan/M2.md) | T013–T018 | Supported cleanup, local mesh controls, essential loads/directions, themes and independent analyses pass. |
 | [M3: Bonded assemblies and trustworthy inspection](docs/plan/M3.md) | T019–T024 | Reviewed bonds, gap/overlap rules, no stabilization, full stress semantics, probes/sections and verification pass. |
