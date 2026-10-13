@@ -1,0 +1,138 @@
+bash scripts/codex/check.sh
+v24.19.0
+11.9.0
+uv 0.12.23 (x86_64-unknown-linux-gnu)
+Platform: Linux x86_64; Python 3.12.14
+fastapi: 0.143.0
+pydantic: 2.14.1
+uvicorn: 0.54.0
+pytest: 9.1.1
+ruff: 0.17.0
+mypy: 2.4.0
+PASS: writable non-repository data root
+PASS: loopback HTTP round trip
+PASS: pinned CPU CCX and runtime library hashes verified
+PASS: isolated cad native geometry/I/O capability
+PASS: isolated mesh native geometry/I/O capability
+PASS: isolated post native geometry/I/O capability
+PASS: local bootstrap and native toolchain prerequisites
+.venv/bin/ruff check services scripts tests
+All checks passed!
+.venv/bin/ruff format --check services scripts tests
+51 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 39 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 74 items
+
+tests/unit/test_api.py .........                                         [ 12%]
+tests/unit/test_bonds.py ................                                [ 33%]
+tests/unit/test_quadratic.py .....................                       [ 62%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================== 74 passed in 0.44s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  06:08:56
+   Duration  150ms (tests 61%, import 20%, transform 12%, worker 7%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpd965bype/openapi.json → /tmp/tmpd965bype/api.d.ts [24.5ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 103 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 34 items
+
+tests/native/test_bond_native.py ...                                     [  8%]
+tests/native/test_cleanup_resources.py ....                              [ 20%]
+tests/native/test_mapping.py ..............                              [ 61%]
+tests/native/test_stress_native.py ....                                  [ 73%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+============================= 34 passed in 35.25s ==============================
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 16 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:  0.26 kB
+dist/assets/index-BGq5n0lh.css    0.16 kB │ gzip:  0.15 kB
+dist/assets/index-BP-OlRbe.js   220.37 kB │ gzip: 68.99 kB
+
+✓ built in 139ms
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=3419
+STARTED api pid=3440
+STARTED web pid=3441
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 4 items
+
+tests/integration/test_startup.py ....                                   [100%]
+
+============================== 4 passed in 3.26s ===============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 4 tests using 1 worker
+
+(node:3834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/health.spec.ts:3:1 › health-only page connects to the real API through Vite (344ms)
+  ✓  2 tests/e2e/health.spec.ts:18:1 › page reports a health network failure without claiming readiness (192ms)
+  ✓  3 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (242ms)
+  ✓  4 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (166ms)
+
+  4 passed (4.5s)

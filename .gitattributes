@@ -7,3 +7,4 @@ tests/fixtures/native/stress/* -text whitespace=-trailing-space
 docs/validation/results/T004/** -text whitespace=-trailing-space
 docs/validation/results/T005/** -text whitespace=-trailing-space
 docs/validation/results/T006/** -text whitespace=-trailing-space
+docs/validation/results/M0/** -text whitespace=-trailing-space

@@ -1,6 +1,6 @@
 # Task index
 
-T001 provides the health-only bootstrap; T002 provisions native tools. T003–T006 development implementations/experiments are delivered, with engineering and target-laptop acceptance deferred; T007–T042 remain NOT STARTED. T004/T005/T006 were explicitly requested while predecessor review remained open; formal acceptance dependencies remain authoritative. The development objective stops at M4/T030.
+T001 provides the health-only bootstrap; T002 provisions native tools. T003–T006 development implementations/experiments are delivered, with engineering and target-laptop acceptance deferred; T007–T042 remain NOT STARTED. T004/T005/T006 were explicitly requested while predecessor review remained open; formal acceptance dependencies remain authoritative. The development objective stops at M4/T030. The [M0 exit review](docs/validation/M0-exit-review.md) is NO-GO: M0-R1/M0-R2 software corrections, owner/formulation review and target-hardware evidence remain open; T007 is blocked.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|

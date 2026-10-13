@@ -1,0 +1,191 @@
+{
+  "status": "PASS read-only evidence/math audit; not engineering approval",
+  "checked_sources": [
+    {
+      "label": "B01 frozen manifest",
+      "path": "docs/validation/results/T003/B01/manifest.json",
+      "sha256": "1f5f2a3059c7557b9f1fff341572643732b8d44aca71c00cdb9aeeb3ea1f0a22"
+    },
+    {
+      "label": "B01 current manifest unchanged",
+      "path": "tests/benchmarks/B01.json",
+      "sha256": "1f5f2a3059c7557b9f1fff341572643732b8d44aca71c00cdb9aeeb3ea1f0a22"
+    },
+    {
+      "label": "B01 deck_sha256",
+      "path": "docs/validation/results/T003/B01/mesh1/analysis.inp",
+      "sha256": "8ca273229d6c629349c5c214052d5ec585d7d491cd4ce94d607318f0f3cf25de"
+    },
+    {
+      "label": "B01 dat_sha256",
+      "path": "docs/validation/results/T003/B01/mesh1/analysis.dat",
+      "sha256": "5b867eab1a2373b5be4f3208857150b8c44025c4dc9ef8ce5451fa9b526f568a"
+    },
+    {
+      "label": "B01 deck_sha256",
+      "path": "docs/validation/results/T003/B01/mesh2/analysis.inp",
+      "sha256": "78c2fbddafb4fdac818969a64825fed6e5161b91af133b6cd423c3113c22755a"
+    },
+    {
+      "label": "B01 dat_sha256",
+      "path": "docs/validation/results/T003/B01/mesh2/analysis.dat",
+      "sha256": "4013acee608110145eba17867262203799253baf29dfe3ae2a9f93e03025f14d"
+    },
+    {
+      "label": "B02 frozen manifest",
+      "path": "docs/validation/results/T003/B02/manifest.json",
+      "sha256": "f7b96808c42a7eeee09fe30d7b5cf04fe36bc49ded8c087f3cdcb14922b65d2c"
+    },
+    {
+      "label": "B02 current manifest unchanged",
+      "path": "tests/benchmarks/B02.json",
+      "sha256": "f7b96808c42a7eeee09fe30d7b5cf04fe36bc49ded8c087f3cdcb14922b65d2c"
+    },
+    {
+      "label": "B02 deck_sha256",
+      "path": "docs/validation/results/T003/B02/mesh1/analysis.inp",
+      "sha256": "50cf715bf8b2b9cc778a8d0b0709684f72649141bd185b1f46d157f4da0d641c"
+    },
+    {
+      "label": "B02 dat_sha256",
+      "path": "docs/validation/results/T003/B02/mesh1/analysis.dat",
+      "sha256": "29f0ab8a5dc4e7e5a763d449c75e5753f86a506730346cc5e0092e5cf412b78b"
+    },
+    {
+      "label": "B02 deck_sha256",
+      "path": "docs/validation/results/T003/B02/mesh2/analysis.inp",
+      "sha256": "00949c201aa4aa7efe5d3994394ed30372ac923aa4380057324e96807756dfcb"
+    },
+    {
+      "label": "B02 dat_sha256",
+      "path": "docs/validation/results/T003/B02/mesh2/analysis.dat",
+      "sha256": "a365a86e398588a5f5aca0948c17cd0b4007210aa19c8853eef9ad7f5589e0b8"
+    },
+    {
+      "label": "B09 frozen manifest",
+      "path": "docs/validation/results/T004/B09/manifest.json",
+      "sha256": "c7b0292a588c27595ddf3494f09ec5641b38485afae99b0832d4fa23bcb456af"
+    },
+    {
+      "label": "B09 current manifest unchanged",
+      "path": "tests/benchmarks/B09.json",
+      "sha256": "c7b0292a588c27595ddf3494f09ec5641b38485afae99b0832d4fa23bcb456af"
+    },
+    {
+      "label": "B09 deck",
+      "path": "docs/validation/results/T004/B09/analysis.inp",
+      "sha256": "bb58cb40472c690995564f326b3bee217b14b6935485763f2faca9b9bc43edc5"
+    },
+    {
+      "label": "B09 dat",
+      "path": "docs/validation/results/T004/B09/analysis.dat",
+      "sha256": "8fa58f973eacbb8372c9ca27cbc7d6f31d520ce134b1bdb4172f3cd29edcc60c"
+    },
+    {
+      "label": "B09 frd",
+      "path": "docs/validation/results/T004/B09/analysis.frd",
+      "sha256": "a01804e1ad3512b20fc377429ccb2fb2847e079fe9e35390161d52c1a3b69e59"
+    },
+    {
+      "label": "B09 field data",
+      "path": "docs/validation/results/T004/B09/stress.json",
+      "sha256": "e9fd0e1e003cbfed43e32d7b038757be67a0447fe7a52e1ec8c9e3107f379ac7"
+    },
+    {
+      "label": "B07 mortar frozen manifest",
+      "path": "docs/validation/results/T005/B07-mortar.json",
+      "sha256": "aebe286707fed61c9625c87ce05e8e713d33a884e0fd5e7ae4f95ab3988db0f6"
+    },
+    {
+      "label": "B07 mortar current manifest unchanged",
+      "path": "tests/benchmarks/B07-mortar.json",
+      "sha256": "aebe286707fed61c9625c87ce05e8e713d33a884e0fd5e7ae4f95ab3988db0f6"
+    },
+    {
+      "label": "B07 monolithic deck_sha256",
+      "path": "docs/validation/results/T005/monolithic/analysis.inp.gz",
+      "sha256": "7d9dddde576302c6641a8d684ba5022085c8a27e3b8698b55515a699ba4c2c7a"
+    },
+    {
+      "label": "B07 monolithic dat_sha256",
+      "path": "docs/validation/results/T005/monolithic/analysis.dat.gz",
+      "sha256": "9068751443a4a464db945ad61046e3cf1bf7a648b8a3d885d94d73501f6a6125"
+    },
+    {
+      "label": "B07 monolithic frd_sha256",
+      "path": "docs/validation/results/T005/monolithic/analysis.frd.gz",
+      "sha256": "78878d21bdfa6465aafeaf59e8252a90b049d546287c1ba040644f1e8ba8f2a7"
+    },
+    {
+      "label": "B07 left_master deck_sha256",
+      "path": "docs/validation/results/T005/left_master/analysis.inp.gz",
+      "sha256": "b1bbae7e8007ecc2b364bded4522cc35fd0029c642e28c59262cced8f862af69"
+    },
+    {
+      "label": "B07 left_master dat_sha256",
+      "path": "docs/validation/results/T005/left_master/analysis.dat.gz",
+      "sha256": "6c33a362c921d6fa5b3d91bbed421a1a1673a4729f5f760f35f5da7dc3d4a9d6"
+    },
+    {
+      "label": "B07 left_master frd_sha256",
+      "path": "docs/validation/results/T005/left_master/analysis.frd.gz",
+      "sha256": "2dd0cb12644d40cead8373c751ae300627c9ce68361e7f8df887267683cb94cb"
+    },
+    {
+      "label": "B07 right_master deck_sha256",
+      "path": "docs/validation/results/T005/right_master/analysis.inp.gz",
+      "sha256": "2762bd1984ea6bb55b0f6353d73084b2ff939dfd0c928177083efb0c49a64870"
+    },
+    {
+      "label": "B07 right_master dat_sha256",
+      "path": "docs/validation/results/T005/right_master/analysis.dat.gz",
+      "sha256": "e8feffc55caccbe4894e75a2134fb21096888e4331a2bfb31988095c8fca6c1d"
+    },
+    {
+      "label": "B07 right_master frd_sha256",
+      "path": "docs/validation/results/T005/right_master/analysis.frd.gz",
+      "sha256": "b8b3fff56526c4c12cd7ff8580ea6530e2283f1bca671ced7be6a9cb394653b7"
+    }
+  ],
+  "analytical_references": [
+    {
+      "case": "B01",
+      "independent_hooke_stress_ccx_pa": [
+        210000000.00000003,
+        0.0,
+        0.0,
+        32307692.30769231,
+        -16153846.153846156,
+        24230769.230769232
+      ]
+    },
+    {
+      "case": "B02",
+      "expected_end_ux_m": 4.7619047619047615e-06,
+      "stress_pa": 1000000,
+      "area_m2": 1,
+      "length_m": 1
+    },
+    {
+      "case": "B07-mortar",
+      "expected_end_ux_m": 9.523809523809523e-06,
+      "stress_pa": 1000000.0,
+      "area_m2": 1,
+      "length_m": 2
+    },
+    {
+      "case": "B09",
+      "stress_pa": [
+        210000000.0,
+        70000000.0
+      ],
+      "interface_normal": "z",
+      "interface_tractions_pa": [
+        0,
+        0,
+        0
+      ],
+      "assessment": "Tangential normal-stress jump with zero interface traction is physically consistent; sampling and tolerances still require owner approval"
+    }
+  ]
+}

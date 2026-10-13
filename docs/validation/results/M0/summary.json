@@ -1,0 +1,352 @@
+{
+  "reviewed_commit": "bc6af0041d8a6ef51b1ae5b100c3420708bd704d",
+  "status": "NO-GO: independent M0 review; tests do not supply owner approval",
+  "unit_python": 74,
+  "unit_typescript": 7,
+  "native": 34,
+  "integration": 4,
+  "chromium": 4,
+  "automated_cases_passed": 123,
+  "automated_cases_failed": 0,
+  "automated_cases_skipped": 0,
+  "native_build": {
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "outputs_sha256": {
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    },
+    "ccx_version": "2.23",
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "blas_lapack": "Netlib 3.12.1",
+    "integer_width_bits": 32,
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE"
+  },
+  "manifest_packet": [
+    {
+      "path": "tests/benchmarks/B01.json",
+      "sha256": "1f5f2a3059c7557b9f1fff341572643732b8d44aca71c00cdb9aeeb3ea1f0a22",
+      "revision": 1,
+      "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+    },
+    {
+      "path": "tests/benchmarks/B02.json",
+      "sha256": "f7b96808c42a7eeee09fe30d7b5cf04fe36bc49ded8c087f3cdcb14922b65d2c",
+      "revision": 1,
+      "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+    },
+    {
+      "path": "tests/benchmarks/B07.json",
+      "sha256": "ef7aa2b73d6492fd0b1118c8bd3cb5d77d83ff054761048cd441b42d9229d70a",
+      "revision": 1,
+      "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+    },
+    {
+      "path": "tests/benchmarks/B07-mortar.json",
+      "sha256": "aebe286707fed61c9625c87ce05e8e713d33a884e0fd5e7ae4f95ab3988db0f6",
+      "revision": 2,
+      "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+    },
+    {
+      "path": "tests/benchmarks/B09.json",
+      "sha256": "c7b0292a588c27595ddf3494f09ec5641b38485afae99b0832d4fa23bcb456af",
+      "revision": 1,
+      "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+    },
+    {
+      "path": "tests/benchmarks/T006.json",
+      "sha256": "6d9cbb0e66c1240b674a63786fd492c7dc01e32ed0b6096809438d6cb27c6fd8",
+      "revision": 1,
+      "reviewer_signoff": "PENDING; user kept earlier physical benchmarks development-only"
+    }
+  ],
+  "cases": {
+    "B01": {
+      "status": "DEVELOPMENT PASS; owner acceptance pending",
+      "runs": [
+        {
+          "nodes": 231,
+          "elements": 100,
+          "max_displacement_error_m": 5.000000001705029e-10,
+          "max_stress_error_pa": 3.8461538460105658,
+          "force_residual_n": 1.2085011043512508,
+          "moment_residual_nm": 1.477856738967913
+        },
+        {
+          "nodes": 423,
+          "elements": 184,
+          "max_displacement_error_m": 4.810216567511377e-10,
+          "max_stress_error_pa": 3.8461538460105658,
+          "force_residual_n": 3.46522269763206e-05,
+          "moment_residual_nm": 0.6164024615249429
+        }
+      ]
+    },
+    "B02": {
+      "status": "DEVELOPMENT PASS; owner acceptance pending",
+      "runs": [
+        {
+          "nodes": 231,
+          "elements": 100,
+          "max_displacement_error_m": 4.988662109443973e-13,
+          "max_stress_error_pa": 1.181616e-07,
+          "force_residual_n": 1.0477378964424168e-09,
+          "moment_residual_nm": 1.9278953738602805e-09
+        },
+        {
+          "nodes": 423,
+          "elements": 184,
+          "max_displacement_error_m": 4.598466211543165e-13,
+          "max_stress_error_pa": 1.818989e-07,
+          "force_residual_n": 4.773028194904331e-09,
+          "moment_residual_nm": 2.326122625112547e-09
+        }
+      ]
+    },
+    "B09": {
+      "status": "DEVELOPMENT PASS; owner review pending",
+      "max_tensor_error_pa": 4.458871864727209e-07,
+      "vtk": {
+        "vtk_version": "9.7.1",
+        "cells": 2,
+        "element_owned_points": 20,
+        "global_nodes": 14,
+        "integration_points": 8,
+        "cell_volumes_m3": [
+          0.16666666666666663,
+          0.16666666666666663
+        ],
+        "shared_nodes_duplicated": true,
+        "tensor_roundtrip": "exact",
+        "status": "PASS"
+      },
+      "shared_node_ids": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ]
+    },
+    "B07": {
+      "status": "DEVELOPMENT PASS; engineering review pending",
+      "cases": {
+        "left_master": {
+          "nodes": 654,
+          "elements": 284,
+          "equations": 1727,
+          "max_displacement_error_m": 4.988662109443973e-13,
+          "max_stress_error_pa": 9.438081e-07,
+          "force_residual_n": 0.01000000000931334,
+          "moment_residual_nm": 0.0073147094405505726,
+          "coordinate_audit": {
+            "max_solver_adjustment_m": 0.0,
+            "changed_nodes_gt_1e12_m": [],
+            "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+            "source_sha256": "d766134eaf85e21b1a4b6e44d3792dc9d5e2436295649e8326bd95ef2464b90a",
+            "deck_sha256": "ac4bda17413c6c51c515a9280fcab3af2b33336be4f375a1e634295b750cc5c0"
+          }
+        },
+        "right_master": {
+          "nodes": 654,
+          "elements": 284,
+          "equations": 1811,
+          "max_displacement_error_m": 4.988662109443973e-13,
+          "max_stress_error_pa": 2.543675e-07,
+          "force_residual_n": 0.010000000009313339,
+          "moment_residual_nm": 0.007314708790018607,
+          "coordinate_audit": {
+            "max_solver_adjustment_m": 0.0,
+            "changed_nodes_gt_1e12_m": [],
+            "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+            "source_sha256": "cdced9c4db818dc29873d9b59f5a1ad9086cb2e155d2c8a284d3d9e5f31c2ac8",
+            "deck_sha256": "e6d73c874544ff7e541cc2dfbcca30e341996045e43dcf7f80256896fd63f7aa"
+          }
+        }
+      }
+    },
+    "bond_negatives": {
+      "native_tie_candidate": {
+        "status": "REJECTED under unchanged B07 revision-1 patch criteria",
+        "max_stress_error_pa": 183365.0,
+        "intended_slave_nodes": 65,
+        "uncovered_nodes": [],
+        "max_kinematic_residual_m": 9.428745124802034e-13,
+        "coordinate_audit": {
+          "max_solver_adjustment_m": 0.0,
+          "changed_nodes_gt_1e12_m": [],
+          "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+          "source_sha256": "71923cf080fbed3a754ebcdb56b33e918fc231f0054a58484443fa3d0df9a6aa",
+          "deck_sha256": "5efe203ab4ced89df495b02298193c00d8095ab57b0b0a1939762e705c4c982e"
+        }
+      },
+      "partial_master": {
+        "status": "EXPECTED REJECTION; incomplete native tie coverage",
+        "uncovered_nodes": [
+          9,
+          10,
+          11,
+          12,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          72,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          272,
+          273,
+          275,
+          276,
+          277,
+          278,
+          279
+        ],
+        "solver_exit_code": 0
+      },
+      "untied": {
+        "status": "EXPECTED REJECTION; detached rigid body, no stabilization",
+        "preflight_diagnosis": "Unresolved bond: detached body without a support/tie path: ['5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b2']; uncovered nodes=[]",
+        "solver_exit_code": 0,
+        "native_job_finished": true,
+        "native_error_reported": false,
+        "max_native_displacement_m": 9789166000.0
+      },
+      "gap_keyword_audit": {
+        "status": "DIAGNOSTIC ONLY; not B08 or approved gap physics",
+        "gap_m": 1e-05,
+        "preflight_rejection": "Unresolved bond: missing coverage or unapproved physical gap; uncovered nodes=[9, 10, 11, 12, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279]",
+        "default_adjust": {
+          "max_solver_adjustment_m": 1.0000000075465576e-05,
+          "changed_nodes_gt_1e12_m": [
+            9,
+            10,
+            11,
+            12,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245,
+            246,
+            247,
+            248,
+            249,
+            250,
+            251,
+            252,
+            253,
+            254,
+            255,
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            266,
+            267,
+            268,
+            269,
+            270,
+            271,
+            272,
+            273,
+            274,
+            275,
+            276,
+            277,
+            278,
+            279
+          ],
+          "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+          "source_sha256": "ba484fa9bd8cd6198b01b9112813f91836eabdba579a967e829a7c5afa6d33c3",
+          "deck_sha256": "d0baac0c5feabb07ed1cca8d3ea67cead19a34206b158e89cb5269cdd8d6fa37"
+        },
+        "adjust_no": {
+          "max_solver_adjustment_m": 0.0,
+          "changed_nodes_gt_1e12_m": [],
+          "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+          "source_sha256": "3c20606019027487a0818af1731a0c369906943f87ca7452a12720558f452669",
+          "deck_sha256": "0135a01030bf8f49bb05b919ecd7c433f90ab23eedadf14a9813452fbdfda3fc"
+        }
+      }
+    }
+  }
+}

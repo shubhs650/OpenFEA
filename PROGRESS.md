@@ -1,13 +1,13 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND EXPERIMENTS
-Current milestone: M0 — F1 passed; F2–F5 development evidence exists with scope limits and owner acceptance open
-Next action: T003–T005 review (B01/B02/B09/B07 + experimental mortar); next implementation task T006
+Current state: HEALTH BOOTSTRAP + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M0 — EXIT REVIEW NO-GO; two software findings, owner/formulation and target-hardware acceptance open
+Next action: correct M0-R1 approval handling and M0-R2 failed-stage graduation, then owner/target-hardware acceptance; T007 remains blocked
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005/T006 requests authorize bounded development while predecessor review remains open. This session stops at T006; M0 owner/hardware acceptance remains open.
+Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005/T006 requests authorize bounded development while predecessor review remains open. T006 development is delivered; the subsequent M0 exit review remains NO-GO. No M1 implementation starts in this review.
 
 ## Implementation status
 
@@ -18,7 +18,7 @@ T004: IN PROGRESS
 T005: IN PROGRESS
 T006: IN PROGRESS
 T007–T042: NOT STARTED
-M0: REVIEWED, OPEN — pending engineering and target-hardware acceptance.
+M0: EXIT REVIEW NO-GO — two software findings plus engineering and target-hardware acceptance open.
 M1–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -34,6 +34,18 @@ The React/Vite page and FastAPI health API remain operational. T002 provisions C
 T005 adds a limited real mortar connection experiment using CCX *EQUATION and native coordinate audits. Native *TIE failed the patch and is not a validated fallback. `make benchmark CASE=B07 DEVELOPMENT=1` passes both role cases within the planar unit/65-node scope, retaining all failed-candidate and negative evidence.
 
 Root/native dependencies are separately locked. Source/deb/wheel/runtime hashes and upstream license notices are recorded. Native processes receive a minimal environment, no network sockets, single-thread settings and resource limits. Full hostile-upload/filesystem isolation is not implemented. See [native setup](docs/NATIVE_TOOLS.md), [ADR-010](docs/adr/ADR-010.md) and the [dependency matrix](docs/DEPENDENCIES.md). Final public license remains deferred.
+
+## M0 exit-gate review
+
+Reviewed commit `bc6af0041d8a6ef51b1ae5b100c3420708bd704d`, 2026-10-13 Asia/Calcutta. **NO-GO**. [Full review](docs/validation/M0-exit-review.md) and [retained review artifacts](docs/validation/results/M0/index.json) record source findings, current checks, manifest packet, analytical-reference assessment and exit actions. This is not engineering-owner approval; statuses remain authoritative.
+
+- `make doctor check test-native build smoke test-integration test-e2e`: exit 0; **123 passed, 0 failed, 0 skipped** (74 Python, 7 TS, 34 native, 4 lifecycle, 4 Chromium). Build/startup/contracts/static/docs checks pass. Two extra real retained-data resource-browser replays pass; renderer is SwiftShader, not target GPU.
+- M0-R1 (P1): approval means “not prefixed PENDING”. An empty in-memory B01 sign-off permits real non-development execution and a `PASS` label. No reviewer/date/approval exists; actual frozen files are unchanged. The ordinary PENDING guards work, but invalid/rejected/stale approval handling needs a shared fail-closed validator and regressions. Probe results are never acceptance evidence.
+- M0-R2 (P2): failed preparation/solve/post stops the stage loop but later workload meshes still start. Controlled real native exit-7 preparation reproduced all three nominal workload attempts using tiny meshes. Stop the entire ladder, persist failure and test that later jobs are not launched. No tolerance/native-limit change or automatic coarsening.
+- **1,090** inventory/runtime/library/license/lock hashes, **29** key retained/current-manifest/source hashes and **99** T006 artifact byte counts/hashes pass. Four independent reference calculations match B01/B02/B07-mortar/B09; proposed acceptance still requires owner/date/criteria-hash records and approved reruns.
+- F1/inventory and limited F6 feasibility supported; F2/F3/F5 development-only; F4 alternative-formulation/scope review open; F7 needs software correction plus actual WSL2 conservative capacity/headed integrated-GPU evidence. 100k solve is unrun by policy, not a forced M0 capacity guarantee. Resolve the F4 zero-gap-versus-T019/B08 boundary explicitly with the owner.
+
+This review records the two code defects; it does **not** implement their fixes, invent approval, close T003–T006/M0 or start T007. Public license, later release/security/report/hosted CI and AWS/beta are separate unexecuted/deferred gates. Saved startup instructions retain the NO-GO outcome without publication.
 
 ## T006 executed validation
 
@@ -104,8 +116,10 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-T003–T006 formal acceptance remains open: engineering-owner B01/B02/B09/B07 and mortar-formulation review, actual WSL2 safe capacity and integrated-GPU display. Record owner/date/criteria hashes; do not self-close M0 or imply acceptance from later task requests. T006 reviews F1–F7 and explicitly limits cleanup. Native *TIE remains a failed candidate; physical gaps and scalable/general connections remain unvalidated.
+M0 exit decision is **NO-GO**. First correct **M0-R1** invalid benchmark approval handling and **M0-R2** graduated workload failure sequencing with focused regressions. Preserve all physical criteria, actual native semantics and limits. The implementation/evidence reviewed remains useful within its declared synthetic scope; current passing suites do not establish a passed milestone.
 
-Next task ID is **T007**, not started. Review M0 before formal M1 advancement; a product-approved exception would have to be explicit and recorded. Preserve OCCT isolation, immutable revisions, frozen criteria, real solver behavior and diagnostic admission/resource limits. Retained larger meshes live in ignored `.local/native/validation/T006/`; committed evidence index states what was omitted and how to regenerate it.
+Then obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash, including an explicit disposition of the F4 small-gap overview versus planned T019/B08. Reproduce resource/headed display on the existing 16 GiB WSL2 laptop/integrated GPU and choose a conservative measured cap. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and repeat the gate decision, or record a specific product-approved scope exception with disabled features/deferred deliverables.
 
-Hosted CI, Windows/WSL2 hardware acceptance, public-license review and later release/security/report gates remain unexecuted/open. No AWS resources, secrets, private CAD, deployment, push or merge. Saved cloud startup instructions should describe current T006 development evidence and pending gates; snapshots do not preserve processes.
+Next implementation task is **T007**, still NOT STARTED and blocked by M0. Review request does not authorize milestone advancement. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+
+All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI, target-hardware acceptance and final public redistribution approval are unexecuted/deferred. No AWS, production secrets, private CAD, deployment, push or merge. Cloud startup review draft is saved but not published; live processes are not retained.

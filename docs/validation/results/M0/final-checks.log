@@ -1,0 +1,20 @@
+.venv/bin/ruff check services scripts tests
+All checks passed!
+.venv/bin/ruff format --check services scripts tests
+51 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 39 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 104 Markdown files; 42 task statuses and acyclic dependencies
