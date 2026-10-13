@@ -6,17 +6,19 @@ The current objective is the validated LOCAL prototype through M4/T030. AWS depl
 
 ## Run the bootstrap
 
-See [development setup](docs/DEVELOPMENT.md), [local project API](docs/PERSISTENCE.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. The UI now creates/opens projects and imports selectable solid STEP. See the [import guide](docs/STEP_IMPORT.md); materials, meshes and solving remain later work. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs real diagnostics. B07 uses declared experimental mortar *EQUATION with scope limits and retains the failed native *TIE candidate; [T005 evidence](docs/validation/T005.md) explains the decision. B09 retains VTK/HTML stress diagnostics. `make feasibility` runs native cleanup; `MESHES=1` measures bounded workloads, and `make resource-browser OUTPUT=<directory>` checks real exterior field display. See [T006 evidence](docs/validation/T006.md). Signed/full release/security/report gates remain blocked.
+See [development setup](docs/DEVELOPMENT.md), [local project API](docs/PERSISTENCE.md) and [native setup](docs/NATIVE_TOOLS.md). Run `make setup`, `make check`, `make test-native`, then `make dev`. The UI now creates/opens projects and imports selectable solid STEP. See the [import guide](docs/STEP_IMPORT.md); material editing is available in the [materials/units guide](docs/MATERIALS_UNITS.md); loads, meshes and solving remain later work. `make benchmark CASE=B01 DEVELOPMENT=1` (or B02/B07/B09) runs real diagnostics. B07 uses declared experimental mortar *EQUATION with scope limits and retains the failed native *TIE candidate; [T005 evidence](docs/validation/T005.md) explains the decision. B09 retains VTK/HTML stress diagnostics. `make feasibility` runs native cleanup; `MESHES=1` measures bounded workloads, and `make resource-browser OUTPUT=<directory>` checks real exterior field display. See [T006 evidence](docs/validation/T006.md). Signed/full release/security/report gates remain blocked.
 
 ## Start here
 
 1. Read [PRD.md](PRD.md), [ARCHITECTURE.md](ARCHITECTURE.md), and [AGENTS.md](AGENTS.md).
 2. Follow [Codex Cloud setup](docs/CODEX_CLOUD.md) to create a development environment with synthetic fixtures only.
-3. Review T001–T008 evidence in the [task index](TASKS.md), the historical [M0 NO-GO review](docs/validation/M0-exit-review.md), and the later [owner progression decision](docs/validation/M0-owner-decision.md). PR #2 fixed both reproduced software defects. T007/T008 are COMPLETE and T009 is next; benchmark sign-offs and local laptop acceptance remain pending.
+3. Review T001–T009 evidence in the [task index](TASKS.md), the historical [M0 NO-GO review](docs/validation/M0-exit-review.md), and the later [owner progression decision](docs/validation/M0-owner-decision.md). PR #2 fixed both reproduced software defects. T007–T009 are COMPLETE and T010 is next; benchmark sign-offs and local laptop acceptance remain pending.
 4. Record evidence in [PROGRESS.md](PROGRESS.md). Pass the M0 feasibility gate before implementing the complete product.
 5. Use [session prompts](docs/SESSION_PROMPTS.md) for focused coding, review, and handoffs.
 
 The canonical agent instruction filename is **AGENTS.md**. [Agent.md](Agent.md) is a human-facing pointer, not a second competing policy.
+
+T009 adds real [unit/material editing](docs/MATERIALS_UNITS.md): create/open a geometry-pinned analysis, assign source-backed examples or custom properties per body, confirm assumptions and save immutable revisions. The three display presets preserve canonical SI and source snapshots exactly. Missing density/yield leave gravity/yield-factor prerequisites unavailable. [T009 evidence](docs/validation/T009.md) records 234 passing distinct cases; product loads/deck/mesh/solve/results remain T010–T012.
 
 ## Document map
 

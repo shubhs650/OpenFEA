@@ -18,6 +18,12 @@ Owned upload tickets, bounded raw PUT bytes, synchronous native inspection and e
 
 Raw upload Content-Length must match its ticket and stay ≤16 MiB; actual stream bytes/hash are checked. Metadata remains capped at 64 KiB. Missing source units require an explicit choice before transfer; declared/mixed/unsupported conflicts refuse. One import process runs at a time (429 otherwise), with no automatic retry. Source/canonical/per-body BREP and two display artifacts are private, immutable, hash-checked and owner scoped. GET /geometry/{id}/display?lod=coarse|fine returns real metre-coordinate triangles and immutable catalog IDs. The viewer uses actor-to-face mapping, not triangle IDs as saved identity. New imports do not repin analyses; a revision/tombstone race prevents promotion.
 
+## Implemented T009 slice
+
+Authenticated GET `/unit-presets` and `/material-library` provide explicit SI factors and sourced templates without user confirmation. GET `/analyses/{id}/materials` (or `/revisions/{revision}/materials`) returns immutable saved setup and pinned per-body prerequisites. PATCH `/analyses/{id}/display-units` with `{preset}` copies all SI/source material fields exactly. PUT `/analyses/{id}/materials/{body_id}` assigns a reviewed sample/version or validated custom values/provenance; DELETE removes the assignment. These writes require the analysis ETag/CSRF, append one analysis/setup revision atomically, and leave project/geometry references unchanged. Name edits carry setup forward. Foreign/deleted analyses, bodies outside pinned geometry, stale revisions, unconfirmed/invalid/unsupported values and changed reviewed library versions refuse.
+
+See [materials/units guide](MATERIALS_UNITS.md), [ADR-017](adr/ADR-017.md), generated contracts and [T009 evidence](validation/T009.md). E/yield are Pa, density kg/m³; source values and provenance are frozen. Missing density/yield leave gravity/yield-factor prerequisites unavailable. No run/results, load application or automatic repinning is introduced. Older metadata revisions without material setup rows read as explicit empty default-unit setups.
+
 ## Planned service routes
 
 | Method and route | Behavior |

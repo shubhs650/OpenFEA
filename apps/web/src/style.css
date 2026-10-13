@@ -170,3 +170,33 @@ button[aria-pressed="true"] {
 h1 {
   font-size: 1.8rem;
 }
+.materials-panel {
+  margin-top: 1rem;
+  max-height: none;
+  overflow: visible;
+}
+.materials-panel code {
+  word-break: break-all;
+  font-size: 0.75rem;
+}
+textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  border: 1px solid #c2cfda;
+  border-radius: 0.3rem;
+  font: inherit;
+  margin-top: 0.4rem;
+}
+.material-numbers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 1rem;
+}
+.material-notice,
+.material-readiness {
+  font-size: 0.85rem;
+  background: #f4f8fb;
+  padding: 0.7rem;
+}

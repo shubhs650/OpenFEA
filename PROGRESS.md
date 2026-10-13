@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-13 (Asia/Calcutta)
-Current state: REAL STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M1 — T007/T008 COMPLETE; M0 owner-approved progression and later validation obligations preserved
-Next action: T009 — unit/material editor; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M1 — T007–T009 COMPLETE; M0 owner-approved progression and later validation obligations preserved
+Next action: T010 — basic face loads and deterministic deck; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -19,9 +19,10 @@ T005: COMPLETE
 T006: COMPLETE
 T007: COMPLETE
 T008: COMPLETE
-T009–T042: NOT STARTED
+T009: COMPLETE
+T010–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
-M1: T007/T008 COMPLETE; exit gate NOT RUN.
+M1: T007–T009 COMPLETE; exit gate NOT RUN.
 M2–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -38,9 +39,20 @@ The exception does not approve B01/B02/B07-mortar/B09 exact assumptions/toleranc
 
 Decision-record verification: `make doctor check` passed in the current Codex Cloud checkout (90 Python unit and 7 TypeScript unit cases, 0 failed/skipped; lint, format, types, contracts and 105-document/42-task graph checks passed). `git diff --check` passed; benchmark manifests, numerical code and dependency locks were not changed. The merged PR #2 already passed its full hosted native/bootstrap check. Cloud startup instructions were saved as an updated review draft reflecting this decision; saving does not publish or activate that draft.
 
+## T009 executed validation — 2026-10-13
+
+The real browser now creates/opens analyses pinned to accepted geometry and assigns confirmed source-backed or custom materials to each body. E/yield use Pa and density kg/m³; the three presets derive density from force/length/seconds. Unit-only revisions copy every SI/source quantity exactly. Numeric drafts retain SI across display changes. Missing density/yield leave saved gravity/yield-factor prerequisites unavailable. Sources, grade/condition, temperature, assumptions, original source values/units and sample version are frozen; changed reviewed library versions refuse and existing snapshots survive library edits.
+
+- Implementation `5f58480`, base merged T008 `a2a493f`. `make doctor`; fast/build/native/smoke/integration/browser gates and final targeted native replay: **234 distinct cases passed, 0 failed, 0 skipped** (148 Python unit, 11 TS unit, 59 native, 6 integration, 10 Chromium). Thirty-four are new. Source/artifact/tool hashes and command logs are in [T009 evidence](docs/validation/T009.md).
+- Independent E/density/acceleration/length/force references pass; repeated actual unit-only saves preserve physical/source snapshots exactly. Real API restart retains native imported geometry, material provenance, history and unit preference. Tests cover invalid/unsupported ν, nonfinite/overflow, confirmation, body/owner/tombstone/revision checks, competing writes and populated legacy migration/reversal.
+- Nine native C3D10 axial compatibility solves at ν=0,0.3,0.45 across all presets meet fixed 1e-11 m / 10 Pa criteria: maximum errors **4.95737e-13 m / 2.237502e-7 Pa**. No old benchmark criterion/approval, solver assumption, native lock/binary or dependency changed. This is limited development compatibility, not certification of arbitrary-model material behavior.
+- Chromium checks actual native multibody import and real independent sample/custom body saves, source/confirmation, missing-property blockers, SI draft/cancel and preset changes, reload, conflict refusal/reload, new geometry and restored older analysis. Screenshot inspected. [ADR-017](docs/adr/ADR-017.md), [operator guide](docs/MATERIALS_UNITS.md) and generated contracts describe the real path.
+
+T009 is COMPLETE for units/material editing. Material setup rows are append-only per analysis revision; actual run freezing is T011. Load/deck wiring and product solve/results are T010–T012; actual gravity loading is T015. No calculated FoS or certified allowable is shown. Custom global library/undo/duplication, complete archive/restore/fault suites, Windows/Edge/laptop/GPU and full M1/M4 acceptance remain scheduled/unexecuted; the owner exception is preserved. Hosted status is on the T009 PR. Stop after T009 and its PR; **T010** is next.
+
 ## T008 executed validation — 2026-10-13
 
-PR #5 hosted run `38392031074` failed during `make setup` at the synthetic namespace-isolated STEP doctor probe; test stages did not execute. Bounded doctor diagnostics in `3d29956` exposed `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted` on run `38410679299`. CI now loads a `/usr/bin/bwrap`-specific AppArmor user-namespace profile and performs a trusted namespace preflight before native provisioning. Global runner policy and application sandbox restrictions are preserved. Local `make check doctor` passes (124 Python unit and 7 TS unit, no failures/skips). Hosted CI remains open until a successful run is recorded.
+PR #5 hosted run `38392031074` failed during `make setup` at the synthetic namespace-isolated STEP doctor probe; test stages did not execute. Bounded doctor diagnostics in `3d29956` exposed `bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted` on run `38410679299`. CI now loads a `/usr/bin/bwrap`-specific AppArmor user-namespace profile and performs a trusted namespace preflight before native provisioning. Global runner policy and application sandbox restrictions are preserved. Local `make check doctor` passes (124 Python unit and 7 TS unit, no failures/skips). Final head `e1c1bc7` passed [hosted run 38411622227](https://github.com/shubhs650/OpenFEA/actions/runs/38411622227), all 200 cases and failure-propagation checks; the owner merged PR #5 to main `a2a493f` before T009.
 
 The Ubuntu `bubblewrap_0.9.0-1ubuntu0.3_amd64.deb` executable was extracted into ignored scratch storage and used through a command-local PATH for `make doctor` and `.venv/bin/python -m pytest tests/native/test_step_import.py`: actual import probe and all 14 native import/API/security cases pass (0 failed/skipped). This checks launcher-version compatibility in the cloud host, not the Ubuntu AppArmor policy; the hosted preflight remains the policy verification.
 

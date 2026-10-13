@@ -1,0 +1,57 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+89 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 70 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 148 items
+
+tests/unit/test_api.py .........                                         [  6%]
+tests/unit/test_approval.py ................                             [ 16%]
+tests/unit/test_bonds.py ................                                [ 27%]
+tests/unit/test_imports.py ......                                        [ 31%]
+tests/unit/test_materials.py ........................                    [ 47%]
+tests/unit/test_projects.py ............................                 [ 66%]
+tests/unit/test_quadratic.py .....................                       [ 81%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 148 passed in 4.42s ==============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  14:52:58
+   Duration  248ms (tests 60%, import 22%, transform 10%, worker 8%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmp6y8aibpw/openapi.json → /tmp/tmp6y8aibpw/api.d.ts [98.5ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 111 Markdown files; 42 task statuses and acyclic dependencies

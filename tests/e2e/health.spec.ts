@@ -1,17 +1,18 @@
 import { expect, test } from "@playwright/test";
 
-test("health-only page connects to the real API through Vite", async ({
-  page,
-}) => {
+test("workspace connects to the real API through Vite", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", { name: "FEA development" }),
   ).toBeVisible();
   await expect(page.getByRole("status")).toHaveText("API connected");
   await expect(
-    page.getByText("Analysis features are not available yet.", {
-      exact: false,
-    }),
+    page.getByText(
+      "Load, mesh, solve and result features are not available yet.",
+      {
+        exact: false,
+      },
+    ),
   ).toBeVisible();
 });
 

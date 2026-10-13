@@ -1,5 +1,6 @@
 """Real Uvicorn HTTP sessions and SQLite durability across process termination/restart."""
 
+import hashlib
 import json
 import os
 import signal
@@ -91,7 +92,7 @@ class Browser:
         path: str,
         payload: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
-    ) -> tuple[int, dict[str, Any], dict[str, str]]:
+    ) -> tuple[int, Any, dict[str, str]]:
         request = urllib.request.Request(
             self.base + path,
             data=json.dumps(payload).encode() if payload is not None else None,
@@ -160,3 +161,101 @@ def test_projects_and_analyses_survive_real_process_restart(tmp_path: Path) -> N
         browser.request("GET", "/session")
         assert browser.request("GET", path)[0] == 404
         assert browser.request("GET", "/projects")[1]["total"] == 0
+
+
+def test_imported_body_material_snapshot_survives_real_api_restart(tmp_path: Path) -> None:
+    with socket.socket() as probe:
+        probe.bind(("127.0.0.1", 0))
+        port = int(probe.getsockname()[1])
+    configuration = ApiConfiguration(
+        port,
+        os.environ
+        | {
+            "FEA_ENV": "test",
+            "FEA_AUTH_MODE": "local",
+            "FEA_BIND_HOST": "127.0.0.1",
+            "FEA_DATA_ROOT": str(tmp_path / "data"),
+        },
+    )
+    browser = Browser(port)
+    with api_process(configuration, tmp_path / "first.log"):
+        _, session, _ = browser.request("GET", "/session")
+        headers = {"X-CSRF-Token": session["csrf_token"]}
+        _, project, _ = browser.request(
+            "POST", "/projects", {"name": "Material restart fixture"}, headers
+        )
+        raw = (ROOT / "tests/fixtures/geometry/cube-mm.step").read_bytes()
+        _, ticket, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/geometry-uploads",
+            {"size_bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()},
+            headers,
+        )
+        request = urllib.request.Request(
+            browser.base + f"/geometry-uploads/{ticket['id']}/content",
+            data=raw,
+            headers=headers | {"Content-Type": "application/step"},
+            method="PUT",
+        )
+        with browser.opener.open(request, timeout=5) as response:
+            assert response.status == 200
+        _, preview, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/geometry-imports",
+            {"upload_id": ticket["id"]},
+            headers | {"If-Match": '"1"'},
+        )
+        assert preview["status"] == "ready", preview
+        _, geometry, _ = browser.request(
+            "POST",
+            f"/geometry-imports/{preview['id']}/confirm",
+            {"dimensions_confirmed": True},
+            headers | {"If-Match": '"1"'},
+        )
+        _, analysis, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/analyses",
+            {"name": "Restart setup", "geometry_revision_id": geometry["id"]},
+            headers | {"If-Match": '"2"'},
+        )
+        path = f"/analyses/{analysis['id']}"
+        body = geometry["bodies"][0]["id"]
+        status, assigned, _ = browser.request(
+            "PUT",
+            path + f"/materials/{body}",
+            {
+                "material": {
+                    "kind": "sample",
+                    "sample_id": "al-6061-t6-rod",
+                    "library_version": browser.request("GET", "/material-library")[1][0][
+                        "library_version"
+                    ],
+                    "confirmed": True,
+                }
+            },
+            headers | {"If-Match": '"1"'},
+        )
+        assert status == 200
+        status, saved, _ = browser.request(
+            "PATCH",
+            path + "/display-units",
+            {"preset": "inch-lbf-psi"},
+            headers | {"If-Match": '"2"'},
+        )
+        assert status == 200 and saved["setup"]["assignments"] == assigned["setup"]["assignments"]
+    with api_process(configuration, tmp_path / "second.log"):
+        assert browser.request("GET", path + "/materials")[0] == 401
+        _, reopened, _ = browser.request("GET", "/session")
+        assert reopened["owner_id"] == session["owner_id"]
+        assert browser.request("GET", path + "/materials")[1] == saved
+        assert browser.request("GET", path + "/revisions/2/materials")[1] == assigned
+        assert browser.request("GET", f"/geometry/{geometry['id']}")[1] == geometry
+        headers = {"X-CSRF-Token": reopened["csrf_token"], "If-Match": '"3"'}
+        status, switched, _ = browser.request(
+            "PATCH", path + "/display-units", {"preset": "mm-N-MPa"}, headers
+        )
+        assert status == 200 and switched["setup"]["assignments"] == saved["setup"]["assignments"]
+        assert (
+            browser.request("PATCH", path + "/display-units", {"preset": "m-N-Pa"}, headers)[0]
+            == 409
+        )

@@ -1,0 +1,65 @@
+{
+  "criteria": {
+    "displacement_absolute_m": 1e-11,
+    "raw_tensor_absolute_pa": 10,
+    "relative": 0
+  },
+  "development_only": true,
+  "measurements": [
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.134517e-7,
+      "poisson_ratio": 0.0,
+      "preset": "mm-N-MPa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.134517e-7,
+      "poisson_ratio": 0.0,
+      "preset": "m-N-Pa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.134517e-7,
+      "poisson_ratio": 0.0,
+      "preset": "inch-lbf-psi"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.220615e-7,
+      "poisson_ratio": 0.3,
+      "preset": "mm-N-MPa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.220615e-7,
+      "poisson_ratio": 0.3,
+      "preset": "m-N-Pa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 1.220615e-7,
+      "poisson_ratio": 0.3,
+      "preset": "inch-lbf-psi"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 2.237502e-7,
+      "poisson_ratio": 0.45,
+      "preset": "mm-N-MPa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 2.237502e-7,
+      "poisson_ratio": 0.45,
+      "preset": "m-N-Pa"
+    },
+    {
+      "max_displacement_error_m": 4.95736716007143e-13,
+      "max_raw_tensor_error_pa": 2.237502e-7,
+      "poisson_ratio": 0.45,
+      "preset": "inch-lbf-psi"
+    }
+  ],
+  "reference": "Unit cube: E=200 GPa, F=1 MN, A=1 m\u00b2; u=(5e-6*x,-nu*5e-6*y,-nu*5e-6*z); sigma_xx=1 MPa, other components zero"
+}
