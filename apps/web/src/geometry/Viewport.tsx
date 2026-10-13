@@ -9,7 +9,8 @@ import vtkActor, {
 import vtkMapper from "@kitware/vtk.js/Rendering/Core/Mapper";
 import vtkPolyData from "@kitware/vtk.js/Common/DataModel/PolyData";
 import vtkCellPicker from "@kitware/vtk.js/Rendering/Core/CellPicker";
-import type { Display } from "./api";
+import type { Display, LoadMarker } from "./api";
+import { glyph, type Point } from "../loads/glyph";
 
 type Props = {
   display: Display;
@@ -17,6 +18,7 @@ type Props = {
   selected: Set<string>;
   visible: Set<string>;
   toggle: (face: string) => void;
+  markers: LoadMarker[];
 };
 
 export function Viewport({
@@ -25,6 +27,7 @@ export function Viewport({
   selected,
   visible,
   toggle,
+  markers,
 }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const scene = useRef<Window | null>(null);
@@ -35,6 +38,7 @@ export function Viewport({
   toggleRef.current = toggle;
   const first = useRef(true);
   const releaseActors = useRef<() => void>(() => {});
+  const releaseGlyphs = useRef<() => void>(() => {});
 
   useEffect(() => {
     if (!container.current) return;
@@ -49,6 +53,7 @@ export function Viewport({
     resize.observe(container.current);
     return () => {
       resize.disconnect();
+      releaseGlyphs.current();
       releaseActors.current();
       view.delete();
       scene.current = null;
@@ -186,6 +191,80 @@ export function Viewport({
     renderer.resetCamera();
     scene.current?.getRenderWindow().render();
   }
+  useEffect(() => {
+    const view = scene.current;
+    if (!view) return;
+    const renderer = view.getRenderer();
+    const center = [0, 1, 2].map(
+      (axis) =>
+        (Math.min(...display.bodies.map((b) => b.bounds_m[axis])) +
+          Math.max(...display.bodies.map((b) => b.bounds_m[axis + 3]))) /
+        2,
+    );
+    const length =
+      Math.max(
+        ...[0, 1, 2].map(
+          (axis) =>
+            Math.max(...display.bodies.map((b) => b.bounds_m[axis + 3])) -
+            Math.min(...display.bodies.map((b) => b.bounds_m[axis])),
+        ),
+      ) * 0.18;
+    const cleanup: Array<() => void> = [];
+    for (const marker of markers) {
+      if (!visible.has(marker.body_id)) continue;
+      const poly = vtkPolyData.newInstance();
+      const mapper = vtkMapper.newInstance({ scalarVisibility: false });
+      const actor = vtkActor.newInstance({ pickable: false });
+      const lines = glyph(
+        marker.position_m.map(
+          (v, i) =>
+            v -
+            center[i] -
+            (marker.tip_on_face ? marker.direction[i] * length : 0),
+        ) as Point,
+        marker.direction,
+        length,
+        marker.kind === "fixed",
+      );
+      poly.getPoints().setData(new Float32Array(lines.flat(2)), 3);
+      let offset = 0;
+      poly.getLines().setData(
+        new Uint32Array(
+          lines.flatMap((line) => {
+            const indices = line.map((_, i) => offset + i);
+            offset += line.length;
+            return [line.length, ...indices];
+          }),
+        ),
+      );
+      mapper.setInputData(poly);
+      actor.setMapper(mapper);
+      actor
+        .getProperty()
+        .setColor(
+          ...(marker.kind === "fixed"
+            ? ([0.1, 0.55, 0.25] as Point)
+            : ([0.85, 0.1, 0.15] as Point)),
+        );
+      actor.getProperty().setLineWidth(3);
+      renderer.addActor(actor);
+      cleanup.push(() => {
+        renderer.removeActor(actor);
+        actor.delete();
+        mapper.delete();
+        poly.delete();
+      });
+    }
+    view.getRenderWindow().render();
+    let released = false;
+    const dispose = () => {
+      if (released) return;
+      released = true;
+      cleanup.forEach((remove) => remove());
+    };
+    releaseGlyphs.current = dispose;
+    return dispose;
+  }, [markers, visible, display, revision]);
   return (
     <section className="viewport-shell">
       <div className="viewport-toolbar">
@@ -207,6 +286,7 @@ export function Viewport({
         className="viewport"
         aria-label="Geometry viewport"
         data-revision={revision}
+        data-load-markers={markers.filter((m) => visible.has(m.body_id)).length}
       />
       <p className="viewport-caption">
         {display.bodies.length} bodies · {display.faces.length} faces ·{" "}

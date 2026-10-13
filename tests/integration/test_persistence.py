@@ -108,6 +108,126 @@ class Browser:
             return response.status, json.loads(data) if data else {}, dict(response.headers)
 
 
+def test_face_loads_and_frozen_deck_survive_real_process_restart(tmp_path: Path) -> None:
+    with socket.socket() as probe:
+        probe.bind(("127.0.0.1", 0))
+        port = int(probe.getsockname()[1])
+    configuration = ApiConfiguration(
+        port,
+        os.environ
+        | {
+            "FEA_ENV": "test",
+            "FEA_AUTH_MODE": "local",
+            "FEA_BIND_HOST": "127.0.0.1",
+            "FEA_DATA_ROOT": str(tmp_path / "data"),
+        },
+    )
+    browser = Browser(port)
+    with api_process(configuration, tmp_path / "loads-first.log"):
+        _, session, _ = browser.request("GET", "/session")
+        headers = {"X-CSRF-Token": session["csrf_token"]}
+        _, project, _ = browser.request(
+            "POST", "/projects", {"name": "Frozen deck restart"}, headers
+        )
+        raw = (ROOT / "tests/fixtures/geometry/cube-m.step").read_bytes()
+        _, ticket, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/geometry-uploads",
+            {"size_bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()},
+            headers,
+        )
+        with browser.opener.open(
+            urllib.request.Request(
+                browser.base + f"/geometry-uploads/{ticket['id']}/content",
+                data=raw,
+                headers=headers | {"Content-Type": "application/step"},
+                method="PUT",
+            ),
+            timeout=5,
+        ) as response:
+            assert response.status == 200
+        _, preview, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/geometry-imports",
+            {"upload_id": ticket["id"]},
+            headers | {"If-Match": '"1"'},
+        )
+        assert preview["status"] == "ready"
+        _, geometry, _ = browser.request(
+            "POST",
+            f"/geometry-imports/{preview['id']}/confirm",
+            {"dimensions_confirmed": True},
+            headers | {"If-Match": '"1"'},
+        )
+        _, analysis, _ = browser.request(
+            "POST",
+            f"/projects/{project['id']}/analyses",
+            {"name": "Restart loads", "geometry_revision_id": geometry["id"]},
+            headers | {"If-Match": '"2"'},
+        )
+        path = f"/analyses/{analysis['id']}"
+        sample = browser.request("GET", "/material-library")[1][0]
+        assert (
+            browser.request(
+                "PUT",
+                path + "/materials/" + geometry["bodies"][0]["id"],
+                {
+                    "material": {
+                        "kind": "sample",
+                        "sample_id": sample["library_id"],
+                        "library_version": sample["library_version"],
+                        "confirmed": True,
+                    }
+                },
+                headers | {"If-Match": '"1"'},
+            )[0]
+            == 200
+        )
+        for revision, side, kind in ((2, 0, "fixed"), (3, 1, "force")):
+            face = next(f for f in geometry["faces"] if f["signature"]["center_m"][0] == side)
+            status, saved, _ = browser.request(
+                "POST",
+                path + "/loads",
+                {
+                    "assignment": {
+                        "kind": kind,
+                        "name": kind,
+                        "geometry_revision_id": geometry["id"],
+                        "face_ids": [face["id"]],
+                        **({"units": "m-N-Pa", "force": [1000, 0, 0]} if kind == "force" else {}),
+                    }
+                },
+                headers | {"If-Match": f'"{revision}"'},
+            )
+            assert status == 200, saved
+        status, metadata, _ = browser.request(
+            "POST", path + "/deck-exports", headers=headers | {"If-Match": '"4"'}
+        )
+        assert status == 201, metadata
+        download = browser.base + f"/deck-exports/{metadata['id']}/input"
+        with browser.opener.open(download, timeout=5) as response:
+            deck = response.read()
+        assert hashlib.sha256(deck).hexdigest() == metadata["deck_sha256"]
+        # Change the live setup after publication, before the process goes away.
+        identifier = saved["setup"]["assignments"][-1]["id"]
+        assert (
+            browser.request(
+                "DELETE", path + "/loads/" + identifier, headers=headers | {"If-Match": '"4"'}
+            )[0]
+            == 200
+        )
+    with api_process(configuration, tmp_path / "loads-second.log"):
+        assert browser.request("GET", path + "/loads")[0] == 401
+        browser.request("GET", "/session")
+        assert browser.request("GET", path + "/loads")[1]["analysis_revision"] == 5
+        assert browser.request("GET", path + "/revisions/4/loads")[1] == saved
+        assert browser.request("GET", path + "/deck-exports")[1] == [metadata]
+        with browser.opener.open(download, timeout=5) as response:
+            assert response.read() == deck
+        frozen = browser.request("GET", f"/deck-exports/{metadata['id']}/snapshot")[1]
+        assert frozen["snapshot"]["loads"] == saved["setup"]
+
+
 def test_projects_and_analyses_survive_real_process_restart(tmp_path: Path) -> None:
     with socket.socket() as probe:
         probe.bind(("127.0.0.1", 0))

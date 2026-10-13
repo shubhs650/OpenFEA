@@ -18,6 +18,7 @@ def generated_deck(
     materials: dict[str, tuple[float, float]] | None = None,
     element_materials: dict[int, str] | None = None,
     stress_coordinates: bool = False,
+    pressures: list[tuple[int, int, float]] | None = None,
 ) -> str:
     lines = ["** OpenFEA SI generated deck; C3D10 affine validation scope", "*NODE,NSET=NALL"]
     for n, point in sorted(mesh["nodes"].items(), key=lambda item: int(item[0])):
@@ -40,9 +41,10 @@ def generated_deck(
                 raise ValueError("Invalid internal material name")
             if not math.isfinite(modulus) or modulus <= 0 or not 0 <= ratio <= 0.45:
                 raise ValueError("Material outside development validation range")
+            identifiers = [str(e) for e, m in sorted(element_materials.items()) if m == name]
+            lines.append(f"*ELSET,ELSET={name}")
+            lines += [",".join(identifiers[i : i + 16]) for i in range(0, len(identifiers), 16)]
             lines += [
-                f"*ELSET,ELSET={name}",
-                ",".join(str(e) for e, m in sorted(element_materials.items()) if m == name),
                 f"*MATERIAL,NAME={name}",
                 "*ELASTIC",
                 f"{modulus:.12e},{ratio:.12e}",
@@ -69,6 +71,9 @@ def generated_deck(
     if pressure:
         eid, face, value = pressure
         lines += ["*DLOAD", f"{eid},P{face},{value:.12e}"]
+    if pressures:
+        lines.append("*DLOAD")
+        lines += [f"{eid},P{face},{value:.12e}" for eid, face, value in sorted(pressures)]
     lines += [
         "*NODE PRINT,NSET=NALL",
         "U,RF",

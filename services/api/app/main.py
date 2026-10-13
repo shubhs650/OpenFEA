@@ -14,6 +14,7 @@ from starlette.exceptions import HTTPException
 from app.auth.body_limit import MetadataBodyLimit
 from app.auth.local import check_boundary
 from app.config import Settings
+from app.domain.deck_service import DeckService
 from app.domain.errors import DomainError
 from app.domain.import_service import ImportService
 from app.domain.models import ErrorResponse
@@ -21,6 +22,7 @@ from app.persistence.database import Database
 from app.persistence.imports import ImportRepository
 from app.persistence.repository import Repository
 from app.routes import imports as _imports  # noqa: F401
+from app.routes import loads as _loads  # noqa: F401
 from app.routes import materials as _materials  # noqa: F401
 from app.routes.projects import router
 from app.storage.geometry import GeometryStorage
@@ -45,6 +47,7 @@ def create_app() -> FastAPI:
             imports = ImportRepository(app.state.repository)
             imports.interrupt_incomplete()
             app.state.import_service = ImportService(imports, GeometryStorage(settings.data_root))
+            app.state.deck_service = DeckService(app.state.repository, app.state.import_service)
             app.state.session_token = secrets.token_urlsafe(32)
             app.state.csrf_token = secrets.token_urlsafe(32)
             yield

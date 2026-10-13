@@ -10,8 +10,10 @@ import {
   type MaterialState,
   type Project,
   type UnitPreset,
+  type LoadState,
 } from "../geometry/api";
 import { MaterialForm } from "./MaterialForm";
+import { LoadsEditor } from "../loads/LoadsEditor";
 
 type Props = {
   project: Project;
@@ -21,6 +23,8 @@ type Props = {
   showGeometry: (geometry: Geometry | null) => void;
   busy: boolean;
   setBusy: (busy: boolean) => void;
+  selected: Set<string>;
+  preview: (state: LoadState | null) => void;
 };
 
 export function MaterialsEditor({
@@ -31,6 +35,8 @@ export function MaterialsEditor({
   showGeometry,
   busy,
   setBusy,
+  selected,
+  preview,
 }: Props) {
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [name, setName] = useState("");
@@ -307,6 +313,22 @@ export function MaterialsEditor({
                   }
                 />
               )}
+              <LoadsEditor
+                key={`${active.analysis_id}:${reload}`}
+                analysisId={active.analysis_id}
+                revision={active.analysis_revision}
+                geometryId={active.geometry_revision_id!}
+                selected={selected}
+                preset={preset}
+                busy={busy || conflict}
+                setBusy={setBusy}
+                saved={(revision) =>
+                  setState((old) =>
+                    old ? { ...old, analysis_revision: revision } : old,
+                  )
+                }
+                preview={preview}
+              />
             </>
           )}
           {!active.geometry_revision_id && (
@@ -324,8 +346,8 @@ export function MaterialsEditor({
       {error && <p role="alert">{error}</p>}
       <p aria-live="polite">{status}</p>
       <p className="material-notice">
-        Material prerequisites only. Load setup, meshing, solving and calculated
-        results are not available yet.
+        Materials and face loads are revisioned. Checked input export is a
+        coarse preview; solving and calculated results are not available yet.
       </p>
     </section>
   );
