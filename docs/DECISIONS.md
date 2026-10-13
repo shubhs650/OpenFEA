@@ -13,10 +13,11 @@ Local fully working on Windows WSL2, existing 16 GB laptop. CalculiX fixed, only
 | Exact toolchain and binding versions | Developer, T001–T002 | T001/T002 pins and local availability accepted in ADR-009/ADR-010; mapping/stress/tie compatibility remains later gates |
 | Face-remap algorithm and valid confidence criteria | Developer + engineering owner, T003/T013 | Synthetic planar one-to-one mapping proven in T003 diagnostics/ADR-011; arbitrary/edited geometry and owner acceptance open |
 | CCX tie keywords/adjustment behavior | Engineering owner, T005/T019 | Native *TIE fails unstructured C3D10 patch; default adjustment measured. Experimental consistent *EQUATION mortar passes zero-gap B07 scope; owner/general/gap review open (ADR-013) |
+| Supported cleanup scope | Developer + engineering owner, T006/T013 | Native immutable selected simple hole/straight-edge fillet diagnostics pass; only two synthetic unit-solid cases, general imported cleanup/remapping open (ADR-014) |
 | Raw element stress output path | Developer + engineering owner, T004 | Native DAT global S/COORD and element-owned extrapolation/probes proved diagnostically; FRD averages labelled separately; B09 review pending (ADR-012) |
 | Material nu range, mesh quality and gap limits | Engineering owner, M0/M3 | Proposed, validate |
 | Benchmark-specific tolerances/cases | Engineering owner, before each benchmark run | B01/B02/B09 and B07 mortar development cases pass; original B07 native tie is retained as failed. No tolerances widened; engineering review deferred; other cases unrun |
-| Practical element/memory/runtime ceiling | Developer, T006 | Measure first |
+| Practical element/memory/runtime ceiling | Developer, T006 | Cloud meshes 4,891/27,155/99,198 measured; real small/medium patches solved. Diagnostic admission 30k elements/120k free equations; highest measured patch 27,155, not a universal cap. WSL2/integrated-GPU and 100k solve acceptance pending (ADR-014) |
 | AWS capacity/rates/fixed-cost fit | Operator, T033 before deployment | Not priced |
 | Region choice within India | Operator, T033 | ap-south-1 candidate |
 | Final open-source license | Owner after audit, T002/ADR-006 | Deferred, public redistribution blocked |

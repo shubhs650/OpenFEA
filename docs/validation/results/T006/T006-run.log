@@ -1,0 +1,501 @@
+.venv/bin/python scripts/native/feasibility.py --meshes
+{
+  "code_commit": "d18901a3c2c6bfa4867dc0e3803cdeaddf318409",
+  "utc_started": "2026-10-13T04:43:18.124346+00:00",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "cpu_quota": "400000 100000",
+  "memory_limit": "34359738368",
+  "native_build_sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "threads": 1,
+  "status": "DEVELOPMENT ONLY; laptop/GPU/engineering acceptance pending",
+  "manifest_sha256": "6d9cbb0e66c1240b674a63786fd492c7dc01e32ed0b6096809438d6cb27c6fd8",
+  "edits": [
+    {
+      "status": "DEVELOPMENT PREVIEW; original retained; explicit apply is T013",
+      "source_revision": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901",
+      "preview_revision": "2d6ec88b631ff62b00e586abfd3e9be5448d105cc38c644d7f705527a06628e9",
+      "selected_face": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901:b1:f7",
+      "operation": "OCCT BRepAlgoAPI_Defeaturing",
+      "original_volume_m3": 0.9685840734641018,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.031415926535897976,
+      "expected_delta_m3": 0.031415926535897934,
+      "valid": true,
+      "mapping_status": "all prior face/mesh/result selections invalidated"
+    },
+    {
+      "status": "DEVELOPMENT PREVIEW; original retained; explicit apply is T013",
+      "source_revision": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28",
+      "preview_revision": "520cf2a491f8aa9c8b316e3868e102f90b54744087da64e39edb85e1cfed158b",
+      "selected_face": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28:b1:f3",
+      "operation": "OCCT BRepAlgoAPI_Defeaturing",
+      "original_volume_m3": 0.9978539816339743,
+      "preview_volume_m3": 0.9999999999999998,
+      "volume_delta_m3": 0.0021460183660254595,
+      "expected_delta_m3": 0.0021460183660255176,
+      "valid": true,
+      "mapping_status": "all prior face/mesh/result selections invalidated"
+    }
+  ],
+  "runs": [
+    {
+      "target_elements": 5000,
+      "mesh_size_m": 0.1,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.8147547119988303,
+        "sampled_tree_peak_rss_bytes": 65048576,
+        "sampled_disk_peak_bytes": 2873551,
+        "native_maxrss_bytes": 62279680,
+        "native_user_seconds": 0.68207,
+        "native_system_seconds": 0.07081699999999999,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.1",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 7999,
+      "elements": 4891,
+      "dofs": 23997,
+      "free_equations": 15219,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 2090639,
+      "mesh_msh_bytes": 755158,
+      "mesh_sha256": "0f75e59ab487fea39fda558fc3a79c73eeefcd57e023bcb2deefe596acee8936",
+      "prepare": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.2131289819990343,
+        "sampled_tree_peak_rss_bytes": 32698368,
+        "sampled_disk_peak_bytes": 2878941,
+        "native_maxrss_bytes": 26615808,
+        "native_user_seconds": 0.12587399999999999,
+        "native_system_seconds": 0.03164,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/resource_native/process.py",
+          "prepare"
+        ]
+      },
+      "solve": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 2.1961849500003154,
+        "sampled_tree_peak_rss_bytes": 90042368,
+        "sampled_disk_peak_bytes": 7007133,
+        "native_maxrss_bytes": 80494592,
+        "native_user_seconds": 1.899371,
+        "native_system_seconds": 0.18867299999999998,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/bin/ccx",
+          "-i",
+          "analysis"
+        ]
+      },
+      "post": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.46584400799838477,
+        "sampled_tree_peak_rss_bytes": 51781632,
+        "sampled_disk_peak_bytes": 11462346,
+        "native_maxrss_bytes": 42110976,
+        "native_user_seconds": 0.37089099999999997,
+        "native_system_seconds": 0.03896,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/resource_native/process.py",
+          "post"
+        ]
+      },
+      "fields": {
+        "volume_elements": 4891,
+        "surface_triangles": 5848,
+        "equations": 15219,
+        "mesh_sha256": "0f75e59ab487fea39fda558fc3a79c73eeefcd57e023bcb2deefe596acee8936",
+        "dat_sha256": "9d60f0dac94c906f9c84d90a0060901577761fc86189af462c856a1de9ed3130",
+        "ux_error_m": 4.968879951591787e-10,
+        "stress_error_pa": 3.8461538460105658
+      },
+      "artifacts": {
+        "input.step": {
+          "bytes": 15371,
+          "sha256": "43c1248720c4dd4874c5ed4bff57bc79de4d99c7d5cefb3b61a22c0b5ec9bb35"
+        },
+        "analysis.12d": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "spooles.out": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "prepare-usage.json": {
+          "bytes": 187,
+          "sha256": "1bc0123bb46039fd7b82d76675fd2828613fb5a28fad48ba8858c4ace53f82f3"
+        },
+        "mesh-resources.json": {
+          "bytes": 559,
+          "sha256": "bdf7f4683380cf850adfc5c25e0d0e1cd3c6bfed1e6d92c5a2c62ccf20aa420f"
+        },
+        "analysis.cvg": {
+          "bytes": 274,
+          "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+        },
+        "post.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "mesh.json": {
+          "bytes": 2090639,
+          "sha256": "0f75e59ab487fea39fda558fc3a79c73eeefcd57e023bcb2deefe596acee8936"
+        },
+        "analysis.inp": {
+          "bytes": 1018220,
+          "sha256": "d9243f5ec9a822176bba0df96ee2fd93d35dd83b07d0e4d333df040727837e70"
+        },
+        "analysis.frd": {
+          "bytes": 2348093,
+          "sha256": "c0426da46980acbf07e71217d02de308ec3badb48d6ae0ab427334f682e3651f"
+        },
+        "solve.log": {
+          "bytes": 2258,
+          "sha256": "3f85e12dbe09772dc187a1cc9bb75b2c0c8f508ff9f429d5fc4b7b1895e938ff"
+        },
+        "post-resources.json": {
+          "bytes": 525,
+          "sha256": "96d252beb1af81dd6543c21d75937781ad91fe108cd5c39f53914f59925937e4"
+        },
+        "analysis.sta": {
+          "bytes": 170,
+          "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+        },
+        "catalog.json": {
+          "bytes": 7890,
+          "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0"
+        },
+        "body1.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "mesh-usage.json": {
+          "bytes": 187,
+          "sha256": "d494ebc3b41ac4a6214b4c7ad8f8b72532fe0c3244a096b4d200c7b7292eb1df"
+        },
+        "prepare-resources.json": {
+          "bytes": 526,
+          "sha256": "924f096d285a8132d7daa3def68f598a55acef4b3e2821f01d04addff7f6d400"
+        },
+        "prepare.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "mesh.log": {
+          "bytes": 4644,
+          "sha256": "fa3b09b61be6ea3fa7c39670175f0b9e4db156bcc01e2d77355de530878cecbc"
+        },
+        "display.json": {
+          "bytes": 1211997,
+          "sha256": "696b850d548638d2f70f4e0711b9c738003909cc726c87f238c94b7cd5e2f735"
+        },
+        "solve-usage.json": {
+          "bytes": 188,
+          "sha256": "18944acd494a97d2fbba66e058f98c1ffe94357a8dd42ff97bd8b822c4b84cb7"
+        },
+        "display.html": {
+          "bytes": 1215998,
+          "sha256": "2458076de0b3d61234c3a6e1efd4a84ea0c0e6da6562809da2c0f9f8c2ef937c"
+        },
+        "mesh-summary.json": {
+          "bytes": 303,
+          "sha256": "a19b5027e6d1db93bdf26ba2e7afa65ea39dc182ea92f5ae4f1a3f599eb6b109"
+        },
+        "geometry.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "analysis.dat": {
+          "bytes": 2785037,
+          "sha256": "9d60f0dac94c906f9c84d90a0060901577761fc86189af462c856a1de9ed3130"
+        },
+        "mesh.msh": {
+          "bytes": 755158,
+          "sha256": "85672f168e68cb45e90e5171dc0e113c8831fa64ab537508870584515a15c781"
+        },
+        "post-usage.json": {
+          "bytes": 187,
+          "sha256": "825364564aa4afa887e2211a7bd3084e4508a6c5285d54462720e61adfd46544"
+        },
+        "solve-resources.json": {
+          "bytes": 457,
+          "sha256": "6b28438965ebd89221b199c5d333c6f8c54dc0e6abb1da0c8cb864de947473d9"
+        }
+      }
+    },
+    {
+      "target_elements": 25000,
+      "mesh_size_m": 0.058,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 3.4977325439976994,
+        "sampled_tree_peak_rss_bytes": 170082304,
+        "sampled_disk_peak_bytes": 15372252,
+        "native_maxrss_bytes": 172969984,
+        "native_user_seconds": 3.111108,
+        "native_system_seconds": 0.31145,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.058",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 40600,
+      "elements": 27155,
+      "dofs": 121800,
+      "free_equations": 93978,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 11054000,
+      "mesh_msh_bytes": 4290493,
+      "mesh_sha256": "e01c8472ddda4993918da39601b92b1dd8d7480967ad0299eb5e95fbe5c8e56c",
+      "prepare": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 0.6521371179987909,
+        "sampled_tree_peak_rss_bytes": 84623360,
+        "sampled_disk_peak_bytes": 20474935,
+        "native_maxrss_bytes": 85274624,
+        "native_user_seconds": 0.549091,
+        "native_system_seconds": 0.047549999999999995,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/resource_native/process.py",
+          "prepare"
+        ]
+      },
+      "solve": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 49.858379321998655,
+        "sampled_tree_peak_rss_bytes": 840761344,
+        "sampled_disk_peak_bytes": 47754180,
+        "native_maxrss_bytes": 830599168,
+        "native_user_seconds": 48.002069,
+        "native_system_seconds": 1.388738,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/bin/ccx",
+          "-i",
+          "analysis"
+        ]
+      },
+      "post": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 2.218090480000683,
+        "sampled_tree_peak_rss_bytes": 173809664,
+        "sampled_disk_peak_bytes": 55720425,
+        "native_maxrss_bytes": 164704256,
+        "native_user_seconds": 1.935465,
+        "native_system_seconds": 0.20540799999999998,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.venv/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/resource_native/process.py",
+          "post"
+        ]
+      },
+      "fields": {
+        "volume_elements": 27155,
+        "surface_triangles": 18544,
+        "equations": 93978,
+        "mesh_sha256": "e01c8472ddda4993918da39601b92b1dd8d7480967ad0299eb5e95fbe5c8e56c",
+        "dat_sha256": "49d8f77b66f3cb4bffed4e009f2bbe02f3f4880aa572a340c3984c121aced6df",
+        "ux_error_m": 4.999885898099993e-10,
+        "stress_error_pa": 3.8461538460105658
+      },
+      "artifacts": {
+        "input.step": {
+          "bytes": 15371,
+          "sha256": "75c02497f98a0bee22cfda5fbd6cc2a5670946cbe5ec386953cd946224a58ed8"
+        },
+        "analysis.12d": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "spooles.out": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "prepare-usage.json": {
+          "bytes": 189,
+          "sha256": "0c84136569097c02e8253d6d2f07bbff90a9cadc278fb2f66481b26a26f3637c"
+        },
+        "mesh-resources.json": {
+          "bytes": 553,
+          "sha256": "d90986f2e2397b9267b531717a7ff4f5fb098f61a41f31103a365cd918c36fc6"
+        },
+        "analysis.cvg": {
+          "bytes": 274,
+          "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7"
+        },
+        "post.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "mesh.json": {
+          "bytes": 11054000,
+          "sha256": "e01c8472ddda4993918da39601b92b1dd8d7480967ad0299eb5e95fbe5c8e56c"
+        },
+        "analysis.inp": {
+          "bytes": 5096788,
+          "sha256": "66efab20d3b2df035adccd1e8d76796df7c8654479402e29beaace01546350e5"
+        },
+        "analysis.frd": {
+          "bytes": 12220617,
+          "sha256": "7643a4f659e693bffbb2ed6e15a6076b92bce2b96cee47a7687c3a575590abc5"
+        },
+        "solve.log": {
+          "bytes": 2260,
+          "sha256": "e2ccd680da4fd091f7805ff543778f2bd4762910f0b961b9f6403f97afab28d8"
+        },
+        "post-resources.json": {
+          "bytes": 526,
+          "sha256": "315646fae92750f0c8cc01f53a7e8bc93cec105da17b49d71bdd6dbc786635ea"
+        },
+        "analysis.sta": {
+          "bytes": 170,
+          "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d"
+        },
+        "catalog.json": {
+          "bytes": 7890,
+          "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0"
+        },
+        "body1.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "mesh-usage.json": {
+          "bytes": 177,
+          "sha256": "33a3cf5d6f2180b6778ad1ec0679ebeea923b248a5de99dd05f27622be644914"
+        },
+        "prepare-resources.json": {
+          "bytes": 529,
+          "sha256": "324f2f73f93c007eda6524cfc0ceb997eedaff0820464c8a1c53afeeeb4125df"
+        },
+        "prepare.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "mesh.log": {
+          "bytes": 5165,
+          "sha256": "723026a221e7cd53861d70917d4356b9ae92cfa4276f874e5337b2f1e37baca5"
+        },
+        "display.json": {
+          "bytes": 3979767,
+          "sha256": "7c8c05620323b8b750c83b6cfbbffd6ef729add568146cf1fbbb53681b8c4e1e"
+        },
+        "solve-usage.json": {
+          "bytes": 179,
+          "sha256": "04e1d61d726f6a45ccb3b4355efd306f6c0e056ecae0f2bd647542be886fc2a8"
+        },
+        "display.html": {
+          "bytes": 3983768,
+          "sha256": "0132a09bb9abce82fa5d1b3346909437cc8cc8c9770a2b146bbbe4b5d29a5a1a"
+        },
+        "mesh-summary.json": {
+          "bytes": 308,
+          "sha256": "97e4324c4985d3d7d59f57ae6ac18f90d28e32e468b5f62295b2e43796b8bbb9"
+        },
+        "geometry.brep": {
+          "bytes": 2048,
+          "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef"
+        },
+        "analysis.dat": {
+          "bytes": 15057287,
+          "sha256": "49d8f77b66f3cb4bffed4e009f2bbe02f3f4880aa572a340c3984c121aced6df"
+        },
+        "mesh.msh": {
+          "bytes": 4290493,
+          "sha256": "05c0aecf372e244e10122a290be441109a08f6ffbcb94aff1f6932ac33895b5a"
+        },
+        "post-usage.json": {
+          "bytes": 189,
+          "sha256": "2c2e96e43b50e030815f7bc9961f1d222ea45db62e7d890e67e8324cea7a64f4"
+        },
+        "solve-resources.json": {
+          "bytes": 450,
+          "sha256": "fce0a8adac4b3b616794ca6b9979ec7f88f86e89d93fb86105f5279f1e2c0d46"
+        }
+      }
+    },
+    {
+      "target_elements": 100000,
+      "mesh_size_m": 0.036,
+      "mesh": {
+        "status": "completed",
+        "returncode": 0,
+        "wall_seconds": 19.28654448599991,
+        "sampled_tree_peak_rss_bytes": 527859712,
+        "sampled_disk_peak_bytes": 55245303,
+        "native_maxrss_bytes": 525500416,
+        "native_user_seconds": 16.885862,
+        "native_system_seconds": 2.102715,
+        "rss_budget_mib": 1536,
+        "disk_budget_mib": 256,
+        "sampling_seconds": 0.05,
+        "command": [
+          "/workspace/OpenFEA/.local/native/venvs/mesh/bin/python",
+          "-I",
+          "/workspace/OpenFEA/services/worker/worker/meshing_native/build.py",
+          "0.036",
+          "0",
+          "null"
+        ]
+      },
+      "nodes": 141966,
+      "elements": 99198,
+      "dofs": 425898,
+      "free_equations": 360528,
+      "equation_scope": "B01 full exterior prescribed-displacement patch only",
+      "mesh_json_bytes": 39397664,
+      "mesh_msh_bytes": 15819698,
+      "mesh_sha256": "89a04faf6f732338602dfbab9d13cc41260f8b0198f8ce0b6e87c0e57f91c0a4",
+      "remaining_stages": "not run; explicit 30k element/120k free-equation solve cap"
+    }
+  ]
+}

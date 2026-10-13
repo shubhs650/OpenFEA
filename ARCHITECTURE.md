@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-13. T001 provides health API/UI; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. Engineering acceptance, general connection support, capacity and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030.
+2026-10-13. T001 provides health API/UI; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. Engineering acceptance, general connection support, target-laptop/integrated-GPU capacity and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030.
 
 ## Shape of the system
 

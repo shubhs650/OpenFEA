@@ -1,0 +1,791 @@
+{
+  "resource_execution_commit": "d18901a3c2c6bfa4867dc0e3803cdeaddf318409",
+  "browser_and_reaped_watchdogs_commit": "c490b21c4035bcb5e337e3c357140d09d3b2113a",
+  "hash_scope": "decompressed original bytes; zero-mtime gzip; omitted bulky meshes remain ignored with exact hashes and reproduction commands",
+  "files": [
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet/body1.brep",
+      "bytes": 3934,
+      "sha256": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet/catalog.json",
+      "bytes": 54051,
+      "sha256": "2a5038a87ff98efd2aa80f106d89761190e7eeb0ccd4cd0f81787f82ea1023cb",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet/geometry.brep",
+      "bytes": 3934,
+      "sha256": "41c984a095cacef3cb1b127cbe8e3f179dc4336b46104640881e003d692dba28",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet-preview/body1.brep",
+      "bytes": 2426,
+      "sha256": "520cf2a491f8aa9c8b316e3868e102f90b54744087da64e39edb85e1cfed158b",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet-preview/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet-preview/catalog.json",
+      "bytes": 8092,
+      "sha256": "1afe654fdcf7bd5a0eb690a1753766e8b18110da383890fa03510d9f8109ed5f",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet-preview/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet-preview/edit.json",
+      "bytes": 667,
+      "sha256": "f753b29b49447bc86a0758ca24f3e9efc9252f0126f18e657209885c23c15977",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet-preview/edit.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/fillet-preview/geometry.brep",
+      "bytes": 2426,
+      "sha256": "520cf2a491f8aa9c8b316e3868e102f90b54744087da64e39edb85e1cfed158b",
+      "retention": "committed lossless gzip",
+      "artifact": "run/fillet-preview/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole/body1.brep",
+      "bytes": 3490,
+      "sha256": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole/catalog.json",
+      "bytes": 171338,
+      "sha256": "8d3b81ba8f59bc884e3c838481bcddc539836d376644ed2a0baa0f5f4eb670d4",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole/geometry.brep",
+      "bytes": 3490,
+      "sha256": "3c924292b90404c854a7c11c29ed954f11a7b283c929486e04501c14cecf6901",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole-preview/body1.brep",
+      "bytes": 2510,
+      "sha256": "2d6ec88b631ff62b00e586abfd3e9be5448d105cc38c644d7f705527a06628e9",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole-preview/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole-preview/catalog.json",
+      "bytes": 8090,
+      "sha256": "ac1d43a7dae58acf1b291ea569d87191c8fac649063448ffb211289889b67975",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole-preview/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole-preview/edit.json",
+      "bytes": 665,
+      "sha256": "d86af9161b2b8ac8495e498907d77c6a5e1a09a1876153b944806425e312cdc7",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole-preview/edit.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/hole-preview/geometry.brep",
+      "bytes": 2510,
+      "sha256": "2d6ec88b631ff62b00e586abfd3e9be5448d105cc38c644d7f705527a06628e9",
+      "retention": "committed lossless gzip",
+      "artifact": "run/hole-preview/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/.fltk/fltk.org/fltk.prefs",
+      "bytes": 94,
+      "sha256": "981ac30f046d7876e64cd0d413fdf994ea92e1c75d3c3cbd69a86fa4a4d9541a",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/.fltk/fltk.org/fltk.prefs.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/body1.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/catalog.json",
+      "bytes": 7890,
+      "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/geometry.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/input.step",
+      "bytes": 15371,
+      "sha256": "2c0506501b2e373ab0220a3efa53efe5d137d300a86e92f59160d55af295f6a5",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/input.step.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh-resources.json",
+      "bytes": 554,
+      "sha256": "b4498ec0b39de55c76e38be4a0b6db4d3f14ddc264584914e71d3f3de6c0030c",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/mesh-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh-summary.json",
+      "bytes": 311,
+      "sha256": "0f1be363d746bd48fb3143675472daabd5a95e7ef7476bd2fd26f0be4b3678c1",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/mesh-summary.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh-usage.json",
+      "bytes": 179,
+      "sha256": "39f5331f2f2cb74e31db2a41041eec0b0119d9241e51da131a8e255593475963",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/mesh-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh.json",
+      "bytes": 39397664,
+      "sha256": "89a04faf6f732338602dfbab9d13cc41260f8b0198f8ce0b6e87c0e57f91c0a4",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh.log",
+      "bytes": 9466,
+      "sha256": "6eb5349a28b64cd89ce3d099c32895002b1c85656889b829677f8253f08a4aa6",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-100000/mesh.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-100000/mesh.msh",
+      "bytes": 15819698,
+      "sha256": "94add072c05776608502a1fd67772c90a539b0582044a93d0e5eb32dc4ec69ee",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/.fltk/fltk.org/fltk.prefs",
+      "bytes": 94,
+      "sha256": "981ac30f046d7876e64cd0d413fdf994ea92e1c75d3c3cbd69a86fa4a4d9541a",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/.fltk/fltk.org/fltk.prefs.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.12d",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.cvg",
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/analysis.cvg.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.dat",
+      "bytes": 15057287,
+      "sha256": "49d8f77b66f3cb4bffed4e009f2bbe02f3f4880aa572a340c3984c121aced6df",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/analysis.dat.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.frd",
+      "bytes": 12220617,
+      "sha256": "7643a4f659e693bffbb2ed6e15a6076b92bce2b96cee47a7687c3a575590abc5",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.inp",
+      "bytes": 5096788,
+      "sha256": "66efab20d3b2df035adccd1e8d76796df7c8654479402e29beaace01546350e5",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/analysis.inp.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/analysis.sta",
+      "bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/analysis.sta.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/body1.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/catalog.json",
+      "bytes": 7890,
+      "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/display.html",
+      "bytes": 3983768,
+      "sha256": "0132a09bb9abce82fa5d1b3346909437cc8cc8c9770a2b146bbbe4b5d29a5a1a",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/display.json",
+      "bytes": 3979767,
+      "sha256": "7c8c05620323b8b750c83b6cfbbffd6ef729add568146cf1fbbb53681b8c4e1e",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/geometry.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/input.step",
+      "bytes": 15371,
+      "sha256": "75c02497f98a0bee22cfda5fbd6cc2a5670946cbe5ec386953cd946224a58ed8",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/input.step.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh-resources.json",
+      "bytes": 553,
+      "sha256": "d90986f2e2397b9267b531717a7ff4f5fb098f61a41f31103a365cd918c36fc6",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/mesh-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh-summary.json",
+      "bytes": 308,
+      "sha256": "97e4324c4985d3d7d59f57ae6ac18f90d28e32e468b5f62295b2e43796b8bbb9",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/mesh-summary.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh-usage.json",
+      "bytes": 177,
+      "sha256": "33a3cf5d6f2180b6778ad1ec0679ebeea923b248a5de99dd05f27622be644914",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/mesh-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh.json",
+      "bytes": 11054000,
+      "sha256": "e01c8472ddda4993918da39601b92b1dd8d7480967ad0299eb5e95fbe5c8e56c",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh.log",
+      "bytes": 5165,
+      "sha256": "723026a221e7cd53861d70917d4356b9ae92cfa4276f874e5337b2f1e37baca5",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/mesh.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/mesh.msh",
+      "bytes": 4290493,
+      "sha256": "05c0aecf372e244e10122a290be441109a08f6ffbcb94aff1f6932ac33895b5a",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/post-resources.json",
+      "bytes": 526,
+      "sha256": "315646fae92750f0c8cc01f53a7e8bc93cec105da17b49d71bdd6dbc786635ea",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/post-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/post-usage.json",
+      "bytes": 189,
+      "sha256": "2c2e96e43b50e030815f7bc9961f1d222ea45db62e7d890e67e8324cea7a64f4",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/post-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/post.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/post.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/prepare-resources.json",
+      "bytes": 529,
+      "sha256": "324f2f73f93c007eda6524cfc0ceb997eedaff0820464c8a1c53afeeeb4125df",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/prepare-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/prepare-usage.json",
+      "bytes": 189,
+      "sha256": "0c84136569097c02e8253d6d2f07bbff90a9cadc278fb2f66481b26a26f3637c",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/prepare-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/prepare.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/prepare.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/solve-resources.json",
+      "bytes": 450,
+      "sha256": "fce0a8adac4b3b616794ca6b9979ec7f88f86e89d93fb86105f5279f1e2c0d46",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/solve-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/solve-usage.json",
+      "bytes": 179,
+      "sha256": "04e1d61d726f6a45ccb3b4355efd306f6c0e056ecae0f2bd647542be886fc2a8",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/solve-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/solve.log",
+      "bytes": 2260,
+      "sha256": "e2ccd680da4fd091f7805ff543778f2bd4762910f0b961b9f6403f97afab28d8",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-25000/solve.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-25000/spooles.out",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/.fltk/fltk.org/fltk.prefs",
+      "bytes": 94,
+      "sha256": "981ac30f046d7876e64cd0d413fdf994ea92e1c75d3c3cbd69a86fa4a4d9541a",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/.fltk/fltk.org/fltk.prefs.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.12d",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.cvg",
+      "bytes": 274,
+      "sha256": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/analysis.cvg.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.dat",
+      "bytes": 2785037,
+      "sha256": "9d60f0dac94c906f9c84d90a0060901577761fc86189af462c856a1de9ed3130",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/analysis.dat.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.frd",
+      "bytes": 2348093,
+      "sha256": "c0426da46980acbf07e71217d02de308ec3badb48d6ae0ab427334f682e3651f",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/analysis.frd.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.inp",
+      "bytes": 1018220,
+      "sha256": "d9243f5ec9a822176bba0df96ee2fd93d35dd83b07d0e4d333df040727837e70",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/analysis.inp.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/analysis.sta",
+      "bytes": 170,
+      "sha256": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/analysis.sta.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/body1.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/body1.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/browser.json",
+      "bytes": 1780,
+      "sha256": "22210a9c56f5240ad3a2e62d29d93a8cdac06afd305153a3bd54270eab7f4fb5",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/browser.png",
+      "bytes": 166698,
+      "sha256": "37904a5ab293f70ec2774861a74bf30be8c968dad5055772fb19ea61144299c9",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/catalog.json",
+      "bytes": 7890,
+      "sha256": "240494aa2a51e98c10428962ee4b5b29f5741da28011433a09e555ccb20c89c0",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/catalog.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/display.html",
+      "bytes": 1215998,
+      "sha256": "2458076de0b3d61234c3a6e1efd4a84ea0c0e6da6562809da2c0f9f8c2ef937c",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/display.html.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/display.json",
+      "bytes": 1211997,
+      "sha256": "696b850d548638d2f70f4e0711b9c738003909cc726c87f238c94b7cd5e2f735",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/display.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/geometry.brep",
+      "bytes": 2048,
+      "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/geometry.brep.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/input.step",
+      "bytes": 15371,
+      "sha256": "43c1248720c4dd4874c5ed4bff57bc79de4d99c7d5cefb3b61a22c0b5ec9bb35",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/input.step.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh-resources.json",
+      "bytes": 559,
+      "sha256": "bdf7f4683380cf850adfc5c25e0d0e1cd3c6bfed1e6d92c5a2c62ccf20aa420f",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh-summary.json",
+      "bytes": 303,
+      "sha256": "a19b5027e6d1db93bdf26ba2e7afa65ea39dc182ea92f5ae4f1a3f599eb6b109",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh-summary.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh-usage.json",
+      "bytes": 187,
+      "sha256": "d494ebc3b41ac4a6214b4c7ad8f8b72532fe0c3244a096b4d200c7b7292eb1df",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh.json",
+      "bytes": 2090639,
+      "sha256": "0f75e59ab487fea39fda558fc3a79c73eeefcd57e023bcb2deefe596acee8936",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh.log",
+      "bytes": 4644,
+      "sha256": "fa3b09b61be6ea3fa7c39670175f0b9e4db156bcc01e2d77355de530878cecbc",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/mesh.msh",
+      "bytes": 755158,
+      "sha256": "85672f168e68cb45e90e5171dc0e113c8831fa64ab537508870584515a15c781",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/mesh.msh.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/post-resources.json",
+      "bytes": 525,
+      "sha256": "96d252beb1af81dd6543c21d75937781ad91fe108cd5c39f53914f59925937e4",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/post-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/post-usage.json",
+      "bytes": 187,
+      "sha256": "825364564aa4afa887e2211a7bd3084e4508a6c5285d54462720e61adfd46544",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/post-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/post.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/post.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/prepare-resources.json",
+      "bytes": 526,
+      "sha256": "924f096d285a8132d7daa3def68f598a55acef4b3e2821f01d04addff7f6d400",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/prepare-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/prepare-usage.json",
+      "bytes": 187,
+      "sha256": "1bc0123bb46039fd7b82d76675fd2828613fb5a28fad48ba8858c4ace53f82f3",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/prepare-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/prepare.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/prepare.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/solve-resources.json",
+      "bytes": 457,
+      "sha256": "6b28438965ebd89221b199c5d333c6f8c54dc0e6abb1da0c8cb864de947473d9",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/solve-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/solve-usage.json",
+      "bytes": 188,
+      "sha256": "18944acd494a97d2fbba66e058f98c1ffe94357a8dd42ff97bd8b822c4b84cb7",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/solve-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/solve.log",
+      "bytes": 2258,
+      "sha256": "3f85e12dbe09772dc187a1cc9bb75b2c0c8f508ff9f429d5fc4b7b1895e938ff",
+      "retention": "committed lossless gzip",
+      "artifact": "run/mesh-5000/solve.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/mesh-5000/spooles.out",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/run/result.json",
+      "bytes": 18446,
+      "sha256": "6198b73c646b3b2bee253ae77654469d7d861e479c22fd08bf4d35348f2aa4cc",
+      "retention": "committed lossless gzip",
+      "artifact": "run/result.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-25000/browser.json",
+      "bytes": 3269,
+      "sha256": "50a7721a747ad3e544b7f7f8d020e0d785d1764aafb9e23d64380e6c343a5494",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-25000/browser.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-25000/browser.png",
+      "bytes": 229148,
+      "sha256": "898646a3e63d80169db63a6b163c2366d4b68d603fdba5e3fef71ed1438bde93",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-25000/browser.png.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-25000/display.html",
+      "bytes": 3983925,
+      "sha256": "3c3178bbd991bb31c2f1060f128f04282fc65ab3b9a72a8c182a682fcd065c14",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-25000/display.html.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-25000/display.json",
+      "bytes": 3979767,
+      "sha256": "7c8c05620323b8b750c83b6cfbbffd6ef729add568146cf1fbbb53681b8c4e1e",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-25000/display.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-5000/browser.json",
+      "bytes": 3282,
+      "sha256": "d552df49bc9fd644e1df6e878c4586d35fa46e9522ba6c1a562606ae68520129",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-5000/browser.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-5000/browser.png",
+      "bytes": 228484,
+      "sha256": "3b3d3ef68cfcb1fb9c2f871a10b542e50fb0af4676568615872f978d3957c944",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-5000/browser.png.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-5000/display.html",
+      "bytes": 1216155,
+      "sha256": "4e2de82e9f8b202b90b95ea80cf87d006805395c3496034046a6177b0e3938f1",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-5000/display.html.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/browser/mesh-5000/display.json",
+      "bytes": 1211997,
+      "sha256": "696b850d548638d2f70f4e0711b9c738003909cc726c87f238c94b7cd5e2f735",
+      "retention": "committed lossless gzip",
+      "artifact": "browser/mesh-5000/display.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/disk-stop/disk-stop-resources.json",
+      "bytes": 551,
+      "sha256": "94c92c0bd19db477ab67ece5bf5fa588bd52a7a175599f11973ee725943d07e9",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/disk-stop/disk-stop-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/disk-stop/disk-stop-usage.json",
+      "bytes": 189,
+      "sha256": "b243c6296b64c8834c789aba257f7659bc317871bb38148bb4a57ce9e3485952",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/disk-stop/disk-stop-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/disk-stop/disk-stop.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/disk-stop/disk-stop.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/disk-stop/growth",
+      "bytes": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/disk-stop/probe.py",
+      "bytes": 119,
+      "sha256": "bdf75a21484877f5dc3e7673aa0d23bdf428e84b164f442155d942f875edcb42",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/disk-stop/probe.py.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/memory-stop/memory-stop-resources.json",
+      "bytes": 538,
+      "sha256": "3379d87b26c5bbc21e233015049eb1644cf6f034fc5690db601c17684065f101",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/memory-stop/memory-stop-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/memory-stop/memory-stop-usage.json",
+      "bytes": 180,
+      "sha256": "cd782f9eb8a7f7f30bd9267eb6f24592ec6e322ef0fc869b0e2fd6e80022f08f",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/memory-stop/memory-stop-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/memory-stop/memory-stop.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/memory-stop/memory-stop.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/watchdogs/memory-stop/probe.py",
+      "bytes": 87,
+      "sha256": "abf551732572ae7e81f99c7c07646df526a5d624021b6c9f48b687242c492369",
+      "retention": "committed lossless gzip",
+      "artifact": "watchdogs/memory-stop/probe.py.gz"
+    },
+    {
+      "source_workspace": ".local/native/T006-native-tests.log",
+      "artifact": "T006-native-tests.log",
+      "bytes": 761,
+      "sha256": "f8a54eddcdc40440ded3795620c988c6388b603741b8dd2e64ae13fb7fbf9770",
+      "retention": "committed original bytes"
+    },
+    {
+      "source_workspace": ".local/native/T006-doctor.log",
+      "artifact": "T006-doctor.log",
+      "bytes": 547,
+      "sha256": "1d09f131960caab81d509a4758790b637055f31d06b3fe37f9fa802e9ea550de",
+      "retention": "committed original bytes"
+    },
+    {
+      "source_workspace": ".local/native/T006-run.log",
+      "artifact": "T006-run.log",
+      "bytes": 18502,
+      "sha256": "01048f58e66cf4f2412ef84acd3cf5fb01b3163cc23ea32e3eeb550eb5ad9dff",
+      "retention": "committed original bytes"
+    },
+    {
+      "source_workspace": ".local/native/T006-browser-small-final.log",
+      "artifact": "T006-browser-small-final.log",
+      "bytes": 3372,
+      "sha256": "b32f6d7be10d56acad07aa54984fcb268e39c76c00a1c60f0a59fe57d2683c56",
+      "retention": "committed original bytes"
+    },
+    {
+      "source_workspace": ".local/native/T006-browser-medium.log",
+      "artifact": "T006-browser-medium.log",
+      "bytes": 3360,
+      "sha256": "807b5097387785c64282abd44c3bec05508965129ef1f4e88db3581a883589ed",
+      "retention": "committed original bytes"
+    },
+    {
+      "source_workspace": ".local/native/T006-check-final.log",
+      "bytes": 1730,
+      "sha256": "aabc8914301e250ed7a9481f8e0ebcb3aa95dfc8a102d4b8a4d883d3da48f512",
+      "retention": "committed lossless gzip",
+      "artifact": "checks/T006-check-final.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/admission-rejection/prepare-usage.json",
+      "bytes": 187,
+      "sha256": "5eceaecb640a150b8cd84bd72dfecd8bb435305cf6235c780c6ec50cb3ea6329",
+      "retention": "committed lossless gzip",
+      "artifact": "admission-rejection/prepare-usage.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/admission-rejection/mesh.json",
+      "bytes": 39397664,
+      "sha256": "89a04faf6f732338602dfbab9d13cc41260f8b0198f8ce0b6e87c0e57f91c0a4",
+      "retention": "workspace only; regenerate with pinned runner"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/admission-rejection/prepare-resources.json",
+      "bytes": 531,
+      "sha256": "db80ef9ba41512505546a1dd7585248ccfb84d8ad75524ece2323fdf461da529",
+      "retention": "committed lossless gzip",
+      "artifact": "admission-rejection/prepare-resources.json.gz"
+    },
+    {
+      "source_workspace": ".local/native/validation/T006/admission-rejection/prepare.log",
+      "bytes": 317,
+      "sha256": "033a000d27df459c810acb69b860c9d24ff8e7e4fe37bc659f2c3e28fc18481f",
+      "retention": "committed lossless gzip",
+      "artifact": "admission-rejection/prepare.log.gz"
+    },
+    {
+      "source_workspace": ".local/native/T006-final-static.log",
+      "artifact": "checks/T006-final-static.log.gz",
+      "bytes": 573,
+      "sha256": "cdee6b0f4bc6e7cb1d03565d182781c40b63b9713225a9b66bd237244e25fc1a",
+      "retention": "committed lossless gzip"
+    }
+  ],
+  "explicit_coarsening_cli_commit": "c6970e92831398a3c137f2b7ec2c67f6aa5d2b75"
+}

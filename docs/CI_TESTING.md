@@ -2,7 +2,7 @@
 
 The root Makefile now ships the T001 bootstrap commands. Each exits nonzero on a genuine failure. Missing required dependencies are reported as blocked, never silently skipped in a required job. The table retains the full target behavior to implement over subsequent tasks.
 
-T001 supplies health API/UI; T002 provisions native tools. T003–T005 extend test-unit to 74 Python cases and test-native to 30 real tool/mesh/stress/bond tests. Selected B01/B02/B07/B09 benchmarks execute the actual pipeline with DEVELOPMENT=1 while review is pending. B07 uses limited experimental mortar; failed native *TIE, uncovered nodes, singular assembly and adjustment diagnostics are retained. Full release/security/report gates remain blocked; hosted CI is unverified. See [native commands](NATIVE_TOOLS.md) and [T005 evidence](validation/T005.md).
+T001 supplies health API/UI; T002 provisions native tools. T003–T006 extend test-unit to 74 Python cases and test-native to 34 real tool/mesh/stress/bond/cleanup/resource tests. Selected B01/B02/B07/B09 benchmarks execute the actual pipeline with DEVELOPMENT=1 while review is pending. B07 uses limited experimental mortar; failed native *TIE, uncovered nodes, singular assembly and adjustment diagnostics are retained. Full release/security/report gates remain blocked; hosted CI is unverified. T006 measured native workloads and two standalone software WebGL checks; integrated-GPU/laptop acceptance remains unrun. See [T006 evidence](validation/T006.md), [native commands](NATIVE_TOOLS.md) and [T005 evidence](validation/T005.md).
 
 | Command | Required behavior |
 |---|---|

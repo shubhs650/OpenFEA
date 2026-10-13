@@ -1,6 +1,6 @@
 # Task index
 
-T001 provides the health-only bootstrap; T002 provisions native tools. T003–T005 development implementations/experiments are delivered, with engineering acceptance deferred; T006–T042 remain NOT STARTED. T004/T005 were explicitly requested while predecessor review remained open; formal acceptance dependencies remain authoritative. The development objective stops at M4/T030.
+T001 provides the health-only bootstrap; T002 provisions native tools. T003–T006 development implementations/experiments are delivered, with engineering and target-laptop acceptance deferred; T007–T042 remain NOT STARTED. T004/T005/T006 were explicitly requested while predecessor review remained open; formal acceptance dependencies remain authoritative. The development objective stops at M4/T030.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
@@ -9,7 +9,7 @@ T001 provides the health-only bootstrap; T002 provisions native tools. T003–T0
 | [T003](docs/tasks/T003.md) | M0 | Prove face mapping and quadratic element export | T002 | IN PROGRESS |
 | [T004](docs/tasks/T004.md) | M0 | Prove raw stress extraction and display semantics | T003 | IN PROGRESS |
 | [T005](docs/tasks/T005.md) | M0 | Prove independently meshed bonded connection | T003 | IN PROGRESS |
-| [T006](docs/tasks/T006.md) | M0 | Cleanup and resource feasibility review | T004,T005 | NOT STARTED |
+| [T006](docs/tasks/T006.md) | M0 | Cleanup and resource feasibility review | T004,T005 | IN PROGRESS |
 | [T007](docs/tasks/T007.md) | M1 | Persist projects and local ownership | T006 | NOT STARTED |
 | [T008](docs/tasks/T008.md) | M1 | STEP import and selectable viewport | T007 | NOT STARTED |
 | [T009](docs/tasks/T009.md) | M1 | Units and material editor | T008 | NOT STARTED |

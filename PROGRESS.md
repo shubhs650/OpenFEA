@@ -7,7 +7,7 @@ Next action: T003–T005 review (B01/B02/B09/B07 + experimental mortar); next im
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T005 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005 requests authorize bounded development while predecessor review remains open. This session stops at T005.
+Fully working, validated LOCAL prototype through M4/T030. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001/T002 are complete; T003–T006 development implementations/experiments are delivered with engineering acceptance deferred. Explicit T004/T005/T006 requests authorize bounded development while predecessor review remains open. This session stops at T006; M0 owner/hardware acceptance remains open.
 
 ## Implementation status
 
@@ -16,8 +16,10 @@ T002: COMPLETE
 T003: IN PROGRESS
 T004: IN PROGRESS
 T005: IN PROGRESS
-T006–T042: NOT STARTED
-All M0–M6 exit gates: NOT RUN.
+T006: IN PROGRESS
+T007–T042: NOT STARTED
+M0: REVIEWED, OPEN — pending engineering and target-hardware acceptance.
+M1–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
@@ -33,6 +35,19 @@ T005 adds a limited real mortar connection experiment using CCX *EQUATION and na
 
 Root/native dependencies are separately locked. Source/deb/wheel/runtime hashes and upstream license notices are recorded. Native processes receive a minimal environment, no network sockets, single-thread settings and resource limits. Full hostile-upload/filesystem isolation is not implemented. See [native setup](docs/NATIVE_TOOLS.md), [ADR-010](docs/adr/ADR-010.md) and the [dependency matrix](docs/DEPENDENCIES.md). Final public license remains deferred.
 
+## T006 executed validation
+
+Native implementation `d18901a3c2c6bfa4867dc0e3803cdeaddf318409`; child-reaping/browser provenance refinement `c490b21c4035bcb5e337e3c357140d09d3b2113a`. [T006 evidence](docs/validation/T006.md) retains measurements, raw sources, compressed artifacts, hashes, explicit omissions and the F1–F7 review. [ADR-014](docs/adr/ADR-014.md) records material scope/resource decisions.
+
+- Real OCCT selected through-hole and single-edge fillet removal on deep copies produces valid new preview BREP/catalog/tessellation revisions. Analytic volume deltas pass; source hashes are unchanged on success and stale/unsupported selections. Each preview remeshes with six new face references and actual C3D10 elements. General cleanup/apply/undo/remapping remains T013.
+- `make check`: 74 Python + 7 TS pass. `make test-native`: 34 pass, 0 failures/skips; changed cleanup/watchdog cases rerun after lifecycle correction also pass. Distinct unit/native total **115**. Doctor, static/docs/root-lock and artifact-integrity checks pass. No dependency/solver changes.
+- `make feasibility MESHES=1`: actual 4,891/27,155/99,198-element meshes. Small and medium patches solve 15,219/93,978 free equations with unchanged B01 criteria: max U error ~5e-10 m, tensor error 3.846 Pa. Medium solve 49.858 s/792.12 MiB native maxRSS. Large meshing 19.287 s/501.16 MiB; large solve is NOT RUN due to explicit admission cap, with no automatic coarsening.
+- Actual allocation/disk probes verify guarded stops, recorded sampling overshoot, nonzero exits and no host OOM. Cloud `/proc` child discovery and orderly reaping were corrected; native hard limits remain intact.
+- Two actual exterior WebGL/native-field checks pass with 60 rotations, field switches and inspected screenshots. Renderer is SwiftShader; 27,155-cell mesh draws 18,544 exterior triangles with median animation interval 42.4 ms. Integrated-GPU/Windows and total browser RSS acceptance remain unrun.
+- F1–F7 reviewed. Limited F6 scope is explicit. Highest cloud patch solve does not establish a laptop cap or arbitrary 30k-model capacity; start target calibration conservatively at ≤5k cells. F4/physical-gap/formulation and earlier owner reviews remain open. No M0 closure or milestone exception.
+
+T006 CLI development work is delivered; formal status stays IN PROGRESS for target hardware and owner review. T007 is next, not started. No application workflow, deployment, push or merge was added.
+
 ## T005 executed validation
 
 Implementation commit `698bb06e9524992e4a9087490692e3636dbe616b`. Restored native tools/locks reused; no dependency or solver-source change.
@@ -45,7 +60,7 @@ Implementation commit `698bb06e9524992e4a9087490692e3636dbe616b`. Restored nativ
 - Native-double binary geometry audits measure zero coordinate change in both role cases. Diagnostic 10 µm gap shows default native *TIE adjustment and zero with ADJUST=NO; supported preflight rejects the gap, so B08 is not claimed.
 - Partial native surface leaves 61 nodes uncovered. Untied CCX returned exit 0/Job finished with ~9.79e9 m displacement; the supported path rejects detached bodies before solving. No stabilization is added. Actual nonzero CCX failures retain complete transcripts.
 
-[T005 evidence](docs/validation/T005.md) and [ADR-013](docs/adr/ADR-013.md) retain frozen manifests, compressed inputs/outputs/meshes and the scientific decision. Experimental mortar is limited to zero-gap planar unit interfaces and ≤65 trace nodes per side; native *TIE remains an unsupported failed candidate. Owner B07/formulation acceptance is pending. No T006 work started.
+[T005 evidence](docs/validation/T005.md) and [ADR-013](docs/adr/ADR-013.md) retain frozen manifests, compressed inputs/outputs/meshes and the scientific decision. Experimental mortar is limited to zero-gap planar unit interfaces and ≤65 trace nodes per side; native *TIE remains an unsupported failed candidate. Owner B07/formulation acceptance is pending. T006 subsequently proceeded by explicit request, preserving these pending acceptance gates.
 
 ## T004 historical validation
 
@@ -89,8 +104,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-T003–T005 acceptance blockers are engineering-owner B01/B02/B09/B07 and mortar-formulation review. Record owner/date and reviewed criteria hashes; close formal tasks only after those gates. Next implementation task is T006 when requested: cleanup and measured resources. Keep OCCT 8.0.1/7.8.1 isolated. General/scalable interfaces, physical gaps and broader connection loading remain unvalidated; native *TIE failed the patch and is not a validated fallback. The ~100k-element target is unmeasured. F1 passes; full M0 does not.
+T003–T006 formal acceptance remains open: engineering-owner B01/B02/B09/B07 and mortar-formulation review, actual WSL2 safe capacity and integrated-GPU display. Record owner/date/criteria hashes; do not self-close M0 or imply acceptance from later task requests. T006 reviews F1–F7 and explicitly limits cleanup. Native *TIE remains a failed candidate; physical gaps and scalable/general connections remain unvalidated.
 
-Hosted GitHub CI and Windows Chrome/Edge acceptance were not executed; browser evidence is headless Linux Chromium health plus the actual native stress diagnostic fixture. Public redistribution remains blocked by deferred project/native license review. No live AWS resources, production secrets, private engineering data, deployment or merge was used.
+Next task ID is **T007**, not started. Review M0 before formal M1 advancement; a product-approved exception would have to be explicit and recorded. Preserve OCCT isolation, immutable revisions, frozen criteria, real solver behavior and diagnostic admission/resource limits. Retained larger meshes live in ignored `.local/native/validation/T006/`; committed evidence index states what was omitted and how to regenerate it.
 
-Next session: inspect T003–T005 evidence and pending reviews; implement **T006 only** when requested, preserving open gates and current scope limits. Reuse provisioning/locks and actual evidence. No later task, deployment, push or merge was performed.
+Hosted CI, Windows/WSL2 hardware acceptance, public-license review and later release/security/report gates remain unexecuted/open. No AWS resources, secrets, private CAD, deployment, push or merge. Saved cloud startup instructions should describe current T006 development evidence and pending gates; snapshots do not preserve processes.
