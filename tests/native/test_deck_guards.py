@@ -181,10 +181,14 @@ Path('mesh-status.json').write_text(json.dumps({'status':'passed'}))
     assert result == {"network": True, "fork": True, "write": True, "private_hidden": True}
 
 
+@pytest.mark.parametrize(
+    "finish_before_sampling", [False, True], ids=["live", "finished-before-first-sample"]
+)
 def test_mesh_recovery_stops_at_aggregate_retained_scratch_budget(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, finish_before_sampling: bool
 ) -> None:
     import json
+    import subprocess
 
     from worker.local_process import NativeStop
 
@@ -210,6 +214,17 @@ def test_mesh_recovery_stops_at_aggregate_retained_scratch_budget(
         return original(inputs, output, sizes, **options)
 
     monkeypatch.setattr(deck_mesh, "_mesh_attempt", retained)
+    if finish_before_sampling:
+        launch = subprocess.Popen
+
+        def finished(*args: Any, **kwargs: Any) -> subprocess.Popen[bytes]:
+            process = launch(*args, **kwargs)
+            # The real isolated writer exceeds its unchanged 64-MiB file cap.
+            # Wait for that actual exit before exposing the process to sampling.
+            process.wait(timeout=5)
+            return process
+
+        monkeypatch.setattr(subprocess, "Popen", finished)
     with pytest.raises(NativeStop, match="resource_exceeded"):
         deck_mesh.mesh_snapshot(inputs, tmp_path / "out", [0.5], recovery_enabled=True)
     assert launched == ["attempt-1"]
