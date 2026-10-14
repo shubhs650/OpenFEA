@@ -77,3 +77,38 @@ test("real browser project CRUD uses local session, CSRF and revisions through V
     owner: true,
   });
 });
+
+test("project creation waits for the real local session before enabling writes", async ({
+  page,
+}) => {
+  let releaseSession = () => {};
+  const sessionGate = new Promise<void>((resolve) => {
+    releaseSession = resolve;
+  });
+  await page.route("**/api/v1/session", async (route) => {
+    await sessionGate;
+    await route.continue();
+  });
+  try {
+    await page.goto("/");
+    await page.getByLabel("New project name").fill("Session readiness fixture");
+    const create = page.getByRole("button", {
+      name: "Create project",
+      exact: true,
+    });
+    await expect(create).toBeDisabled();
+    releaseSession();
+    await expect(create).toBeEnabled();
+    const created = page.waitForResponse(
+      (response) =>
+        response.url().endsWith("/api/v1/projects") &&
+        response.request().method() === "POST",
+    );
+    await create.click();
+    expect((await created).status()).toBe(201);
+    await expect(page.getByLabel("STEP file")).toBeVisible();
+    await expect(page.getByRole("alert")).toHaveCount(0);
+  } finally {
+    releaseSession();
+  }
+});
