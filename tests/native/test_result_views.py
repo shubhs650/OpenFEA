@@ -425,8 +425,8 @@ def test_tombstone_during_actual_result_derivation_prevents_publication(
     run = wait_job(client, submit(client, path, mesh["id"])["id"])
     original = build_view if kind == "view" else inspect_volume
 
-    def delete_after_derivation(*args: Any) -> dict[str, Any]:
-        data = original(*args)
+    def delete_after_derivation(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        data = original(*args, **kwargs)
         project = client.get(f"/api/v1/projects/{geometry['project_id']}").json()
         assert (
             client.delete(
