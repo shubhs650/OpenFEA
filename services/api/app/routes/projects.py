@@ -9,6 +9,7 @@ from app.auth.local import COOKIE, current_owner, expected_revision
 from app.domain.models import (
     Analysis,
     AnalysisCreate,
+    AnalysisDuplicate,
     AnalysisPage,
     AnalysisPatch,
     AnalysisRestore,
@@ -195,6 +196,23 @@ def conflict_copy(
     response: Response,
 ) -> Analysis:
     result = store.conflict_copy(
+        owner, analysis_id, revision, payload.source_revision, payload.name
+    )
+    etag(response, result.revision)
+    response.headers["Location"] = f"/api/v1/analyses/{result.id}"
+    return result
+
+
+@router.post("/analyses/{analysis_id}/duplicates", response_model=Analysis, status_code=201)
+def duplicate_analysis(
+    analysis_id: UUID,
+    payload: AnalysisDuplicate,
+    revision: Revision,
+    owner: Owner,
+    store: Store,
+    response: Response,
+) -> Analysis:
+    result = store.duplicate_analysis(
         owner, analysis_id, revision, payload.source_revision, payload.name
     )
     etag(response, result.revision)

@@ -6,11 +6,19 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from app.domain.deck_service import DeckService, canonical, deck_for
-from app.domain.errors import DomainError, not_found
+from app.domain.errors import DomainError, not_found, stale_revision
 from app.domain.imports import FaceDisplay, GeometryDisplay
-from app.domain.jobs import JobInput, LocalJob, MeshPreview, MeshSource
+from app.domain.jobs import (
+    CompatibleMesh,
+    JobInput,
+    LocalJob,
+    MeshCandidates,
+    MeshPreview,
+    MeshSource,
+)
 from app.domain.loads import load_state
 from app.domain.materials import body_status
+from app.domain.mesh_reuse import compatibility_hash, physical_controls
 from app.domain.results import ResultData, ResultView
 from app.persistence.jobs import JobRepository
 from worker.mesh_quality import mesh_quality
@@ -52,6 +60,7 @@ class JobService:
             "services/worker/worker/resources.py",
             "services/api/app/domain/jobs.py",
             "services/api/app/persistence/jobs.py",
+            "services/api/app/domain/mesh_reuse.py",
         ):
             policy["sources"][name] = sha256(ROOT / name)
         return policy
@@ -86,22 +95,17 @@ class JobService:
             if (
                 mesh_state.kind != "mesh"
                 or mesh_state.status != "succeeded"
-                or mesh_state.analysis_id != analysis
+                or mesh_state.project_id != snapshot.analysis.project_id
                 or mesh_state.geometry_revision_id != snapshot.geometry.id
             ):
                 raise DomainError(
-                    422, "incompatible_mesh", "Select a completed mesh for this analysis geometry"
+                    422,
+                    "incompatible_mesh",
+                    "Select a completed mesh in this project for this exact geometry revision",
                 )
             previous = self.repository.inputs(owner, mesh_job)
 
-            def physical(value: Any) -> dict[str, Any]:
-                return {
-                    "global_size_m": value.global_size_m,
-                    "curvature_elements": value.curvature_elements,
-                    "local_sizes": [(s.kind, s.entity_id, s.size_m) for s in value.local_sizes],
-                }
-
-            if physical(previous.snapshot.mesh_setup) != physical(snapshot.mesh_setup):
+            if physical_controls(previous.snapshot) != physical_controls(snapshot):
                 raise DomainError(
                     422,
                     "incompatible_mesh_controls",
@@ -113,10 +117,14 @@ class JobService:
                     "tool_contract_changed",
                     "Regenerate the mesh with the current tool contract",
                 )
+            expected_hash = compatibility_hash(snapshot, policy)
+            if compatibility_hash(previous.snapshot, previous.policy) != expected_hash:
+                raise DomainError(422, "incompatible_mesh", "Mesh compatibility hash differs")
+            self.verified_inputs(owner, mesh_state)
             mesh_artifact = mesh_state.artifacts.get("mesh.json")
             if mesh_artifact is None:
                 raise not_found()
-            mesh = json.loads(self.storage.read(snapshot.analysis.project_id, mesh_artifact.sha256))
+            mesh = json.loads(self.artifact(owner, mesh_job, "mesh.json")[0])
             preview = load_state(
                 snapshot.analysis, snapshot.geometry, snapshot.materials, snapshot.loads, display
             )
@@ -132,7 +140,9 @@ class JobService:
             deck_path.write_text(deck)
             deck_hash = sha256(deck_path)
             self.storage.save(snapshot.analysis.project_id, deck_path, deck_hash)
-            source = MeshSource(job_id=mesh_job, sha256=mesh_artifact.sha256)
+            source = MeshSource(
+                job_id=mesh_job, sha256=mesh_artifact.sha256, compatibility_sha256=expected_hash
+            )
         else:
             identifier = uuid4()
             directory = self.storage.directory("jobs", identifier)
@@ -157,6 +167,60 @@ class JobService:
         input_hash = sha256(path)
         self.storage.save(snapshot.analysis.project_id, path, input_hash)
         return self.repository.enqueue(owner, key, request_hash, identifier, inputs, input_hash)
+
+    def verified_inputs(self, owner: UUID, job: LocalJob) -> JobInput:
+        inputs = self.repository.inputs(owner, job.id)
+        if (
+            inputs.kind != "mesh"
+            or inputs.snapshot.analysis.id != job.analysis_id
+            or inputs.snapshot.analysis.revision != job.analysis_revision
+            or inputs.snapshot.analysis.project_id != job.project_id
+            or inputs.snapshot.geometry.id != job.geometry_revision_id
+        ):
+            raise DomainError(503, "artifact_integrity", "Mesh provenance disagrees")
+        raw = self.storage.read(job.project_id, job.input_sha256)
+        if canonical(inputs.model_dump(mode="json")) != raw:
+            # Legacy snapshots may omit additive optional fields; validate their original bytes too.
+            if JobInput.model_validate_json(raw) != inputs:
+                raise DomainError(503, "artifact_integrity", "Frozen mesh inputs disagree")
+        return inputs
+
+    def mesh_candidates(self, owner: UUID, analysis: UUID) -> MeshCandidates:
+        current = self.decks.repository.get_analysis(owner, analysis)
+        snapshot, _ = self.decks.freeze(owner, analysis, current.revision, mesh_only=True)
+        try:
+            policy = self.policy()
+        except (RuntimeError, OSError):
+            raise DomainError(
+                503, "native_unavailable", "Pinned native tools are unavailable"
+            ) from None
+        expected = compatibility_hash(snapshot, policy)
+        items = []
+        for job in self.repository.project_meshes(owner, analysis):
+            if job.geometry_revision_id != snapshot.geometry.id:
+                continue
+            inputs = self.verified_inputs(owner, job)
+            if compatibility_hash(inputs.snapshot, inputs.policy) != expected:
+                continue
+            # Verify immutable bytes before offering reuse, including quality on admission.
+            self.artifact(owner, job.id, "mesh.json")
+            items.append(
+                CompatibleMesh(
+                    job=job,
+                    source_analysis_name=inputs.snapshot.analysis.name,
+                    compatibility_sha256=expected,
+                    mesh_sha256=job.artifacts["mesh.json"].sha256,
+                )
+            )
+        head = self.decks.repository.get_analysis(owner, analysis)
+        if head.revision != current.revision:
+            raise stale_revision()
+        return MeshCandidates(
+            analysis_id=analysis,
+            analysis_revision=current.revision,
+            compatibility_sha256=expected,
+            items=items,
+        )
 
     def artifact(self, owner: UUID, identifier: UUID, name: str) -> tuple[bytes, str]:
         job = self.repository.get(owner, identifier)

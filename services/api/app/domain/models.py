@@ -145,9 +145,13 @@ class AnalysisRestore(StrictModel):
     target_revision: int = Field(ge=1)
 
 
-class ConflictCopy(StrictModel):
+class AnalysisDuplicate(StrictModel):
     source_revision: int = Field(ge=1)
     name: Name
+
+
+class ConflictCopy(AnalysisDuplicate):
+    pass
 
 
 class Analysis(AnalysisCreate):

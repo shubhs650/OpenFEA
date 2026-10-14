@@ -92,6 +92,28 @@
         "title": "AnalysisCreate",
         "type": "object"
       },
+      "AnalysisDuplicate": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "source_revision": {
+            "minimum": 1.0,
+            "title": "Source Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "source_revision",
+          "name"
+        ],
+        "title": "AnalysisDuplicate",
+        "type": "object"
+      },
       "AnalysisPage": {
         "additionalProperties": false,
         "properties": {
@@ -707,6 +729,36 @@
           "face_ids"
         ],
         "title": "CatalogVertex",
+        "type": "object"
+      },
+      "CompatibleMesh": {
+        "additionalProperties": false,
+        "properties": {
+          "compatibility_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Compatibility Sha256",
+            "type": "string"
+          },
+          "job": {
+            "$ref": "#/components/schemas/LocalJob"
+          },
+          "mesh_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Mesh Sha256",
+            "type": "string"
+          },
+          "source_analysis_name": {
+            "title": "Source Analysis Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job",
+          "source_analysis_name",
+          "compatibility_sha256",
+          "mesh_sha256"
+        ],
+        "title": "CompatibleMesh",
         "type": "object"
       },
       "ConflictCopy": {
@@ -3724,6 +3776,40 @@
         "title": "MaterialValues",
         "type": "object"
       },
+      "MeshCandidates": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "format": "uuid",
+            "title": "Analysis Id",
+            "type": "string"
+          },
+          "analysis_revision": {
+            "title": "Analysis Revision",
+            "type": "integer"
+          },
+          "compatibility_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Compatibility Sha256",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CompatibleMesh"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "analysis_id",
+          "analysis_revision",
+          "compatibility_sha256",
+          "items"
+        ],
+        "title": "MeshCandidates",
+        "type": "object"
+      },
       "MeshControls": {
         "additionalProperties": false,
         "properties": {
@@ -5401,6 +5487,159 @@
         "summary": "Edit Analysis"
       }
     },
+    "/api/v1/analyses/{analysis_id}/compatible-meshes": {
+      "get": {
+        "operationId": "compatible_meshes_api_v1_analyses__analysis_id__compatible_meshes_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeshCandidates"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Compatible Meshes"
+      }
+    },
     "/api/v1/analyses/{analysis_id}/conflict-copies": {
       "post": {
         "operationId": "conflict_copy_api_v1_analyses__analysis_id__conflict_copies_post",
@@ -6264,6 +6503,185 @@
           }
         ],
         "summary": "Set Display Units"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/duplicates": {
+      "post": {
+        "operationId": "duplicate_analysis_api_v1_analyses__analysis_id__duplicates_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalysisDuplicate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Analysis"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Duplicate Analysis"
       }
     },
     "/api/v1/analyses/{analysis_id}/jobs": {

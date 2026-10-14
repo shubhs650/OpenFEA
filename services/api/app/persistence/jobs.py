@@ -81,6 +81,18 @@ class JobRepository:
             ).mappings()
             return [self.model(connection, dict(row)) for row in rows]
 
+    def project_meshes(self, owner: UUID, analysis: UUID) -> list[LocalJob]:
+        with self.projects.database.engine.connect() as connection, connection.begin():
+            current = self.projects._analysis(connection, owner, analysis)
+            rows = connection.execute(
+                text(
+                    "SELECT * FROM local_jobs WHERE project_id=:project AND kind='mesh' "
+                    "AND status='succeeded' ORDER BY queued_at DESC,id DESC LIMIT 100"
+                ),
+                {"project": str(current.project_id)},
+            ).mappings()
+            return [self.model(connection, dict(row)) for row in rows]
+
     def existing(self, owner: UUID, key: UUID, request_hash: str) -> LocalJob | None:
         with self.projects.database.engine.connect() as connection:
             row = (

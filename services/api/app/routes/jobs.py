@@ -6,7 +6,7 @@ from uuid import UUID
 from fastapi import Depends, Header, Request, Response
 
 from app.domain.errors import DomainError
-from app.domain.jobs import JobEvent, LocalJob, MeshPreview, MeshRequest, RunRequest
+from app.domain.jobs import JobEvent, LocalJob, MeshCandidates, MeshPreview, MeshRequest, RunRequest
 from app.domain.results import ResultView
 from app.jobs.service import JobService
 from app.routes.projects import Owner, Revision, router
@@ -82,6 +82,11 @@ def run(
 @router.get("/analyses/{analysis_id}/jobs", response_model=list[LocalJob])
 def jobs(analysis_id: UUID, owner: Owner, service: Service) -> list[LocalJob]:
     return service.repository.list_jobs(owner, analysis_id)
+
+
+@router.get("/analyses/{analysis_id}/compatible-meshes", response_model=MeshCandidates)
+def compatible_meshes(analysis_id: UUID, owner: Owner, service: Service) -> MeshCandidates:
+    return service.mesh_candidates(owner, analysis_id)
 
 
 @router.get("/jobs/{job_id}", response_model=LocalJob)
