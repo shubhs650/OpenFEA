@@ -1,0 +1,205 @@
+{
+  "id": "fc92433c-a297-4b0b-bd8b-ef34164a6922",
+  "analysis_id": "b6339ee0-eeb7-423c-870b-a4144c16debc",
+  "project_id": "d97ee30c-d468-4003-a2ba-5079ec9139c5",
+  "analysis_revision": 3,
+  "geometry_revision_id": "4f92b632-b4d8-46ca-b262-511d07d9c181",
+  "kind": "mesh",
+  "mesh_job_id": null,
+  "input_sha256": "96a106677703e84d4bbf2db7e333be6e6cf40428f62f3d1d0a5e4c32b6d099db",
+  "status": "failed",
+  "stage": "finished",
+  "queued_at": "2026-10-13T23:19:21.908858Z",
+  "started_at": "2026-10-13T23:19:21.985665Z",
+  "finished_at": "2026-10-13T23:19:22.246159Z",
+  "heartbeat_at": "2026-10-13T23:19:22.246159Z",
+  "cancel_requested": false,
+  "reason_code": "quality_failed",
+  "reason_message": "Mesh failed after 1 of 1 permitted attempts",
+  "summary": {
+    "mesh_attempts": [
+      {
+        "status": "quality_failed",
+        "elements": 42,
+        "nodes": 111,
+        "quality": {
+          "schema_version": 1,
+          "accepted": false,
+          "minimum_jacobian_m3": 0.00011718749999824452,
+          "minimum_mean_ratio": 0.020319502283653628,
+          "bad_elements": [
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86
+          ],
+          "warning_elements": [
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86
+          ],
+          "all_affine": true,
+          "policy": {
+            "jacobian_floor_m3": 1e-15,
+            "mean_ratio_floor": 0.05,
+            "mean_ratio_warning": 0.2,
+            "subdivision_depth": 3,
+            "method": "cubic tetrahedral Bernstein certificate with outward rounding margin"
+          }
+        },
+        "number": 1,
+        "profile": "Delaunay",
+        "settings": {
+          "body_sizes_m": [
+            0.5
+          ],
+          "face_sizes_m": {},
+          "curvature_elements": 16,
+          "profile": 0
+        },
+        "mesh-attempt-1.log_sha256": "98e49719adcdd3a4fd97f91ac1ffa67301527778864da571d56ee1fc0258ac38",
+        "mesh-attempt-1-resources.json_sha256": "e32b2218d49c285648a04a0b8e6db26a1714621a727158712a493c74956fd525"
+      }
+    ],
+    "max_mesh_attempts": 1,
+    "sizing_unchanged": true,
+    "wall_seconds": 0.2592910639996262
+  },
+  "artifacts": {
+    "snapshot.json": {
+      "sha256": "96a106677703e84d4bbf2db7e333be6e6cf40428f62f3d1d0a5e4c32b6d099db",
+      "size_bytes": 13523,
+      "media_type": "application/json"
+    },
+    "mesh.log": {
+      "sha256": "98e49719adcdd3a4fd97f91ac1ffa67301527778864da571d56ee1fc0258ac38",
+      "size_bytes": 4530,
+      "media_type": "text/plain"
+    },
+    "resources.json": {
+      "sha256": "e32b2218d49c285648a04a0b8e6db26a1714621a727158712a493c74956fd525",
+      "size_bytes": 110,
+      "media_type": "application/json"
+    },
+    "mesh.json": {
+      "sha256": "7fe3e8f6e636654bb3f0dffac774bc88271815b0337397a9c74b5767e7740dd8",
+      "size_bytes": 45831,
+      "media_type": "application/json"
+    },
+    "recovery.json": {
+      "sha256": "0cd28a815f128b1c8ad722ba1c02aae3eff0a8df43f9471108363533790601ef",
+      "size_bytes": 1207,
+      "media_type": "application/json"
+    },
+    "mesh-attempt-1.log": {
+      "sha256": "98e49719adcdd3a4fd97f91ac1ffa67301527778864da571d56ee1fc0258ac38",
+      "size_bytes": 4530,
+      "media_type": "text/plain"
+    },
+    "mesh-attempt-1-resources.json": {
+      "sha256": "e32b2218d49c285648a04a0b8e6db26a1714621a727158712a493c74956fd525",
+      "size_bytes": 110,
+      "media_type": "application/json"
+    }
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "status": "queued",
+      "stage": "queued",
+      "at": "2026-10-13T23:19:21.909328Z",
+      "reason_code": null
+    },
+    {
+      "sequence": 2,
+      "status": "running",
+      "stage": "meshing",
+      "at": "2026-10-13T23:19:21.985895Z",
+      "reason_code": null
+    },
+    {
+      "sequence": 3,
+      "status": "failed",
+      "stage": "finished",
+      "at": "2026-10-13T23:19:22.246448Z",
+      "reason_code": "quality_failed"
+    }
+  ]
+}

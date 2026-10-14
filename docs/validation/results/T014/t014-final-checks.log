@@ -1,0 +1,185 @@
+bash scripts/codex/check.sh
+v24.19.0
+11.9.0
+uv 0.12.23 (x86_64-unknown-linux-gnu)
+Platform: Linux x86_64; Python 3.12.14
+fastapi: 0.143.0
+pydantic: 2.14.1
+uvicorn: 0.54.0
+pytest: 9.1.1
+ruff: 0.17.0
+mypy: 2.4.0
+PASS: writable non-repository data root
+PASS: loopback HTTP round trip
+PASS: pinned CPU CCX and runtime library hashes verified
+PASS: isolated cad native geometry/I/O capability
+PASS: isolated mesh native geometry/I/O capability
+PASS: isolated post native geometry/I/O capability
+PASS: namespace-isolated STEP import, no-network/process filter and SI display
+PASS: local bootstrap and native toolchain prerequisites
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+139 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 108 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 238 items
+
+tests/unit/test_api.py .........                                         [  3%]
+tests/unit/test_approval.py ................                             [ 10%]
+tests/unit/test_bonds.py ................                                [ 17%]
+tests/unit/test_face_loads.py ....................                       [ 25%]
+tests/unit/test_geometry_edits.py ...............                        [ 31%]
+tests/unit/test_imports.py ......                                        [ 34%]
+tests/unit/test_local_queue.py ..................                        [ 42%]
+tests/unit/test_materials.py ........................                    [ 52%]
+tests/unit/test_mesh_controls.py ............                            [ 57%]
+tests/unit/test_mesh_quality.py ......                                   [ 59%]
+tests/unit/test_projects.py ............................                 [ 71%]
+tests/unit/test_quadratic.py .....................                       [ 80%]
+tests/unit/test_result_views.py ...................                      [ 88%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 238 passed in 13.29s =============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  4 passed (4)
+      Tests  21 passed (21)
+   Start at  23:12:02
+   Duration  440ms (tests 46%, import 29%, transform 12%, worker 12%)
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpkwc2s66e/openapi.json → /tmp/tmpkwc2s66e/api.d.ts [173.6ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 128 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 123 items
+
+tests/native/test_bond_native.py ...                                     [  2%]
+tests/native/test_cleanup_resources.py ....                              [  5%]
+tests/native/test_deck_guards.py .....                                   [  9%]
+tests/native/test_face_decks.py .............                            [ 20%]
+tests/native/test_feasibility_stops.py ........                          [ 26%]
+tests/native/test_geometry_edits.py ...........                          [ 35%]
+tests/native/test_job_lifecycle.py ..........                            [ 43%]
+tests/native/test_local_jobs.py .                                        [ 44%]
+tests/native/test_mapping.py ..............                              [ 56%]
+tests/native/test_material_response.py ...                               [ 58%]
+tests/native/test_mesh_controls.py ..............                        [ 69%]
+tests/native/test_result_views.py ........                               [ 76%]
+tests/native/test_run_snapshots.py ..                                    [ 78%]
+tests/native/test_step_import.py ..............                          [ 89%]
+tests/native/test_stress_native.py ....                                  [ 92%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+======================= 123 passed in 212.05s (0:03:32) ========================
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 397 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.27 kB
+dist/assets/index-D7_pM0ul.css      3.13 kB │ gzip:   1.17 kB
+dist/assets/index-Ef3mRRsB.js   1,124.48 kB │ gzip: 312.74 kB
+
+✓ built in 350ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=21782
+STARTED api pid=21803
+STARTED web pid=21804
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 12 items
+
+tests/integration/test_geometry_edits.py .                               [  8%]
+tests/integration/test_local_jobs.py ..                                  [ 25%]
+tests/integration/test_mesh_controls.py .                                [ 33%]
+tests/integration/test_persistence.py ...                                [ 58%]
+tests/integration/test_result_views.py .                                 [ 66%]
+tests/integration/test_startup.py ....                                   [100%]
+
+============================= 12 passed in 37.27s ==============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 19 tests using 1 worker
+
+(node:22329) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/edits.spec.ts:6:1 › real hole preview apply undo retains setup and displays frozen old run (10.1s)
+  ✓   2 tests/e2e/edits.spec.ts:124:1 › changed face load requires explicit reselection and unsupported fillet keeps source (7.2s)
+  ✓   3 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.5s)
+  ✓   4 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.1s)
+  ✓   5 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.8s)
+  ✓   6 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (297ms)
+  ✓   7 tests/e2e/health.spec.ts:19:1 › page reports a health network failure without claiming readiness (308ms)
+  ✓   8 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (5.8s)
+  ✓   9 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (3.9s)
+  ✓  10 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (5.3s)
+  ✓  11 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (8.5s)
+  ✓  12 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (8.9s)
+  ✓  13 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (599ms)
+  ✓  14 tests/e2e/results.spec.ts:31:1 › synthetic bracket completes real import to contours, reactions and frozen result history (10.4s)
+  ✓  15 tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (10.0s)
+  ✓  16 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (8.4s)
+  ✓  17 tests/e2e/runs.spec.ts:70:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (8.6s)
+  ✓  18 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (294ms)
+  ✓  19 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (257ms)
+
+  19 passed (1.7m)

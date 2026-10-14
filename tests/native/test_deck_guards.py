@@ -100,8 +100,10 @@ def test_edit_during_export_cannot_publish_stale_inputs(
     state = assign(client, path, geometry, "force", [loaded], units="m-N-Pa", force=[100, 0, 0])
     original = deck_mesh.mesh_snapshot
 
-    def concurrent(inputs: Path, output: Path, sizes: list[float]) -> dict[str, Any]:
-        mesh = original(inputs, output, sizes)
+    def concurrent(
+        inputs: Path, output: Path, sizes: list[float], **options: Any
+    ) -> dict[str, Any]:
+        mesh = original(inputs, output, sizes, **options)
         application.state.repository.edit_analysis(
             application.state.owner,
             UUID(path.split("/")[-1]),
@@ -167,11 +169,53 @@ value['private_hidden']=not Path("""
         + repr(str(sentinel))
         + """).exists()
 Path('mesh.json').write_text(json.dumps(value))
+Path('mesh-status.json').write_text(json.dumps({'status':'passed'}))
 """
     )
     inputs = tmp_path / "inputs"
     inputs.mkdir()
     (inputs / "catalog.json").write_text("{}")
     monkeypatch.setattr(deck_mesh, "ROOT", root)
-    result = deck_mesh.mesh_snapshot(inputs, tmp_path / "out", [0.5])
+    # Trusted isolation probe only, not a numerically valid mesh/job.
+    result = deck_mesh._mesh_attempt(inputs, tmp_path / "out", [0.5])
     assert result == {"network": True, "fork": True, "write": True, "private_hidden": True}
+
+
+def test_mesh_recovery_stops_at_aggregate_retained_scratch_budget(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import json
+
+    from worker.local_process import NativeStop
+
+    root = ROOT / "work/t014" / str(uuid4())
+    script = root / "services/worker/worker/meshing_native/build.py"
+    script.parent.mkdir(parents=True)
+    # Controlled native resource probe, never a numerically accepted mesh.
+    script.write_text(
+        "from pathlib import Path\nimport time\n"
+        "Path('allocation').write_bytes(b'x' * (70 * 1024**2))\ntime.sleep(5)\n"
+    )
+    inputs = tmp_path / "inputs"
+    inputs.mkdir()
+    monkeypatch.setattr(deck_mesh, "ROOT", root)
+    original = deck_mesh._mesh_attempt
+    launched = []
+
+    def retained(inputs: Path, output: Path, sizes: list[float], **options: Any) -> dict[str, Any]:
+        # Represents retained previous attempt artifacts, outside the new child.
+        with (output.parent / "retained-allocation").open("wb") as allocation:
+            allocation.truncate(128 * 1024**2)
+        launched.append(output.name)
+        return original(inputs, output, sizes, **options)
+
+    monkeypatch.setattr(deck_mesh, "_mesh_attempt", retained)
+    with pytest.raises(NativeStop, match="resource_exceeded"):
+        deck_mesh.mesh_snapshot(inputs, tmp_path / "out", [0.5], recovery_enabled=True)
+    assert launched == ["attempt-1"]
+    report = json.loads((tmp_path / "out/recovery.json").read_bytes())
+    assert report["mesh_attempts"][0]["status"] == "resource_exceeded"
+    assert report["sizing_unchanged"] and not (tmp_path / "out/attempt-2").exists()
+    resources = json.loads((tmp_path / "out/mesh-attempt-1-resources.json").read_bytes())
+    assert resources["peak_scratch_bytes"] > 192 * 1024**2
+    assert (tmp_path / "out/mesh-attempt-1.log").is_file()

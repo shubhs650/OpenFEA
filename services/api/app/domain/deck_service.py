@@ -13,10 +13,12 @@ from app.domain.errors import DomainError, stale_revision
 from app.domain.import_service import ImportService
 from app.domain.imports import GeometryDisplay
 from app.domain.loads import DeckExport, DeckSnapshot, LoadState, load_state
+from app.domain.mesh import estimate, sizing
 from app.persistence.repository import Repository
 from worker.deck import generated_deck
 from worker.deck_mesh import mesh_snapshot
 from worker.local_process import NativeControl
+from worker.mesh_quality import mesh_quality
 from worker.meshing import (
     GMSH_TO_CCX,
     Vec,
@@ -43,6 +45,9 @@ def deck_for(
     *,
     stress_coordinates: bool = False,
 ) -> tuple[str, dict[str, float | int | str | list[str]]]:
+    quality = mesh_quality(mesh)
+    if not quality["accepted"] or not quality["all_affine"]:
+        raise ValueError("Mesh quality failed or curved C3D10 solve is not validated")
     nodes: dict[int, Vec] = {int(n): tuple(p) for n, p in mesh["nodes"].items()}
     if mesh["revision"] != snapshot.geometry.brep_sha256 or mesh["units"] != "m":
         raise ValueError("Stale mesh")
@@ -208,7 +213,7 @@ class DeckService:
         return load_state(current, geometry, materials, loads, display)
 
     def freeze(
-        self, owner: UUID, analysis: UUID, expected: int
+        self, owner: UUID, analysis: UUID, expected: int, *, mesh_only: bool = False
     ) -> tuple[DeckSnapshot, GeometryDisplay]:
         current, geometry, materials, loads = self.repository.load_inputs(owner, analysis)
         if current.revision != expected:
@@ -217,19 +222,32 @@ class DeckService:
             raise DomainError(422, "geometry_required", "Accept geometry first")
         display = self.imports.display(owner, geometry.id, "coarse")
         preview = load_state(current, geometry, materials, loads, display)
-        if preview.blockers:
+        if preview.blockers and not mesh_only:
             raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
-        if len(geometry.faces) > 100 or any(
-            not str(f.signature.get("surface_type", "")).endswith("GeomAbs_Plane")
-            for f in geometry.faces
+        if mesh_only and any(a.review_faces for a in loads.assignments):
+            raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
+        if len(geometry.faces) > 100 or (
+            not mesh_only
+            and any(
+                not str(f.signature.get("surface_type", "")).endswith("GeomAbs_Plane")
+                for f in geometry.faces
+            )
         ):
             raise DomainError(
                 422,
                 "unsupported_mesh",
                 "Deck export requires at most 100 unambiguous planar faces",
             )
+        _, _, mesh_setup = self.repository.mesh_setup(owner, analysis, expected)
+        planning = estimate(analysis, expected, geometry, display, mesh_setup)
+        if planning.blockers:
+            raise DomainError(422, "mesh_controls_blocked", " ".join(planning.blockers))
         snapshot = DeckSnapshot(
-            analysis=current, geometry=geometry, materials=materials, loads=loads
+            analysis=current,
+            geometry=geometry,
+            materials=materials,
+            loads=loads,
+            mesh_setup=mesh_setup,
         )
         return snapshot, display
 
@@ -241,7 +259,15 @@ class DeckService:
         policy = {
             "schema": 1,
             "gmsh": "4.15.2",
-            "body_size": "largest extent / 2",
+            "body_size": "explicit SI global/body/face minimum; legacy largest extent / 2",
+            "mesh_quality": {
+                "jacobian_m3": 1e-15,
+                "mean_ratio": 0.05,
+                "warning_ratio": 0.2,
+                "method": "Bernstein",
+                "max_subdivisions": 3,
+            },
+            "mesh_recovery_profiles": ["Delaunay", "Frontal", "Delaunay + Netgen optimization"],
             "max_elements": 3000,
             "wall_seconds": 60,
             "rss_mib": 1536,
@@ -266,6 +292,8 @@ class DeckService:
                     "services/worker/worker/deck_mesh.py",
                     "services/worker/worker/geometry.py",
                     "services/worker/worker/meshing.py",
+                    "services/worker/worker/mesh_quality.py",
+                    "services/api/app/domain/mesh.py",
                     "services/worker/worker/deck.py",
                     "services/api/app/domain/deck_service.py",
                     "services/api/app/domain/loads.py",
@@ -315,12 +343,18 @@ class DeckService:
             ],
         }
         (inputs / "catalog.json").write_bytes(canonical(catalog))
-        sizes = [
-            max(b.bounds_m[i + 3] - b.bounds_m[i] for i in range(3)) / 2 for b in display.bodies
-        ]
-        if control is None:
-            return mesh_snapshot(inputs, directory / "output", sizes)
-        return mesh_snapshot(inputs, directory / "output", sizes, control=control)
+        sizes, face_sizes, blockers = sizing(geometry, display, snapshot.mesh_setup)
+        if blockers:
+            raise DomainError(422, "mesh_controls_blocked", " ".join(blockers))
+        return mesh_snapshot(
+            inputs,
+            directory / "output",
+            sizes,
+            control=control,
+            face_sizes=face_sizes,
+            curvature_elements=snapshot.mesh_setup.curvature_elements,
+            recovery_enabled=snapshot.mesh_setup.recovery_enabled,
+        )
 
     def generate(self, owner: UUID, analysis: UUID, expected: int) -> DeckExport:
         with (self.storage.root / "native-import.lock").open("a+b") as lock:

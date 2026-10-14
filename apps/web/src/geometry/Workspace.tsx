@@ -29,6 +29,7 @@ export function Workspace() {
   const [editHighlights, setEditHighlights] = useState<Set<string> | null>(
     null,
   );
+  const [qualityOverlay, setQualityOverlay] = useState(false);
   const [editorEpoch, setEditorEpoch] = useState(0);
   const [editingPreview, setEditingPreview] = useState(false);
   const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
@@ -228,6 +229,17 @@ export function Workspace() {
     resultPresentation?.view.analysis_id === analysisId
       ? resultPresentation
       : null;
+  const qualityColors = useMemo(() => {
+    const colors: Record<string, [number, number, number]> = {};
+    for (const face of activeMesh?.quality_display?.faces ?? []) {
+      colors[face.id] = face.id.endsWith(":failed")
+        ? [0.9, 0.12, 0.1]
+        : face.id.endsWith(":warning")
+          ? [0.95, 0.6, 0.1]
+          : [0.2, 0.65, 0.4];
+    }
+    return colors;
+  }, [activeMesh]);
   const previewVisible = useMemo(
     () =>
       editDisplay ? new Set(editDisplay.bodies.map((b) => b.id)) : visible,
@@ -422,12 +434,20 @@ export function Workspace() {
           <Viewport
             display={
               editDisplay ??
-              (editingPreview ? shown : (activeMesh?.display ?? shown))
+              (editingPreview
+                ? shown
+                : ((qualityOverlay
+                    ? activeMesh?.quality_display
+                    : activeMesh?.display) ?? shown))
             }
             revision={editDisplay?.brep_sha256 ?? geometry.id}
             selected={editHighlights ?? selected}
             visible={previewVisible}
-            toggle={toggle}
+            toggle={qualityOverlay && activeMesh ? () => {} : toggle}
+            faceColors={
+              qualityOverlay && activeMesh ? qualityColors : undefined
+            }
+            wireframe={qualityOverlay && !!activeMesh}
             markers={
               !editingPreview &&
               loadPreview?.analysis_id === analysisId &&
@@ -455,7 +475,33 @@ export function Workspace() {
               <p data-mesh-job={activeMesh.job_id}>
                 Generated mesh: {activeMesh.nodes} nodes · {activeMesh.elements}{" "}
                 C3D10 elements. Boundary triangles show the actual quadratic
-                mesh.
+                mesh. Quality:{" "}
+                {activeMesh.quality?.accepted
+                  ? "passed"
+                  : "FAILED — solve blocked"}
+                . Minimum mean ratio{" "}
+                {Number(activeMesh.quality?.minimum_mean_ratio).toPrecision(5)};
+                certified Jacobian lower bound{" "}
+                {Number(activeMesh.quality?.minimum_jacobian_m3).toPrecision(5)}{" "}
+                m³.
+              </p>
+            )}
+            {activeMesh && !editingPreview && (
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={qualityOverlay}
+                  onChange={(e) => setQualityOverlay(e.target.checked)}
+                />
+                Mesh quality overlay (all cell wireframes; face picking
+                disabled)
+              </label>
+            )}
+            {activeMesh && qualityOverlay && (
+              <p>
+                Green: accepted; orange: mean ratio below 0.2; red: failed.
+                Quality uses the complete quadratic cell, not corner volume
+                alone.
               </p>
             )}
             <label>
@@ -542,6 +588,7 @@ export function Workspace() {
             showMesh={(mesh) => {
               setResultPresentation(null);
               setMeshPreview(mesh);
+              setQualityOverlay(mesh?.quality?.accepted === false);
             }}
             showResult={setResultPresentation}
           />

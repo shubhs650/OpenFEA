@@ -272,6 +272,7 @@ class JobRepository:
         stage: Stage | None = None,
         pid: int | None = None,
         process_start: str | None = None,
+        progress: dict[str, Any] | None = None,
     ) -> None:
         with self.projects.write() as connection:
             row = self.row(connection, identifier)
@@ -281,7 +282,7 @@ class JobRepository:
                 text(
                     "UPDATE local_jobs SET heartbeat_at=:at,stage=:stage,"
                     "process_pid=coalesce(:pid,process_pid),p"
-                    "rocess_start=coalesce(:start,process_start) WHERE id=:id"
+                    "rocess_start=coalesce(:start,process_start),summary_json=:summary WHERE id=:id"
                 ),
                 {
                     "id": str(identifier),
@@ -289,6 +290,9 @@ class JobRepository:
                     "stage": stage or row["stage"],
                     "pid": pid,
                     "start": process_start,
+                    "summary": json.dumps(
+                        json.loads(row["summary_json"]) | (progress or {}), allow_nan=False
+                    ),
                 },
             )
             if stage and stage != row["stage"]:
@@ -332,9 +336,19 @@ class JobRepository:
             if status not in TERMINAL:
                 raise ValueError("Completion must be terminal")
             if status == "succeeded":
-                required = {"snapshot.json", "mesh.json", "analysis.inp", "resources.json"}
+                required = {"snapshot.json", "mesh.json", "resources.json"}
                 if row["kind"] == "solve":
-                    required.update({"solver.log", "analysis.dat", "analysis.frd", "results.json"})
+                    required.update(
+                        {
+                            "analysis.inp",
+                            "solver.log",
+                            "analysis.dat",
+                            "analysis.frd",
+                            "results.json",
+                        }
+                    )
+                else:
+                    required.update({"mesh.log", "recovery.json"})
                 if (
                     not required <= artifacts.keys()
                     or artifacts["snapshot.json"].sha256 != row["input_sha256"]
@@ -342,6 +356,8 @@ class JobRepository:
                     raise ValueError(
                         "Successful completion requires a complete frozen artifact manifest"
                     )
+                if row["kind"] == "mesh" and summary.get("quality", {}).get("accepted") is not True:
+                    raise ValueError("Successful mesh requires passing quadratic quality")
             connection.execute(
                 text(
                     "UPDATE local_jobs SET status=:status,stage='finished',finished_at=:at,"

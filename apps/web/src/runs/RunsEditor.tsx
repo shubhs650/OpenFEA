@@ -15,6 +15,7 @@ type Props = {
   revision: number;
   geometryId: string;
   ready: boolean;
+  meshReady: boolean;
   busy: boolean;
   setBusy: (value: boolean) => void;
   showMesh: (value: MeshPreview | null) => void;
@@ -28,6 +29,7 @@ export function RunsEditor({
   revision,
   geometryId,
   ready,
+  meshReady,
   busy,
   setBusy,
   showMesh,
@@ -142,9 +144,9 @@ export function RunsEditor({
       setCancelling("");
     }
   }
-  async function preview() {
+  async function preview(id = meshId) {
     try {
-      showMesh(await api<MeshPreview>(`/jobs/${meshId}/mesh-display`));
+      showMesh(await api<MeshPreview>(`/jobs/${id}/mesh-display`));
     } catch (e) {
       setError((e as Error).message);
     }
@@ -157,9 +159,10 @@ export function RunsEditor({
         you can keep editing. Browser closure does not cancel jobs.
       </p>
       <p>
-        Coarse planar affine C3D10 only · largest body extent / 2 · at most
-        3,000 elements · 60 seconds per native stage. Meshing recovery and local
-        sizing follow later.
+        Quadratic C3D10 · saved global/body/face sizes and curvature · at most
+        3,000 elements. Full-domain Jacobian and shape quality must pass.
+        Approved recovery is at most three attempts; solving remains
+        affine/planar.
       </p>
       {worker !== "ready" && worker && (
         <p aria-live="polite">
@@ -169,7 +172,7 @@ export function RunsEditor({
         </p>
       )}
       <button
-        disabled={busy || conflict || !ready || worker === "blocked"}
+        disabled={busy || conflict || !meshReady || worker === "blocked"}
         onClick={() => void submit(false)}
       >
         Generate local mesh
@@ -268,6 +271,35 @@ export function RunsEditor({
                 )}
               </>
             )}
+            {j.summary.mesh_attempt != null && (
+              <p>
+                Mesh attempt {String(j.summary.mesh_attempt)} of{" "}
+                {String(j.summary.max_mesh_attempts)} ·{" "}
+                {String(j.summary.mesh_profile)}
+              </p>
+            )}
+            {Array.isArray(j.summary.mesh_attempts) && (
+              <ul aria-label="Mesh recovery attempts">
+                {j.summary.mesh_attempts.map((attempt, i) =>
+                  typeof attempt === "object" &&
+                  attempt !== null &&
+                  !Array.isArray(attempt) ? (
+                    <li key={i}>
+                      Attempt {String(attempt.number)}:{" "}
+                      {String(attempt.profile)} — {String(attempt.status)};
+                      sizing unchanged
+                    </li>
+                  ) : null,
+                )}
+              </ul>
+            )}
+            {j.kind === "mesh" &&
+              j.status === "failed" &&
+              j.artifacts["mesh.json"] && (
+                <button onClick={() => void preview(j.id)}>
+                  Inspect failed mesh quality {j.id.slice(0, 8)}
+                </button>
+              )}
             {j.reason_message && (
               <p>
                 {j.reason_message} ({j.reason_code})

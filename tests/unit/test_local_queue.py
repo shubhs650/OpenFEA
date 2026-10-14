@@ -281,11 +281,22 @@ def test_public_admission_headers_and_unsupported_payloads_refuse_before_native(
         ).status_code
         == 403
     )
+    # T014 permits meshing before materials/loads; the worker is stopped and
+    # this metadata-only policy must never be treated as native validation.
+    application.state.job_service.policy = lambda: {"fixture": "not executable"}
+    admitted = client.post(path + "/mesh-jobs", json={}, headers=headers)
+    assert admitted.status_code == 202
     assert (
-        client.post(path + "/mesh-jobs", json={}, headers=headers).json()["code"]
+        client.post(
+            path + "/runs",
+            json={"mesh_job_id": admitted.json()["id"]},
+            headers=headers | {"Idempotency-Key": str(uuid4())},
+        ).json()["code"]
         == "setup_incomplete"
     )
-    assert store.list_jobs(owner, inputs.snapshot.analysis.id) == []
+    jobs = store.list_jobs(owner, inputs.snapshot.analysis.id)
+    assert len(jobs) == 1 and str(jobs[0].id) == admitted.json()["id"]
+    assert jobs[0].status == "queued"
 
 
 def test_populated_queue_migration_reverses_without_mutating_analysis(

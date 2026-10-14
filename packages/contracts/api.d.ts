@@ -161,6 +161,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/analyses/{analysis_id}/mesh-controls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get */
+        get: operations["get_api_v1_analyses__analysis_id__mesh_controls_get"];
+        /** Save */
+        put: operations["save_api_v1_analyses__analysis_id__mesh_controls_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/analyses/{analysis_id}/mesh-controls/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Preview */
+        post: operations["preview_api_v1_analyses__analysis_id__mesh_controls_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/analyses/{analysis_id}/mesh-jobs": {
         parameters: {
             query?: never;
@@ -1631,6 +1666,37 @@ export interface components {
              */
             owner_id: string;
         };
+        /** LocalSize */
+        LocalSize: {
+            /** Entity Id */
+            entity_id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "body" | "face";
+            /** Size M */
+            size_m: number;
+            /** Source Size */
+            source_size: number;
+            /**
+             * Source Units
+             * @enum {string}
+             */
+            source_units: "mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi";
+        };
+        /** LocalSizeInput */
+        LocalSizeInput: {
+            /** Entity Id */
+            entity_id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "body" | "face";
+            /** Size */
+            size: number;
+        };
         /** MaterialAssignment */
         MaterialAssignment: {
             /** Material */
@@ -1753,6 +1819,28 @@ export interface components {
             /** Young Modulus */
             young_modulus: number;
         };
+        /** MeshControls */
+        MeshControls: {
+            /**
+             * Curvature Elements
+             * @default 16
+             */
+            curvature_elements: number;
+            /** Global Size */
+            global_size?: number | null;
+            /** Local Sizes */
+            local_sizes?: components["schemas"]["LocalSizeInput"][];
+            /**
+             * Recovery Enabled
+             * @default false
+             */
+            recovery_enabled: boolean;
+            /**
+             * Units
+             * @enum {string}
+             */
+            units: "mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi";
+        };
         /** MeshPreview */
         MeshPreview: {
             /**
@@ -1775,9 +1863,76 @@ export interface components {
             job_id: string;
             /** Nodes */
             nodes: number;
+            /** Quality */
+            quality?: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            quality_display?: components["schemas"]["GeometryDisplay"] | null;
         };
         /** MeshRequest */
         MeshRequest: Record<string, never>;
+        /** MeshSetup */
+        MeshSetup: {
+            /**
+             * Curvature Elements
+             * @default 16
+             */
+            curvature_elements: number;
+            /** Geometry Revision Id */
+            geometry_revision_id?: string | null;
+            /** Global Size M */
+            global_size_m?: number | null;
+            /** Local Sizes */
+            local_sizes?: components["schemas"]["LocalSize"][];
+            /**
+             * Recovery Enabled
+             * @default false
+             */
+            recovery_enabled: boolean;
+            /**
+             * Schema Version
+             * @default 1
+             * @constant
+             */
+            schema_version: 1;
+            /** Source Global Size */
+            source_global_size?: number | null;
+            /** Source Units */
+            source_units?: ("mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi") | null;
+        };
+        /** MeshState */
+        MeshState: {
+            /**
+             * Analysis Id
+             * Format: uuid
+             */
+            analysis_id: string;
+            /** Analysis Revision */
+            analysis_revision: number;
+            /** Blockers */
+            blockers: string[];
+            /** Coarsening Proposal M */
+            coarsening_proposal_m: number | null;
+            /** Estimate Basis */
+            estimate_basis: string;
+            /** Estimated Dofs Upper */
+            estimated_dofs_upper: number;
+            /** Estimated Elements Upper */
+            estimated_elements_upper: number;
+            /** Estimated Nodes Upper */
+            estimated_nodes_upper: number;
+            /** Geometry Revision Id */
+            geometry_revision_id: string | null;
+            /** Limits */
+            limits: {
+                [key: string]: number;
+            };
+            /** Resolved Body Sizes M */
+            resolved_body_sizes_m: number[];
+            setup: components["schemas"]["MeshSetup"];
+            /** Warnings */
+            warnings: string[];
+        };
         /** PressureInput */
         PressureInput: {
             /**
@@ -3586,6 +3741,361 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MaterialState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    get_api_v1_analyses__analysis_id__mesh_controls_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeshState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    save_api_v1_analyses__analysis_id__mesh_controls_put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MeshControls"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeshState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    preview_api_v1_analyses__analysis_id__mesh_controls_preview_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MeshControls"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeshState"];
                 };
             };
             /** @description Unauthorized */
@@ -6040,7 +6550,7 @@ export interface operations {
             };
             path: {
                 job_id: string;
-                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "results.json";
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "results.json" | "recovery.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
             };
             cookie?: never;
         };

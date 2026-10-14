@@ -19,6 +19,8 @@ type Props = {
   visible: Set<string>;
   toggle: (face: string) => void;
   markers: LoadMarker[];
+  faceColors?: Record<string, [number, number, number]>;
+  wireframe?: boolean;
 };
 
 export function Viewport({
@@ -28,6 +30,8 @@ export function Viewport({
   visible,
   toggle,
   markers,
+  faceColors,
+  wireframe = false,
 }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const scene = useRef<Window | null>(null);
@@ -94,6 +98,7 @@ export function Viewport({
       actor.setMapper(mapper);
       actor.getProperty().setColor(0.48, 0.65, 0.76);
       actor.getProperty().setEdgeVisibility(true);
+      if (wireframe) actor.getProperty().setRepresentationToWireframe();
       actor.getProperty().setEdgeColor(0.2, 0.3, 0.4);
       renderer.addActor(actor);
       actors.current.set(actor, { id: face.id, body: face.body_id });
@@ -167,20 +172,19 @@ export function Viewport({
     };
     releaseActors.current = dispose;
     return dispose;
-  }, [display, revision]);
+  }, [display, revision, wireframe]);
 
   useEffect(() => {
     for (const [actor, face] of actors.current) {
       actor.setVisibility(visible.has(face.body));
       const color: [number, number, number] = selected.has(face.id)
         ? [0.95, 0.58, 0.16]
-        : hover === face.id
-          ? [0.25, 0.8, 0.65]
-          : [0.48, 0.65, 0.76];
+        : (faceColors?.[face.id] ??
+          (hover === face.id ? [0.25, 0.8, 0.65] : [0.48, 0.65, 0.76]));
       actor.getProperty().setColor(color);
     }
     scene.current?.getRenderWindow().render();
-  }, [selected, visible, hover, display]);
+  }, [selected, visible, hover, display, faceColors]);
 
   function camera(front: boolean) {
     const renderer = scene.current?.getRenderer();
