@@ -1,0 +1,182 @@
+{
+  "frame": "global_cartesian",
+  "tensor_components": ["xx", "yy", "zz", "xy", "yz", "zx"],
+  "principal_order": "s1 >= s2 >= s3 (algebraic)",
+  "kind": "section",
+  "processor": "affine-c3d10-volume-inspection-v1",
+  "location": "element_interpolated",
+  "method": "Physical reference coordinates in the retained volume mesh; explicit element side. Displacement uses all ten quadratic C3D10 shape functions. Unaveraged stress uses linear interpolation of native four-IP extrapolated corner tensors. Smoothed stress uses ten-node quadratic interpolation of body/material-partitioned nodal tensors; invariants follow interpolation. Not a raw node/IP value. Sections intersect affine tetrahedron volumes and sample polygon corners, edge midsides and the interior centroid; rendering uses linear display triangles. No exterior-only clipping. Curved/non-midpoint volume geometry is refused. Equal-weight arithmetic mean of incident element-node tensors at the same mesh node, partitioned by body and material; all incident volume elements contribute once. Invariants are calculated after tensor averaging. No spatial merging or FRD stress. Display derivative only; smoothing can hide element jumps and is not convergence evidence.",
+  "point_m": [0, 0, 0.25],
+  "normal": [0.0, 0.0, 1.0],
+  "vertices": [
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.0, 0.75, 0.0, 0.25],
+      "position_m": [0.75, 0.0, 0.25],
+      "displacement_m": [0.5625, -0.1875, 0.0625],
+      "stress": {
+        "tensor_pa": [
+          10.500000000000002, -4.0, 0.25, 0.75, 0.5, 0.25000000000000006
+        ],
+        "principal_pa": [
+          10.546069361541297, 0.297170289470596, -4.09323965101189
+        ],
+        "von_mises_pa": 13.012013679673107
+      },
+      "smoothed_stress": {
+        "tensor_pa": [10.5, -4.0, 0.25, 0.75, 0.5, 0.2500000000000001],
+        "principal_pa": [
+          10.546069361541296, 0.297170289470596, -4.09323965101189
+        ],
+        "von_mises_pa": 13.012013679673105
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.0, 0.0, 0.75, 0.25],
+      "position_m": [0.0, 0.75, 0.25],
+      "displacement_m": [0.1875, 0.5625, 0.0625],
+      "stress": {
+        "tensor_pa": [
+          11.249999999999998, -3.2500000000000004, 0.25, -0.75, 0.5,
+          1.0000000000000002
+        ],
+        "principal_pa": [11.373940601876312, 0.25, -3.3739406018763134],
+        "von_mises_pa": 13.311179511974137
+      },
+      "smoothed_stress": {
+        "tensor_pa": [11.25, -3.25, 0.25, -0.75, 0.5, 1.0000000000000002],
+        "principal_pa": [
+          11.373940601876313, 0.25000000000000006, -3.3739406018763125
+        ],
+        "von_mises_pa": 13.311179511974135
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.75, 0.0, 0.0, 0.25],
+      "position_m": [0.0, 0.0, 0.25],
+      "displacement_m": [0.0, 0.0, 0.0625],
+      "stress": {
+        "tensor_pa": [
+          9.750000000000002, -4.0, 0.25, 0.0, 0.5, 0.25000000000000006
+        ],
+        "principal_pa": [
+          9.75658698080271, 0.3015043917270463, -4.058091372529754
+        ],
+        "von_mises_pa": 12.232129822725069
+      },
+      "smoothed_stress": {
+        "tensor_pa": [9.75, -4.0, 0.25, 0.0, 0.5, 0.2500000000000001],
+        "principal_pa": [
+          9.756586980802709, 0.30150439172704624, -4.058091372529754
+        ],
+        "von_mises_pa": 12.232129822725067
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.0, 0.375, 0.375, 0.25],
+      "position_m": [0.375, 0.375, 0.25],
+      "displacement_m": [0.234375, 0.046875, 0.34375],
+      "stress": {
+        "tensor_pa": [10.875, -3.625, 0.25, 0.0, 0.5, 0.6250000000000002],
+        "principal_pa": [
+          10.911697357154956, 0.2772072154215321, -3.68890457257649
+        ],
+        "von_mises_pa": 13.07669683062202
+      },
+      "smoothed_stress": {
+        "tensor_pa": [10.875, -3.625, 0.25, 0.0, 0.5, 0.6250000000000002],
+        "principal_pa": [
+          10.911697357154956, 0.2772072154215321, -3.68890457257649
+        ],
+        "von_mises_pa": 13.07669683062202
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.375, 0.0, 0.375, 0.25],
+      "position_m": [0.0, 0.375, 0.25],
+      "displacement_m": [0.09375, 0.140625, 0.0625],
+      "stress": {
+        "tensor_pa": [10.5, -3.625, 0.25, -0.375, 0.5, 0.6250000000000002],
+        "principal_pa": [
+          10.546334579010844, 0.2815283330166857, -3.70286291202753
+        ],
+        "von_mises_pa": 12.733445134762235
+      },
+      "smoothed_stress": {
+        "tensor_pa": [10.5, -3.625, 0.25, -0.375, 0.5, 0.6250000000000002],
+        "principal_pa": [
+          10.546334579010844, 0.2815283330166857, -3.70286291202753
+        ],
+        "von_mises_pa": 12.733445134762235
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.375, 0.375, 0.0, 0.25],
+      "position_m": [0.375, 0.0, 0.25],
+      "displacement_m": [0.140625, -0.09375, 0.0625],
+      "stress": {
+        "tensor_pa": [
+          10.125000000000002, -4.0, 0.25, 0.375, 0.5, 0.25000000000000006
+        ],
+        "principal_pa": [
+          10.141962546354932, 0.2994029765611087, -4.066365522916036
+        ],
+        "von_mises_pa": 12.605802235478711
+      },
+      "smoothed_stress": {
+        "tensor_pa": [10.125, -4.0, 0.25, 0.375, 0.5, 0.2500000000000001],
+        "principal_pa": [
+          10.14196254635493, 0.29940297656110865, -4.066365522916036
+        ],
+        "von_mises_pa": 12.605802235478711
+      }
+    },
+    {
+      "element_id": 1,
+      "body_id": "6954e62b9c1ebfac7576039c9d8b9405d0c6800da0a94e9daf8af390ea5a4415:b1",
+      "material_id": "UPPER",
+      "barycentric": [0.25, 0.25, 0.25, 0.25],
+      "position_m": [0.25, 0.25, 0.25],
+      "displacement_m": [0.125, 0.0, 0.1875],
+      "stress": {
+        "tensor_pa": [10.5, -3.75, 0.25, 0.0, 0.5, 0.5000000000000001],
+        "principal_pa": [
+          10.524373931136184, 0.2874407511630327, -3.8118146822992185
+        ],
+        "von_mises_pa": 12.789155562428665
+      },
+      "smoothed_stress": {
+        "tensor_pa": [10.5, -3.75, 0.25, 0.0, 0.5, 0.5000000000000001],
+        "principal_pa": [
+          10.524373931136184, 0.2874407511630327, -3.8118146822992185
+        ],
+        "von_mises_pa": 12.789155562428665
+      }
+    }
+  ],
+  "triangles": [
+    [6, 0, 3],
+    [6, 3, 1],
+    [6, 1, 4],
+    [6, 4, 2],
+    [6, 2, 5],
+    [6, 5, 0]
+  ]
+}

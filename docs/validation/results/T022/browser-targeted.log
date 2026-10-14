@@ -1,0 +1,12 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts --grep physical probes
+
+
+Running 1 test using 1 worker
+
+(node:69561) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/results.spec.ts:305:1 › physical probes and volume sections preserve field and camera and reject unavailable data (14.7s)
+
+  1 passed (18.0s)

@@ -1,0 +1,6 @@
+{
+  "displacement_absolute_m": 5.338402683844791e-16,
+  "tensor_absolute_pa": 4.263068835896963e-12,
+  "section_plane_absolute_m": 1.1102230246251565e-16,
+  "criteria": "tests/fixtures/native/result-inspection.json"
+}

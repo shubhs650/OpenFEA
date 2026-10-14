@@ -1,0 +1,10 @@
+{
+  "section_plane_absolute_m": 0.0,
+  "tensor_absolute_pa": 1.7763568394002505e-15,
+  "quadratic_displacement_absolute_m": 0.0,
+  "section_area_absolute_m2": 0.0,
+  "interior_sample_count": 1,
+  "nodes": 7,
+  "triangles": 6,
+  "criteria": "tests/fixtures/native/result-inspection.json"
+}
