@@ -7,10 +7,10 @@ from pathlib import Path
 import pytest
 
 from worker.calculix.results import parse_dat
-from worker.postprocess.fields import element_nodes, probe_element
+from worker.postprocess.fields import element_nodes, probe_element, smooth_nodes
 from worker.postprocess.tensors import principal, von_mises
 from worker.runtime import ROOT
-from worker.stress_fixture import diagnostic_case, run_b09
+from worker.stress_fixture import diagnostic_case, hand_mesh, run_b09
 
 
 @pytest.mark.parametrize("case", ["hydrostatic", "pure-shear", "varying-shear"])
@@ -91,6 +91,14 @@ def test_native_two_material_jump_and_vtk_roundtrip(tmp_path: Path) -> None:
         assert {p["material_id"] for p in sides} == {"UPPER", "LOWER"}
         assert {round(p["tensor_pa"][0]) for p in sides} == {210000000, 70000000}
         assert len({p["element_id"] for p in sides}) == 2
+    mesh = hand_mesh(True)
+    smooth = smooth_nodes(
+        element_nodes(parse_dat(tmp_path / "analysis.dat", mesh)["samples"], mesh), mesh
+    )
+    for node in result["shared_node_ids"]:
+        sides = [p for p in smooth if p.node_id == node]
+        assert sorted(p.tensor_pa[0] for p in sides) == pytest.approx([70e6, 210e6], abs=100)
+        assert all(p.provenance["contributing_elements"] == 1 for p in sides)
     assert result["vtk"]["element_owned_points"] == 20
     assert result["vtk"]["global_nodes"] == 14
     assert result["vtk"]["tensor_roundtrip"] == "exact"

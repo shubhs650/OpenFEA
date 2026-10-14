@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 IN PROGRESS — T019–T020 COMPLETE, T021 result fields/averaging next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: Review the T020 PR (hosted outcome tracked on the PR), then implement T021; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M3 IN PROGRESS — T019–T021 COMPLETE, T022 probes/sections next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: Review T021 PR (hosted outcome tracked on the PR), then implement T022; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -31,7 +31,8 @@ T017: COMPLETE
 T018: COMPLETE
 T019: COMPLETE
 T020: COMPLETE
-T021–T042: NOT STARTED
+T021: COMPLETE
+T022–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
@@ -46,6 +47,12 @@ B11: DEVELOPMENT PASS for invalid-setup refusal; actual finite unsupported nativ
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T021 completed — full result fields and partitioned tensor smoothing
+
+The actual owned frozen result API/workspace now exposes all 14 displacement/tensor/principal fields with signed native node/IP extrema, SI/frame/order and body/material metadata. Default unaveraged element-node tensors remain separate; optional all-incident equal tensor smoothing keys by exact body/material/node and derives invariants afterward. No spatial merging or solver-averaged FRD stress. Field/mode/units/clipping leave warnings, raw extrema, frozen yield/equilibrium and original artifacts unchanged. Signed contour limits and responsive ID/table wrapping are verified. [ADR-029](docs/adr/ADR-029.md), [guide](docs/CORE_RESULTS.md), [evidence](docs/validation/T021.md) and [manifest](docs/validation/results/T021/index.json) retain the delivered bounds.
+
+**613 distinct verified passes, 0 remaining failures/skips:** 339 Python, 32 TypeScript, 188 native, 18 actual-process integration and 36 Chromium. Full native passes in 542.30 s; full browser plus final three-case responsive replay pass. Actual axial boundary errors are 4.76e-16 m displacement, 6.77e-12 Pa tensor and 5.96e-12 Pa principal. Actual varying-bracket smoothing matches the independent inverse-Gauss/all-incident mean to 4.66e-10 Pa; native B09 retains 70/210 MPa sides. Raw bytes/source hashes and screenshots are retained. Initial exact-label test locators, format/types and visually found table overflow are corrected without deadline/retry/tolerance/native-cap changes. Smoothing is display derivation, not convergence/stability proof. Probes/sections remain T022, M3/T024 and owner/laptop/Windows acceptance remain pending. T020 PR #17 was externally merged after [hosted success](https://github.com/shubhs650/OpenFEA/actions/runs/38607079208). Next **T022**.
 
 ## T020 completed — necessary assembly checks and bounded zero-gap solve admission
 

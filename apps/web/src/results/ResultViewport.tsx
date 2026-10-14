@@ -8,6 +8,7 @@ import vtkPolyData from "@kitware/vtk.js/Common/DataModel/PolyData";
 import vtkDataArray from "@kitware/vtk.js/Common/Core/DataArray";
 import {
   color,
+  isDisplacement,
   constantRange,
   deformed,
   scalar,
@@ -24,8 +25,8 @@ export function ResultViewport({
   const theme = useTheme();
   const container = useRef<HTMLDivElement>(null);
   const [error, setError] = useState("");
-  const { view, field, scale, range, preset } = presentation;
-  const unit = field === "displacement" ? preset.length : preset.stress;
+  const { view, field, smoothed, scale, range, preset } = presentation;
+  const unit = isDisplacement(field) ? preset.length : preset.stress;
   useEffect(() => {
     if (!container.current) return;
     const window = vtkGenericRenderWindow.newInstance({
@@ -74,7 +75,9 @@ export function ResultViewport({
       name: "ResultColors",
       numberOfComponents: 3,
       values: new Uint8Array(
-        view.data.vertices.flatMap((v) => color(scalar(v, field), range)),
+        view.data.vertices.flatMap((v) =>
+          color(scalar(v, field, smoothed), range),
+        ),
       ),
     });
     poly.getPointData().setScalars(colors);
@@ -103,21 +106,22 @@ export function ResultViewport({
       colors.delete();
       window.delete();
     };
-  }, [theme, view, field, scale, range, visible]);
+  }, [theme, view, field, smoothed, scale, range, visible]);
   return (
     <section
       className="result-viewport"
       aria-label="Calculated result viewport"
       data-result-job={view.job_id}
       data-deformation-scale={scale}
+      data-result-field={field}
+      data-stress-smoothing={
+        smoothed && !isDisplacement(field) ? "smoothed" : "unaveraged"
+      }
     >
       <div ref={container} className="viewport" aria-label="Result 3D canvas" />
       <div className="result-legend" aria-label="Result legend">
         <strong>
-          {field === "displacement"
-            ? "Displacement magnitude"
-            : "Von Mises stress"}{" "}
-          ({unit.label})
+          {view.data.fields.find((f) => f.key === field)?.label} ({unit.label})
         </strong>
         <div
           className="contour-bar"
@@ -140,9 +144,11 @@ export function ResultViewport({
           Numerical values are unchanged.
         </p>
         <p>
-          {field === "von_mises"
-            ? "Derived element-node contour from raw DAT tensors. Vertices retain each element side; no stress averaging."
-            : "Native DAT nodal displacement magnitude. Quadratic boundary faces use all six nodes."}
+          {isDisplacement(field)
+            ? "Native DAT nodal displacement. Quadratic boundary faces use all six nodes."
+            : smoothed
+              ? "Smoothed nodal stress: tensor average within each body/material, then invariants. No averaging across body/material boundaries."
+              : "Derived element-node contour from raw DAT tensors. Vertices retain each element side; no stress averaging."}
         </p>
         <p>
           All-body range and extrema remain visible when bodies are hidden. Raw

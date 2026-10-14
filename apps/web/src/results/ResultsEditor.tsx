@@ -7,6 +7,7 @@ import {
 } from "../geometry/api";
 import {
   fieldRange,
+  isDisplacement,
   type ResultField,
   type ResultPresentation,
 } from "./presentation";
@@ -28,6 +29,7 @@ export function ResultsEditor({
   const [id, setId] = useState("");
   const [view, setView] = useState<ResultView | null>(null);
   const [field, setField] = useState<ResultField>("displacement");
+  const [smoothed, setSmoothed] = useState(false);
   const [scale, setScale] = useState("0");
   const [custom, setCustom] = useState<[number, number] | null>(null);
   const [low, setLow] = useState("");
@@ -60,11 +62,12 @@ export function ResultsEditor({
       showResult({
         view,
         field,
+        smoothed,
         scale: value,
         preset,
-        range: custom ?? fieldRange(view, field),
+        range: custom ?? fieldRange(view, field, smoothed),
       });
-  }, [view, field, scale, preset, custom, showResult]);
+  }, [view, field, smoothed, scale, preset, custom, showResult]);
   async function open() {
     const sequence = ++request.current;
     setLoading(true);
@@ -78,6 +81,7 @@ export function ResultsEditor({
         setId(selected);
         setCustom(null);
         setScale("0");
+        setSmoothed(false);
       }
     } catch (e) {
       if (sequence === request.current) setError((e as Error).message);
@@ -85,6 +89,8 @@ export function ResultsEditor({
       if (sequence === request.current) setLoading(false);
     }
   }
+  const selectedField = view?.data.fields.find((f) => f.key === field);
+  const fieldUnit = isDisplacement(field) ? preset.length : preset.stress;
   const stress = preset.stress,
     length = preset.length,
     force = preset.force;
@@ -92,7 +98,7 @@ export function ResultsEditor({
     return (value / factor).toPrecision(6);
   }
   function location(sample: ResultView["data"]["displacement"]["maximum"]) {
-    return `${sample.location === "node" ? `Node ${sample.node_id}` : `Element ${sample.element_id}, IP ${sample.integration_point_id}`} at [${sample.position_m.map((v) => format(v, length.to_si)).join(", ")}] ${length.label}`;
+    return `${sample.location === "node" ? `Node ${sample.node_id}` : `Element ${sample.element_id}, IP ${sample.integration_point_id}`} ${sample.body_id ? `· Body ${sample.body_id} / material ${sample.material_id} ` : ""}at [${sample.position_m.map((v) => format(v, length.to_si)).join(", ")}] ${length.label}`;
   }
   return (
     <section className="results-panel" aria-label="Engineering results">
@@ -154,10 +160,74 @@ export function ResultsEditor({
                 setHigh("");
               }}
             >
-              <option value="displacement">Displacement magnitude</option>
-              <option value="von_mises">Von Mises stress</option>
+              {view.data.fields.map((f) => (
+                <option key={f.key} value={f.key}>
+                  {f.label}
+                </option>
+              ))}
             </select>
           </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={smoothed && !isDisplacement(field)}
+              disabled={isDisplacement(field)}
+              onChange={(e) => {
+                setSmoothed(e.target.checked);
+                setCustom(null);
+                setLow("");
+                setHigh("");
+              }}
+            />
+            Smooth stress within each body and material
+          </label>
+          <p aria-label="Stress averaging method">
+            {isDisplacement(field)
+              ? "Native nodal displacement; stress smoothing does not alter this field."
+              : smoothed
+                ? view.data.smoothing_method
+                : "Unaveraged element-node tensors from native DAT integration points; each element side is retained."}
+          </p>
+          <p>
+            Global Cartesian frame; tensor order [
+            {view.data.tensor_components.join(", ")}]. Principal order:{" "}
+            {view.data.principal_order}. Tensile normal stresses are positive.
+          </p>
+          {selectedField && (
+            <table aria-label="Selected field raw extrema">
+              <thead>
+                <tr>
+                  <th>Field / raw location</th>
+                  <th>Minimum</th>
+                  <th>Minimum location</th>
+                  <th>Maximum</th>
+                  <th>Maximum location</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>
+                    {selectedField.label} ({fieldUnit.label}) ·{" "}
+                    {selectedField.raw_location}
+                  </th>
+                  <td data-testid="field-minimum">
+                    {format(
+                      selectedField.extrema.minimum.value,
+                      fieldUnit.to_si,
+                    )}
+                  </td>
+                  <td>{location(selectedField.extrema.minimum)}</td>
+                  <td data-testid="field-maximum">
+                    {format(
+                      selectedField.extrema.maximum.value,
+                      fieldUnit.to_si,
+                    )}
+                  </td>
+                  <td>{location(selectedField.extrema.maximum)}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
           <label>
             Deformation scale
             <input
@@ -182,8 +252,7 @@ export function ResultsEditor({
             values exaggerate the display.
           </p>
           <label>
-            Contour minimum (
-            {field === "displacement" ? length.label : stress.label})
+            Contour minimum ({fieldUnit.label})
             <input
               type="number"
               value={low}
@@ -191,8 +260,7 @@ export function ResultsEditor({
             />
           </label>
           <label>
-            Contour maximum (
-            {field === "displacement" ? length.label : stress.label})
+            Contour maximum ({fieldUnit.label})
             <input
               type="number"
               value={high}
@@ -203,17 +271,18 @@ export function ResultsEditor({
             onClick={() => {
               const a = Number(low),
                 b = Number(high),
-                factor = field === "displacement" ? length.to_si : stress.to_si;
+                factor = fieldUnit.to_si;
               if (
                 !low.trim() ||
                 !high.trim() ||
                 !Number.isFinite(a * factor) ||
                 !Number.isFinite(b * factor) ||
-                a < 0 ||
+                ((field === "displacement" || field === "von_mises") &&
+                  a < 0) ||
                 b <= a
               )
                 setError(
-                  "Enter finite nonnegative contour limits with maximum greater than minimum.",
+                  "Enter finite contour limits with maximum greater than minimum; magnitudes must be nonnegative.",
                 );
               else {
                 setCustom([a * factor, b * factor]);

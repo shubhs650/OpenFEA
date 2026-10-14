@@ -6,10 +6,10 @@ from typing import Any
 from worker.actions import external_balance
 from worker.calculix.results import Mesh, StressPoint
 from worker.meshing import Vec
-from worker.postprocess.fields import element_nodes
-from worker.postprocess.tensors import COMPONENTS, tensor, von_mises
+from worker.postprocess.fields import SMOOTHING_METHOD, element_nodes, smooth_nodes
+from worker.postprocess.tensors import COMPONENTS, principal, tensor, von_mises
 
-VIEW_VERSION = "affine-c3d10-direction-results-v3"
+VIEW_VERSION = "affine-c3d10-full-fields-v4"
 ZERO_STRESS_PA = 1e-6  # Absolute display convention; never a finite safety factor.
 
 
@@ -46,7 +46,14 @@ def build_view(
     if any(p.provenance.get("source_sha256") != raw["dat"]["source_sha256"] for p in points):
         raise ValueError("Raw stress source identity disagrees")
     derived = element_nodes(points, mesh)
-    fields = {(p.element_id, p.node_id): von_mises(tensor(p.tensor_pa)) for p in derived}
+
+    def stress_values(point: StressPoint) -> dict[str, Any]:
+        t = tensor(point.tensor_pa)
+        return {"tensor_pa": t, "principal_pa": principal(t), "von_mises_pa": von_mises(t)}
+
+    fields = {(p.element_id, p.node_id): stress_values(p) for p in derived}
+    smoothed = {(p.element_id, p.node_id): p for p in smooth_nodes(derived, mesh)}
+    smooth_values = {key: stress_values(p) for key, p in smoothed.items()}
     displacements = {int(n): vector(v) for n, v in raw["dat"]["displacements_m"].items()}
     forces = {int(n): vector(v) for n, v in raw["dat"]["external_forces_n"].items()}
     if set(displacements) != set(mesh.nodes) or set(forces) != set(mesh.nodes):
@@ -70,7 +77,12 @@ def build_view(
                         "face_id": face_id,
                         "position_m": mesh.nodes[n],
                         "displacement_m": displacements[n],
-                        "von_mises_pa": fields[(eid, n)],
+                        "von_mises_pa": fields[(eid, n)]["von_mises_pa"],
+                        "stress": fields[(eid, n)],
+                        "smoothed_stress": smooth_values[(eid, n)],
+                        "smoothed_contributions": smoothed[(eid, n)].provenance[
+                            "contributing_elements"
+                        ],
                     }
                 )
             triangles.extend(
@@ -93,9 +105,68 @@ def build_view(
             element=p.element_id,
             ip=p.integration_point_id,
             body=p.body_id,
+            material=p.material_id,
         )
         for p in points
     ]
+    field_definitions = [
+        {
+            "key": "displacement",
+            "label": "Displacement magnitude",
+            "unit": "m",
+            "raw_location": "node",
+            "extrema": extrema(displacement_samples),
+        },
+        {
+            "key": "von_mises",
+            "label": "Von Mises stress",
+            "unit": "Pa",
+            "raw_location": "integration_point",
+            "extrema": extrema(stress_samples),
+        },
+    ]
+    for axis, key in enumerate(("ux", "uy", "uz")):
+        field_definitions.append(
+            {
+                "key": key,
+                "label": f"Displacement {key}",
+                "unit": "m",
+                "raw_location": "node",
+                "extrema": extrema(
+                    [
+                        sample(displacements[n][axis], "node", mesh.nodes[n], node=n)
+                        for n in sorted(mesh.nodes)
+                    ]
+                ),
+            }
+        )
+    raw_values = [(p, stress_values(p)) for p in points]
+    for key, label, source, index in [
+        *((f"s{c}", f"Stress σ{c}", "tensor_pa", i) for i, c in enumerate(COMPONENTS)),
+        *((f"s{i + 1}", f"Principal stress σ{i + 1}", "principal_pa", i) for i in range(3)),
+    ]:
+        field_definitions.append(
+            {
+                "key": key,
+                "label": label,
+                "unit": "Pa",
+                "raw_location": "integration_point",
+                "extrema": extrema(
+                    [
+                        sample(
+                            values[source][index],
+                            "integration_point",
+                            p.position_m,
+                            element=p.element_id,
+                            ip=p.integration_point_id,
+                            body=p.body_id,
+                            material=p.material_id,
+                        )
+                        for p, values in raw_values
+                    ]
+                ),
+            }
+        )
     equilibrium, reactions = external_balance(
         raw["dat"], mesh, raw_mesh["boundary"], deck, reference
     )
@@ -146,6 +217,11 @@ def build_view(
     force, moment = equilibrium["reaction_force_n"], equilibrium["reaction_moment_nm"]
     view = {
         "processor": VIEW_VERSION,
+        "fields": field_definitions,
+        "frame": "global_cartesian",
+        "tensor_components": COMPONENTS,
+        "principal_order": "s1 >= s2 >= s3 (algebraic)",
+        "smoothing_method": SMOOTHING_METHOD,
         "vertices": vertices,
         "triangles": triangles,
         "displacement": extrema(displacement_samples),
@@ -161,7 +237,8 @@ def build_view(
         "constrained global components only; unique nodes/DOFs per body; internal ties excluded",
         "warnings": list(dict.fromkeys(warnings)),
         "stress_method": "linear_C3D10_extrapolation_from_native_DAT_IP; element-owned "
-        "tensors, then von Mises; no averaging",
+        "tensors, then invariants; default unaveraged, "
+        "optional body/material-partitioned smoothing",
         "extrema_method": "Displacement: all native DAT nodes; von Mises/yield factor: "
         "all raw DAT integration points, including interior",
     }
@@ -187,6 +264,7 @@ def sample(
     element: int | None = None,
     ip: int | None = None,
     body: str | None = None,
+    material: str | None = None,
 ) -> dict[str, Any]:
     return {
         "value": value,
@@ -196,6 +274,7 @@ def sample(
         "element_id": element,
         "integration_point_id": ip,
         "body_id": body,
+        "material_id": material,
     }
 
 

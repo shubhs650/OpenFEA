@@ -436,7 +436,6 @@ class JobService:
                         "services/worker/worker/postprocess/view.py",
                         "services/worker/worker/postprocess/fields.py",
                         "services/worker/worker/postprocess/tensors.py",
-                        "services/worker/worker/directions.py",
                         "services/worker/worker/meshing.py",
                         "services/worker/worker/actions.py",
                         "services/worker/worker/directions.py",

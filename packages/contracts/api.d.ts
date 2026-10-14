@@ -2887,12 +2887,24 @@ export interface components {
             equilibrium: components["schemas"]["EquilibriumData"];
             /** Extrema Method */
             extrema_method: string;
+            /** Fields */
+            fields: components["schemas"]["ResultField"][];
+            /**
+             * Frame
+             * @constant
+             */
+            frame: "global_cartesian";
             /** Moment Origin M */
             moment_origin_m: [
                 number,
                 number,
                 number
             ];
+            /**
+             * Principal Order
+             * @constant
+             */
+            principal_order: "s1 >= s2 >= s3 (algebraic)";
             /** Processor */
             processor: string;
             /** Reaction Force N */
@@ -2911,8 +2923,19 @@ export interface components {
             ];
             /** Reactions */
             reactions: components["schemas"]["BodyReaction"][];
+            /** Smoothing Method */
+            smoothing_method: string;
             /** Stress Method */
             stress_method: string;
+            /** Tensor Components */
+            tensor_components: [
+                "xx",
+                "yy",
+                "zz",
+                "xy",
+                "yz",
+                "zx"
+            ];
             /** Triangles */
             triangles: [
                 number,
@@ -2934,6 +2957,27 @@ export interface components {
             maximum: components["schemas"]["ResultSample"];
             minimum: components["schemas"]["ResultSample"];
         };
+        /** ResultField */
+        ResultField: {
+            extrema: components["schemas"]["ResultExtrema"];
+            /**
+             * Key
+             * @enum {string}
+             */
+            key: "displacement" | "ux" | "uy" | "uz" | "von_mises" | "sxx" | "syy" | "szz" | "sxy" | "syz" | "szx" | "s1" | "s2" | "s3";
+            /** Label */
+            label: string;
+            /**
+             * Raw Location
+             * @enum {string}
+             */
+            raw_location: "node" | "integration_point";
+            /**
+             * Unit
+             * @enum {string}
+             */
+            unit: "m" | "Pa";
+        };
         /** ResultSample */
         ResultSample: {
             /** Body Id */
@@ -2947,6 +2991,8 @@ export interface components {
              * @enum {string}
              */
             location: "node" | "integration_point";
+            /** Material Id */
+            material_id: string | null;
             /** Node Id */
             node_id: number | null;
             /** Position M */
@@ -2982,6 +3028,10 @@ export interface components {
                 number,
                 number
             ];
+            /** Smoothed Contributions */
+            smoothed_contributions: number;
+            smoothed_stress: components["schemas"]["StressValues"];
+            stress: components["schemas"]["StressValues"];
             /** Von Mises Pa */
             von_mises_pa: number;
         };
@@ -3061,6 +3111,26 @@ export interface components {
             library_version: string;
             /** Sample Id */
             sample_id: string;
+        };
+        /** StressValues */
+        StressValues: {
+            /** Principal Pa */
+            principal_pa: [
+                number,
+                number,
+                number
+            ];
+            /** Tensor Pa */
+            tensor_pa: [
+                number,
+                number,
+                number,
+                number,
+                number,
+                number
+            ];
+            /** Von Mises Pa */
+            von_mises_pa: number;
         };
         /** SymmetryInput */
         SymmetryInput: {

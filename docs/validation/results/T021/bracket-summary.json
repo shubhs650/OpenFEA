@@ -1,0 +1,552 @@
+{
+  "schema_version": 1,
+  "job_id": "4ac9213c-c874-4376-a68a-40079f9c510d",
+  "analysis_id": "4769d29e-124f-42e9-b361-6e56e9eb12f0",
+  "analysis_revision": 5,
+  "geometry_revision_id": "b8a3cc57-280f-4a27-ab95-f4448e6aadc3",
+  "input_sha256": "7db1f48018dd5f88be5f19765d31e970f21a6ab279d6431b0157b4770f662696",
+  "results_sha256": "ba7526f3aa85e97af70878f0ed63dfdf22ccc860c9075e6ae130b2075942cc1a",
+  "mesh_sha256": "02972fd3e2deecd253a39bd2f8f339f27751980a4d5634f2631821e754465b83",
+  "deck_sha256": "ac2435133220dc11d500644a483cfcb846e70291f73341fbde49a453764fda7d",
+  "dat_sha256": "bb95df6a1cbd7d1ff8763c79fa6f7714391c7fb247e84672b7d78cd7f314268c",
+  "processor_sources": {
+    "services/worker/worker/postprocess/view.py": "dbc525f97a602d241ce4391599c8028d741efc25c1a1fc2d61eaeeb806a9f33d",
+    "services/worker/worker/postprocess/fields.py": "3201afd7ad773d0865f77b992e941c5264484d87490964b84866ff87e718c2cf",
+    "services/worker/worker/postprocess/tensors.py": "9dc5efb68ebfafc05d5f964019548b801fdcad8706032554334aa0c537767584",
+    "services/worker/worker/meshing.py": "1d71f8f57bd020f96804f284f4be1d2a0fd51bf89d0bc529f48cd1aad2a52e9e",
+    "services/worker/worker/actions.py": "1a8edff017a1397b45fa667d9056a2b5e9ebf250248812928855f64dec460e9b",
+    "services/worker/worker/directions.py": "8de17d5705b81b651a5077ddf3b80e3b29a13b9f453af1c79fc2e82db06e4592",
+    "services/worker/worker/calculix/results.py": "da43f91763e9880a6e8728906202f1394d7b89a31af61e6a6f163c1190c29609",
+    "services/api/app/jobs/service.py": "d35d13e7432eaf0ab1e1e0ae80120ac9be732a55defbec63f1c5c7dbbc1db7c4",
+    "services/api/app/domain/results.py": "fb20a54a19564669f4559c98a178a301db8daf4fdf012d5c0a909138f12ec9d6"
+  },
+  "data": {
+    "processor": "affine-c3d10-full-fields-v4",
+    "fields": [
+      {
+        "key": "displacement",
+        "label": "Displacement magnitude",
+        "unit": "m",
+        "raw_location": "node",
+        "extrema": {
+          "minimum": {
+            "value": 0.0,
+            "location": "node",
+            "position_m": [0.01, 0.02, 0.06],
+            "node_id": 9,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          },
+          "maximum": {
+            "value": 1.1555961790572906e-5,
+            "location": "node",
+            "position_m": [0.08, 0.0, 0.0],
+            "node_id": 4,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          }
+        }
+      },
+      {
+        "key": "von_mises",
+        "label": "Von Mises stress",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": 89672.7755608472,
+            "location": "integration_point",
+            "position_m": [0.05619959, 0.01, 0.004145898],
+            "node_id": null,
+            "element_id": 101,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 1854929.9737922533,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.01, 0.05268237],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 3,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "ux",
+        "label": "Displacement ux",
+        "unit": "m",
+        "raw_location": "node",
+        "extrema": {
+          "minimum": {
+            "value": -3.897218e-6,
+            "location": "node",
+            "position_m": [0.08, 0.02, 0.0],
+            "node_id": 3,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          },
+          "maximum": {
+            "value": 0.0,
+            "location": "node",
+            "position_m": [0.01, 0.02, 0.06],
+            "node_id": 9,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          }
+        }
+      },
+      {
+        "key": "uy",
+        "label": "Displacement uy",
+        "unit": "m",
+        "raw_location": "node",
+        "extrema": {
+          "minimum": {
+            "value": -3.098243e-8,
+            "location": "node",
+            "position_m": [0.01, 0.02, 0.035],
+            "node_id": 31,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          },
+          "maximum": {
+            "value": 3.328632e-8,
+            "location": "node",
+            "position_m": [0.08, 0.02, 0.0],
+            "node_id": 3,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          }
+        }
+      },
+      {
+        "key": "uz",
+        "label": "Displacement uz",
+        "unit": "m",
+        "raw_location": "node",
+        "extrema": {
+          "minimum": {
+            "value": -1.088134e-5,
+            "location": "node",
+            "position_m": [0.08, 0.0, 0.0],
+            "node_id": 4,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          },
+          "maximum": {
+            "value": 5.062477e-7,
+            "location": "node",
+            "position_m": [0.0, 0.02, 0.0],
+            "node_id": 2,
+            "element_id": null,
+            "integration_point_id": null,
+            "body_id": null,
+            "material_id": null
+          }
+        }
+      },
+      {
+        "key": "sxx",
+        "label": "Stress \u03c3xx",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -1126745.0,
+            "location": "integration_point",
+            "position_m": [0.02756231, 0.01861803, 0.001381966],
+            "node_id": null,
+            "element_id": 58,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 1330586.0,
+            "location": "integration_point",
+            "position_m": [0.01380041, 0.005527864, 0.008618034],
+            "node_id": null,
+            "element_id": 99,
+            "integration_point_id": 3,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "syy",
+        "label": "Stress \u03c3yy",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -738895.9,
+            "location": "integration_point",
+            "position_m": [0.000690983, 0.01447214, 0.05792705],
+            "node_id": null,
+            "element_id": 72,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 799361.8,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.005527864, 0.05827254],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "szz",
+        "label": "Stress \u03c3zz",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -2020580.0,
+            "location": "integration_point",
+            "position_m": [0.000690983, 0.01447214, 0.05792705],
+            "node_id": null,
+            "element_id": 72,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 2124347.0,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.005527864, 0.05827254],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "sxy",
+        "label": "Stress \u03c3xy",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -185910.6,
+            "location": "integration_point",
+            "position_m": [0.0141459, 0.001381966, 0.005854102],
+            "node_id": null,
+            "element_id": 57,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 198741.2,
+            "location": "integration_point",
+            "position_m": [0.0141459, 0.01861803, 0.005854102],
+            "node_id": null,
+            "element_id": 58,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "syz",
+        "label": "Stress \u03c3yz",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -260105.4,
+            "location": "integration_point",
+            "position_m": [0.005854102, 0.001381966, 0.01207295],
+            "node_id": null,
+            "element_id": 77,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 296836.7,
+            "location": "integration_point",
+            "position_m": [0.005854102, 0.01861803, 0.01207295],
+            "node_id": null,
+            "element_id": 78,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "szx",
+        "label": "Stress \u03c3zx",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -306610.0,
+            "location": "integration_point",
+            "position_m": [0.008618034, 0.005527864, 0.01241844],
+            "node_id": null,
+            "element_id": 102,
+            "integration_point_id": 1,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 641918.5,
+            "location": "integration_point",
+            "position_m": [0.001381966, 0.01861803, 0.007600813],
+            "node_id": null,
+            "element_id": 78,
+            "integration_point_id": 3,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "s1",
+        "label": "Principal stress \u03c31",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -649995.3121095977,
+            "location": "integration_point",
+            "position_m": [0.000690983, 0.01447214, 0.05792705],
+            "node_id": null,
+            "element_id": 72,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 2128368.72216657,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.005527864, 0.05827254],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "s2",
+        "label": "Principal stress \u03c32",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -736821.6826050725,
+            "location": "integration_point",
+            "position_m": [0.000690983, 0.01447214, 0.05792705],
+            "node_id": null,
+            "element_id": 72,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 797636.7324394557,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.005527864, 0.05827254],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      },
+      {
+        "key": "s3",
+        "label": "Principal stress \u03c33",
+        "unit": "Pa",
+        "raw_location": "integration_point",
+        "extrema": {
+          "minimum": {
+            "value": -2023523.60528533,
+            "location": "integration_point",
+            "position_m": [0.000690983, 0.01447214, 0.05792705],
+            "node_id": null,
+            "element_id": 72,
+            "integration_point_id": 2,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          },
+          "maximum": {
+            "value": 700592.9453939745,
+            "location": "integration_point",
+            "position_m": [0.009309017, 0.005527864, 0.05827254],
+            "node_id": null,
+            "element_id": 63,
+            "integration_point_id": 4,
+            "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+            "material_id": "M1"
+          }
+        }
+      }
+    ],
+    "frame": "global_cartesian",
+    "tensor_components": ["xx", "yy", "zz", "xy", "yz", "zx"],
+    "principal_order": "s1 >= s2 >= s3 (algebraic)",
+    "smoothing_method": "Equal-weight arithmetic mean of incident element-node tensors at the same mesh node, partitioned by body and material; all incident volume elements contribute once. Invariants are calculated after tensor averaging. No spatial merging or FRD stress. Display derivative only; smoothing can hide element jumps and is not convergence evidence.",
+    "displacement": {
+      "minimum": {
+        "value": 0.0,
+        "location": "node",
+        "position_m": [0.01, 0.02, 0.06],
+        "node_id": 9,
+        "element_id": null,
+        "integration_point_id": null,
+        "body_id": null,
+        "material_id": null
+      },
+      "maximum": {
+        "value": 1.1555961790572906e-5,
+        "location": "node",
+        "position_m": [0.08, 0.0, 0.0],
+        "node_id": 4,
+        "element_id": null,
+        "integration_point_id": null,
+        "body_id": null,
+        "material_id": null
+      }
+    },
+    "von_mises": {
+      "minimum": {
+        "value": 89672.7755608472,
+        "location": "integration_point",
+        "position_m": [0.05619959, 0.01, 0.004145898],
+        "node_id": null,
+        "element_id": 101,
+        "integration_point_id": 2,
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "material_id": "M1"
+      },
+      "maximum": {
+        "value": 1854929.9737922533,
+        "location": "integration_point",
+        "position_m": [0.009309017, 0.01, 0.05268237],
+        "node_id": null,
+        "element_id": 63,
+        "integration_point_id": 3,
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "material_id": "M1"
+      }
+    },
+    "yield_factors": [
+      {
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "material_id": "M1",
+        "material_name": "Synthetic steel",
+        "yield_strength_pa": 250000000.0,
+        "state": "finite",
+        "minimum": 134.77597727794293,
+        "critical_sample": {
+          "value": 1854929.9737922533,
+          "location": "integration_point",
+          "position_m": [0.009309017, 0.01, 0.05268237],
+          "node_id": null,
+          "element_id": 63,
+          "integration_point_id": 3,
+          "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+          "material_id": "M1"
+        }
+      }
+    ],
+    "zero_stress_pa": 1e-6,
+    "reactions": [
+      {
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "node_count": 13,
+        "constrained_dof_count": 39,
+        "force_n": [-9.00000000214618e-6, 3.2210000009413875e-6, 10.0000012],
+        "moment_nm": [
+          0.09999981874000005, -0.8000005460000004, -5.491999993667562e-8
+        ]
+      }
+    ],
+    "reaction_force_n": [
+      -9.00000000214618e-6, 3.2210000009413875e-6, 10.0000012
+    ],
+    "reaction_moment_nm": [
+      0.09999981874000005, -0.8000005460000004, -5.491999993667562e-8
+    ],
+    "moment_origin_m": [0.0, 0.0, 0.0],
+    "reaction_method": "DAT RF minus written equivalent CLOAD/pressure/consistent gravity, constrained global components only; unique nodes/DOFs per body; internal ties excluded",
+    "equilibrium": {
+      "passed": true,
+      "applied_force_n": [0.0, 0.0, -10.000000000001206],
+      "applied_moment_nm": [-0.10000000000001207, 0.8000000000000964, 0.0],
+      "reaction_force_n": [
+        -9.00000000214618e-6, 3.2210000009413875e-6, 10.0000012
+      ],
+      "reaction_moment_nm": [
+        0.09999981874000005, -0.8000005460000004, -5.491999993667562e-8
+      ],
+      "moment_origin_m": [0.0, 0.0, 0.0],
+      "characteristic_length_m": 0.08,
+      "prescribed_actuator_reference_n": 0.0,
+      "force": {
+        "residual": [
+          -9.00000000214618e-6, 3.2210000009413875e-6, 1.1999987936661682e-6
+        ],
+        "residual_norm": 9.634045783028847e-6,
+        "reference": 10.0,
+        "relative_residual": 9.634045783028846e-7,
+        "criterion": "relative",
+        "absolute_tolerance": 1e-6,
+        "relative_tolerance": 0.005,
+        "tolerance": 0.05,
+        "passed": true
+      },
+      "moment": {
+        "residual": [
+          -1.8126001201379527e-7, -5.459999039558738e-7, -5.491999993667562e-8
+        ],
+        "residual_norm": 5.779163377757278e-7,
+        "reference": 0.8062257748298551,
+        "relative_residual": 7.168169957077972e-7,
+        "criterion": "relative",
+        "absolute_tolerance": 1e-6,
+        "relative_tolerance": 0.005,
+        "tolerance": 0.004031128874149276,
+        "passed": true
+      },
+      "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained span only; internal ties/MPC/free-node RF excluded"
+    },
+    "warnings": [],
+    "stress_method": "linear_C3D10_extrapolation_from_native_DAT_IP; element-owned tensors, then invariants; default unaveraged, optional body/material-partitioned smoothing",
+    "extrema_method": "Displacement: all native DAT nodes; von Mises/yield factor: all raw DAT integration points, including interior"
+  }
+}

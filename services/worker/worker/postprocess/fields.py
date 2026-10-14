@@ -1,11 +1,59 @@
-"""Element-owned extrapolation and probing; never average across an interface."""
+"""Element-owned extrapolation, body/material-partitioned smoothing and probing."""
 
+import math
 from dataclasses import replace
 from typing import Any
 
 from worker.calculix.results import A, B, Mesh, StressPoint
 from worker.meshing import EDGES, Vec
 from worker.postprocess.tensors import COMPONENTS, tensor
+
+SMOOTHING_METHOD = (
+    "Equal-weight arithmetic mean of incident element-node tensors at the same mesh node, "
+    "partitioned by body and material; all incident volume elements contribute once. "
+    "Invariants are calculated after tensor averaging. No spatial merging or FRD stress. "
+    "Display derivative only; smoothing can hide element jumps and is not convergence evidence."
+)
+
+
+def smooth_nodes(points: list[StressPoint], mesh: Mesh) -> list[StressPoint]:
+    """Keep each element side, averaging only its matching body/material/node partition."""
+    grouped: dict[tuple[str | None, str | None, int | None], list[StressPoint]] = {}
+    seen = set()
+    for p in points:
+        e, n = p.element_id, p.node_id
+        if (
+            e not in mesh.elements
+            or n not in mesh.elements[e]
+            or p.location != "element_node"
+            or (e, n) in seen
+            or p.body_id != mesh.bodies[e]
+            or p.material_id != mesh.materials[e]
+            or p.position_m != mesh.nodes[n]
+        ):
+            raise ValueError("Invalid/duplicate element-node smoothing ownership")
+        tensor(p.tensor_pa)
+        seen.add((e, n))
+        grouped.setdefault((p.body_id, p.material_id, n), []).append(p)
+    if len(seen) != 10 * len(mesh.elements):
+        raise ValueError("Smoothing requires every volume element-node tensor")
+    averaged = {
+        key: tensor([math.fsum(p.tensor_pa[k] / len(group) for p in group) for k in range(6)])
+        for key, group in grouped.items()
+    }
+    return [
+        replace(
+            p,
+            location="smoothed_node",
+            tensor_pa=averaged[(p.body_id, p.material_id, p.node_id)],
+            provenance=p.provenance
+            | {
+                "method": SMOOTHING_METHOD,
+                "contributing_elements": len(grouped[(p.body_id, p.material_id, p.node_id)]),
+            },
+        )
+        for p in points
+    ]
 
 
 def element_nodes(points: list[StressPoint], mesh: Mesh) -> list[StressPoint]:

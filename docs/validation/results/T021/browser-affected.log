@@ -1,0 +1,14 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts
+
+
+Running 3 tests using 1 worker
+
+(node:63421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history (12.9s)
+  ✓  2 tests/e2e/results.spec.ts:145:1 › synthetic bracket completes real import to contours, reactions and frozen result history (9.6s)
+  ✓  3 tests/e2e/results.spec.ts:251:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (9.3s)
+
+  3 passed (34.6s)

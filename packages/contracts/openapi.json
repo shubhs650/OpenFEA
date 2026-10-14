@@ -4909,6 +4909,18 @@
             "title": "Extrema Method",
             "type": "string"
           },
+          "fields": {
+            "items": {
+              "$ref": "#/components/schemas/ResultField"
+            },
+            "title": "Fields",
+            "type": "array"
+          },
+          "frame": {
+            "const": "global_cartesian",
+            "title": "Frame",
+            "type": "string"
+          },
           "moment_origin_m": {
             "maxItems": 3,
             "minItems": 3,
@@ -4925,6 +4937,11 @@
             ],
             "title": "Moment Origin M",
             "type": "array"
+          },
+          "principal_order": {
+            "const": "s1 >= s2 >= s3 (algebraic)",
+            "title": "Principal Order",
+            "type": "string"
           },
           "processor": {
             "title": "Processor",
@@ -4975,9 +4992,45 @@
             "title": "Reactions",
             "type": "array"
           },
+          "smoothing_method": {
+            "title": "Smoothing Method",
+            "type": "string"
+          },
           "stress_method": {
             "title": "Stress Method",
             "type": "string"
+          },
+          "tensor_components": {
+            "maxItems": 6,
+            "minItems": 6,
+            "prefixItems": [
+              {
+                "const": "xx",
+                "type": "string"
+              },
+              {
+                "const": "yy",
+                "type": "string"
+              },
+              {
+                "const": "zz",
+                "type": "string"
+              },
+              {
+                "const": "xy",
+                "type": "string"
+              },
+              {
+                "const": "yz",
+                "type": "string"
+              },
+              {
+                "const": "zx",
+                "type": "string"
+              }
+            ],
+            "title": "Tensor Components",
+            "type": "array"
           },
           "triangles": {
             "items": {
@@ -5030,6 +5083,11 @@
         },
         "required": [
           "processor",
+          "fields",
+          "frame",
+          "tensor_components",
+          "principal_order",
+          "smoothing_method",
           "vertices",
           "triangles",
           "displacement",
@@ -5064,6 +5122,63 @@
           "maximum"
         ],
         "title": "ResultExtrema",
+        "type": "object"
+      },
+      "ResultField": {
+        "additionalProperties": false,
+        "properties": {
+          "extrema": {
+            "$ref": "#/components/schemas/ResultExtrema"
+          },
+          "key": {
+            "enum": [
+              "displacement",
+              "ux",
+              "uy",
+              "uz",
+              "von_mises",
+              "sxx",
+              "syy",
+              "szz",
+              "sxy",
+              "syz",
+              "szx",
+              "s1",
+              "s2",
+              "s3"
+            ],
+            "title": "Key",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "raw_location": {
+            "enum": [
+              "node",
+              "integration_point"
+            ],
+            "title": "Raw Location",
+            "type": "string"
+          },
+          "unit": {
+            "enum": [
+              "m",
+              "Pa"
+            ],
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "label",
+          "unit",
+          "raw_location",
+          "extrema"
+        ],
+        "title": "ResultField",
         "type": "object"
       },
       "ResultSample": {
@@ -5110,6 +5225,17 @@
             "title": "Location",
             "type": "string"
           },
+          "material_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material Id"
+          },
           "node_id": {
             "anyOf": [
               {
@@ -5150,7 +5276,8 @@
           "node_id",
           "element_id",
           "integration_point_id",
-          "body_id"
+          "body_id",
+          "material_id"
         ],
         "title": "ResultSample",
         "type": "object"
@@ -5212,6 +5339,16 @@
             "title": "Position M",
             "type": "array"
           },
+          "smoothed_contributions": {
+            "title": "Smoothed Contributions",
+            "type": "integer"
+          },
+          "smoothed_stress": {
+            "$ref": "#/components/schemas/StressValues"
+          },
+          "stress": {
+            "$ref": "#/components/schemas/StressValues"
+          },
           "von_mises_pa": {
             "title": "Von Mises Pa",
             "type": "number"
@@ -5225,7 +5362,10 @@
           "face_id",
           "position_m",
           "displacement_m",
-          "von_mises_pa"
+          "von_mises_pa",
+          "stress",
+          "smoothed_stress",
+          "smoothed_contributions"
         ],
         "title": "ResultVertex",
         "type": "object"
@@ -5405,6 +5545,65 @@
           "confirmed"
         ],
         "title": "SampleMaterial",
+        "type": "object"
+      },
+      "StressValues": {
+        "additionalProperties": false,
+        "properties": {
+          "principal_pa": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Principal Pa",
+            "type": "array"
+          },
+          "tensor_pa": {
+            "maxItems": 6,
+            "minItems": 6,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Tensor Pa",
+            "type": "array"
+          },
+          "von_mises_pa": {
+            "title": "Von Mises Pa",
+            "type": "number"
+          }
+        },
+        "required": [
+          "tensor_pa",
+          "principal_pa",
+          "von_mises_pa"
+        ],
+        "title": "StressValues",
         "type": "object"
       },
       "SymmetryInput": {

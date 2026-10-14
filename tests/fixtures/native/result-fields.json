@@ -1,0 +1,14 @@
+{
+  "id": "T021-field-derivatives",
+  "revision": 1,
+  "source": "Symmetric tensor eigenvalues; inverse four-point tetrahedral Gauss interpolation; arithmetic tensor mean partitioned by body/material/node",
+  "units": "m,N,Pa",
+  "numerical_contract": "Extrapolate tensors, average tensors only within a partition, then calculate invariants. All native nodes/IPs determine raw extrema independently of display mode.",
+  "references": ["stress-cases.json", "../../benchmarks/B09.json"],
+  "smoothing_comparison": { "relative": 1e-10, "absolute_pa": 1e-8 },
+  "axial_comparison": {
+    "displacement_absolute_m": 1e-13,
+    "stress_absolute_pa": 0.01
+  },
+  "signoff": "Development-only; engineering-owner benchmark and laptop acceptance remain pending"
+}

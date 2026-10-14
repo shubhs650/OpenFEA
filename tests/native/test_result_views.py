@@ -28,7 +28,7 @@ def view(client: TestClient, run: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = response.json()
     assert result["input_sha256"] == run["input_sha256"]
     assert result["results_sha256"] == run["artifacts"]["results.json"]["sha256"]
-    assert result["data"]["processor"] == "affine-c3d10-direction-results-v3"
+    assert result["data"]["processor"] == "affine-c3d10-full-fields-v4"
     return result
 
 
@@ -47,6 +47,24 @@ def test_real_axial_core_results_reactions_frozen_yield_and_edit_history(
     assert data["yield_factors"][0]["minimum"] == pytest.approx(250000, rel=1e-5)
     assert data["reaction_force_n"] == pytest.approx([1000, 0, 0], abs=0.001)
     assert data["reaction_moment_nm"] == pytest.approx([0, 500, -500], abs=0.001)
+    fields = {f["key"]: f for f in data["fields"]}
+    assert len(fields) == 14
+    for vertex in data["vertices"]:
+        for mode in ["stress", "smoothed_stress"]:
+            assert vertex[mode]["tensor_pa"] == pytest.approx([-1000, 0, 0, 0, 0, 0], abs=0.01)
+            assert vertex[mode]["principal_pa"] == pytest.approx([0, 0, -1000], abs=0.01)
+        assert vertex["displacement_m"][0] == pytest.approx(
+            -1000 * vertex["position_m"][0] / 210e9, abs=1e-13
+        )
+    assert fields["ux"]["extrema"]["minimum"]["value"] == pytest.approx(-expected_u, abs=1e-13)
+    assert fields["sxx"]["extrema"]["minimum"]["value"] == pytest.approx(-1000, abs=0.01)
+    raw_names = ["snapshot.json", "analysis.inp", "analysis.dat", "analysis.frd", "results.json"]
+    originals = {
+        n: client.get(f"/api/v1/jobs/{run['id']}/artifacts/{n}").content for n in raw_names
+    }
+    out = Path(".local/native/validation/T021")
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "axial-view.json").write_text(json.dumps(result, indent=2) + "\n")
     original = hashlib.sha256(json.dumps(result, sort_keys=True).encode()).hexdigest()
     changed = custom()
     changed["material"]["values"].pop("yield_strength")
@@ -62,6 +80,9 @@ def test_real_axial_core_results_reactions_frozen_yield_and_edit_history(
         hashlib.sha256(json.dumps(view(client, run), sort_keys=True).encode()).hexdigest()
         == original
     )
+    assert {
+        n: client.get(f"/api/v1/jobs/{run['id']}/artifacts/{n}").content for n in raw_names
+    } == originals
     later = wait_job(client, submit(client, path, mesh["id"])["id"])
     assert view(client, later)["data"]["yield_factors"][0]["state"] == "unavailable"
     output = Path(".local/native/validation/T012")
@@ -107,6 +128,57 @@ def test_actual_planar_bracket_import_to_result_extrema_and_reactions(client: Te
     raw = client.get(f"/api/v1/jobs/{run['id']}/artifacts/results.json").json()
     data = result["data"]
     assert data["reaction_force_n"] == pytest.approx([0, 0, 10], abs=0.001)
+    # Independent inverse four-point Gauss formula; include ALL volume elements,
+    # not just boundary incidences, before equal weighting at a matching node.
+    wire = client.get(f"/api/v1/jobs/{run['id']}/artifacts/mesh.json").json()
+    by_element: dict[int, dict[int, list[float]]] = {}
+    for point in raw["integration_points"]:
+        by_element.setdefault(point["element_id"], {})[point["integration_point_id"]] = point[
+            "tensor_pa"
+        ]
+    contributions: dict[int, list[list[float]]] = {}
+    for eid, nodes in wire["elements"].items():
+        gauss = by_element[int(eid)]
+        mean = [sum(gauss[i][k] for i in (1, 2, 3, 4)) / 4 for k in range(6)]
+        corners = [
+            [5**0.5 * gauss[i][k] + (1 - 5**0.5) * mean[k] for k in range(6)] for i in (1, 2, 3, 4)
+        ]
+        nodal = corners + [
+            [(corners[a][k] + corners[b][k]) / 2 for k in range(6)]
+            for a, b in [(0, 1), (1, 2), (2, 0), (0, 3), (1, 3), (2, 3)]
+        ]
+        for n, t in zip(nodes, nodal, strict=True):
+            contributions.setdefault(n, []).append(t)
+    averaging_errors: list[float] = []
+    changes: list[float] = []
+    for vertex in data["vertices"]:
+        values = contributions[vertex["node_id"]]
+        expected = [sum(t[k] for t in values) / len(values) for k in range(6)]
+        actual = vertex["smoothed_stress"]["tensor_pa"]
+        assert actual == pytest.approx(expected, rel=1e-10, abs=1e-8)
+        assert vertex["smoothed_contributions"] == len(values)
+        averaging_errors.extend(abs(a - b) for a, b in zip(actual, expected, strict=True))
+        changes.extend(
+            abs(a - b) for a, b in zip(actual, vertex["stress"]["tensor_pa"], strict=True)
+        )
+    assert max(changes) > 1e-3  # A real varying field exercises the averaging toggle.
+    retained = Path(".local/native/validation/T021")
+    retained.mkdir(parents=True, exist_ok=True)
+    (retained / "bracket-view.json").write_text(json.dumps(result, indent=2) + "\n")
+    (retained / "smoothing-reference.json").write_text(
+        json.dumps(
+            {
+                "method": "Independent inverse four-point Gauss extrapolation, "
+                "then all-incident equal tensor mean",
+                "max_tensor_error_pa": max(averaging_errors),
+                "max_visible_tensor_change_pa": max(changes),
+                "relative_criterion": 1e-10,
+                "absolute_floor_pa": 1e-8,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
     # F applied at (0.08,0.01,0.005): applied moment (-0.1,0.8,0) N m.
     assert data["reaction_moment_nm"] == pytest.approx([0.1, -0.8, 0], abs=0.0001)
     assert data["displacement"]["maximum"]["value"] > 0
@@ -255,6 +327,12 @@ def test_real_two_body_contours_and_yield_keep_material_sides_separate(client: T
         vertices = [v for v in data["vertices"] if v["body_id"] == body["id"]]
         assert vertices and all(v["material_id"] == f"M{i + 1}" for v in vertices)
         assert all(v["von_mises_pa"] == pytest.approx(1000 * (i + 1), abs=0.01) for v in vertices)
+        for v in vertices:
+            for mode in ["stress", "smoothed_stress"]:
+                assert v[mode]["tensor_pa"] == pytest.approx(
+                    [-1000 * (i + 1), 0, 0, 0, 0, 0], abs=0.01
+                )
+                assert v[mode]["principal_pa"] == pytest.approx([0, 0, -1000 * (i + 1)], abs=0.01)
         factor = next(f for f in data["yield_factors"] if f["body_id"] == body["id"])
         assert factor["minimum"] == pytest.approx(250000 / (i + 1) ** 2, rel=1e-5)
     assert data["reaction_force_n"] == pytest.approx([3000, 0, 0], abs=0.001)

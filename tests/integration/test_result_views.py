@@ -18,6 +18,13 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
         status, original, _ = browser.request("GET", route)
         assert status == 200, original
         assert original["input_sha256"] == run["input_sha256"]
+        assert len(original["data"]["fields"]) == 14
+        assert original["data"]["frame"] == "global_cartesian"
+        assert all(
+            len(v["smoothed_stress"]["principal_pa"]) == 3 for v in original["data"]["vertices"]
+        )
+        raw_route = f"/jobs/{run['id']}/artifacts/results.json"
+        raw_original = browser.request("GET", raw_route)[1]
         status, _, _ = browser.request(
             "PATCH",
             path + "/display-units",
@@ -30,6 +37,7 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
         assert browser.request("GET", route)[0] == 401
         browser.request("GET", "/session")
         assert browser.request("GET", route)[1] == original
+        assert browser.request("GET", raw_route)[1] == raw_original
         assert (
             browser.request("GET", path + "/materials")[1]["setup"]["display_units"]
             == "inch-lbf-psi"

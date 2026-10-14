@@ -28,6 +28,120 @@ async function openResults(page: Page, job: string): Promise<View> {
   return received.json();
 }
 
+test("full signed fields and partitioned smoothing preserve warnings, raw extrema and history", async ({
+  page,
+}, info) => {
+  test.setTimeout(45_000);
+  const failures: string[] = [];
+  page.on("pageerror", (e) => failures.push(e.message));
+  const { projectId, analysisId } = await prepared(
+    page,
+    "T021 signed field inspection",
+    false,
+    0.000001,
+  );
+  await mesh(page);
+  const run = await solve(page);
+  const result = await openResults(page, run.id);
+  const rawPath = `/api/v1/jobs/${run.id}/artifacts/results.json`;
+  const rawBefore = await (await page.request.get(rawPath)).text();
+  const warning = page.getByRole("note").filter({
+    hasText: "linear elasticity does not model plastic deformation",
+  });
+  await expect(warning).toBeVisible();
+  for (const field of result.data.fields) {
+    await page
+      .getByRole("combobox", { name: "Result field", exact: true })
+      .selectOption(field.key);
+    await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+      "data-result-field",
+      field.key,
+    );
+    await expect(page.getByTestId("field-maximum")).toHaveText(
+      (
+        field.extrema.maximum.value / (field.unit === "m" ? 0.001 : 1e6)
+      ).toPrecision(6),
+    );
+    await expect(warning).toBeVisible();
+  }
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("sxx");
+  const extrema = await page
+    .getByLabel("Raw result extrema", { exact: true })
+    .textContent();
+  const factors = await page
+    .getByLabel("Yield factors", { exact: true })
+    .textContent();
+  await page
+    .getByLabel("Smooth stress within each body and material", { exact: true })
+    .check();
+  await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+    "data-stress-smoothing",
+    "smoothed",
+  );
+  await expect(page.getByLabel("Stress averaging method")).toContainText(
+    "Invariants are calculated after tensor averaging",
+  );
+  await page
+    .getByLabel("Contour minimum (MPa)", { exact: true })
+    .fill("-0.002");
+  await page
+    .getByLabel("Contour maximum (MPa)", { exact: true })
+    .fill("-0.0005");
+  await page
+    .getByRole("button", { name: "Apply contour range", exact: true })
+    .click();
+  await expect(page.getByLabel("Result legend")).toContainText(
+    "-0.00200000 — -0.000500000 MPa",
+  );
+  await expect(
+    page.getByLabel("Raw result extrema", { exact: true }),
+  ).toHaveText(extrema!);
+  await expect(page.getByLabel("Yield factors", { exact: true })).toHaveText(
+    factors!,
+  );
+  await expect(warning).toBeVisible();
+  await page
+    .getByRole("combobox", { name: "Display units", exact: true })
+    .selectOption("inch-lbf-psi");
+  await expect(page.getByLabel("Result legend")).toContainText(
+    "Stress σxx (psi)",
+  );
+  await page
+    .getByRole("combobox", { name: "Display units", exact: true })
+    .selectOption("m-N-Pa");
+  await expect(page.getByTestId("field-maximum")).toHaveText(
+    result.data.fields
+      .find((f) => f.key === "sxx")!
+      .extrema.maximum.value.toPrecision(6),
+  );
+  await page
+    .getByLabel("Calculated result viewport")
+    .screenshot({ path: info.outputPath("signed-smoothed-stress.png") });
+  await page.screenshot({
+    path: info.outputPath("result-inspection.png"),
+    fullPage: true,
+  });
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
+  await page
+    .getByLabel("Smooth stress within each body and material", { exact: true })
+    .uncheck();
+  await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+    "data-stress-smoothing",
+    "unaveraged",
+  );
+  expect(await (await page.request.get(rawPath)).text()).toBe(rawBefore);
+  await page.reload();
+  await page.getByLabel("Open project").selectOption(projectId);
+  await page.getByLabel("Open analysis").selectOption(analysisId);
+  expect(await openResults(page, run.id)).toEqual(result);
+  await expect(warning).toBeVisible();
+  expect(failures).toEqual([]);
+});
+
 test("synthetic bracket completes real import to contours, reactions and frozen result history", async ({
   page,
 }) => {

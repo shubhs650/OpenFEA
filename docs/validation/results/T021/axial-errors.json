@@ -1,0 +1,7 @@
+{
+  "max_boundary_displacement_error_m": 4.761904764210511e-16,
+  "max_boundary_tensor_error_pa": 6.77070285814995e-12,
+  "max_boundary_principal_error_pa": 5.959224771138301e-12,
+  "raw_displacement_max_error_m": 2.3809523821052557e-16,
+  "raw_vm_max_error_pa": 2.6147972675971687e-12
+}
