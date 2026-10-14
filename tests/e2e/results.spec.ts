@@ -330,6 +330,7 @@ test("physical probes and volume sections preserve field and camera and reject u
     await page
       .getByLabel(`Inspection ${"xyz"[k]} (mm)`, { exact: true })
       .fill(String(center[k] * 1000));
+  await page.getByLabel("Section normal x", { exact: true }).fill("");
   await page
     .getByRole("button", { name: "Probe physical point", exact: true })
     .click();
@@ -339,6 +340,7 @@ test("physical probes and volume sections preserve field and camera and reject u
   await expect(page.getByLabel("Physical probe result")).toContainText(
     "-0.00100000 MPa",
   );
+  await page.getByLabel("Section normal x", { exact: true }).fill("1");
   const canvas = page.getByLabel("Result 3D canvas", { exact: true });
   await canvas.scrollIntoViewIfNeeded();
   const initialCamera = await canvas.getAttribute("data-camera-state");

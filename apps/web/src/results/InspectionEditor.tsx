@@ -56,7 +56,8 @@ export function InspectionEditor({
     try {
       if (
         point.some((v) => !v.trim() || !Number.isFinite(Number(v))) ||
-        normal.some((v) => !v.trim() || !Number.isFinite(Number(v)))
+        (kind === "sections" &&
+          normal.some((v) => !v.trim() || !Number.isFinite(Number(v))))
       )
         throw new Error(
           "Enter finite physical coordinates and a finite section normal.",
