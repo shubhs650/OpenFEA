@@ -20,6 +20,10 @@
       "sha256": "5a65c0fbea627a5501011d406f67a41e86dbf1b545119c72f7234d7cc91c2a79",
       "size_bytes": 4144
     },
+    "ci-format-check.log": {
+      "sha256": "0998930ac7259df9b6b26d8740d76bbe57f938a388db2046a39dac8d4b092bfa",
+      "size_bytes": 3077
+    },
     "doctor.log": {
       "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
       "size_bytes": 626
@@ -31,6 +35,10 @@
     "handoff.log": {
       "sha256": "db2352cb64d36e4b43257b756868a5af15051ad68a604307670d5aaf2a249023",
       "size_bytes": 307
+    },
+    "hosted-format-failure.log": {
+      "sha256": "9f7b8d2038859e5b9c95631f0b6eb5f4b21a09e73bb8befc116d3aee979fe6e0",
+      "size_bytes": 3236
     },
     "integration.log": {
       "sha256": "9d6c051a20ba8eb79a728f9656dec19a6a2c7f1b687b602e46cf6c43e913bf29",
@@ -108,6 +116,15 @@
     "typescript_unit": 28
   },
   "final_source_commit": "6e4500ce16b532f90730fa07e3d33c4253da7b28",
+  "hosted_formatting_correction": {
+    "correction": "Format final evidence manifest with the locked Prettier; no application, numerical, lock or CI policy changes",
+    "failed_commit": "42d512b3cf237d09cf8d42a26e60b1f648744fc8",
+    "failed_run": "https://github.com/shubhs650/OpenFEA/actions/runs/38547207774",
+    "failure": "Prettier formatting of the generated T017 index.json visual_review array",
+    "hosted_native_before_failure": "157 pass / 0 fail / 0 skip",
+    "hosted_verification": "Check latest PR #14 head; rerun pending at correction commit",
+    "local_verification": "make check PASS: lint/types/282 Python/28 TypeScript/contracts/docs"
+  },
   "implementation_commit": "4409235ba702ca50b5c9de9c161e64d74ea4d364",
   "locks_unchanged_from_base": {
     "package-lock.json": {
@@ -290,8 +307,5 @@
     "python": "3.12.14",
     "uv": "0.12.23"
   },
-  "visual_review": [
-    "workspace-dark-1280.png",
-    "workspace-light-1366.png"
-  ]
+  "visual_review": ["workspace-dark-1280.png", "workspace-light-1366.png"]
 }
