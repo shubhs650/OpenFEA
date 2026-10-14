@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 IN PROGRESS — T019 COMPLETE, T020 assembly constraint implementation/validation IN PROGRESS; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: Finish T020 validation/evidence and create/watch PR; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M3 IN PROGRESS — T019–T020 COMPLETE, T021 result fields/averaging next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: Review the T020 PR (hosted outcome tracked on the PR), then implement T021; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -30,7 +30,7 @@ T016: COMPLETE
 T017: COMPLETE
 T018: COMPLETE
 T019: COMPLETE
-T020: IN PROGRESS
+T020: COMPLETE
 T021–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
@@ -42,13 +42,14 @@ B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner
 B03–B05: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed acceptance pending.
 B08: DEVELOPMENT PASS for the declared 10 µm axial unit-square idealization; owner acceptance pending.
-B10–B14: NOT RUN.
+B11: DEVELOPMENT PASS for invalid-setup refusal; actual finite unsupported native output is diagnostic only; engineering-owner acceptance pending.
+B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
-## T020 in progress — necessary assembly checks and bounded zero-gap solve admission
+## T020 completed — necessary assembly checks and bounded zero-gap solve admission
 
-The actual workspace/API/jobs now share reviewed connectivity, per-component necessary rigid-motion support checks and actual mesh/mortar dependency admission. A passing heuristic is never proof of stiffness rank/stability. Supported zero-gap full unit-square mortar solves run through real CCX; physical-gap/multiple/transformed/slave-conflicting cases remain blocked. Native free-equation counts, actual written-coefficient displacement continuity, raw outputs and external balance govern publication; no springs, coordinate movement, redistribution, tolerance or native budget/retry change. B11's actual unsupported native diagnostic can finish with huge finite displacements and no singularity message; the necessary support gate still refuses it. [ADR-028](docs/adr/ADR-028.md), [guide](docs/ASSEMBLY_PREFLIGHT.md) and [evidence](docs/validation/T020.md) retain limits. Final regression is in progress. T019 PR #16 was externally merged after [all hosted checks passed](https://github.com/shubhs650/OpenFEA/actions/runs/38594251512).
+The actual workspace/API/jobs now share reviewed connectivity, per-component necessary rigid-motion support checks and actual mesh/mortar dependency admission. A passing heuristic is never proof of stiffness rank/stability. Supported zero-gap full unit-square mortar solves run through real CCX; physical-gap/multiple/transformed/slave-conflicting cases remain blocked. Native free-equation counts, actual written-coefficient displacement continuity, raw outputs and external balance govern publication; no springs, coordinate movement, redistribution, tolerance or native budget/retry change. B11's actual unsupported native diagnostic can finish with huge finite displacements and no singularity message; the necessary support gate still refuses it. [ADR-028](docs/adr/ADR-028.md), [guide](docs/ASSEMBLY_PREFLIGHT.md) and [evidence](docs/validation/T020.md) retain limits. **593 distinct verified passes, 0 remaining failures/skips:** 324 Python, 28 TypeScript, 188 native, 18 actual-process integration and 35 Chromium. Full frozen-source native regression passes in 541.90 s; all 35 browser workflows pass in 4.0 min. Both independent 0.6/0.4 m nonmatching role solves meet unchanged 1e-13 m/0.01 Pa criteria (max U error 4.99e-16 m, tensor error 1.25e-9 Pa); written-coefficient MPC residuals are below 1.69e-21 m. Raw input/mesh/deck/result identities and screenshots are checked and retained. Environment-interrupted trials and corrected harness/format failures receive no passing credit. The aggregate CI job limit is 20 minutes after the prior hosted job consumed 14m10s of 15 minutes; individual test deadlines/native caps/retries/tolerances remain unchanged. M3 exit/T024 and owner/general assembly/laptop/Windows acceptance remain pending. Next **T021**. T019 PR #16 was externally merged after [all hosted checks passed](https://github.com/shubhs650/OpenFEA/actions/runs/38594251512).
 
 ## T019 completed — native connection review and declared B08 gap experiment
 
