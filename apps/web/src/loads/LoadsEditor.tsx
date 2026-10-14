@@ -690,10 +690,10 @@ export function LoadsEditor({
       </button>
       <p>
         Coarse planar C3D10 preview: at most 3,000 elements and 60 seconds.
-        Bodies remain independent and need sufficient global component supports.
-        Export can reject an ambiguous mapping, unsuitable mesh or force on
-        fixed degrees of freedom. Local solve jobs and calculated result views
-        are available below.
+        Bodies remain independently meshed; each reviewed connected component
+        needs sufficient supports. Export can reject an ambiguous mapping,
+        unsuitable mesh or force on fixed degrees of freedom. Local solve jobs
+        and calculated result views are available below.
       </p>
       <ul aria-label="Saved deck exports">
         {exports.map((e) => (

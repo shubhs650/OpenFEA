@@ -27,6 +27,18 @@ async function assembly(page: Page) {
     .fill("68300");
   await page.getByRole("spinbutton", { name: /Poisson ratio/ }).fill("0");
   await page
+    .getByRole("textbox", { name: "Material name", exact: true })
+    .fill("Synthetic axial body two");
+  await page
+    .getByRole("textbox", { name: "Assumptions", exact: true })
+    .fill(
+      "Independent analytical isotropic fixture: E=68.3 GPa, nu=0; no certified allowable.",
+    );
+  await page
+    .getByLabel("Source reference 1", { exact: true })
+    .fill("Independent axial continuum reference");
+  await page.getByLabel("Source URL 1 (optional)", { exact: true }).fill("");
+  await page
     .getByLabel("I confirm the properties, condition and assumptions")
     .check();
   await page

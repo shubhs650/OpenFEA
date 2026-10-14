@@ -1,3 +1,4 @@
+import { useEdits } from "../workspace/edits";
 import type { components } from "../../../../packages/contracts/api";
 import { useEffect, useRef, useState } from "react";
 import { ResultsEditor } from "../results/ResultsEditor";
@@ -43,6 +44,7 @@ export function RunsEditor({
   >(null);
   const [refreshMeshes, setRefreshMeshes] = useState(0);
   const [candidateError, setCandidateError] = useState("");
+  const edits = useEdits();
   const [assembly, setAssembly] = useState<{
     scope: string;
     data: components["schemas"]["AssemblyPreflight"];
@@ -192,6 +194,7 @@ export function RunsEditor({
   }
   async function checkAssembly() {
     const scope = assemblyScope;
+    setAssembly(null);
     setBusy(true);
     setError("");
     try {
@@ -283,12 +286,12 @@ export function RunsEditor({
         </p>
       )}
       <button
-        disabled={busy || !selected || !meshReady}
+        disabled={busy || !selected || !meshReady || edits.dirty.length > 0}
         onClick={() => void checkAssembly()}
       >
         Check assembly constraints
       </button>
-      {assembly?.scope === assemblyScope && (
+      {assembly?.scope === assemblyScope && !edits.dirty.length && (
         <div aria-label="Actual mesh assembly preflight">
           <p>
             {assembly.data.mesh_checked && !assembly.data.blockers?.length
