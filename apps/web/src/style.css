@@ -252,6 +252,8 @@ textarea {
 .results-panel table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
+  overflow-wrap: anywhere;
   margin: 1rem 0;
   font-size: 0.85rem;
 }

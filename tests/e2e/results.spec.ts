@@ -123,6 +123,9 @@ test("full signed fields and partitioned smoothing preserve warnings, raw extrem
     path: info.outputPath("result-inspection.png"),
     fullPage: true,
   });
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth));
   await page
     .getByLabel("Smooth stress within each body and material", { exact: true })
     .uncheck();
