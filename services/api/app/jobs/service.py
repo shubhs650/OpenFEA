@@ -5,6 +5,7 @@ import json
 from typing import Any
 from uuid import UUID, uuid4
 
+from app.domain.comparisons import ComparisonRequest, ResultComparison
 from app.domain.connections import AssemblyPreflight
 from app.domain.deck_service import DeckService, canonical, deck_for
 from app.domain.errors import DomainError, not_found, stale_revision
@@ -20,6 +21,7 @@ from app.domain.jobs import (
 from app.domain.loads import DeckSnapshot, load_state
 from app.domain.materials import body_status
 from app.domain.mesh_reuse import compatibility_hash, physical_controls
+from app.domain.refinement import physics, signature
 from app.domain.results import (
     ProbeRequest,
     ResultData,
@@ -29,6 +31,7 @@ from app.domain.results import (
 )
 from app.persistence.jobs import JobRepository
 from worker.mesh_quality import mesh_quality
+from worker.postprocess.comparison import COMPARISON_VERSION, METHOD, change, peak_notes, scalar
 from worker.postprocess.inspection import inspect_volume
 from worker.postprocess.view import build_view
 from worker.runtime import ROOT, sha256
@@ -442,6 +445,9 @@ class JobService:
                     for name in (
                         "services/worker/worker/postprocess/view.py",
                         "services/worker/worker/postprocess/inspection.py",
+                        "services/worker/worker/postprocess/comparison.py",
+                        "services/api/app/domain/comparisons.py",
+                        "services/api/app/domain/refinement.py",
                         "services/worker/worker/postprocess/fields.py",
                         "services/worker/worker/postprocess/tensors.py",
                         "services/worker/worker/meshing.py",
@@ -509,4 +515,140 @@ class JobService:
             raise DomainError(422, "invalid_inspection", str(error)) from None
         result = ResultInspection.model_validate(view.model_dump(exclude={"data"}) | data)
         self.repository.get(owner, identifier)
+        return result
+
+    def compare_results(
+        self, owner: UUID, identifier: UUID, payload: ComparisonRequest
+    ) -> ResultComparison:
+        other = payload.compared_run_id
+        # Check both owners before disclosing compatibility. No live analysis inputs.
+        first_job = self.repository.get(owner, identifier)
+        second_job = self.repository.get(owner, other)
+        if first_job.project_id != second_job.project_id:
+            raise DomainError(
+                409, "incompatible_comparison", "Compare runs in the same owned project"
+            )
+        if identifier == other:
+            raise DomainError(422, "invalid_comparison", "Select two different completed runs")
+        views = [self.result_view(owner, job) for job in (identifier, other)]
+        setups = [physics(self.repository.inputs(owner, job)) for job in (identifier, other)]
+        mismatches = [key for key in setups[0] if setups[0][key] != setups[1][key]]
+        if mismatches:
+            raise DomainError(
+                409,
+                "incompatible_comparison",
+                "Frozen physical setup differs: " + ", ".join(mismatches),
+            )
+        sampled = []
+        meshes = []
+        for job, view, side in zip(
+            (identifier, other), views, ("reference_element_id", "compared_element_id"), strict=True
+        ):
+            raw = json.loads(self.artifact(owner, job, "results.json")[0])
+            mesh = json.loads(self.artifact(owner, job, "mesh.json")[0])
+            materials = {f.body_id: {"material_id": f.material_id} for f in view.data.yield_factors}
+            try:
+                inspection = inspect_volume(
+                    raw,
+                    mesh,
+                    materials,
+                    payload.points[0].point_m,
+                    probes=[(getattr(p, side), p.point_m) for p in payload.points],
+                )
+            except (ValueError, OverflowError):
+                raise DomainError(
+                    422, "invalid_comparison_point", "A point is outside its selected element side"
+                ) from None
+            sampled.append(inspection["vertices"])
+            meshes.append(mesh)
+        displacement = payload.field in ("displacement", "ux", "uy", "uz")
+        unit, floor = ("m", 1e-12) if displacement else ("Pa", 1e-6)
+        smoothed = payload.smoothed and not displacement
+
+        def difference(reference: float, compared: float) -> dict[str, float | None]:
+            try:
+                return change(reference, compared, floor)
+            except (ValueError, OverflowError):
+                raise DomainError(
+                    503, "comparison_integrity", "Comparison arithmetic is not finite"
+                ) from None
+
+        rows = []
+        for point, first, second in zip(payload.points, sampled[0], sampled[1], strict=True):
+            if (
+                first["body_id"] != point.body_id
+                or second["body_id"] != point.body_id
+                or first["material_id"] != second["material_id"]
+            ):
+                raise DomainError(
+                    422,
+                    "invalid_comparison_side",
+                    "Physical samples must retain the same body and material side",
+                )
+            rows.append(
+                {
+                    "sample": point,
+                    "reference": first,
+                    "compared": second,
+                    "change": difference(
+                        scalar(first, payload.field, smoothed),
+                        scalar(second, payload.field, smoothed),
+                    ),
+                }
+            )
+        runs: list[dict[str, Any]] = []
+        for view, mesh in zip(views, meshes, strict=True):
+            extrema = next(f.extrema for f in view.data.fields if f.key == payload.field)
+            peak = max((extrema.minimum, extrema.maximum), key=lambda p: abs(p.value))
+            runs.append(
+                {
+                    "source": view.model_dump(exclude={"data"}),
+                    "elements": len(mesh["elements"]),
+                    "nodes": len(mesh["nodes"]),
+                    "warnings": view.data.warnings,
+                    "assumptions": view.data.assumptions,
+                    "raw_peak": peak,
+                }
+            )
+        warnings = [METHOD]
+        if views[0].mesh_sha256 == views[1].mesh_sha256:
+            warnings.append("These runs use the same mesh; this is not a mesh-refinement step.")
+        if len(meshes[1]["elements"]) <= len(meshes[0]["elements"]):
+            warnings.append(
+                "The compared mesh has no more elements than the reference; no "
+                "refinement direction is assumed."
+            )
+        warnings.extend(peak_notes(runs[0]["raw_peak"].value, runs[1]["raw_peak"].value))
+        if smoothed:
+            warnings.append(
+                "Common samples use smoothed tensors; raw native peaks remain "
+                "unsmoothed and must not be treated as the same location "
+                "convention."
+            )
+        try:
+            result = ResultComparison.model_validate(
+                {
+                    "processor": COMPARISON_VERSION,
+                    "physics_sha256": signature(setups[0]),
+                    "field": payload.field,
+                    "smoothed": smoothed,
+                    "unit": unit,
+                    "frame": "global_cartesian",
+                    "reference_floor": floor,
+                    "method": METHOD,
+                    "reference": runs[0],
+                    "compared": runs[1],
+                    "rows": rows,
+                    "raw_peak_change": difference(
+                        runs[0]["raw_peak"].value, runs[1]["raw_peak"].value
+                    ),
+                    "warnings": warnings,
+                }
+            )
+        except ValueError:
+            raise DomainError(
+                503, "comparison_integrity", "Comparison arithmetic failed finite validation"
+            ) from None
+        self.repository.get(owner, identifier)
+        self.repository.get(owner, other)
         return result

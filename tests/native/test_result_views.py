@@ -29,7 +29,7 @@ def view(client: TestClient, run: dict[str, Any]) -> dict[str, Any]:
     result: dict[str, Any] = response.json()
     assert result["input_sha256"] == run["input_sha256"]
     assert result["results_sha256"] == run["artifacts"]["results.json"]["sha256"]
-    assert result["data"]["processor"] == "affine-c3d10-full-fields-v4"
+    assert result["data"]["processor"] == "affine-c3d10-assumptions-v5"
     return result
 
 

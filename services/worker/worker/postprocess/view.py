@@ -9,7 +9,7 @@ from worker.meshing import Vec
 from worker.postprocess.fields import SMOOTHING_METHOD, element_nodes, smooth_nodes
 from worker.postprocess.tensors import COMPONENTS, principal, tensor, von_mises
 
-VIEW_VERSION = "affine-c3d10-full-fields-v4"
+VIEW_VERSION = "affine-c3d10-assumptions-v5"
 ZERO_STRESS_PA = 1e-6  # Absolute display convention; never a finite safety factor.
 
 
@@ -181,6 +181,19 @@ def build_view(
         raise ValueError("External force/moment equilibrium failed")
     factors = []
     warnings = list(raw["warnings"])
+    assumptions: list[dict[str, Any]] = [
+        {
+            "code": "stress_singularity",
+            "body_id": None,
+            "triggered": None,
+            "metric": None,
+            "threshold": None,
+            "message": "Peaks near supports, reentrant corners or idealized load/bond edges may "
+            "increase with refinement. No automatic singularity detection is claimed. Compare "
+            "fixed physical locations away from these regions; a lower smoothed peak is not "
+            "evidence of convergence or a design allowable.",
+        }
+    ]
     for body, material in sorted(materials.items()):
         owned_nodes = {n for e, ns in mesh.elements.items() if mesh.bodies[e] == body for n in ns}
         body_samples = [s for s in stress_samples if s["body_id"] == body]
@@ -221,9 +234,41 @@ def build_view(
                 f"extent ({ratio:.3g}); review the small-deformation assumption. "
                 "This heuristic cannot certify validity."
             )
+        assumptions.extend(
+            [
+                {
+                    "code": "yielding",
+                    "body_id": body,
+                    "triggered": None
+                    if state in ("unavailable", "unbounded")
+                    else peak["value"] > strength,
+                    "metric": peak["value"],
+                    "threshold": strength,
+                    "message": "Compare raw integration-point von Mises with the frozen supplied"
+                    " ductile yield. "
+                    "Yield exceedance does not model plastic deformation; missing "
+                    "yield cannot establish a factor. "
+                    "No fatigue, brittle failure, buckling or code check is implied.",
+                },
+                {
+                    "code": "small_deformation",
+                    "body_id": body,
+                    "triggered": ratio > 0.01,
+                    "metric": ratio,
+                    "threshold": 0.01,
+                    "message": "Maximum native displacement / largest body extent is a 1% "
+                    "screening heuristic. "
+                    "Exceedance requires review of small-deformation linear "
+                    "elasticity. Passing this heuristic "
+                    "does not bound local strain/rotation or certify validity; "
+                    "display exaggeration is irrelevant.",
+                },
+            ]
+        )
     force, moment = equilibrium["reaction_force_n"], equilibrium["reaction_moment_nm"]
     view = {
         "processor": VIEW_VERSION,
+        "assumptions": assumptions,
         "fields": field_definitions,
         "frame": "global_cartesian",
         "tensor_components": COMPONENTS,

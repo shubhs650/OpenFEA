@@ -288,6 +288,78 @@
         "title": "AssemblyPreflight",
         "type": "object"
       },
+      "AssumptionNote": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Id"
+          },
+          "code": {
+            "enum": [
+              "yielding",
+              "small_deformation",
+              "stress_singularity"
+            ],
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "metric": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metric"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold"
+          },
+          "triggered": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Triggered"
+          }
+        },
+        "required": [
+          "code",
+          "body_id",
+          "triggered",
+          "metric",
+          "threshold",
+          "message"
+        ],
+        "title": "AssumptionNote",
+        "type": "object"
+      },
       "BalanceCheck": {
         "additionalProperties": false,
         "properties": {
@@ -1260,6 +1332,178 @@
           "face_ids"
         ],
         "title": "CatalogVertex",
+        "type": "object"
+      },
+      "ComparisonPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Body Id",
+            "type": "string"
+          },
+          "compared_element_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Compared Element Id",
+            "type": "integer"
+          },
+          "label": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Label",
+            "type": "string"
+          },
+          "point_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Point M",
+            "type": "array"
+          },
+          "reference_element_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Reference Element Id",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "label",
+          "body_id",
+          "point_m",
+          "reference_element_id",
+          "compared_element_id"
+        ],
+        "title": "ComparisonPoint",
+        "type": "object"
+      },
+      "ComparisonRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "compared_run_id": {
+            "format": "uuid",
+            "title": "Compared Run Id",
+            "type": "string"
+          },
+          "field": {
+            "enum": [
+              "displacement",
+              "ux",
+              "uy",
+              "uz",
+              "von_mises",
+              "sxx",
+              "syy",
+              "szz",
+              "sxy",
+              "syz",
+              "szx",
+              "s1",
+              "s2",
+              "s3"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/ComparisonPoint"
+            },
+            "maxItems": 8,
+            "minItems": 1,
+            "title": "Points",
+            "type": "array"
+          },
+          "smoothed": {
+            "default": false,
+            "title": "Smoothed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "compared_run_id",
+          "field",
+          "points"
+        ],
+        "title": "ComparisonRequest",
+        "type": "object"
+      },
+      "ComparisonRow": {
+        "additionalProperties": false,
+        "properties": {
+          "change": {
+            "$ref": "#/components/schemas/ValueChange"
+          },
+          "compared": {
+            "$ref": "#/components/schemas/InspectionVertex"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/InspectionVertex"
+          },
+          "sample": {
+            "$ref": "#/components/schemas/ComparisonPoint"
+          }
+        },
+        "required": [
+          "sample",
+          "reference",
+          "compared",
+          "change"
+        ],
+        "title": "ComparisonRow",
+        "type": "object"
+      },
+      "ComparisonRun": {
+        "additionalProperties": false,
+        "properties": {
+          "assumptions": {
+            "items": {
+              "$ref": "#/components/schemas/AssumptionNote"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "elements": {
+            "title": "Elements",
+            "type": "integer"
+          },
+          "nodes": {
+            "title": "Nodes",
+            "type": "integer"
+          },
+          "raw_peak": {
+            "$ref": "#/components/schemas/ResultSample"
+          },
+          "source": {
+            "$ref": "#/components/schemas/ResultIdentity"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "source",
+          "elements",
+          "nodes",
+          "warnings",
+          "assumptions",
+          "raw_peak"
+        ],
+        "title": "ComparisonRun",
         "type": "object"
       },
       "CompatibleMesh": {
@@ -5018,9 +5262,179 @@
         "title": "ReselectFaces",
         "type": "object"
       },
+      "ResultComparison": {
+        "additionalProperties": false,
+        "properties": {
+          "compared": {
+            "$ref": "#/components/schemas/ComparisonRun"
+          },
+          "convergence_claim": {
+            "const": false,
+            "default": false,
+            "title": "Convergence Claim",
+            "type": "boolean"
+          },
+          "field": {
+            "enum": [
+              "displacement",
+              "ux",
+              "uy",
+              "uz",
+              "von_mises",
+              "sxx",
+              "syy",
+              "szz",
+              "sxy",
+              "syz",
+              "szx",
+              "s1",
+              "s2",
+              "s3"
+            ],
+            "title": "Field",
+            "type": "string"
+          },
+          "frame": {
+            "const": "global_cartesian",
+            "title": "Frame",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "physics_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Physics Sha256",
+            "type": "string"
+          },
+          "principal_order": {
+            "const": "s1 >= s2 >= s3 (algebraic)",
+            "default": "s1 >= s2 >= s3 (algebraic)",
+            "title": "Principal Order",
+            "type": "string"
+          },
+          "processor": {
+            "title": "Processor",
+            "type": "string"
+          },
+          "raw_peak_change": {
+            "$ref": "#/components/schemas/ValueChange"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/ComparisonRun"
+          },
+          "reference_floor": {
+            "title": "Reference Floor",
+            "type": "number"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ComparisonRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sample_location": {
+            "const": "element_interpolated",
+            "default": "element_interpolated",
+            "title": "Sample Location",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          },
+          "smoothed": {
+            "title": "Smoothed",
+            "type": "boolean"
+          },
+          "tensor_components": {
+            "default": [
+              "xx",
+              "yy",
+              "zz",
+              "xy",
+              "yz",
+              "zx"
+            ],
+            "maxItems": 6,
+            "minItems": 6,
+            "prefixItems": [
+              {
+                "const": "xx",
+                "type": "string"
+              },
+              {
+                "const": "yy",
+                "type": "string"
+              },
+              {
+                "const": "zz",
+                "type": "string"
+              },
+              {
+                "const": "xy",
+                "type": "string"
+              },
+              {
+                "const": "yz",
+                "type": "string"
+              },
+              {
+                "const": "zx",
+                "type": "string"
+              }
+            ],
+            "title": "Tensor Components",
+            "type": "array"
+          },
+          "unit": {
+            "enum": [
+              "m",
+              "Pa"
+            ],
+            "title": "Unit",
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "processor",
+          "physics_sha256",
+          "field",
+          "smoothed",
+          "unit",
+          "frame",
+          "reference_floor",
+          "method",
+          "reference",
+          "compared",
+          "rows",
+          "raw_peak_change",
+          "warnings"
+        ],
+        "title": "ResultComparison",
+        "type": "object"
+      },
       "ResultData": {
         "additionalProperties": false,
         "properties": {
+          "assumptions": {
+            "items": {
+              "$ref": "#/components/schemas/AssumptionNote"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
           "displacement": {
             "$ref": "#/components/schemas/ResultExtrema"
           },
@@ -5205,6 +5619,7 @@
         },
         "required": [
           "processor",
+          "assumptions",
           "fields",
           "frame",
           "tensor_components",
@@ -5301,6 +5716,83 @@
           "extrema"
         ],
         "title": "ResultField",
+        "type": "object"
+      },
+      "ResultIdentity": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "format": "uuid",
+            "title": "Analysis Id",
+            "type": "string"
+          },
+          "analysis_revision": {
+            "title": "Analysis Revision",
+            "type": "integer"
+          },
+          "dat_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Dat Sha256",
+            "type": "string"
+          },
+          "deck_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Deck Sha256",
+            "type": "string"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "input_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Input Sha256",
+            "type": "string"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "mesh_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Mesh Sha256",
+            "type": "string"
+          },
+          "processor_sources": {
+            "additionalProperties": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "title": "Processor Sources",
+            "type": "object"
+          },
+          "results_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Results Sha256",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "job_id",
+          "analysis_id",
+          "analysis_revision",
+          "geometry_revision_id",
+          "input_sha256",
+          "results_sha256",
+          "mesh_sha256",
+          "deck_sha256",
+          "dat_sha256",
+          "processor_sources"
+        ],
+        "title": "ResultIdentity",
         "type": "object"
       },
       "ResultInspection": {
@@ -6197,6 +6689,47 @@
           "sha256"
         ],
         "title": "UploadCreate",
+        "type": "object"
+      },
+      "ValueChange": {
+        "additionalProperties": false,
+        "properties": {
+          "absolute_change": {
+            "title": "Absolute Change",
+            "type": "number"
+          },
+          "compared": {
+            "title": "Compared",
+            "type": "number"
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "number"
+          },
+          "relative_change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relative Change"
+          },
+          "signed_change": {
+            "title": "Signed Change",
+            "type": "number"
+          }
+        },
+        "required": [
+          "reference",
+          "compared",
+          "signed_change",
+          "absolute_change",
+          "relative_change"
+        ],
+        "title": "ValueChange",
         "type": "object"
       },
       "YieldFactor": {
@@ -17172,6 +17705,169 @@
           }
         ],
         "summary": "Create Upload"
+      }
+    },
+    "/api/v1/runs/{job_id}/comparisons": {
+      "post": {
+        "operationId": "compare_api_v1_runs__job_id__comparisons_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComparisonRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultComparison"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Compare"
       }
     },
     "/api/v1/runs/{job_id}/probes": {

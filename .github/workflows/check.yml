@@ -11,8 +11,8 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-24.04
-    # T019 used 14m10s; T020 adds 30 cases. Individual/native budgets stay fixed.
-    timeout-minutes: 20
+    # T022 used 19m17s of 20m; T023 adds multi-run tests. Individual/native budgets stay fixed.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5

@@ -966,6 +966,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/runs/{job_id}/comparisons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Compare */
+        post: operations["compare_api_v1_runs__job_id__comparisons_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/runs/{job_id}/probes": {
         parameters: {
             query?: never;
@@ -1169,6 +1186,24 @@ export interface components {
             stability_proven: boolean;
             /** Warnings */
             warnings?: string[];
+        };
+        /** AssumptionNote */
+        AssumptionNote: {
+            /** Body Id */
+            body_id: string | null;
+            /**
+             * Code
+             * @enum {string}
+             */
+            code: "yielding" | "small_deformation" | "stress_singularity";
+            /** Message */
+            message: string;
+            /** Metric */
+            metric: number | null;
+            /** Threshold */
+            threshold: number | null;
+            /** Triggered */
+            triggered: boolean | null;
         };
         /** BalanceCheck */
         BalanceCheck: {
@@ -1516,6 +1551,63 @@ export interface components {
                 number,
                 number
             ];
+        };
+        /** ComparisonPoint */
+        ComparisonPoint: {
+            /** Body Id */
+            body_id: string;
+            /** Compared Element Id */
+            compared_element_id: number;
+            /** Label */
+            label: string;
+            /** Point M */
+            point_m: [
+                number,
+                number,
+                number
+            ];
+            /** Reference Element Id */
+            reference_element_id: number;
+        };
+        /** ComparisonRequest */
+        ComparisonRequest: {
+            /**
+             * Compared Run Id
+             * Format: uuid
+             */
+            compared_run_id: string;
+            /**
+             * Field
+             * @enum {string}
+             */
+            field: "displacement" | "ux" | "uy" | "uz" | "von_mises" | "sxx" | "syy" | "szz" | "sxy" | "syz" | "szx" | "s1" | "s2" | "s3";
+            /** Points */
+            points: components["schemas"]["ComparisonPoint"][];
+            /**
+             * Smoothed
+             * @default false
+             */
+            smoothed: boolean;
+        };
+        /** ComparisonRow */
+        ComparisonRow: {
+            change: components["schemas"]["ValueChange"];
+            compared: components["schemas"]["InspectionVertex"];
+            reference: components["schemas"]["InspectionVertex"];
+            sample: components["schemas"]["ComparisonPoint"];
+        };
+        /** ComparisonRun */
+        ComparisonRun: {
+            /** Assumptions */
+            assumptions: components["schemas"]["AssumptionNote"][];
+            /** Elements */
+            elements: number;
+            /** Nodes */
+            nodes: number;
+            raw_peak: components["schemas"]["ResultSample"];
+            source: components["schemas"]["ResultIdentity"];
+            /** Warnings */
+            warnings: string[];
         };
         /** CompatibleMesh */
         CompatibleMesh: {
@@ -2956,8 +3048,88 @@ export interface components {
              */
             reviewed: true;
         };
+        /** ResultComparison */
+        ResultComparison: {
+            compared: components["schemas"]["ComparisonRun"];
+            /**
+             * Convergence Claim
+             * @default false
+             * @constant
+             */
+            convergence_claim: false;
+            /**
+             * Field
+             * @enum {string}
+             */
+            field: "displacement" | "ux" | "uy" | "uz" | "von_mises" | "sxx" | "syy" | "szz" | "sxy" | "syz" | "szx" | "s1" | "s2" | "s3";
+            /**
+             * Frame
+             * @constant
+             */
+            frame: "global_cartesian";
+            /** Method */
+            method: string;
+            /** Physics Sha256 */
+            physics_sha256: string;
+            /**
+             * Principal Order
+             * @default s1 >= s2 >= s3 (algebraic)
+             * @constant
+             */
+            principal_order: "s1 >= s2 >= s3 (algebraic)";
+            /** Processor */
+            processor: string;
+            raw_peak_change: components["schemas"]["ValueChange"];
+            reference: components["schemas"]["ComparisonRun"];
+            /** Reference Floor */
+            reference_floor: number;
+            /** Rows */
+            rows: components["schemas"]["ComparisonRow"][];
+            /**
+             * Sample Location
+             * @default element_interpolated
+             * @constant
+             */
+            sample_location: "element_interpolated";
+            /**
+             * Schema Version
+             * @default 1
+             * @constant
+             */
+            schema_version: 1;
+            /** Smoothed */
+            smoothed: boolean;
+            /**
+             * Tensor Components
+             * @default [
+             *       "xx",
+             *       "yy",
+             *       "zz",
+             *       "xy",
+             *       "yz",
+             *       "zx"
+             *     ]
+             */
+            tensor_components: [
+                "xx",
+                "yy",
+                "zz",
+                "xy",
+                "yz",
+                "zx"
+            ];
+            /**
+             * Unit
+             * @enum {string}
+             */
+            unit: "m" | "Pa";
+            /** Warnings */
+            warnings: string[];
+        };
         /** ResultData */
         ResultData: {
+            /** Assumptions */
+            assumptions: components["schemas"]["AssumptionNote"][];
             displacement: components["schemas"]["ResultExtrema"];
             equilibrium: components["schemas"]["EquilibriumData"];
             /** Extrema Method */
@@ -3052,6 +3224,46 @@ export interface components {
              * @enum {string}
              */
             unit: "m" | "Pa";
+        };
+        /** ResultIdentity */
+        ResultIdentity: {
+            /**
+             * Analysis Id
+             * Format: uuid
+             */
+            analysis_id: string;
+            /** Analysis Revision */
+            analysis_revision: number;
+            /** Dat Sha256 */
+            dat_sha256: string;
+            /** Deck Sha256 */
+            deck_sha256: string;
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /** Input Sha256 */
+            input_sha256: string;
+            /**
+             * Job Id
+             * Format: uuid
+             */
+            job_id: string;
+            /** Mesh Sha256 */
+            mesh_sha256: string;
+            /** Processor Sources */
+            processor_sources: {
+                [key: string]: string;
+            };
+            /** Results Sha256 */
+            results_sha256: string;
+            /**
+             * Schema Version
+             * @default 1
+             * @constant
+             */
+            schema_version: 1;
         };
         /** ResultInspection */
         ResultInspection: {
@@ -3406,6 +3618,19 @@ export interface components {
             sha256: string;
             /** Size Bytes */
             size_bytes: number;
+        };
+        /** ValueChange */
+        ValueChange: {
+            /** Absolute Change */
+            absolute_change: number;
+            /** Compared */
+            compared: number;
+            /** Reference */
+            reference: number;
+            /** Relative Change */
+            relative_change: number | null;
+            /** Signed Change */
+            signed_change: number;
         };
         /** YieldFactor */
         YieldFactor: {
@@ -10979,6 +11204,125 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Upload"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    compare_api_v1_runs__job_id__comparisons_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ComparisonRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResultComparison"];
                 };
             };
             /** @description Unauthorized */
