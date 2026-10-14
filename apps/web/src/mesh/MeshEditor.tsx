@@ -1,3 +1,4 @@
+import { useDraft, useEdits } from "../workspace/edits";
 import { useEffect, useState } from "react";
 import type { components } from "../../../../packages/contracts/api";
 import { api, mutate, type UnitPreset } from "../geometry/api";
@@ -25,6 +26,7 @@ export function MeshEditor({
   saved,
   ready,
 }: Props) {
+  const edits = useEdits();
   const [state, setState] = useState<State | null>(null);
   const identity = `${analysisId}:${revision}:${geometryId}:${preset.id}`;
   const [loadedIdentity, setLoadedIdentity] = useState<string | null>(null);
@@ -110,7 +112,9 @@ export function MeshEditor({
         !changed,
     );
   }, [state, changed, revision, geometryId, loading]);
+  useDraft("mesh", !loading && (changed || local !== ""));
   const valid =
+    local === "" &&
     (global === "" ||
       (Number.isFinite(Number(global)) && Number(global) > 0)) &&
     (Number(curvature) === 0 ||
@@ -155,9 +159,39 @@ export function MeshEditor({
   }
   const planning = preview ?? state;
   return (
-    <section className="mesh-controls" aria-label="Mesh sizing">
+    <section
+      id="setup-mesh"
+      tabIndex={-1}
+      className="mesh-controls"
+      aria-label="Mesh sizing"
+    >
       <h2>Mesh sizing and recovery</h2>
       {loading && <p role="status">Loading saved mesh controls…</p>}
+      <button
+        disabled={disabled || !state}
+        onClick={() => {
+          if (!state) return;
+          setGlobal(
+            state.setup.global_size_m == null
+              ? ""
+              : String(state.setup.global_size_m / preset.length.to_si),
+          );
+          setLocals(
+            (state.setup.local_sizes ?? []).map((s) => ({
+              kind: s.kind,
+              entity_id: s.entity_id,
+              size: s.size_m / preset.length.to_si,
+            })),
+          );
+          setCurvature(String(state.setup.curvature_elements));
+          setRecovery(state.setup.recovery_enabled);
+          setLocal("");
+          setPreview(null);
+          setStatus("");
+        }}
+      >
+        Cancel mesh edits
+      </button>
       <label>
         Global mesh size ({preset.length.label})
         <input
@@ -212,6 +246,12 @@ export function MeshEditor({
           onChange={(e) => setLocal(e.target.value)}
         />
       </label>
+      {local !== "" && (
+        <p>
+          Add this local size to the list or clear it before saving mesh
+          controls.
+        </p>
+      )}
       <button
         disabled={
           disabled ||
@@ -239,6 +279,7 @@ export function MeshEditor({
             ),
           );
           setPreview(null);
+          setLocal("");
         }}
       >
         Add local mesh size
@@ -358,7 +399,11 @@ export function MeshEditor({
         </>
       )}
       {error && <p role="alert">{error}</p>}
-      <p aria-live="polite">{status}</p>
+      <p aria-live="polite">
+        {edits.dirty.length && status.startsWith("Mesh controls saved")
+          ? ""
+          : status}
+      </p>
     </section>
   );
 }

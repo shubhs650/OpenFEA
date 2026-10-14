@@ -1,3 +1,6 @@
+import { Checklist } from "../workspace/Checklist";
+import { EditToolbar } from "../workspace/EditToolbar";
+import { resetEdits, useEdits } from "../workspace/edits";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   api,
@@ -22,6 +25,7 @@ import type { ResultPresentation } from "../results/presentation";
 type Page<T> = { items: T[]; total: number };
 
 export function Workspace() {
+  const edits = useEdits();
   const [projects, setProjects] = useState<Project[]>([]);
   const [project, setProject] = useState<Project | null>(null);
   const [analysisId, setAnalysisId] = useState("");
@@ -34,6 +38,7 @@ export function Workspace() {
   const [qualityOverlay, setQualityOverlay] = useState(false);
   const [editorEpoch, setEditorEpoch] = useState(0);
   const [editingPreview, setEditingPreview] = useState(false);
+  const [meshShownRevision, setMeshShownRevision] = useState(0);
   const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
   const [resultPresentation, setResultPresentation] =
     useState<ResultPresentation | null>(null);
@@ -55,6 +60,17 @@ export function Workspace() {
   const [error, setError] = useState("");
   const displayedRevision = useRef<string | null>(null);
 
+  useEffect(() => {
+    resetEdits(analysisId);
+  }, [analysisId, project?.id]);
+  function reloadEditors() {
+    setEditorEpoch((old) => old + 1);
+    setMeshPreview(null);
+    setResultPresentation(null);
+    setLoadPreview(null);
+    setDraftDirections([]);
+    setSelected(new Set());
+  }
   useEffect(() => {
     let current = true;
     void session()
@@ -230,6 +246,7 @@ export function Workspace() {
       : null;
   const activeMesh =
     meshPreview?.analysis_id === analysisId &&
+    meshShownRevision === edits.revision &&
     meshPreview.geometry_revision_id === geometry?.id
       ? meshPreview
       : null;
@@ -261,132 +278,151 @@ export function Workspace() {
     [activeResult, geometry?.id, visible],
   );
   return (
-    <div className="workspace">
-      <aside className="panel">
-        <h2>Project</h2>
-        <label>
-          Open project
-          <select
-            disabled={!ready || busy}
-            value={project?.id ?? ""}
-            onChange={(e) => {
-              setVisible(new Set());
-              setProject(projects.find((p) => p.id === e.target.value) ?? null);
-              setError("");
-            }}
+    <div
+      className="workspace"
+      onKeyDown={(event) => {
+        if (
+          event.key === "Escape" &&
+          !busy &&
+          !editingPreview &&
+          !(event.target instanceof HTMLInputElement) &&
+          !(event.target instanceof HTMLTextAreaElement) &&
+          !(event.target instanceof HTMLSelectElement)
+        )
+          setSelected(new Set());
+      }}
+    >
+      <aside className="panel" aria-label="Model tree">
+        <Checklist analysisId={analysisId} geometryId={geometry?.id} />
+        <div id="setup-geometry" tabIndex={-1}>
+          <h2>Project</h2>
+          <label>
+            Open project
+            <select
+              disabled={!ready || busy}
+              value={project?.id ?? ""}
+              onChange={(e) => {
+                setVisible(new Set());
+                setProject(
+                  projects.find((p) => p.id === e.target.value) ?? null,
+                );
+                setError("");
+              }}
+            >
+              <option value="">Choose a project</option>
+              {projects.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            New project name
+            <input
+              value={name}
+              maxLength={200}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+          <button
+            disabled={!ready || busy || !!edits.dirty.length || !name.trim()}
+            onClick={() => void createProject()}
           >
-            <option value="">Choose a project</option>
-            {projects.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          New project name
-          <input
-            value={name}
-            maxLength={200}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <button
-          disabled={!ready || busy || !name.trim()}
-          onClick={() => void createProject()}
-        >
-          Create project
-        </button>
-        {project && (
-          <>
-            <h2>Import geometry</h2>
-            <label>
-              STEP file
-              <input
-                type="file"
-                accept=".step,.stp"
-                disabled={busy}
-                onChange={(e) => {
-                  setFile(e.target.files?.[0] ?? null);
-                  setTicket(null);
-                  setInspection(null);
-                  setUnit("");
-                  setConfirmed(false);
-                  setError("");
-                }}
-              />
-            </label>
-            <small>Solid STEP · 1–10 bodies · Up to 16 MiB</small>
-            <button disabled={busy || !file} onClick={() => void inspect()}>
-              Upload and inspect
-            </button>
-            {inspection?.status === "needs_units" && (
-              <>
-                <label>
-                  Source length units
-                  <select
-                    value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
+            Create project
+          </button>
+          {project && (
+            <>
+              <h2>Import geometry</h2>
+              <label>
+                STEP file
+                <input
+                  type="file"
+                  accept=".step,.stp"
+                  disabled={busy}
+                  onChange={(e) => {
+                    setFile(e.target.files?.[0] ?? null);
+                    setTicket(null);
+                    setInspection(null);
+                    setUnit("");
+                    setConfirmed(false);
+                    setError("");
+                  }}
+                />
+              </label>
+              <small>Solid STEP · 1–10 bodies · Up to 16 MiB</small>
+              <button disabled={busy || !file} onClick={() => void inspect()}>
+                Upload and inspect
+              </button>
+              {inspection?.status === "needs_units" && (
+                <>
+                  <label>
+                    Source length units
+                    <select
+                      value={unit}
+                      onChange={(e) => setUnit(e.target.value)}
+                    >
+                      <option value="">Choose units</option>
+                      <option value="mm">Millimetres (mm)</option>
+                      <option value="m">Metres (m)</option>
+                      <option value="inch">Inches (inch)</option>
+                    </select>
+                  </label>
+                  <button
+                    disabled={busy || !unit}
+                    onClick={() => void inspect(unit)}
                   >
-                    <option value="">Choose units</option>
-                    <option value="mm">Millimetres (mm)</option>
-                    <option value="m">Metres (m)</option>
-                    <option value="inch">Inches (inch)</option>
-                  </select>
-                </label>
-                <button
-                  disabled={busy || !unit}
-                  onClick={() => void inspect(unit)}
-                >
-                  Inspect with selected units
-                </button>
-              </>
-            )}
-            {inspection?.status === "ready" && details && (
-              <div className="confirmation">
-                <p>
-                  Source units: <strong>{details.source_length_unit}</strong>
-                </p>
-                <p>
-                  {details.body_count} solid bodies · {details.face_count} faces
-                </p>
-                {details.bounds_m && (
+                    Inspect with selected units
+                  </button>
+                </>
+              )}
+              {inspection?.status === "ready" && details && (
+                <div className="confirmation">
                   <p>
-                    Size in metres:{" "}
-                    <strong>
-                      {[0, 1, 2]
-                        .map((i) =>
-                          (
-                            details.bounds_m![i + 3] - details.bounds_m![i]
-                          ).toPrecision(6),
-                        )
-                        .join(" × ")}
-                    </strong>
+                    Source units: <strong>{details.source_length_unit}</strong>
                   </p>
-                )}
-                {(details.warnings ?? []).map((warning) => (
-                  <p key={warning}>{warning}</p>
-                ))}
-                <label className="check">
-                  <input
-                    type="checkbox"
-                    checked={confirmed}
-                    onChange={(e) => setConfirmed(e.target.checked)}
-                  />
-                  I confirm the dimensions and body count
-                </label>
-                <button
-                  disabled={busy || !confirmed}
-                  onClick={() => void accept()}
-                >
-                  Accept geometry
-                </button>
-              </div>
-            )}
-          </>
-        )}
-        <p aria-live="polite">{stage}</p>
-        {error && <p role="alert">{error}</p>}
+                  <p>
+                    {details.body_count} solid bodies · {details.face_count}{" "}
+                    faces
+                  </p>
+                  {details.bounds_m && (
+                    <p>
+                      Size in metres:{" "}
+                      <strong>
+                        {[0, 1, 2]
+                          .map((i) =>
+                            (
+                              details.bounds_m![i + 3] - details.bounds_m![i]
+                            ).toPrecision(6),
+                          )
+                          .join(" × ")}
+                      </strong>
+                    </p>
+                  )}
+                  {(details.warnings ?? []).map((warning) => (
+                    <p key={warning}>{warning}</p>
+                  ))}
+                  <label className="check">
+                    <input
+                      type="checkbox"
+                      checked={confirmed}
+                      onChange={(e) => setConfirmed(e.target.checked)}
+                    />
+                    I confirm the dimensions and body count
+                  </label>
+                  <button
+                    disabled={busy || !confirmed}
+                    onClick={() => void accept()}
+                  >
+                    Accept geometry
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+          <p aria-live="polite">{stage}</p>
+          {error && <p role="alert">{error}</p>}
+        </div>
         {shown && (
           <>
             <h2>Bodies and faces</h2>
@@ -395,6 +431,10 @@ export function Workspace() {
             >
               Show all bodies
             </button>
+            <p>
+              Tab to a face, Space/Enter to toggle; Arrow keys move between
+              faces. Escape clears selection outside text inputs.
+            </p>
             {shown.bodies.map((body, index) => (
               <section className="body-tree" key={body.id}>
                 <label className="check">
@@ -424,6 +464,38 @@ export function Workspace() {
                         key={face.id}
                         data-face-id={face.id}
                         aria-pressed={selected.has(face.id)}
+                        disabled={
+                          busy ||
+                          editingPreview ||
+                          (qualityOverlay && !!activeMesh)
+                        }
+                        onKeyDown={(event) => {
+                          if (
+                            !["ArrowDown", "ArrowUp", "Home", "End"].includes(
+                              event.key,
+                            )
+                          )
+                            return;
+                          event.preventDefault();
+                          const faces = Array.from(
+                            event.currentTarget
+                              .closest("aside")!
+                              .querySelectorAll<HTMLButtonElement>(
+                                "button[data-face-id]:not(:disabled)",
+                              ),
+                          );
+                          const index = faces.indexOf(event.currentTarget);
+                          const next =
+                            event.key === "Home"
+                              ? 0
+                              : event.key === "End"
+                                ? faces.length - 1
+                                : (index +
+                                    (event.key === "ArrowDown" ? 1 : -1) +
+                                    faces.length) %
+                                  faces.length;
+                          faces[next]?.focus();
+                        }}
                         onClick={() => toggle(face.id)}
                       >
                         Body {index + 1} face {fi + 1}
@@ -436,6 +508,17 @@ export function Workspace() {
         )}
       </aside>
       <div className="geometry-content">
+        <EditToolbar
+          analysisId={analysisId}
+          epoch={editorEpoch}
+          busy={busy || editingPreview}
+          setBusy={setBusy}
+          reload={reloadEditors}
+          selectCopy={(id) => {
+            setAnalysisId(id);
+            reloadEditors();
+          }}
+        />
         {activeResult && !editingPreview ? (
           <ResultViewport presentation={activeResult} visible={resultVisible} />
         ) : shown && geometry ? (
@@ -557,7 +640,7 @@ export function Workspace() {
             geometry={geometry}
             analysisId={analysisId}
             selected={selected}
-            busy={busy}
+            busy={busy || !!edits.dirty.length}
             setBusy={setBusy}
             showPreview={(data, highlights) => {
               setEditDisplay(data);
@@ -565,6 +648,7 @@ export function Workspace() {
               setEditingPreview(!!data || !!highlights);
             }}
             applied={(result) => {
+              resetEdits(analysisId);
               setProject(result.project);
               setProjects((all) =>
                 all.map((p) =>
@@ -587,6 +671,7 @@ export function Workspace() {
             project={project}
             geometry={geometry}
             analysisId={analysisId}
+            reloadWorkspace={reloadEditors}
             selectAnalysis={(id) => {
               setAnalysisId(id);
               if (!id) {
@@ -606,6 +691,7 @@ export function Workspace() {
             showMesh={(mesh) => {
               setResultPresentation(null);
               setMeshPreview(mesh);
+              setMeshShownRevision(edits.revision);
               setQualityOverlay(mesh?.quality?.accepted === false);
             }}
             showResult={setResultPresentation}

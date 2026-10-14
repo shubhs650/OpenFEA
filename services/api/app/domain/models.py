@@ -141,6 +141,15 @@ class AnalysisPatch(StrictModel):
     name: Name
 
 
+class AnalysisRestore(StrictModel):
+    target_revision: int = Field(ge=1)
+
+
+class ConflictCopy(StrictModel):
+    source_revision: int = Field(ge=1)
+    name: Name
+
+
 class Analysis(AnalysisCreate):
     id: UUID
     project_id: UUID

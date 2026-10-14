@@ -1,3 +1,4 @@
+import { useTheme } from "../workspace/theme";
 import { useEffect, useRef, useState } from "react";
 import "@kitware/vtk.js/Rendering/Profiles/Geometry";
 import vtkGenericRenderWindow from "@kitware/vtk.js/Rendering/Misc/GenericRenderWindow";
@@ -20,6 +21,7 @@ export function ResultViewport({
   presentation: ResultPresentation;
   visible: Set<string>;
 }) {
+  const theme = useTheme();
   const container = useRef<HTMLDivElement>(null);
   const [error, setError] = useState("");
   const { view, field, scale, range, preset } = presentation;
@@ -27,7 +29,7 @@ export function ResultViewport({
   useEffect(() => {
     if (!container.current) return;
     const window = vtkGenericRenderWindow.newInstance({
-      background: [0.94, 0.96, 0.98],
+      background: theme === "dark" ? [0.07, 0.11, 0.15] : [0.94, 0.96, 0.98],
       listenWindowResize: false,
     });
     window.setContainer(container.current);
@@ -101,7 +103,7 @@ export function ResultViewport({
       colors.delete();
       window.delete();
     };
-  }, [view, field, scale, range, visible]);
+  }, [theme, view, field, scale, range, visible]);
   return (
     <section
       className="result-viewport"

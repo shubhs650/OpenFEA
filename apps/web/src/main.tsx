@@ -1,3 +1,4 @@
+import { ThemeProvider } from "./workspace/theme";
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { getHealth } from "./health";
@@ -20,9 +21,13 @@ function App() {
     <main>
       <header>
         <h1>FEA development</h1>
-        <span role="status">{status}</span>
+        <span role="status" aria-label="API connection">
+          {status}
+        </span>
       </header>
-      <Workspace />
+      <ThemeProvider>
+        <Workspace />
+      </ThemeProvider>
       <footer>
         Geometry, materials and face loads with checked coarse mesh and local
         solve jobs. Calculated displacement and stress results are available.

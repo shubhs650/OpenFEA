@@ -660,6 +660,69 @@ class Repository:
         with self.database.engine.connect() as connection:
             return self._analysis(connection, owner, analysis, revision)
 
+    def restore_analysis(self, owner: UUID, analysis: UUID, expected: int, target: int) -> Analysis:
+        """Append trusted historical setup; never rewrite history or repin geometry."""
+        with self.write() as connection:
+            current = self._analysis(connection, owner, analysis)
+            if current.revision != expected:
+                raise stale_revision()
+            source = self._analysis(connection, owner, analysis, target)
+            if target >= expected or source.geometry_revision_id != current.geometry_revision_id:
+                raise DomainError(
+                    409, "undo_invalidated", "Undo cannot cross geometry changes or later revisions"
+                )
+            timestamp = now()
+            self._insert_analysis_revision(
+                connection,
+                analysis,
+                current.project_id,
+                expected + 1,
+                AnalysisCreate(name=source.name, geometry_revision_id=source.geometry_revision_id),
+                timestamp,
+                self._material_setup(connection, analysis, target),
+                self._load_setup(connection, analysis, target),
+                self._mesh_setup(connection, analysis, target),
+            )
+            connection.execute(
+                text(
+                    "UPDATE analyses SET head_revision=head_revision+1, "
+                    "updated_at=:time WHERE id=:id"
+                ),
+                {"id": str(analysis), "time": timestamp},
+            )
+            return self._analysis(connection, owner, analysis)
+
+    def conflict_copy(
+        self, owner: UUID, analysis: UUID, expected: int, source_revision: int, name: str
+    ) -> Analysis:
+        """Fork the session's observed setup only after a real revision conflict."""
+        with self.write() as connection:
+            current = self._analysis(connection, owner, analysis)
+            if current.revision != expected:
+                raise stale_revision()
+            if source_revision >= current.revision:
+                raise DomainError(
+                    409, "conflict_required", "Only a superseded revision can be copied"
+                )
+            source = self._analysis(connection, owner, analysis, source_revision)
+            identifier, timestamp = uuid4(), now()
+            connection.execute(
+                text("INSERT INTO analyses VALUES (:id,:project,1,:time,:time)"),
+                {"id": str(identifier), "project": str(current.project_id), "time": timestamp},
+            )
+            self._insert_analysis_revision(
+                connection,
+                identifier,
+                current.project_id,
+                1,
+                AnalysisCreate(name=name, geometry_revision_id=source.geometry_revision_id),
+                timestamp,
+                self._material_setup(connection, analysis, source_revision),
+                self._load_setup(connection, analysis, source_revision),
+                self._mesh_setup(connection, analysis, source_revision),
+            )
+            return self._analysis(connection, owner, identifier)
+
     def list_analyses(self, owner: UUID, project: UUID, offset: int, limit: int) -> AnalysisPage:
         with self.database.engine.connect() as connection:
             self._project(connection, owner, project)

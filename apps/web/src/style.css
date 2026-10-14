@@ -1,7 +1,38 @@
+/* Semantic tokens cover controls, warnings and results in both themes. */
+:root {
+  color-scheme: light;
+  --text: #172b3a;
+  --page: #f7f9fb;
+  --surface: #fff;
+  --muted: #536776;
+  --border: #bac9d5;
+  --control: #edf4f8;
+  --hover: #dceef6;
+  --selected: #ffd7a4;
+  --accent: #a36113;
+  --subtle: #f0f5f8;
+  --error-text: #a02424;
+  --error-bg: #fff0ee;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #e1ebf2;
+  --page: #111b25;
+  --surface: #1b2936;
+  --muted: #b0c3d1;
+  --border: #60798c;
+  --control: #283f50;
+  --hover: #365369;
+  --selected: #67421b;
+  --accent: #f0b45f;
+  --subtle: #223443;
+  --error-text: #ffb8b0;
+  --error-bg: #482c30;
+}
 :root {
   font-family: system-ui, sans-serif;
-  color: #172b3a;
-  background: #f7f9fb;
+  color: var(--text);
+  background: var(--page);
 }
 body {
   margin: 0;
@@ -16,7 +47,7 @@ header {
   justify-content: space-between;
 }
 footer {
-  color: #576b7a;
+  color: var(--muted);
   padding: 1rem 0;
   font-size: 0.85rem;
 }
@@ -27,9 +58,9 @@ footer {
 }
 .panel,
 .selection-panel {
-  border: 1px solid #d6e0e7;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
-  background: white;
+  background: var(--surface);
   padding: 1rem;
 }
 .panel {
@@ -52,21 +83,21 @@ select {
   box-sizing: border-box;
   margin-top: 0.4rem;
   padding: 0.5rem;
-  border: 1px solid #c2cfda;
+  border: 1px solid var(--border);
   border-radius: 0.3rem;
-  background: white;
+  background: var(--surface);
 }
 button {
-  border: 1px solid #bbcbd7;
-  color: #123c58;
-  background: #edf4f8;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--control);
   border-radius: 0.3rem;
   padding: 0.45rem 0.65rem;
   margin: 0.25rem 0.25rem 0.25rem 0;
   cursor: pointer;
 }
 button:hover:not(:disabled) {
-  background: #dceef6;
+  background: var(--hover);
 }
 button:disabled {
   opacity: 0.55;
@@ -79,8 +110,8 @@ select:focus-visible {
   outline-offset: 2px;
 }
 button[aria-pressed="true"] {
-  background: #ffd7a4;
-  border-color: #c47b22;
+  background: var(--selected);
+  border-color: var(--accent);
 }
 .check {
   display: flex;
@@ -91,12 +122,12 @@ button[aria-pressed="true"] {
   margin: 0.15rem 0;
 }
 .confirmation {
-  background: #f4f8fb;
+  background: var(--subtle);
   padding: 0.6rem;
   margin-top: 1rem;
 }
 .body-tree {
-  border-top: 1px solid #d6e0e7;
+  border-top: 1px solid var(--border);
   margin-top: 0.6rem;
   padding-top: 0.5rem;
 }
@@ -107,12 +138,12 @@ button[aria-pressed="true"] {
   min-width: 0;
 }
 .viewport-shell {
-  border: 1px solid #d6e0e7;
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
   overflow: hidden;
 }
 .viewport-toolbar {
-  background: white;
+  background: var(--surface);
   padding: 0.4rem 0.7rem;
   display: flex;
   flex-wrap: wrap;
@@ -122,7 +153,7 @@ button[aria-pressed="true"] {
 .viewport-toolbar span,
 .viewport-caption {
   font-size: 0.8rem;
-  color: #536b7b;
+  color: var(--muted);
 }
 .viewport {
   position: relative;
@@ -135,15 +166,15 @@ button[aria-pressed="true"] {
 .viewport-caption {
   margin: 0;
   padding: 0.5rem 0.8rem;
-  background: white;
+  background: var(--surface);
 }
 .empty-viewport {
   display: grid;
   place-content: center;
   min-height: 450px;
   text-align: center;
-  background: #eaf0f4;
-  border: 1px dashed #b5c5d2;
+  background: var(--subtle);
+  border: 1px dashed var(--border);
   border-radius: 0.5rem;
 }
 .selection-panel {
@@ -157,8 +188,8 @@ button[aria-pressed="true"] {
   max-width: 180px;
 }
 [role="alert"] {
-  color: #a02424;
-  background: #fff0ee;
+  color: var(--error-text);
+  background: var(--error-bg);
   padding: 0.6rem;
   border-radius: 0.3rem;
 }
@@ -184,7 +215,7 @@ textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 0.5rem;
-  border: 1px solid #c2cfda;
+  border: 1px solid var(--border);
   border-radius: 0.3rem;
   font: inherit;
   margin-top: 0.4rem;
@@ -197,7 +228,7 @@ textarea {
 .material-notice,
 .material-readiness {
   font-size: 0.85rem;
-  background: #f4f8fb;
+  background: var(--subtle);
   padding: 0.7rem;
 }
 .result-viewport {
@@ -205,7 +236,7 @@ textarea {
 }
 .result-legend {
   padding: 1rem;
-  background: #f4f8fb;
+  background: var(--subtle);
 }
 .contour-bar {
   height: 14px;
@@ -227,6 +258,76 @@ textarea {
 .results-panel th,
 .results-panel td {
   padding: 0.5rem;
-  border: 1px solid #c2cfda;
+  border: 1px solid var(--border);
   text-align: left;
+}
+
+input,
+select,
+textarea {
+  color: var(--text);
+  background: var(--surface);
+}
+a {
+  color: #126998;
+}
+:root[data-theme="dark"] a {
+  color: #91d2ff;
+}
+summary:focus-visible,
+[tabindex="-1"]:focus {
+  outline: 3px solid #1687b5;
+  outline-offset: 2px;
+}
+.editor-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.edit-toolbar {
+  margin-bottom: 0.75rem;
+}
+.edit-toolbar label {
+  max-width: 32rem;
+}
+.edit-toolbar [aria-label="Save state"] {
+  font-weight: 650;
+}
+.checklist ol {
+  list-style: none;
+  padding: 0;
+}
+.checklist li {
+  margin-bottom: 0.8rem;
+}
+.checklist small {
+  display: block;
+}
+.theme-control {
+  display: flex;
+  justify-content: end;
+}
+.theme-control label {
+  min-width: 8rem;
+}
+small {
+  overflow-wrap: anywhere;
+}
+@media (min-width: 1100px) {
+  .workspace > aside {
+    position: sticky;
+    top: 1rem;
+  }
+}
+@media (max-width: 700px) {
+  main {
+    padding: 0.6rem;
+  }
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .panel {
+    max-height: none;
+  }
 }
