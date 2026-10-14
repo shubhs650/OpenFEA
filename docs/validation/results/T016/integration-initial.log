@@ -1,0 +1,63 @@
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 14 items
+
+tests/integration/test_directions.py .                                   [  7%]
+tests/integration/test_essential_loads.py .                              [ 14%]
+tests/integration/test_geometry_edits.py .                               [ 21%]
+tests/integration/test_local_jobs.py .F                                  [ 35%]
+tests/integration/test_mesh_controls.py .                                [ 42%]
+tests/integration/test_persistence.py ...                                [ 64%]
+tests/integration/test_result_views.py .                                 [ 71%]
+tests/integration/test_startup.py ....                                   [100%]
+
+=================================== FAILURES ===================================
+____ test_abrupt_api_death_fences_actual_mesh_and_restarts_only_queued_work ____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-76/test_abrupt_api_death_fences_a0')
+
+    def test_abrupt_api_death_fences_actual_mesh_and_restarts_only_queued_work(tmp_path: Path) -> None:
+        config = configuration(tmp_path)
+        browser = Browser(config.port)
+        data = Path(config.environment["FEA_DATA_ROOT"])
+        with killable_api(config, tmp_path / "killed.log") as api:
+            path, headers = prepared(browser)
+            job = submit(browser, path, headers)
+            deadline = time.monotonic() + 5
+            pid = None
+            while time.monotonic() < deadline:
+                with sqlite3.connect(data / "metadata.sqlite3") as connection:
+                    row = connection.execute(
+                        "SELECT process_pid FROM local_jobs WHERE id=?", (job["id"],)
+                    ).fetchone()
+                if row[0] is not None:
+                    pid = row[0]
+                    break
+                time.sleep(0.005)
+            assert pid is not None and process_identity(pid) is not None
+            # Pause the real native child to make the abrupt crash point deterministic.
+            deadline = time.monotonic() + 2
+            native = None
+            while time.monotonic() < deadline and native is None:
+                for child in descendants(pid):
+                    try:
+                        command = Path(f"/proc/{child}/cmdline").read_bytes()
+                    except FileNotFoundError:
+                        continue
+                    if b"/venvs/mesh/bin/python\0" in command:
+                        os.kill(child, signal.SIGSTOP)
+                        native = child
+                        break
+                time.sleep(0.005)
+>           assert native is not None
+E           assert None is not None
+
+tests/integration/test_local_jobs.py:253: AssertionError
+=========================== short test summary info ============================
+FAILED tests/integration/test_local_jobs.py::test_abrupt_api_death_fences_actual_mesh_and_restarts_only_queued_work
+======================== 1 failed, 13 passed in 49.26s =========================
+make: *** [Makefile:38: test-integration] Error 1

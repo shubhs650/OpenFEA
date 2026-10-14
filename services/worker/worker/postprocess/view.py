@@ -9,7 +9,7 @@ from worker.meshing import Vec
 from worker.postprocess.fields import element_nodes
 from worker.postprocess.tensors import COMPONENTS, tensor, von_mises
 
-VIEW_VERSION = "affine-c3d10-essential-results-v2"
+VIEW_VERSION = "affine-c3d10-direction-results-v3"
 ZERO_STRESS_PA = 1e-6  # Absolute display convention; never a finite safety factor.
 
 

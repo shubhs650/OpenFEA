@@ -1,0 +1,16 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/mesh.spec.ts tests/e2e/directions.spec.ts
+
+
+Running 5 tests using 1 worker
+
+(node:53115) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/directions.spec.ts:53:1 › native rotated symmetry and edge sign preview drive real immutable global results (8.6s)
+  ✓  2 tests/e2e/directions.spec.ts:244:1 › native cylinder axis can be saved while curved symmetry and solving refuse (4.3s)
+  ✓  3 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (9.3s)
+  ✓  4 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (9.1s)
+  ✓  5 tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing (3.2s)
+
+  5 passed (37.4s)

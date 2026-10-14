@@ -6,7 +6,7 @@ from sqlalchemy import Connection, text
 
 from app.domain.edits import EditResult, GeometryEdit
 from app.domain.errors import DomainError, not_found, stale_revision
-from app.domain.loads import LoadAssignment, LoadSetup
+from app.domain.loads import LoadAssignment, LoadSetup, restore_direction_revision
 from app.domain.materials import BodyMaterial, MaterialSetup
 from app.domain.mesh import MeshSetup
 from app.domain.models import AnalysisCreate, GeometryMetadata, GeometryRevision
@@ -18,6 +18,16 @@ def remap_loads(edit: GeometryEdit, geometry: GeometryRevision, setup: LoadSetup
     mappings = {m.source_face_id: m for m in edit.preview.mappings}
     assignments = []
     for item in setup.assignments:
+        if item.direction is not None or item.kind == "symmetry":
+            assignments.append(
+                item.model_copy(
+                    update={
+                        "review_faces": item.review_faces or item.face_ids,
+                        "review_direction": True,
+                    }
+                )
+            )
+            continue
         if item.kind == "gravity":
             assignments.append(
                 item.model_copy(update={"review_bodies": item.review_bodies or item.body_ids})
@@ -285,8 +295,8 @@ class EditRepository:
                 loads = loads.model_copy(
                     update={
                         "assignments": [
-                            a.model_copy(update={"geometry_revision_id": geometry.id})
-                            if not a.review_faces and not a.review_bodies
+                            restore_direction_revision(a, geometry.id)
+                            if not a.review_faces and not a.review_bodies and not a.review_direction
                             else a
                             for a in loads.assignments
                         ]

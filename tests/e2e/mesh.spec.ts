@@ -235,3 +235,54 @@ test("actual curved quadratic mesh preview before loads and bounded failed-quali
     fullPage: true,
   });
 });
+
+test("mesh recovery permission waits for the real saved settings before editing", async ({
+  page,
+}) => {
+  let release = () => {};
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route("**/api/v1/analyses/*/mesh-controls", async (route) => {
+    if (route.request().method() === "GET") await gate;
+    await route.continue();
+  });
+  try {
+    await imported(page, "cube-m.step", "Mesh settings readiness");
+    const permission = page.getByLabel(
+      "I allow two additional disclosed meshing attempts with unchanged sizing",
+    );
+    const save = page.getByRole("button", {
+      name: "Save mesh controls",
+      exact: true,
+    });
+    await expect(permission).toBeDisabled();
+    await expect(save).toBeDisabled();
+    await expect(
+      page.getByLabel("Global mesh size (mm)", { exact: true }),
+    ).toBeDisabled();
+    release();
+    await expect(permission).toBeEnabled();
+    await permission.check();
+    const saved = page.waitForResponse(
+      (response) =>
+        response.url().endsWith("/mesh-controls") &&
+        response.request().method() === "PUT",
+    );
+    await save.click();
+    const response = await saved;
+    expect(response.status()).toBe(200);
+    expect((await response.json()).setup.recovery_enabled).toBe(true);
+    await expect(permission).toBeEnabled();
+    await expect(permission).toBeChecked();
+    const project = await page.getByLabel("Open project").inputValue();
+    const analysis = await page.getByLabel("Open analysis").inputValue();
+    await page.reload();
+    await page.getByLabel("Open project").selectOption(project);
+    await page.getByLabel("Open analysis").selectOption(analysis);
+    await expect(permission).toBeEnabled();
+    await expect(permission).toBeChecked();
+  } finally {
+    release();
+  }
+});

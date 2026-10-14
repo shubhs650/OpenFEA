@@ -1,0 +1,334 @@
+{
+  "artifacts": {
+    "B06-api-0-1.json": {
+      "sha256": "a26439822d677d67475a0d26ec521d2fbd944d18967ec1312cafc25c2c083a3f",
+      "size_bytes": 6076
+    },
+    "B06-api-0-2.json": {
+      "sha256": "68c868e1acc0cd7dd457814bab3f8c025cab44e94d349e20e71fcb96e396ab63",
+      "size_bytes": 6078
+    },
+    "B06-api-1-1.json": {
+      "sha256": "8deec1a24a7f2809294d04da978e3f3672692650455ec42d3b5354eb7eee8ce3",
+      "size_bytes": 6389
+    },
+    "B06-api-1-2.json": {
+      "sha256": "26277d292c4bc436948564287364d15f7ed18a7036288c887bd2511ce1e0368e",
+      "size_bytes": 6399
+    },
+    "B06-initial-transform-failure.log": {
+      "sha256": "5d25be8c4cfd5dfae196651c123ec222657c7768be8a759888c35ab8d1eede44",
+      "size_bytes": 2048
+    },
+    "B06.json": {
+      "sha256": "5f7363e26dd8a7954e5597df66c6cc58bcca8db391aa13e6c36b47366c07eb91",
+      "size_bytes": 13780
+    },
+    "browser-final.log": {
+      "sha256": "22bcf908650e02a38286540f4b00ca57b2ce3e0da06e5b1cf647b0a8198d0141",
+      "size_bytes": 3474
+    },
+    "browser-initial.log": {
+      "sha256": "b8c468fc776de3db910c1912f8ed1d9be2981959c9d51fd38b84630346024e2b",
+      "size_bytes": 5747
+    },
+    "browser-new.log": {
+      "sha256": "8c17baac2be4eefba5f12b4e9b0baa640fc5e9114eacb4708f1635aa411e4586",
+      "size_bytes": 557
+    },
+    "browser-readiness-final.log": {
+      "sha256": "c89f2b6a7d88c74bffce4c63d857ff02592164c8205a9d0832da32b3054ae4e0",
+      "size_bytes": 3596
+    },
+    "cylinder-axis.png": {
+      "sha256": "8b95b7d89bd7e17e41f7f339762c710021f5973a0c5d0c7c714d589f9d57a733",
+      "size_bytes": 9135
+    },
+    "direction-arrow.png": {
+      "sha256": "f8c8f7efd4527cba47e3b4582c6d42208f63a8e598f8ee47c21d88f8411ab91a",
+      "size_bytes": 9017
+    },
+    "direction-basis.png": {
+      "sha256": "c8dc1b5306deee16b94f9452c88b99f14878458a89377288cda5fa4bf7344099",
+      "size_bytes": 32095
+    },
+    "direction-equilibrium.png": {
+      "sha256": "76c39f4ca9405e181fc54e6a070176ed0eebb277733801563754b0702dac2631",
+      "size_bytes": 20081
+    },
+    "directions-native.log": {
+      "sha256": "5c4997835562811a6b73cd53aa1cf06734a55b91c7236914aa7bea2fb6088d6c",
+      "size_bytes": 100
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "failure-probes.log": {
+      "sha256": "e7a76d15c2db23d10a587c9aa213e11bafbf770f8f01a0a99cc8bbf88cfd8916",
+      "size_bytes": 502
+    },
+    "fast-final.log": {
+      "sha256": "ea503242c495f460bbf59800c6dd0a1aa36489e0cf1929ec9ebd42d183e40794",
+      "size_bytes": 3868
+    },
+    "fast-initial.log": {
+      "sha256": "c236d700a8c86891dafa5b32ebf3417f45bc62769b6d8c5f1c4af49c14976913",
+      "size_bytes": 4066
+    },
+    "hosted-mesh-readiness-failure.log": {
+      "sha256": "f2a0a57cb71558156bedf77ce95e1fefe3e0230b8ae32b3e841a6c7cf5addd60",
+      "size_bytes": 2885
+    },
+    "integration-final.log": {
+      "sha256": "fc76a1f68f83182d1f3ccd1eb25176cd57b42c54381061aa3cde3539751e3c3e",
+      "size_bytes": 1006
+    },
+    "integration-initial.log": {
+      "sha256": "5cf9e642929de21de1a59263f9a5fb17fd96dcefa54057e0bebee04a13e235c1",
+      "size_bytes": 3276
+    },
+    "mesh-readiness-before.log": {
+      "sha256": "9741f16207294bdbb556951b406cc26c7890b2ef78908e4103e954f5d8c55764",
+      "size_bytes": 1701
+    },
+    "mesh-readiness-fast.log": {
+      "sha256": "01ca57dd55e71bb1269fd1e0f466e2bcefd0b4b6ff6945d44cede9e79d541673",
+      "size_bytes": 4083
+    },
+    "mesh-readiness-targeted.log": {
+      "sha256": "a375ce29f8426d48bf13f0449f5586883da227a59e1059488acb643d04838cb6",
+      "size_bytes": 961
+    },
+    "native-initial.log": {
+      "sha256": "53af53a0d973f0497711f29464f3d3b762df53c05d515255c8af5e33734b85c7",
+      "size_bytes": 5797
+    },
+    "observer-replay.log": {
+      "sha256": "8611f3001096da17e05259f80bda77446929f579805789b553ce6f20bfb8d67c",
+      "size_bytes": 21378
+    }
+  },
+  "base_commit": "2c5620f79b03abb3e665aa7ec13d0313c8944842",
+  "branch": "codex/t016-directions-symmetry",
+  "commands": [
+    {
+      "command": "make doctor",
+      "result": "Pinned native operations and isolation passed; binaries/locks unchanged."
+    },
+    {
+      "command": "make check build smoke",
+      "result": "276 Python/21 TypeScript, lint/format/types/contracts/docs/build/HTTP passed; final evidence/docs replay recorded separately."
+    },
+    {
+      "command": "make test-native test-integration",
+      "result": "155 native pass; existing cancellation observer failed, stopped before integration. No numerical failures."
+    },
+    {
+      "command": "uv run pytest tests/native/test_job_lifecycle.py tests/integration/test_local_jobs.py -q",
+      "result": "Final observer: all 10 native pass. Two integration startup failures because this direct invocation omitted Makefile PYTHONPATH; documented runner replay passes."
+    },
+    {
+      "command": "make test-integration",
+      "result": "Initial 13 pass/1 observer failure; final 14 pass in64.12s with unchanged real-process deadlines."
+    },
+    {
+      "command": "make test-e2e",
+      "result": "Initial22pass/2new harness failures; new2pass after terminal/read refresh waits; full final replay recorded separately."
+    },
+    {
+      "command": "make benchmark CASE=B06 DEVELOPMENT=1",
+      "result": "All4 actual Gmsh/CCX cases DEVELOPMENT PASS; result code_commit binds implementation; unsigned refusal tested, owner pending."
+    },
+    {
+      "command": "make test-e2e",
+      "result": "Final24Chromium pass in2.4min, no failures/skips; real native workflows."
+    },
+    {
+      "command": "make check build smoke; make docs-check; git diff --check",
+      "result": "Final276Python/21TS and lint/format/types/contracts/136Markdown/42taskstatus/dependency checks/build/realHTTPsmoke pass; exit0."
+    },
+    {
+      "command": ".venv/bin/python scripts/ci/failure_probes.py",
+      "result": "All six deliberate Python/TypeScript lint/type/test failures propagate correctly; temporary probes removed."
+    },
+    {
+      "command": "npm run test:e2e -- tests/e2e/mesh.spec.ts -g \"permission waits\"",
+      "result": "Old source deterministicfailure: recovery permission enabled before held real GET."
+    },
+    {
+      "command": "npm run test:e2e -- tests/e2e/mesh.spec.ts tests/e2e/directions.spec.ts",
+      "result": "Final5browserpassed37.4s, actual APIs/native meshes/solves; includes delayed real GET regression and actual bounded recovery failure."
+    },
+    {
+      "command": "make check build smoke",
+      "result": "Mesh readiness source:276Python/21TS,lint/format/types/contracts/136Markdown/status/build/realHTTPsmoke passed."
+    },
+    {
+      "command": "make test-e2e; make docs-check; git diff --check",
+      "result": "Final25Chromium pass2.3min;136Markdown/status/dependency/diff checks pass. No failures/skips."
+    }
+  ],
+  "corrections": [
+    "Initial 16-decimal exponent TRANSFORM fields refused by pinned CCX f20 numeric/card reader. Existing12-decimal exponent encoding now used; original syntax failure retained. Basis parsed from actual written fields. Physical setup/references/all tolerances unchanged.",
+    "Native lifecycle/integration observer rescanned every host PID at each tree depth and missed actual tiny mesher. One snapshot per observation retains descendant ownership and real SIGSTOP/cancel/fencing checks, without timeout/retry/cap change.",
+    "New browser save/results assertions initially raced refreshed load state or queued solve completion. Explicit fresh GET and terminal history waits correct harness; production state machine/timeouts/retries unchanged.",
+    "Symmetry face reselection recomputes source maps before model validation; synchronous source choice clears stale draft reference/reverse.",
+    "Initial format/type/fixture selector corrections resolved with locked tools; no numerical criteria widened.",
+    "Second hosted CI passed native/fast/integration,23browser; one existing recovery-checkbox race. Delayed actual GET regression fails old enabled controls and passes current analysis/revision/geometry/preset gating. All5 affected browser cases pass37.4s. One added browser case makes492distinct."
+  ],
+  "criteria": {
+    "basis_tolerance": 1e-10,
+    "dependent_consistency_ulps": 64,
+    "edge_min_length_m": 1e-12,
+    "existing_equilibrium_policy_unchanged": true,
+    "manifest": "tests/benchmarks/B06.json",
+    "reviewer_signoffs": "PENDING engineering owner; development only"
+  },
+  "date": "2026-10-14",
+  "distinct_verified_cases": {
+    "chromium": 25,
+    "native": 156,
+    "python_unit": 276,
+    "real_process_integration": 14,
+    "remaining_failures": 0,
+    "repeats_counted": false,
+    "skips": 0,
+    "total": 492,
+    "typescript_unit": 21
+  },
+  "frontend_implementation_commit": "184ddab55b3083d98a6f7d312cdc052c54339da8",
+  "hosted_ci": "Initial head passed; documentation-only second run exposed existing mesh-settings race. Final frontend/evidence head outcome reported on PR #13; leave open.",
+  "implementation_commit": "fd2d73af72a3d2c37ae4b99cce02903674142872",
+  "initial_hosted_ci": {
+    "chromium": 24,
+    "conclusion": "success",
+    "duration": "12m32s",
+    "failure_probes": 6,
+    "head": "e387bf00197d6c510a7fa7385020a01589676ceb",
+    "integration": 14,
+    "native": 156,
+    "python_unit": 276,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38537337861",
+    "typescript_unit": 21
+  },
+  "milestone": "M2 IN PROGRESS",
+  "next_task": "T017",
+  "platform": {
+    "bubblewrap": "0.12.0",
+    "cadquery_ocp": "8.0.1.1.0",
+    "calculix": "2.23",
+    "gmsh": "4.15.2",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "python": "3.12.14",
+    "system": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "uv": "0.12.23"
+  },
+  "second_hosted_ci": {
+    "chromium_failed": 1,
+    "chromium_passed": 23,
+    "conclusion": "failure",
+    "failure": "Existing mesh-recovery checkbox editable before saved-settings response; response resets early draft. Real delayed GET regression proves premature enablement; frontend now gates current settings readiness. No numerical/source/cap/timeout/retry changes.",
+    "head": "8e4066b7d111a95aae94678156d770d402ff85fe",
+    "integration": 14,
+    "native": 156,
+    "python_unit": 276,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38539007722",
+    "typescript_unit": 21
+  },
+  "source_and_lock_reference": "Numerical/API/direction source fd2d73af72a3d2c37ae4b99cce02903674142872; mesh readiness frontend/test source184ddab55b3083d98a6f7d312cdc052c54339da8. Subsequent documentation changes no mathematical source. Official B06 remains bound to the numerical source.",
+  "source_and_lock_sha256": {
+    ".gitattributes": "0aadf6dac81d2371bd13cab51d8411a74a15f21ecb6abf8e8cab6acf453bf336",
+    "Makefile": "fa9da209950cea10de6b9c4afd9c20ff76213b24236187d1f580a76f2988ea41",
+    "apps/web/src/geometry/Viewport.tsx": "996bb2eb5f0303caa75ba8cad5686724fca7309e2d0ec513a9f15cce2e5600ba",
+    "apps/web/src/geometry/Workspace.tsx": "e2f69536bacfec2ff3fa27208929f39313cf80f31594e75a7044afcfd087b2d7",
+    "apps/web/src/loads/DirectionEditor.tsx": "b80615ed9f1e27559058c04f024e71d8e8669f958ea191cd09744d1dc59adc98",
+    "apps/web/src/loads/LoadsEditor.tsx": "e12ca24e44a883406f131d25bd5cb425ee2e523f3c0025a82329f5fac11efc00",
+    "apps/web/src/materials/MaterialsEditor.tsx": "b49782599da41ce82eb8c6fae6cbd2a612d4962dbd1ccdeeca1bf8300cd2e267",
+    "apps/web/src/mesh/MeshEditor.tsx": "c73a4de8f51b976cbf4f412e3fb8ba7b5b2577b0b487ea00309ba1e79895cedc",
+    "apps/web/src/results/ResultsEditor.tsx": "8519020fe6c9c7eb0dc65d1cca41ec93167bb32076ae31cd3ae455590391e863",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "packages/contracts/api.d.ts": "a5917f3b31a423955429337bc262572a3f0b01f022b83c803df474bef5de74e3",
+    "packages/contracts/openapi.json": "a3c6d55a3ed64b59f11039c83bfcf371777eefa183ba6b9a26948a2d6853f105",
+    "scripts/native/benchmark.py": "93072ef4aba9c6dab20b111412efcc855777433b101729abceac451f38af09ee",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+    "services/api/app/domain/deck_service.py": "f3d7c084b564749f38790afba4a28ef75506fabf226ff48769a7630570a60a93",
+    "services/api/app/domain/directions.py": "773fff0379e11e730bc3e661f45503453219244b3d39a26db935d227b3b19420",
+    "services/api/app/domain/edits.py": "59f22a8d2bf87a8ba58a22e14ed287b987ed1fdab0ff1a0d5c55a611187c4b6c",
+    "services/api/app/domain/imports.py": "fe35e7bb1e526d4ac57b630fa61f4810da93393090ff2b46229af786424f3478",
+    "services/api/app/domain/loads.py": "20e3dc524c8b69b7afa351caf3deabda6277d338bb66c0657e14760636fc7c6b",
+    "services/api/app/domain/models.py": "464827c13f4bea7c6e3a1dce96bdde804826a14b89b60016b321ebb30ea700a3",
+    "services/api/app/domain/results.py": "10e896adf876daf7a4bbc028b894c0eb30db17f5ea388f85f72c3572327deedd",
+    "services/api/app/jobs/runner.py": "ac0195128489985d26227a1f3b72f57cf28e5652ef8ff9ddc98f4fd1e4946dc3",
+    "services/api/app/jobs/service.py": "0cb42e04652428061c6f4604d6f3dde2f072223d23829f9c09615e41ea19a827",
+    "services/api/app/persistence/edits.py": "e8bc403796630fa6e6c91698250e23fcb1f24cca819040550d463ba795ada09a",
+    "services/api/app/persistence/jobs.py": "60b3ffebf6798543f6c25b7747fe442cd3e21e796761be78a1e9f501182d59e8",
+    "services/api/app/routes/edits.py": "b012993ea951c0f496182ccbeba52fe4bdde8c664a961a0ec790b2ee02661e56",
+    "services/api/app/routes/loads.py": "a2fab7f7d49697e526a4fb4bba7a5a7147d868fbaa668d1e6906e9eaef466280",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "services/worker/worker/actions.py": "1a8edff017a1397b45fa667d9056a2b5e9ebf250248812928855f64dec460e9b",
+    "services/worker/worker/benchmark.py": "3c82d8ea3cc06ee1f2df2c7d5b38ce3be3857e39a60221a50c3582837f1ad422",
+    "services/worker/worker/calculix/results.py": "d9df5e9598c0cebc633f928951fa19fab987bef0bedd0f5a34279a5c210a8c75",
+    "services/worker/worker/deck.py": "906d97c5f4d093220b54f98fb7299ff2bea694c29875e2f5897ca2a10f756c8c",
+    "services/worker/worker/direction_benchmarks.py": "ff9856b588358e3e5e8e13d2d9ff9c1218bc8add1ddab2a4eba7978b0e717ed4",
+    "services/worker/worker/directions.py": "8de17d5705b81b651a5077ddf3b80e3b29a13b9f453af1c79fc2e82db06e4592",
+    "services/worker/worker/essential_benchmarks.py": "0c487ffeaf6a49a86aee498dd2d7e9d7cc34761043ac3377a0b27e8c0b2890f7",
+    "services/worker/worker/geometry_native/build.py": "f64862a3e75c64fc2060fd685122d7aa4e0a8addd97811974f29852e608cdbb9",
+    "services/worker/worker/geometry_native/import_step.py": "abead4f41e7db6d7c2833aee71938bda626da2ccbe7be46cd503425535dbe928",
+    "services/worker/worker/local_process.py": "638e760f9556830e902d29594aed265cc6a7cb1dafbcfd262b872ad2baf331b9",
+    "services/worker/worker/local_solve.py": "0c13f0296d5a041b920efd504fd51ca9e23279dcc4f880f4ab7e5ad93cca4333",
+    "services/worker/worker/postprocess/view.py": "d9f708261ca3691db8151e4c143fd1778f975fa0a8d906beb407d430f978198a",
+    "services/worker/worker/runtime.py": "ee47c754c60bfd1c0174ed097167fd7b8d215377616a65900750f8f0ca11dfc6",
+    "tests/benchmarks/B03.json": "4c18817699ee194fccb0b47bae489ce4d4b432b1f575ce322f25c7903f5894f0",
+    "tests/benchmarks/B04.json": "0454b9940297193e9cb110c37ade142a1783d51f87a598519ad778b2269aabed",
+    "tests/benchmarks/B05.json": "ff67414b4205ffdb6c6890b3b8e697c3fd2be97644123d392a39b1e2db295a87",
+    "tests/benchmarks/B06.json": "45a68e5b6f75af888e6767c451b3a5727c250f96820a896b91a7374e261e080b",
+    "tests/e2e/directions.spec.ts": "f5f5f8903db5444225539ad1c4973e8e09690a4bb920038e7bd646fe6f021e64",
+    "tests/e2e/essential-loads.spec.ts": "2f0f102451d975640c12fd3ea34981ea046e042eac13bd53e80172b645628164",
+    "tests/e2e/mesh.spec.ts": "cf2d5d909a41c1746addea1e49b34c3b874c0448be72f3d2274f297df6ddbe1d",
+    "tests/e2e/projects.spec.ts": "43fbb31afcaa1d809fed8aee45c117f9e940c68b0746b3dada288465a1d6a047",
+    "tests/e2e/support/runs.ts": "19a35ecf21a8a192f324a4f61e4dde836268850210472e9f4f11ffd3d96f4943",
+    "tests/fixtures/geometry/cantilever-m.step": "f8552faa584ac19e014d9465df636e3f4658e14b2a015d05e06e1e6f6c9d9d15",
+    "tests/fixtures/geometry/rotated-cube-m.step": "fee22d1a087e860092e9fc85f2099a560c8351404c9828beb99353bce6aa2df8",
+    "tests/integration/test_directions.py": "9ac350c20cefe02d4869937d1976ddbd30902ff9814854c76382838f16ab2e49",
+    "tests/integration/test_essential_loads.py": "a8ce3c10e2a3bf56b08369bc4cdd37053ec1017211ac0010a525853ed90d13ba",
+    "tests/integration/test_local_jobs.py": "49e33e1f904f0b782bb62057a0c716b9a4792a1b9551a0c4a712d23a91ea5a56",
+    "tests/native/test_deck_guards.py": "2393ece78569b1625858cba352c8b6d2f967816e17d278ce6256555d79548371",
+    "tests/native/test_directions.py": "03cdf4236f9507c85f2338a9e99fd6cc161f3b9a2e22161ba2a558b0444b055a",
+    "tests/native/test_essential_loads.py": "f0f17d3ac4c55e05549336403edaf06d1955125156ad873699dbcdaf8d7a042a",
+    "tests/native/test_job_lifecycle.py": "4162e51905ca24f22b4d51a3103fc2e7d3d2426e02d6d4356be6d4a007f38228",
+    "tests/native/test_result_views.py": "e0c362065d0a3814a1a13324c7011e8b53d3cab518cf9372364270cc2f3e6ad0",
+    "tests/unit/test_directions.py": "0e6ee74dc36d84869cdf77a3bcc7188a44de5dcf0e993d6c5119a2ebfdfe71bb",
+    "tests/unit/test_essential_actions.py": "256f23a97596c4f4a20020bfc43d09f50890370ffc8ace15f0e3f3e8479e0f0c",
+    "tests/unit/test_essential_setup.py": "bac921634c1a75ff4123b4c60c5b4db837b622e46ab2b2817ca136797cb15874",
+    "tests/unit/test_face_loads.py": "f6bb545911f7b6658a221487ee04721bcd6fd3a2402678c11c4128abf9416f96",
+    "tests/unit/test_local_queue.py": "9c4eed8e549f966cb97d68b1dfe54c480b4d6dbab431b629c5111b80db3a2c0b",
+    "tests/unit/test_result_views.py": "d1abba8f11799d4717da696fb18c16a6ca41feddeb5e7001f1ac8ba85bef24be",
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+  },
+  "timezone": "Asia/Calcutta",
+  "unchanged_existing_locks_and_manifests": [
+    "package-lock.json",
+    "scripts/native/toolchain-lock.json",
+    "services/worker/environments/cad/uv.lock",
+    "services/worker/environments/mesh/uv.lock",
+    "services/worker/environments/post/uv.lock",
+    "tests/benchmarks/B03.json",
+    "tests/benchmarks/B04.json",
+    "tests/benchmarks/B05.json",
+    "uv.lock"
+  ],
+  "unexecuted": [
+    "Engineering-owner B06/other benchmark signoffs, convergence/capacity certification",
+    "Target laptop, Windows/Edge/headed integrated GPU, total browser RSS",
+    "Curved solving, general assemblies/stiffness, later analysis types",
+    "M2-M4 exit acceptance, AWS/deployment/billing/release-security/report scope"
+  ],
+  "verified_native_binary_sha256": {
+    "ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+    "netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0"
+  }
+}

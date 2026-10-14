@@ -26,6 +26,13 @@ export function MeshEditor({
   ready,
 }: Props) {
   const [state, setState] = useState<State | null>(null);
+  const identity = `${analysisId}:${revision}:${geometryId}:${preset.id}`;
+  const [loadedIdentity, setLoadedIdentity] = useState<string | null>(null);
+  const loading =
+    loadedIdentity !== identity ||
+    state?.analysis_revision !== revision ||
+    state?.geometry_revision_id !== geometryId;
+  const disabled = busy || loading;
   const [global, setGlobal] = useState("");
   const [locals, setLocals] = useState<Local[]>([]);
   const [kind, setKind] = useState<"face" | "body">("face");
@@ -40,6 +47,7 @@ export function MeshEditor({
   useEffect(() => {
     let current = true;
     ready(false);
+    setLoadedIdentity(null);
     setPreview(null);
     setError("");
     void Promise.all([
@@ -49,6 +57,7 @@ export function MeshEditor({
       .then(([data, geometry]) => {
         if (!current) return;
         setState(data);
+        setLoadedIdentity(identity);
         setGlobal(
           data.setup.global_size_m == null
             ? ""
@@ -93,13 +102,14 @@ export function MeshEditor({
         ));
   useEffect(() => {
     ready(
-      !!state &&
+      !loading &&
+        !!state &&
         state.analysis_revision === revision &&
         state.geometry_revision_id === geometryId &&
         !state.blockers.length &&
         !changed,
     );
-  }, [state, changed, revision, geometryId]);
+  }, [state, changed, revision, geometryId, loading]);
   const valid =
     (global === "" ||
       (Number.isFinite(Number(global)) && Number(global) > 0)) &&
@@ -147,13 +157,14 @@ export function MeshEditor({
   return (
     <section className="mesh-controls" aria-label="Mesh sizing">
       <h2>Mesh sizing and recovery</h2>
+      {loading && <p role="status">Loading saved mesh controls…</p>}
       <label>
         Global mesh size ({preset.length.label})
         <input
           type="number"
           step="any"
           value={global}
-          disabled={busy}
+          disabled={disabled}
           onChange={(e) => {
             setGlobal(e.target.value);
             setPreview(null);
@@ -168,7 +179,7 @@ export function MeshEditor({
         Local mesh target
         <select
           value={kind}
-          disabled={busy}
+          disabled={disabled}
           onChange={(e) => setKind(e.target.value as "face" | "body")}
         >
           <option value="face">Selected CAD faces</option>
@@ -178,7 +189,11 @@ export function MeshEditor({
       {kind === "body" && (
         <label>
           Mesh body
-          <select value={body} onChange={(e) => setBody(e.target.value)}>
+          <select
+            value={body}
+            disabled={disabled}
+            onChange={(e) => setBody(e.target.value)}
+          >
             {bodies.map((b, i) => (
               <option key={b} value={b}>
                 Body {i + 1}
@@ -193,13 +208,13 @@ export function MeshEditor({
           type="number"
           step="any"
           value={local}
-          disabled={busy}
+          disabled={disabled}
           onChange={(e) => setLocal(e.target.value)}
         />
       </label>
       <button
         disabled={
-          busy ||
+          disabled ||
           !local.trim() ||
           !Number.isFinite(Number(local)) ||
           Number(local) <= 0 ||
@@ -234,7 +249,7 @@ export function MeshEditor({
             {s.kind} · <code>{s.entity_id}</code> · {s.size}{" "}
             {preset.length.label}
             <button
-              disabled={busy}
+              disabled={disabled}
               onClick={() => {
                 setLocals((old) => old.filter((x) => x !== s));
                 setPreview(null);
@@ -250,7 +265,7 @@ export function MeshEditor({
         <input
           type="number"
           value={curvature}
-          disabled={busy}
+          disabled={disabled}
           onChange={(e) => {
             setCurvature(e.target.value);
             setPreview(null);
@@ -266,7 +281,7 @@ export function MeshEditor({
         <input
           type="checkbox"
           checked={recovery}
-          disabled={busy}
+          disabled={disabled}
           onChange={(e) => {
             setRecovery(e.target.checked);
             setPreview(null);
@@ -280,10 +295,10 @@ export function MeshEditor({
         Resource stops, mapping failures, cancellation and interruptions are not
         retried.
       </p>
-      <button disabled={busy || !valid} onClick={() => void request(false)}>
+      <button disabled={disabled || !valid} onClick={() => void request(false)}>
         Preview mesh estimate
       </button>
-      <button disabled={busy || !valid} onClick={() => void request(true)}>
+      <button disabled={disabled || !valid} onClick={() => void request(true)}>
         Save mesh controls
       </button>
       {changed && (
@@ -320,7 +335,7 @@ export function MeshEditor({
                 curvature.
               </p>
               <button
-                disabled={busy}
+                disabled={disabled}
                 onClick={() => {
                   setGlobal(
                     String(

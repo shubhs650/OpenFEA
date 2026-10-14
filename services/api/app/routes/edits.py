@@ -1,10 +1,11 @@
 """Owned preview/apply/undo and explicit face-assignment reselection."""
 
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 from uuid import UUID
 
 from fastapi import Depends, Query, Request, Response
 
+from app.domain.directions import DirectionPreviewRequest, DirectionSelection, resolve_direction
 from app.domain.edit_service import EditService
 from app.domain.edits import (
     EditCommit,
@@ -96,15 +97,23 @@ def reselect(
             409, "review_unavailable", "This assignment does not need geometry review"
         )
     # Retain magnitude, sign, global direction and all source quantities exactly.
-    item = LoadAssignment.model_validate(
-        old.model_dump()
-        | {
-            "geometry_revision_id": payload.geometry_revision_id,
-            "face_ids": sorted(set(payload.face_ids)),
-            "review_faces": [],
-            "combine_confirmed": payload.combine_confirmed,
-        }
-    )
+    fields = old.model_dump() | {
+        "geometry_revision_id": payload.geometry_revision_id,
+        "face_ids": sorted(set(payload.face_ids)),
+        "review_faces": [],
+        "combine_confirmed": payload.combine_confirmed,
+    }
+    if old.kind == "symmetry":
+        fields.update(
+            symmetry_directions={
+                ref: resolve_direction(
+                    geometry, DirectionSelection(kind="plane_normal", reference_id=ref)
+                )
+                for ref in fields["face_ids"]
+            },
+            review_direction=False,
+        )
+    item = LoadAssignment.model_validate(fields)
     validate_assignment(geometry, setup, item)
     load_state(
         analysis,
@@ -147,6 +156,60 @@ def reselect_bodies(
             "combine_confirmed": payload.combine_confirmed,
         }
     )
+    validate_assignment(geometry, setup, item)
+    load_state(
+        analysis,
+        geometry,
+        materials,
+        LoadSetup(assignments=[a for a in setup.assignments if a.id != old.id] + [item]),
+        service.imports.display(owner, geometry.id, "coarse"),
+    )
+    store.edit_loads(owner, analysis_id, revision, item)
+    return get_loads(analysis_id, owner, service, response)
+
+
+class ReselectDirection(DirectionPreviewRequest):
+    reviewed: Literal[True]
+
+
+@router.put("/analyses/{analysis_id}/loads/{assignment_id}/direction", response_model=LoadState)
+def reselect_direction(
+    analysis_id: UUID,
+    assignment_id: UUID,
+    payload: ReselectDirection,
+    revision: Revision,
+    owner: Owner,
+    store: Store,
+    service: DeckService,
+    response: Response,
+) -> LoadState:
+    analysis, geometry, materials, setup = store.load_inputs(owner, analysis_id)
+    if analysis.revision != revision:
+        raise stale_revision()
+    old = next((a for a in setup.assignments if a.id == assignment_id), None)
+    if old is None:
+        raise not_found()
+    if not old.review_direction or old.direction is None or old.review_faces or geometry is None:
+        raise DomainError(
+            409, "review_unavailable", "Review target faces first, then reselect this direction"
+        )
+    if geometry.id != payload.geometry_revision_id:
+        raise DomainError(422, "stale_direction", "Select the current pinned geometry")
+    direction = resolve_direction(geometry, payload.direction)
+    fields: dict[str, Any] = {
+        "geometry_revision_id": geometry.id,
+        "direction": direction,
+        "review_direction": False,
+    }
+    if old.kind == "directional_force":
+        assert old.source_magnitude is not None and old.source_units is not None
+        from app.domain.units import to_si
+        from worker.meshing import scale
+
+        fields["force_n"] = scale(
+            direction.vector, to_si(old.source_magnitude, old.source_units, "force")
+        )
+    item = LoadAssignment.model_validate(old.model_dump() | fields)
     validate_assignment(geometry, setup, item)
     load_state(
         analysis,

@@ -1,0 +1,99 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+151 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 116 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 276 items
+
+tests/unit/test_api.py .........                                         [  3%]
+tests/unit/test_approval.py ................                             [  9%]
+tests/unit/test_bonds.py ................                                [ 14%]
+tests/unit/test_directions.py ...........                                [ 18%]
+tests/unit/test_essential_actions.py .............                       [ 23%]
+tests/unit/test_essential_setup.py .............                         [ 28%]
+tests/unit/test_face_loads.py ....................                       [ 35%]
+tests/unit/test_geometry_edits.py ...............                        [ 40%]
+tests/unit/test_imports.py ......                                        [ 43%]
+tests/unit/test_local_queue.py ...................                       [ 50%]
+tests/unit/test_materials.py ........................                    [ 58%]
+tests/unit/test_mesh_controls.py ............                            [ 63%]
+tests/unit/test_mesh_quality.py ......                                   [ 65%]
+tests/unit/test_projects.py ............................                 [ 75%]
+tests/unit/test_quadratic.py .....................                       [ 82%]
+tests/unit/test_result_views.py ...................                      [ 89%]
+tests/unit/test_stress.py ............................                   [100%]
+
+============================= 276 passed in 17.29s =============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  4 passed (4)
+      Tests  21 passed (21)
+   Start at  09:15:56
+   Duration  755ms (tests 53%, import 20%, worker 14%, transform 13%, environment 1%)
+
+    Isolate  4 workers spawned · ~138ms startup each (spawn + environment, per file)
+             at least ~414ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpp7t3xlq5/openapi.json → /tmp/tmpp7t3xlq5/api.d.ts [197.9ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 136 Markdown files; 42 task statuses and acyclic dependencies
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 398 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.26 kB
+dist/assets/index-D7_pM0ul.css      3.13 kB │ gzip:   1.17 kB
+dist/assets/index-BL8Jte_2.js   1,137.59 kB │ gzip: 316.03 kB
+
+✓ built in 408ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=54081
+STARTED api pid=54102
+STARTED web pid=54103
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs

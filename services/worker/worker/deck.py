@@ -4,6 +4,7 @@ import math
 import re
 from typing import Any
 
+from worker.directions import IDENTITY, Basis, frame, local_vector
 from worker.meshing import Vec
 
 
@@ -21,6 +22,7 @@ def generated_deck(
     pressures: list[tuple[int, int, float]] | None = None,
     densities: dict[str, float] | None = None,
     gravities: dict[str, Vec] | None = None,
+    transforms: dict[int, Basis] | None = None,
 ) -> str:
     lines = ["** OpenFEA SI generated deck; C3D10 affine validation scope", "*NODE,NSET=NALL"]
     for n, point in sorted(mesh["nodes"].items(), key=lambda item: int(item[0])):
@@ -80,6 +82,29 @@ def generated_deck(
         if densities and "ISOTROPIC" in densities:
             lines += ["*DENSITY", f"{densities['ISOTROPIC']:.12e}"]
         lines.append("*SOLID SECTION,ELSET=EALL,MATERIAL=ISOTROPIC")
+    transforms = transforms or {}
+    if not set(transforms) <= {int(n) for n in mesh["nodes"]}:
+        raise ValueError("Transform references an unknown global node")
+    groups: dict[Basis, list[int]] = {}
+    written_transforms: dict[int, Basis] = {}
+    for n, basis in sorted(transforms.items()):
+        verified = frame(basis[0], basis[1])
+        if any(
+            abs(a - b) > 1e-10
+            for x, y in zip(basis, verified, strict=True)
+            for a, b in zip(x, y, strict=True)
+        ):
+            raise ValueError("Invalid rectangular node frame")
+        groups.setdefault(basis, []).append(n)
+    for index, (basis, frame_nodes) in enumerate(groups.items(), 1):
+        lines.append(f"*NSET,NSET=LOCAL{index}")
+        names = list(map(str, frame_nodes))
+        lines += [",".join(names[i : i + 16]) for i in range(0, len(names), 16)]
+        lines.append(f"*TRANSFORM,NSET=LOCAL{index},TYPE=R")
+        numbers = [float(f"{v:.12e}") for axis in basis[:2] for v in axis]
+        lines.append(",".join(f"{v:.12e}" for v in numbers))
+        written = frame((numbers[0], numbers[1], numbers[2]), (numbers[3], numbers[4], numbers[5]))
+        written_transforms.update({n: written for n in frame_nodes})
     lines.append("*BOUNDARY")
     lines += [
         f"{node},{axis},{axis},{value:.12e}"
@@ -97,6 +122,7 @@ def generated_deck(
     if loads:
         lines.append("*CLOAD")
         for n, force in sorted(loads.items()):
+            force = local_vector(force, written_transforms.get(n, IDENTITY))
             lines += [
                 f"{n},{axis},{value:.12e}" for axis, value in enumerate(force, 1) if value != 0
             ]
@@ -114,11 +140,11 @@ def generated_deck(
                     direction = [(-1 if value < 0 else 1) if a == axis else 0 for a in range(3)]
                     lines.append(f"{name},GRAV,{abs(value):.12e}," + ",".join(map(str, direction)))
     lines += [
-        "*NODE PRINT,NSET=NALL",
+        "*NODE PRINT,NSET=NALL,GLOBAL=YES" if transforms else "*NODE PRINT,NSET=NALL",
         "U,RF",
         "*EL PRINT,ELSET=EALL,GLOBAL=YES" if stress_coordinates else "*EL PRINT,ELSET=EALL",
         "S,COORD" if stress_coordinates else "S",
-        "*NODE FILE",
+        "*NODE FILE,GLOBAL=YES" if transforms else "*NODE FILE",
         "U",
         "*EL FILE,GLOBAL=YES" if stress_coordinates else "*EL FILE",
         "S,NOE" if stress_coordinates else "S",

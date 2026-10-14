@@ -38,13 +38,15 @@ def configuration(tmp_path: Path) -> ApiConfiguration:
     )
 
 
-def prepared(browser: Browser) -> tuple[str, dict[str, str]]:
+def prepared(
+    browser: Browser, fixture: str = "cube-m.step", basic_loads: bool = True
+) -> tuple[str, dict[str, str]]:
     _, session, _ = browser.request("GET", "/session")
     headers = {"X-CSRF-Token": session["csrf_token"]}
     _, project, _ = browser.request(
         "POST", "/projects", {"name": "Persistent queue fixture"}, headers
     )
-    raw = (ROOT / "tests/fixtures/geometry/cube-m.step").read_bytes()
+    raw = (ROOT / "tests/fixtures/geometry" / fixture).read_bytes()
     _, ticket, _ = browser.request(
         "POST",
         f"/projects/{project['id']}/geometry-uploads",
@@ -98,6 +100,8 @@ def prepared(browser: Browser) -> tuple[str, dict[str, str]]:
         )[0]
         == 200
     )
+    if not basic_loads:
+        return path, headers
     for revision, side, kind in ((2, 0, "fixed"), (3, 1, "pressure")):
         face = next(f for f in geometry["faces"] if f["signature"]["center_m"][0] == side)
         status, result, _ = browser.request(

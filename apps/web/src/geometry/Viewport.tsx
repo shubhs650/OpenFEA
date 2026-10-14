@@ -10,6 +10,7 @@ import vtkMapper from "@kitware/vtk.js/Rendering/Core/Mapper";
 import vtkPolyData from "@kitware/vtk.js/Common/DataModel/PolyData";
 import vtkCellPicker from "@kitware/vtk.js/Rendering/Core/CellPicker";
 import type { Display, LoadMarker } from "./api";
+import type { DraftDirection } from "../loads/DirectionEditor";
 import { glyph, type Point } from "../loads/glyph";
 
 type Props = {
@@ -19,6 +20,7 @@ type Props = {
   visible: Set<string>;
   toggle: (face: string) => void;
   markers: LoadMarker[];
+  draftDirections?: DraftDirection[];
   faceColors?: Record<string, [number, number, number]>;
   wireframe?: boolean;
 };
@@ -30,6 +32,7 @@ export function Viewport({
   visible,
   toggle,
   markers,
+  draftDirections = [],
   faceColors,
   wireframe = false,
 }: Props) {
@@ -214,7 +217,14 @@ export function Viewport({
         ),
       ) * 0.18;
     const cleanup: Array<() => void> = [];
-    for (const marker of markers) {
+    for (const marker of [
+      ...markers,
+      ...draftDirections.map((value) => ({
+        ...value,
+        kind: "direction" as const,
+        tip_on_face: false,
+      })),
+    ]) {
       if (!visible.has(marker.body_id)) continue;
       const poly = vtkPolyData.newInstance();
       const mapper = vtkMapper.newInstance({ scalarVisibility: false });
@@ -225,7 +235,7 @@ export function Viewport({
       let arrowOrigin = markerOrigin.map(
         (v, i) => v - (marker.tip_on_face ? marker.direction[i] * length : 0),
       ) as Point;
-      if (marker.kind === "gravity") {
+      if (marker.kind === "gravity" || marker.kind === "direction") {
         const body = display.bodies.find((b) => b.id === marker.body_id)!;
         const exit = Math.min(
           ...marker.direction.flatMap((direction, axis) =>
@@ -239,7 +249,7 @@ export function Viewport({
           ),
         );
         arrowOrigin = markerOrigin.map(
-          (v, i) => v + marker.direction[i] * (exit + length * 4),
+          (v, i) => v + marker.direction[i] * (Math.max(0, exit) + length * 4),
         ) as Point;
       }
       const lines = glyph(
@@ -248,7 +258,8 @@ export function Viewport({
         length,
         marker.kind === "fixed",
       );
-      if (marker.kind === "gravity") lines.unshift([markerOrigin, arrowOrigin]);
+      if (marker.kind === "gravity" || marker.kind === "direction")
+        lines.unshift([markerOrigin, arrowOrigin]);
       poly.getPoints().setData(new Float32Array(lines.flat(2)), 3);
       let offset = 0;
       poly.getLines().setData(
@@ -267,11 +278,13 @@ export function Viewport({
         .setColor(
           ...(marker.kind === "fixed"
             ? ([0.1, 0.55, 0.25] as Point)
-            : marker.kind === "displacement"
+            : marker.kind === "displacement" || marker.kind === "symmetry"
               ? ([0.15, 0.35, 0.8] as Point)
-              : marker.kind === "gravity"
-                ? ([0.65, 0.3, 0.05] as Point)
-                : ([0.85, 0.1, 0.15] as Point)),
+              : marker.kind === "direction"
+                ? ([0.6, 0.2, 0.7] as Point)
+                : marker.kind === "gravity"
+                  ? ([0.65, 0.3, 0.05] as Point)
+                  : ([0.85, 0.1, 0.15] as Point)),
         );
       actor.getProperty().setLineWidth(3);
       renderer.addActor(actor);
@@ -282,6 +295,7 @@ export function Viewport({
         poly.delete();
       });
     }
+    if (draftDirections.length) renderer.resetCamera();
     view.getRenderWindow().render();
     let released = false;
     const dispose = () => {
@@ -291,7 +305,7 @@ export function Viewport({
     };
     releaseGlyphs.current = dispose;
     return dispose;
-  }, [markers, visible, display, revision]);
+  }, [markers, draftDirections, visible, display, revision]);
   return (
     <section className="viewport-shell">
       <div className="viewport-toolbar">
@@ -314,6 +328,9 @@ export function Viewport({
         aria-label="Geometry viewport"
         data-revision={revision}
         data-load-markers={markers.filter((m) => visible.has(m.body_id)).length}
+        data-direction-markers={
+          draftDirections.filter((m) => visible.has(m.body_id)).length
+        }
       />
       <p className="viewport-caption">
         {display.bodies.length} bodies · {display.faces.length} faces ·{" "}

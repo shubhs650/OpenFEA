@@ -2,10 +2,11 @@
 
 import math
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from worker.calculix.results import Mesh
+from worker.directions import IDENTITY, Basis, frame, global_vector, projected
 from worker.meshing import (
     GMSH_TO_CCX,
     Vec,
@@ -41,14 +42,19 @@ def constrain(supports: dict[tuple[int, int], float], node: int, axis: int, valu
 
 
 def rigid_rank(rows: Iterable[tuple[Vec, int]], origin: Vec, extent: float) -> int:
+    return rigid_rank_directions(
+        ((point, IDENTITY[axis - 1]) for point, axis in rows), origin, extent
+    )
+
+
+def rigid_rank_directions(rows: Iterable[tuple[Vec, Vec]], origin: Vec, extent: float) -> int:
     """Necessary rigid-motion coverage; positions normalized before rank decisions."""
     if not math.isfinite(extent) or extent <= 0:
         raise ValueError("Invalid support reference extent")
     basis: list[list[float]] = []
-    for point, axis in rows:
-        x, y, z = scale(sub(point, origin), 1 / extent)
-        rotations = ((0, z, -y), (-z, 0, x), (y, -x, 0))
-        row = [float(k == axis) for k in (1, 2, 3)] + list(rotations[axis - 1])
+    for point, direction in rows:
+        position = scale(sub(point, origin), 1 / extent)
+        row = list(direction) + list(cross(position, direction))
         # Reorthogonalize to prevent accumulated cancellation from inflating rank.
         for _ in range(2):
             for unit in basis:
@@ -92,11 +98,16 @@ class WrittenActions:
     applied: dict[int, Vec]
     force_scale_n: float
     moment_scale_nm: float
+    transforms: dict[int, Basis] = field(default_factory=dict)
 
 
 def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActions:
     """Read verified internally generated decks, never an uploaded executable input."""
     supports: dict[tuple[int, int], float] = {}
+    transforms: dict[int, Basis] = {}
+    node_sets: dict[str, set[int]] = {"NALL": set(mesh.nodes)}
+    output_global: dict[str, bool] = {}
+    nset = ""
     applied: dict[int, Vec] = {}
     sets: dict[str, set[int]] = {}
     sections: dict[str, str] = {}
@@ -112,7 +123,16 @@ def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActi
             fields = line.upper().split(",")
             mode = fields[0]
             options = dict(part.split("=", 1) for part in fields[1:] if "=" in part)
-            if mode == "*ELEMENT":
+            if mode == "*NSET":
+                nset = options["NSET"]
+                node_sets.setdefault(nset, set())
+            elif mode == "*TRANSFORM":
+                if options.get("TYPE", "R") != "R":
+                    raise ValueError("Only rectangular node transforms are validated")
+                nset = options["NSET"]
+            elif mode in ("*NODE PRINT", "*NODE FILE"):
+                output_global[mode] = options.get("GLOBAL") == "YES"
+            elif mode == "*ELEMENT":
                 sets[options["ELSET"]] = set(mesh.elements)
             elif mode == "*ELSET":
                 elset = options["ELSET"]
@@ -123,7 +143,23 @@ def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActi
                 sections[options["ELSET"]] = options["MATERIAL"]
             continue
         row = [v.strip() for v in line.split(",")]
-        if mode == "*BOUNDARY":
+        if mode == "*NSET":
+            selected = {int(v) for v in row if v}
+            if not selected <= set(mesh.nodes):
+                raise ValueError("Invalid transformed node set")
+            node_sets[nset].update(selected)
+        elif mode == "*TRANSFORM":
+            if len(row) != 6:
+                raise ValueError("Invalid rectangular transform definition")
+            basis = frame(
+                (float(row[0]), float(row[1]), float(row[2])),
+                (float(row[3]), float(row[4]), float(row[5])),
+            )
+            for n in node_sets[nset]:
+                if n in transforms:
+                    raise ValueError("Multiple transforms would overwrite a shared node frame")
+                transforms[n] = basis
+        elif mode == "*BOUNDARY":
             n, first, last = map(int, row[:3])
             if n not in mesh.nodes or not 1 <= first <= last <= 3:
                 raise ValueError("Invalid written global boundary")
@@ -146,6 +182,7 @@ def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActi
             if n not in mesh.nodes or axis not in (1, 2, 3) or not math.isfinite(value):
                 raise ValueError("Invalid written nodal force")
             force: Vec = tuple(value if a == axis else 0.0 for a in (1, 2, 3))  # type: ignore[assignment]
+            force = global_vector(force, transforms.get(n, IDENTITY))
             applied[n] = add(applied.get(n, (0, 0, 0)), force)
         elif mode == "*DLOAD":
             value = float(row[2])
@@ -166,6 +203,8 @@ def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActi
                 raise ValueError("Unsupported written distributed load")
     if not supports:
         raise ValueError("Missing external constraints")
+    if transforms and any(output_global.get(k) is not True for k in ("*NODE PRINT", "*NODE FILE")):
+        raise ValueError("Transformed native DAT/FRD must explicitly output global vectors")
     force_scale = math.fsum(math.hypot(*v) for v in applied.values())
     moment_scale = math.fsum(math.hypot(*cross(mesh.nodes[n], v)) for n, v in applied.items())
     for eid, face_number, pressure in pressure_rows:
@@ -208,7 +247,7 @@ def deck_actions(deck: str, mesh: Mesh, boundary: dict[str, Any]) -> WrittenActi
             moment_scale += math.hypot(*moment)
         for n, vector in body_loads.items():
             applied[n] = add(applied.get(n, (0, 0, 0)), vector)
-    return WrittenActions(supports, applied, force_scale, moment_scale)
+    return WrittenActions(supports, applied, force_scale, moment_scale, transforms)
 
 
 def balance_check(
@@ -255,20 +294,25 @@ def external_balance(
     ):
         raise ValueError("Nonfinite or invalid native force/displacement vector")
     for (n, axis), value in actions.supports.items():
-        if abs(displacements[n][axis - 1] - value) > max(1e-12, 1e-6 * abs(value)):
+        direction = actions.transforms.get(n, IDENTITY)[axis - 1]
+        if abs(dot(displacements[n], direction) - value) > max(1e-12, 1e-6 * abs(value)):
             raise ValueError("Output violates the written prescribed displacement")
     constrained_nodes = {n for n, _ in actions.supports}
     reactions: dict[int, Vec] = {
-        n: tuple(
-            forces[n][a - 1] - actions.applied.get(n, (0, 0, 0))[a - 1]
-            if (n, a) in actions.supports
-            else 0.0
-            for a in (1, 2, 3)
-        )  # type: ignore[misc]
+        n: projected(
+            sub(forces[n], actions.applied.get(n, (0, 0, 0))),
+            [
+                actions.transforms.get(n, IDENTITY)[a - 1]
+                for a in (1, 2, 3)
+                if (n, a) in actions.supports
+            ],
+        )
         for n in constrained_nodes
     }
     prescribed_scale = math.fsum(
-        abs(reactions[n][a - 1]) for (n, a), value in actions.supports.items() if value != 0
+        abs(dot(reactions[n], actions.transforms.get(n, IDENTITY)[a - 1]))
+        for (n, a), value in actions.supports.items()
+        if value != 0
     )
     applied_force, applied_moment = resultant(actions.applied, mesh.nodes)
     reaction_force, reaction_moment = resultant(reactions, mesh.nodes)
@@ -336,6 +380,6 @@ def external_balance(
         "force": force_check,
         "moment": moment_check,
         "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator "
-        "reactions; moments about global origin; external constrained components only; "
+        "reactions; moments about global origin; external constrained span only; "
         "internal ties/MPC/free-node RF excluded",
     }, by_body

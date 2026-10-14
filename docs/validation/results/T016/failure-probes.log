@@ -1,0 +1,6 @@
+PASS: make lint propagates failure in services/api/app/_failure_probe.py (exit 2)
+PASS: make typecheck propagates failure in services/api/app/_failure_probe.py (exit 2)
+PASS: make test-unit propagates failure in tests/unit/test_failure_probe.py (exit 2)
+PASS: make lint propagates failure in apps/web/src/_failure_probe.ts (exit 2)
+PASS: make typecheck propagates failure in apps/web/src/_failure_probe.ts (exit 2)
+PASS: make test-unit propagates failure in apps/web/src/failure_probe.test.ts (exit 2)

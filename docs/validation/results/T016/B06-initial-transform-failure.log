@@ -1,0 +1,47 @@
+BLOCKED/FAILED: Native operation failed (201): onstraints:            0
+   dependent nodes in pre-tension constraints:            0
+
+   sets:           15
+   terms in all sets:          743
+
+   materials:            1
+   constants per material and temperature:            2
+   temperature points per material:            1
+   plastic data points per material:            0
+
+   orientations:            0
+   amplitudes:            2
+   data points in all amplitudes:            2
+   print requests:            4
+   transformations:            7
+   property cards:            0
+
+ *ERROR reading *TRANSFORM. Card image:
+        -7.5512470988270675E-01,-2.6001028908996893E-01,6.0181502315238766E-01,7.7350393697980413E-02,-9.4691109369509108E-01,-3.1205175409206404E-01
+
+ *ERROR reading *TRANSFORM. Card image:
+        -7.5512470988270675E-01,-2.6001028908996893E-01,6.0181502315238766E-01,7.7350393697980413E-02,-9.4691109369509108E-01,-3.1205175409206404E-01
+
+ *ERROR reading *TRANSFORM. Card image:
+        -7.5512470988270675E-01,-2.6001028908996893E-01,6.0181502315238766E-01,-6.5100198856787006E-01,1.8908736130292286E-01,-7.3514786313787017E-01
+
+ *ERROR reading *TRANSFORM. Card image:
+        -7.5512470988270675E-01,-2.6001028908996893E-01,6.0181502315238766E-01,-2.0333368419060877E-01,9.6560584586432097E-01,1.6205173033979922E-01
+
+ *ERROR reading *TRANSFORM. Card image:
+        7.7350393698076891E-02,-9.4691109369505777E-01,-3.1205175409214087E-01,-6.5100198856751834E-01,1.8908736130308540E-01,-7.3514786313813985E-01
+
+ *ERROR reading *TRANSFORM. Card image:
+        7.7350393698076891E-02,-9.4691109369505777E-01,-3.1205175409214087E-01,9.9700397020009524E-01,7.3464046366524982E-02,2.4209859493697194E-02
+
+ *ERROR reading *TRANSFORM. Card image:
+        -6.5100198856751501E-01,1.8908736130304510E-01,-7.3514786313815317E-01,1.2535766681573565E-01,9.8196026894953936E-01,1.4156088999106822E-01
+
+
+ STEP            1
+
+ *ERROR in calinput: at least one fatal
+        error message while reading the
+        input deck: CalculiX stops.
+
+

@@ -1,0 +1,41 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/mesh.spec.ts -g permission waits
+
+
+Running 1 test using 1 worker
+
+(node:52913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing (7.4s)
+
+
+  1) tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByLabel('I allow two additional disclosed meshing attempts with unchanged sizing')
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" getByLabel('I allow two additional disclosed meshing attempts with unchanged sizing') with timeout 5000ms
+      - waiting for getByLabel('I allow two additional disclosed meshing attempts with unchanged sizing')
+        14 × locator resolved to <input type="checkbox"/>
+           - unexpected value "enabled"
+
+
+      257 |       exact: true,
+      258 |     });
+    > 259 |     await expect(permission).toBeDisabled();
+          |                              ^
+      260 |     await expect(save).toBeDisabled();
+      261 |     await expect(
+      262 |       page.getByLabel("Global mesh size (mm)", { exact: true }),
+        at /workspace/OpenFEA/tests/e2e/mesh.spec.ts:259:30
+
+    Error Context: test-results/mesh-mesh-recovery-permiss-82e92-ved-settings-before-editing/error-context.md
+
+  1 failed
+    tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing 

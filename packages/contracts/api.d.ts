@@ -40,6 +40,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/analyses/{analysis_id}/direction-previews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Direction Previews */
+        post: operations["direction_previews_api_v1_analyses__analysis_id__direction_previews_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/analyses/{analysis_id}/display-units": {
         parameters: {
             query?: never;
@@ -119,6 +136,23 @@ export interface paths {
         get?: never;
         /** Reselect Bodies */
         put: operations["reselect_bodies_api_v1_analyses__analysis_id__loads__assignment_id__bodies_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/direction": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Reselect Direction */
+        put: operations["reselect_direction_api_v1_analyses__analysis_id__loads__assignment_id__direction_put"];
         post?: never;
         delete?: never;
         options?: never;
@@ -931,6 +965,23 @@ export interface components {
             /** Tolerance */
             tolerance: number;
         };
+        Basis: [
+            [
+                number,
+                number,
+                number
+            ],
+            [
+                number,
+                number,
+                number
+            ],
+            [
+                number,
+                number,
+                number
+            ]
+        ];
         /** BodyDisplay */
         BodyDisplay: {
             /** Bounds M */
@@ -998,6 +1049,31 @@ export interface components {
             /** Id */
             id: string;
         };
+        /** CatalogEdge */
+        CatalogEdge: {
+            /** Body Id */
+            body_id: string;
+            /** Curve Type */
+            curve_type: string;
+            /** End M */
+            end_m?: [
+                number,
+                number,
+                number
+            ] | null;
+            /** Face Ids */
+            face_ids: string[];
+            /** Id */
+            id: string;
+            /** Start M */
+            start_m?: [
+                number,
+                number,
+                number
+            ] | null;
+            /** Vertex Ids */
+            vertex_ids: string[];
+        };
         /** CatalogFace */
         CatalogFace: {
             /** Body Id */
@@ -1010,6 +1086,21 @@ export interface components {
             signature: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
+        };
+        /** CatalogVertex */
+        CatalogVertex: {
+            /** Body Id */
+            body_id: string;
+            /** Face Ids */
+            face_ids: string[];
+            /** Id */
+            id: string;
+            /** Point M */
+            point_m: [
+                number,
+                number,
+                number
+            ];
         };
         /** CustomMaterial */
         CustomMaterial: {
@@ -1061,13 +1152,99 @@ export interface components {
                 [key: string]: number | string | string[];
             };
         };
-        /** DisplacementInput */
-        DisplacementInput: {
+        /** DirectionPreviewBatch */
+        DirectionPreviewBatch: {
+            /** Directions */
+            directions: components["schemas"]["DirectionSelection"][];
             /**
-             * Axis
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+        };
+        /** DirectionSelection */
+        DirectionSelection: {
+            /**
+             * Kind
              * @enum {string}
              */
-            axis: "x" | "y" | "z";
+            kind: "plane_normal" | "straight_edge" | "cylinder_axis";
+            /** Reference Id */
+            reference_id: string;
+            /**
+             * Reverse
+             * @default false
+             */
+            reverse: boolean;
+        };
+        /** DirectionSnapshot */
+        DirectionSnapshot: {
+            basis: components["schemas"]["Basis"];
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "plane_normal" | "straight_edge" | "cylinder_axis";
+            /** Origin M */
+            origin_m: [
+                number,
+                number,
+                number
+            ];
+            /** Reference Id */
+            reference_id: string;
+            /**
+             * Reverse
+             * @default false
+             */
+            reverse: boolean;
+            /** Vector */
+            vector: [
+                number,
+                number,
+                number
+            ];
+        };
+        /** DirectionalForceInput */
+        DirectionalForceInput: {
+            /**
+             * Combine Confirmed
+             * @default false
+             */
+            combine_confirmed: boolean;
+            direction: components["schemas"]["DirectionSelection"];
+            /** Face Ids */
+            face_ids: string[];
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "directional_force";
+            /** Magnitude */
+            magnitude: number;
+            /** Name */
+            name: string;
+            /**
+             * Units
+             * @enum {string}
+             */
+            units: "mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi";
+        };
+        /** DisplacementInput */
+        DisplacementInput: {
+            /** Axis */
+            axis?: ("x" | "y" | "z") | null;
+            direction?: components["schemas"]["DirectionSelection"] | null;
             /** Displacement */
             displacement: number;
             /** Face Ids */
@@ -1388,6 +1565,8 @@ export interface components {
             bodies: components["schemas"]["CatalogBody"][];
             /** Brep Sha256 */
             brep_sha256: string;
+            /** Edges */
+            edges?: components["schemas"]["CatalogEdge"][];
             /** Edit Recipe */
             edit_recipe?: {
                 [key: string]: components["schemas"]["JsonValue"];
@@ -1401,6 +1580,8 @@ export interface components {
             validation: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
+            /** Vertices */
+            vertices?: components["schemas"]["CatalogVertex"][];
         };
         /** GeometryPage */
         GeometryPage: {
@@ -1424,6 +1605,8 @@ export interface components {
              * Format: date-time
              */
             created_at: string;
+            /** Edges */
+            edges?: components["schemas"]["CatalogEdge"][];
             /** Edit Recipe */
             edit_recipe?: {
                 [key: string]: components["schemas"]["JsonValue"];
@@ -1449,6 +1632,8 @@ export interface components {
             validation: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
+            /** Vertices */
+            vertices?: components["schemas"]["CatalogVertex"][];
         };
         /** GravityInput */
         GravityInput: {
@@ -1602,6 +1787,7 @@ export interface components {
              * @default false
              */
             combine_confirmed: boolean;
+            direction?: components["schemas"]["DirectionSnapshot"] | null;
             /** Displacement M */
             displacement_m?: number | null;
             /** Face Ids */
@@ -1626,13 +1812,18 @@ export interface components {
              * Kind
              * @enum {string}
              */
-            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity";
+            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity" | "symmetry" | "directional_force";
             /** Name */
             name: string;
             /** Pressure Pa */
             pressure_pa?: number | null;
             /** Review Bodies */
             review_bodies?: string[];
+            /**
+             * Review Direction
+             * @default false
+             */
+            review_direction: boolean;
             /** Review Faces */
             review_faces?: string[];
             /** Source Acceleration */
@@ -1649,10 +1840,16 @@ export interface components {
                 number,
                 number
             ] | null;
+            /** Source Magnitude */
+            source_magnitude?: number | null;
             /** Source Pressure */
             source_pressure?: number | null;
             /** Source Units */
             source_units?: ("mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi") | null;
+            /** Symmetry Directions */
+            symmetry_directions?: {
+                [key: string]: components["schemas"]["DirectionSnapshot"];
+            };
         };
         /** LoadMarker */
         LoadMarker: {
@@ -1675,7 +1872,7 @@ export interface components {
              * Kind
              * @enum {string}
              */
-            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity";
+            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity" | "symmetry" | "directional_force";
             /** Position M */
             position_m: [
                 number,
@@ -1725,7 +1922,7 @@ export interface components {
         /** LoadRequest */
         LoadRequest: {
             /** Assignment */
-            assignment: components["schemas"]["FixedInput"] | components["schemas"]["PressureInput"] | components["schemas"]["ForceInput"] | components["schemas"]["DisplacementInput"] | components["schemas"]["GravityInput"];
+            assignment: components["schemas"]["FixedInput"] | components["schemas"]["PressureInput"] | components["schemas"]["ForceInput"] | components["schemas"]["DisplacementInput"] | components["schemas"]["GravityInput"] | components["schemas"]["SymmetryInput"] | components["schemas"]["DirectionalForceInput"];
         };
         /** LoadSetup */
         LoadSetup: {
@@ -2237,6 +2434,20 @@ export interface components {
              */
             reviewed: true;
         };
+        /** ReselectDirection */
+        ReselectDirection: {
+            direction: components["schemas"]["DirectionSelection"];
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * Reviewed
+             * @constant
+             */
+            reviewed: true;
+        };
         /** ReselectFaces */
         ReselectFaces: {
             /**
@@ -2437,6 +2648,23 @@ export interface components {
             library_version: string;
             /** Sample Id */
             sample_id: string;
+        };
+        /** SymmetryInput */
+        SymmetryInput: {
+            /** Face Ids */
+            face_ids: string[];
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "symmetry";
+            /** Name */
+            name: string;
         };
         /** Unit */
         Unit: {
@@ -2913,6 +3141,126 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DeckExport"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    direction_previews_api_v1_analyses__analysis_id__direction_previews_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DirectionPreviewBatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirectionSnapshot"][];
                 };
             };
             /** @description Unauthorized */
@@ -3611,6 +3959,127 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ReselectBodies"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoadState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    reselect_direction_api_v1_analyses__analysis_id__loads__assignment_id__direction_put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+                assignment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReselectDirection"];
             };
         };
         responses: {

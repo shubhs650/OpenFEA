@@ -9,6 +9,7 @@ export async function prepared(
   bracket = false,
   yieldStrength: number | null = bracket ? 276 : null,
   fixture = "cube-m.step",
+  basicLoads = true,
 ) {
   await page.goto("/");
   await page.getByLabel("New project name").fill(name);
@@ -96,6 +97,7 @@ export async function prepared(
     }),
   ).toBeVisible();
   await page.locator(".body-tree summary").click();
+  if (!basicLoads) return { projectId, analysisId };
   const fixed = geometry.faces.find((f) =>
     bracket
       ? Math.abs((f.signature.center_m as number[])[2] - 0.06) < 1e-10

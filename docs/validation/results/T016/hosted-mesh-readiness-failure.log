@@ -1,0 +1,39 @@
+2026-10-14T09:06:43.8414643Z 156 passed in 303.32s (0:05:03)
+2026-10-14T09:07:28.9301787Z ============================= 276 passed in 26.61s =============================
+2026-10-14T09:07:29.8096200Z [2m      Tests [22m [1m[32m21 passed[39m[22m[90m (21)[39m
+2026-10-14T09:07:32.1436956Z PASS: 136 Markdown files; 42 task statuses and acyclic dependencies
+2026-10-14T09:08:36.9350516Z ============================= 14 passed in 59.38s ==============================
+2026-10-14T09:10:47.2493643Z   1) tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery 
+2026-10-14T09:10:47.2494241Z 
+2026-10-14T09:10:47.2494511Z     Error: locator.check: Clicking the checkbox did not change its state
+2026-10-14T09:10:47.2495628Z     Call log:
+2026-10-14T09:10:47.2496270Z       - waiting for getByLabel('I allow two additional disclosed meshing attempts with unchanged sizing')
+2026-10-14T09:10:47.2497066Z         - locator resolved to <input type="checkbox"/>
+2026-10-14T09:10:47.2497430Z       - attempting click action
+2026-10-14T09:10:47.2497786Z         - waiting for element to be visible, enabled and stable
+2026-10-14T09:10:47.2498183Z         - element is visible, enabled and stable
+2026-10-14T09:10:47.2498512Z         - scrolling into view if needed
+2026-10-14T09:10:47.2498790Z         - done scrolling
+2026-10-14T09:10:47.2499139Z         - performing click action
+2026-10-14T09:10:47.2499793Z         - click action done
+2026-10-14T09:10:47.2500412Z         - waiting for scheduled navigations to finish
+2026-10-14T09:10:47.2501222Z         - navigations have finished
+2026-10-14T09:10:47.2501458Z 
+2026-10-14T09:10:47.2501466Z 
+2026-10-14T09:10:47.2501776Z       200 |       "I allow two additional disclosed meshing attempts with unchanged sizing",
+2026-10-14T09:10:47.2502201Z       201 |     )
+2026-10-14T09:10:47.2502421Z     > 202 |     .check();
+2026-10-14T09:10:47.2502758Z           |      ^
+2026-10-14T09:10:47.2503109Z       203 |   await page
+2026-10-14T09:10:47.2503648Z       204 |     .getByRole("button", { name: "Save mesh controls", exact: true })
+2026-10-14T09:10:47.2504039Z       205 |     .click();
+2026-10-14T09:10:47.2504421Z         at /home/runner/work/OpenFEA/OpenFEA/tests/e2e/mesh.spec.ts:202:6
+2026-10-14T09:10:47.2504713Z 
+2026-10-14T09:10:47.2505143Z     Error Context: test-results/mesh-actual-curved-quadrat-8ca50-ded-failed-quality-recovery/error-context.md
+2026-10-14T09:10:47.2505608Z 
+2026-10-14T09:10:47.2505695Z   1 failed
+2026-10-14T09:10:47.2506552Z     tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery 
+2026-10-14T09:10:47.2507126Z   23 passed (2.2m)
+2026-10-14T09:10:47.2689772Z make: *** [Makefile:51: test-e2e] Error 1
+2026-10-14T09:10:47.2706436Z ##[error]Process completed with exit code 2.
+
