@@ -1,0 +1,313 @@
+{
+  "artifacts": {
+    "B08-raw.tar.gz": {
+      "sha256": "f153d4d738a4f81cb856aaddcc7c7fa9f0247995347a7f7a093340b889375d16",
+      "size_bytes": 652938
+    },
+    "B08-result.json": {
+      "sha256": "e323eaa76522a762ce823f340f1e223aa6e01dc492892e4a4ad29174e3f67996",
+      "size_bytes": 4702
+    },
+    "bond-gap-review.png": {
+      "sha256": "2f17b2b55849069d7713e9dd8aa588d42142799a8963befebc7d94905d07571c",
+      "size_bytes": 738709
+    },
+    "browser-affected.log": {
+      "sha256": "655631c84c1c7a87fbd980bd1cbe7792d84a2e241969c109f0d0e06f4eb403bf",
+      "size_bytes": 831
+    },
+    "browser-full.log": {
+      "sha256": "73ec0750ee420f3fa0446c094cf57bef264f6e72c3ce9c2626d48c064042bbbc",
+      "size_bytes": 6367
+    },
+    "browser-targeted.log": {
+      "sha256": "eef87f8917070b16dc29d5ba51b32ae2a38d9c96102b112ad34f7cdce3848e23",
+      "size_bytes": 580
+    },
+    "check-build-smoke-integration.log": {
+      "sha256": "4f492b37bf5ffacf21a6061127aa89012f3bba068147f281a9fcd424fdb3da5a",
+      "size_bytes": 5552
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "handoff-check.log": {
+      "sha256": "57130b8ad6cc77eec382055d761664821804c8768de0ddbe6bcceb28a95c815c",
+      "size_bytes": 3237
+    },
+    "initial-failures.log": {
+      "sha256": "c1082d255d13cdd88a4910e36ac08f01015c3631a3091e984fa4212543867759",
+      "size_bytes": 21594
+    },
+    "native-affected.log": {
+      "sha256": "c61ed8be072210b37693bd8ae0b85119e8c5ab2a7b85dc9f07ecefa551471b83",
+      "size_bytes": 111
+    },
+    "native-full.log": {
+      "sha256": "9d35e27c67d547bc00629aa57f18b641a25bc282bea7a55715b056e4424e49bf",
+      "size_bytes": 2042
+    },
+    "targeted.log": {
+      "sha256": "86a407bf438111930f2797e24a91d1bd527c96c02a62a7a9cb4db2daf4de41ed",
+      "size_bytes": 100
+    }
+  },
+  "base_commit": "beddcee00dc0ba9fcd908432955f00bef4da461b",
+  "commands": [
+    {
+      "command": "make check build smoke test-integration",
+      "log": "check-build-smoke-integration.log",
+      "result": "PASS: 308 Python, 28 TS, 17 integration; static/types/contracts/docs/build/HTTP smoke"
+    },
+    {
+      "command": "make test-native",
+      "log": "native-full.log",
+      "result": "175 pass; final 11-case replay adds the curved-boundary fixture for 176 distinct native passes"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_connections.py -q",
+      "log": "native-affected.log",
+      "result": "11 pass in 104.86s"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-full.log",
+      "result": "33 pass / 1 unchanged zero-stress display deadline; corrected-source affected replay below covers all 34 distinct workflows"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=.local/browsers npm run test:e2e -- tests/e2e/connections.spec.ts tests/e2e/results.spec.ts --grep 'real gap suggestion|real partial coverage|actual zero-stress'",
+      "log": "browser-affected.log",
+      "result": "3 pass in 47.1s; no timeout/retry change"
+    },
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "PASS real tool/sandbox prerequisites"
+    },
+    {
+      "command": "make check (completed evidence/status handoff)",
+      "log": "handoff-check.log",
+      "result": "PASS: 308 Python / 28 TS and all final lint/types/contracts/docs"
+    }
+  ],
+  "counts": {
+    "chromium": 34,
+    "distinct_verified_passes": 563,
+    "integration": 17,
+    "native": 176,
+    "python_unit": 308,
+    "remaining_failures": 0,
+    "remaining_skips": 0,
+    "typescript_unit": 28
+  },
+  "final_verification_source_commit": "071399e3567f35227b291d1ef93faf63e453ba53",
+  "implementation_commit": "88565bd891dc1525a8cdd78bf5c2df7ec55dc07c",
+  "initial_failures": "initial-failures.log; early storage/nested-lock/harness issues corrected; mixed-source trial interrupted and superseded by full regression plus final affected replay",
+  "limitations": [
+    "Engineering-owner B08/formulation acceptance pending",
+    "Product assembly solve/export gated on T020",
+    "Only complete opposing straight-edge planar unit squares and <=10 micrometre gaps; axial kinematic assumption",
+    "General/nonunit/curved/partial interfaces, gapped shear/bending, multiple solver bonds and >65 trace nodes unvalidated",
+    "Existing owner/benchmark/Windows/target-laptop/headed-GPU/performance/usability/M4 acceptance deferred"
+  ],
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "native_build_manifest": {
+    "sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+    "size_bytes": 1084
+  },
+  "recorded_on": "2026-10-14",
+  "source_files": {
+    "apps/web/src/connections/ConnectionsEditor.tsx": {
+      "sha256": "a511bc63b174c0efbbae5a13c528c830ab57d7a634d74afc37647ef32674b9aa",
+      "size_bytes": 10881
+    },
+    "apps/web/src/materials/MaterialsEditor.tsx": {
+      "sha256": "2c8f64079df15d144f102ac9715897bee2ae775a95910cc403aeefa90880bc6b",
+      "size_bytes": 14139
+    },
+    "apps/web/src/workspace/edits.ts": {
+      "sha256": "d1e400317d368a117a8c2d4bf8254226495b677e543b5f6055dc8e9e64e5fb34",
+      "size_bytes": 4271
+    },
+    "migrations/versions/0008_bond_setups.py": {
+      "sha256": "5ff93436dfb240d3b3bbebff4c422ca4441a307f9ad35506708d76c56e3341a4",
+      "size_bytes": 855
+    },
+    "packages/contracts/api.d.ts": {
+      "sha256": "f2c4697e322765f646edf9ff0f8184abeba7443ce51746bce552e7f32998ac6e",
+      "size_bytes": 346437
+    },
+    "packages/contracts/openapi.json": {
+      "sha256": "cdfb2e8bba42512bbc459b93fd311817bd5582ebb42532952d0b225a05cd7649",
+      "size_bytes": 443856
+    },
+    "scripts/native/benchmark.py": {
+      "sha256": "5410d7097e2c69ea0449f163067274273c7f1dbdce6deaece267027f074aff79",
+      "size_bytes": 999
+    },
+    "services/api/app/domain/connection_service.py": {
+      "sha256": "bf40faf300798b53286518021e7421a9a6936c1e3d7d458d200380f9224e0793",
+      "size_bytes": 5577
+    },
+    "services/api/app/domain/connections.py": {
+      "sha256": "de2fb465649507faeff93a393f10cc448f3b55c413f45c2d67c106c87581acfe",
+      "size_bytes": 2692
+    },
+    "services/api/app/domain/deck_service.py": {
+      "sha256": "0344889858103a7a83ede66fb097fa2436e227d9e2ffd8ad073890a01bbc3c25",
+      "size_bytes": 22377
+    },
+    "services/api/app/domain/loads.py": {
+      "sha256": "bc102a4444c0c14d70cac44d0d5c5ff01188468e1143eb54d25cfc03c07910b9",
+      "size_bytes": 29256
+    },
+    "services/api/app/jobs/service.py": {
+      "sha256": "5c41c97aa2067555925bdd7abc2d000d3bcaa31f6b127c38a38957282a9469a0",
+      "size_bytes": 19484
+    },
+    "services/api/app/main.py": {
+      "sha256": "821260cdb7a30295af316aa5426afbe99009aaf57647597fea15123f3b8080c4",
+      "size_bytes": 6487
+    },
+    "services/api/app/persistence/repository.py": {
+      "sha256": "6ded8874b64986c644f065d77e4906c13f40dfbe75752cf7e14bfac67cccdc10",
+      "size_bytes": 38572
+    },
+    "services/api/app/routes/connections.py": {
+      "sha256": "5dd20dec278e8ba5f050d4ae6f84a223b8973cc97d6095cd50e38e6b90ea18f1",
+      "size_bytes": 2139
+    },
+    "services/api/app/storage/geometry.py": {
+      "sha256": "2db79e3d6b03fa0f32079d511e61d8c786d2314ec0fedd6c7d5d1b416d83c4cd",
+      "size_bytes": 2982
+    },
+    "services/worker/worker/benchmark.py": {
+      "sha256": "bb68aa075ee37ce914a764383979f06944c54c8ef43e1f5748ea465ebea6f5c5",
+      "size_bytes": 9916
+    },
+    "services/worker/worker/gap_fixture.py": {
+      "sha256": "2cdddcfb5dcd2d6d7964f6852e087bc7010880884bf0ff11586206d01c312e9f",
+      "size_bytes": 6966
+    },
+    "services/worker/worker/geometry_native/bond_fixtures.py": {
+      "sha256": "5efa860f3e659d7da1c18d38b6512762f37f3f8914f482ebfc57a6aa2b1cccde",
+      "size_bytes": 2661
+    },
+    "services/worker/worker/geometry_native/bond_review.py": {
+      "sha256": "93561714975e41aa12350e8bc76c97e624491c4bba3902bed1c1b82289c9982c",
+      "size_bytes": 7183
+    },
+    "services/worker/worker/step_import.py": {
+      "sha256": "4672607119d4be24549ed3ea69e6c1e2f323febd3be6c15392b17de0ba8c512b",
+      "size_bytes": 8458
+    },
+    "tests/benchmarks/B08.json": {
+      "sha256": "420b61be44f05ce1e976b82b3cf48566429800e88b7cf711f553c6c1c21cf73e",
+      "size_bytes": 2564
+    },
+    "tests/e2e/connections.spec.ts": {
+      "sha256": "5dcd609c8ad0fab73c76ddd848029544d155ccf6e20b957266dde81ca2d75c41",
+      "size_bytes": 5581
+    },
+    "tests/fixtures/geometry/bond-curved-boundary-m.step": {
+      "sha256": "4e93fdf970ab21bb2ef7483c75bc044de8e35aaa8225c8a852124e180032d730",
+      "size_bytes": 35415
+    },
+    "tests/fixtures/geometry/bond-excess-m.step": {
+      "sha256": "561c76741a4fe8dc37f66501fb0c0b0a53e9aa352b5bac56c2b69e2ff745cba8",
+      "size_bytes": 32563
+    },
+    "tests/fixtures/geometry/bond-gap-m.step": {
+      "sha256": "84d66d3744ca84780658582337350daa332b03ed2dfff28bfb7a22a4eb49d0d2",
+      "size_bytes": 32589
+    },
+    "tests/fixtures/geometry/bond-overlap-m.step": {
+      "sha256": "fa85f70a493981a830898119fe01e75ef6e33b9b65d2a7c3d689e887bb13859c",
+      "size_bytes": 32539
+    },
+    "tests/fixtures/geometry/bond-partial-m.step": {
+      "sha256": "26a89c9e23a1b8de219018b7a7dbac037f7baae84d5edff43f0e3427e17d567d",
+      "size_bytes": 32485
+    },
+    "tests/fixtures/geometry/bond-unrelated-m.step": {
+      "sha256": "3c929981e63e3a72d984359243eb0fcdbc9c1ae079d6ab7c14537ff048751524",
+      "size_bytes": 32590
+    },
+    "tests/fixtures/geometry/bond-zero-m.step": {
+      "sha256": "b662e6734782bc34c3dfbbb6acd7ff973a48dd746a44fdd2c54c5f138db91500",
+      "size_bytes": 32459
+    },
+    "tests/integration/test_connections.py": {
+      "sha256": "9e04d616e81a8adb4f7f3c8667692ed264bb4d4a3d41411294515e2aa0190774",
+      "size_bytes": 2642
+    },
+    "tests/native/test_connections.py": {
+      "sha256": "6dac57c5e0f9c4eae16ffb20ef522ae5a822ead3f51dc23ce320c98d4642108d",
+      "size_bytes": 9548
+    },
+    "tests/unit/test_connections.py": {
+      "sha256": "7696c2d67713915f380144a6394e690ed371f6d9450ef44456312484a47697b8",
+      "size_bytes": 6176
+    }
+  },
+  "task": "T019",
+  "versions": {
+    "cadquery-ocp": "8.0.1.1.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "threads": 1,
+    "uv": "0.12.23"
+  }
+}

@@ -1,0 +1,79 @@
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 34 tests using 1 worker
+
+(node:30797) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/analyses.spec.ts:31:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history (29.4s)
+  ✓   2 tests/e2e/analyses.spec.ts:107:1 › two real browser tabs keep analyses independent and refuse stale duplication (18.3s)
+  ✓   3 tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists (15.1s)
+  ✓   4 tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove (26.4s)
+  ✓   5 tests/e2e/directions.spec.ts:53:1 › native rotated symmetry and edge sign preview drive real immutable global results (25.2s)
+  ✓   6 tests/e2e/directions.spec.ts:244:1 › native cylinder axis can be saved while curved symmetry and solving refuse (12.0s)
+  ✓   7 tests/e2e/edits.spec.ts:6:1 › real hole preview apply undo retains setup and displays frozen old run (26.0s)
+  ✓   8 tests/e2e/edits.spec.ts:124:1 › changed face load requires explicit reselection and unsupported fillet keeps source (21.8s)
+  ✓   9 tests/e2e/essential-loads.spec.ts:58:1 › real body gravity and prescribed component persist across units with frozen equilibrium (19.3s)
+  ✓  10 tests/e2e/essential-loads.spec.ts:207:1 › real coordinate component supports self-equilibrated pressure and near-zero absolute balance (26.2s)
+  ✓  11 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (9.9s)
+  ✓  12 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (7.6s)
+  ✓  13 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (11.3s)
+  ✓  14 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (1.0s)
+  ✓  15 tests/e2e/health.spec.ts:21:1 › page reports a health network failure without claiming readiness (956ms)
+  ✓  16 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (12.0s)
+  ✓  17 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (9.7s)
+  ✓  18 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (12.0s)
+  ✓  19 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (14.0s)
+  ✓  20 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (14.6s)
+  ✓  21 tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing (6.2s)
+  ✓  22 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (779ms)
+  ✓  23 tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes (706ms)
+  ✓  24 tests/e2e/results.spec.ts:31:1 › synthetic bracket completes real import to contours, reactions and frozen result history (14.3s)
+  ✘  25 tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (15.2s)
+(node:33876) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (14.2s)
+  ✓  27 tests/e2e/runs.spec.ts:70:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (14.9s)
+  ✓  28 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (453ms)
+  ✓  29 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (404ms)
+  ✓  30 tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (9.2s)
+  ✓  31 tests/e2e/workspace.spec.ts:100:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (12.9s)
+  ✓  32 tests/e2e/workspace.spec.ts:165:1 › real stale edit offers reload or conflict copy without overwriting the other session (12.1s)
+  ✓  33 tests/e2e/workspace.spec.ts:216:1 › draft blockers and cancellation protect other edits; undo restores saved material prerequisites (9.2s)
+  ✓  34 tests/e2e/workspace.spec.ts:260:1 › failed conflict-copy application keeps the rejected draft and exposes the created copy (9.1s)
+
+
+  1) tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable 
+
+    Test timeout of 15000ms exceeded.
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('Yield factors')
+    Expected substring: "Unavailable — missing yield"
+    Error: Test timeout of 15000ms exceeded.
+
+    Call log:
+      - Expect "toContainText" getByLabel('Yield factors') with timeout 5000ms
+      - waiting for getByLabel('Yield factors')
+      - Test timeout of 15000ms exceeded.
+
+
+      184 |   const missing = await openResults(page, later.id);
+      185 |   expect(missing.data.yield_factors[0].state).toBe("unavailable");
+    > 186 |   await expect(page.getByLabel("Yield factors")).toContainText(
+          |                                                  ^
+      187 |     "Unavailable — missing yield",
+      188 |   );
+      189 | });
+        at /workspace/OpenFEA/tests/e2e/results.spec.ts:186:50
+
+    Error Context: test-results/results-actual-zero-stress-4816c-ing-yield-stays-unavailable/error-context.md
+
+  1 failed
+    tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable 
+  33 passed (7.4m)
+make: *** [Makefile:51: test-e2e] Error 1

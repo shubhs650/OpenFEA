@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 IN PROGRESS — T019 native connection review; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: Finish T019 native/API/browser regression and create/watch PR; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M3 IN PROGRESS — T019 COMPLETE, T020 assembly constraint admission next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: T020 / M3 — assembly constraint preflight after T019 PR review; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -29,7 +29,7 @@ T015: COMPLETE
 T016: COMPLETE
 T017: COMPLETE
 T018: COMPLETE
-T019: IN PROGRESS
+T019: COMPLETE
 T020–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
@@ -40,13 +40,20 @@ B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
 B03–B05: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed acceptance pending.
-B08, B10–B14: NOT RUN.
+B08: DEVELOPMENT PASS for the declared 10 µm axial unit-square idealization; owner acceptance pending.
+B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
-## T019 in progress — native connection review and declared B08 gap experiment
+## T019 completed — native connection review and declared B08 gap experiment
 
-The real API/workspace detects opposing trimmed planar faces, native projected coverage and common-solid body intersections. Suggestions remain inactive until explicit role/assumptions review and separate physical-gap tolerance approval. Immutable owned bond setup and native reports carry through ordinary edits, duplication, restore and process restart. Saved bonds block product solve/export pending T020 assembly constraint admission; overlapping bodies block all compute admissions. The B08 development experiment passes both role cases without moving physical coordinates, within the predeclared axial displacement-continuity idealization. General gap/shear/bending and owner acceptance remain unvalidated. [Guide](docs/CONNECTIONS.md), [ADR-027](docs/adr/ADR-027.md) and [evidence](docs/validation/T019.md) record the bounds. Final regression and PR checks are pending.
+The actual workspace/API measures common-solid body intersections and complete trimmed projected opposing planar faces. Suggestions remain inactive until explicit master/slave/assumptions review and separate physical-gap tolerance approval. Approval repeats native inspection and persists immutable owned geometry/face/SI decision and complete report/tool/source/isolation/hash records. Setup carries through ordinary edits, duplicate/conflict copies and session undo; changed geometry invalidates approval. Actual restart and browser reload retain setup and old history. Overlapping bodies block all multi-body computation. Saved bonds cannot be silently ignored: product deck/solve remains gated on T020 constraint admission.
+
+**563 distinct verified passes, 0 remaining failures/skips:** 308 Python, 28 TypeScript, 176 native, 17 actual-process integration and 34 Chromium. Full 175-case native regression plus final 11-case replay includes the new planar curved-trim adversary. Both B08 role cases preserve source mesh and emitted native double coordinates exactly, cover every intended slave translation (65/37 nodes), and meet unchanged predeclared all-node/all-IP/equilibrium criteria: max displacement error 4.99e-13 m, tensor error 9.49e-7 Pa and coordinate adjustment 0 m. B08 assumes ideal axial displacement continuity across a 10 µm void with no adhesive compliance/contact; owner acceptance and general gap physics remain pending. Approval is bounded to complete straight-edge planar unit-square faces, ≤10 µm gaps, ≤100 CAD faces and ≤10 pairs. No failed native tie fallback, stabilization, tolerance widening or native budget/retry changes.
+
+Initial native namespace/nested-lock and harness/environment/label issues are retained and corrected. Automatic mesh-choice reads no longer contend for native CAD; all actual compute admissions still check volume overlaps. A mixed-source trial was interrupted and superseded by clean full regression plus affected replay. Full browser regression passed 33 cases and hit the unchanged zero-stress display deadline in one; the three-case affected replay passes, including that workflow in 13.3 s. Screenshots were inspected; source/tool/lock/raw numerical hashes and compressed synthetic decks/DAT/FRD/audits are retained in [evidence](docs/validation/T019.md) and [manifest](docs/validation/results/T019/index.json), with [ADR-027](docs/adr/ADR-027.md) and [usage](docs/CONNECTIONS.md).
+
+T018 PR #15 was externally merged before this task. M3 remains IN PROGRESS; next **T020** for connected support/constraint/singularity admission, with no stiffness-rank or general assembly acceptance claimed here. Existing owner benchmark signatures, Windows Chrome/Edge, target-laptop/headed GPU/performance/usability and M4/T030 obligations remain deferred. Create the requested T019 PR and watch hosted checks until passing; leave it open without merging.
 
 ## T018 completed — independent analyses and exact compatible mesh reuse; M2 technical exit PASS
 
@@ -288,8 +295,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 M0 was **approved by the owner for M1 progression with explicit deferrals** after the historical NO-GO and PR #2 software fixes. Preserve all frozen criteria, native semantics and limits. The next gate work is exact benchmark/formulation review, M3 assembly validation and M4 local laptop/end-to-end acceptance. Current passing development suites do not establish those later acceptances.
 
-Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. Keep physical gaps unsupported until T019/B08. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
+Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. T019/B08 now validates only the declared 10 µm axial unit-square setup/experiment; product bonded solve admission remains T020 and general gap physics remains unsupported. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 cleanup and T014 mesh sizing/quality/bounded recovery are COMPLETE with evidence above. T015 essential supports/gravity/equilibrium is COMPLETE. Next implementation is **T016**, NOT STARTED. This session creates the requested T015 PR and watches checks; leave it open for review. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 cleanup and T014 mesh sizing/quality/bounded recovery are COMPLETE with evidence above. T015 essential supports/gravity/equilibrium is COMPLETE. T016–T019 are now COMPLETE as recorded above. Next implementation is **T020**, NOT STARTED. This session creates the requested T019 PR and watches checks; leave it open for review. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.
