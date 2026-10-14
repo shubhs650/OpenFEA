@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M2 — T013–T015 COMPLETE; T016–T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: T016 — geometry-based directions and symmetry; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M2 — T013–T016 COMPLETE; T017–T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: T017 — hybrid checklist, themes and edit flow; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -26,18 +26,30 @@ T012: COMPLETE
 T013: COMPLETE
 T014: COMPLETE
 T015: COMPLETE
-T016–T042: NOT STARTED
+T016: COMPLETE
+T017–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
-M2: IN PROGRESS — T013–T015 complete, exit gate NOT RUN.
+M2: IN PROGRESS — T013–T016 complete, exit gate NOT RUN.
 M3–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
 B03–B05: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
-B06, B08, B10–B14: NOT RUN.
+B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed acceptance pending.
+B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T016 completed — native geometry directions and planar symmetry
+
+The real native import/API/workspace resolves signed planar normals, straight edges and cylindrical axes from immutable body-owned topology. Read-only owned previews display right-handed axes and exterior arrows; force/displacement scalars convert to SI and planar symmetry uses each selected face's normal. Curved symmetry refuses. Cleanup invalidates all derived directions for explicit face/source review; guarded undo and immutable old runs preserve original physics. Legacy global controls remain compatible; gravity remains global XYZ.
+
+Actual Gmsh/CCX combines compatible shared-node constraints into exactly one transform, refuses contradictory/singular rows, retains necessary independent-body rank and all written forces, requests global DAT/FRD and projects external reactions onto the written constrained span. Existing equilibrium/output/affine/resource criteria remain mandatory. No stabilization, force redistribution, numerical tolerance widening or retries.
+
+**491 distinct verified passing cases, 0 remaining failures/skips:** 276 Python, 21 TypeScript, 156 native, 14 real-process integration and 24 Chromium. Actual B06 passes two mesh sizes in identity and rotated/translated placements with all-node displacement and all-IP full tensor references: max U error 5.00e-16 m, stress 2.75e-5 Pa and force/moment error 1.60e-5 N/N·m. Owner acceptance stays PENDING. Initial overlong transform fields were refused by CCX; existing12-decimal encoding passes unchanged criteria. A pre-existing process observer missed tiny Gmsh jobs while repeatedly scanning host PIDs; one tree snapshot preserves actual native cancellation/crash/fencing checks and deadlines. New browser harness waits align with real queued completion/refresh. Original failures remain retained. [Evidence](docs/validation/T016.md), [manifest](docs/validation/results/T016/index.json), [guide](docs/GEOMETRY_DIRECTIONS.md) and [ADR-024](docs/adr/ADR-024.md) bind source/tool/lock identities and inspected screenshots.
+
+T015 PR #12 was externally merged before this task. Existing locks/binaries/earlier benchmarks and owner/laptop deferrals are unchanged. Solving stays bounded to planar/affine independent bodies; cylindrical source setup does not certify curved solving. M2 remains IN PROGRESS; next **T017**. Create the requested T016 PR and leave it open after watching checks.
 
 ## T015 completed — essential supports, body gravity and frozen equilibrium
 
@@ -47,7 +59,7 @@ Actual affine C3D10/CCX emits density/GRAV and inside-step nonzero boundaries. C
 
 **464 distinct verified passing cases, 0 remaining failures/skips:** 265 Python unit, 21 TypeScript, 143 native, 13 real-process integration and 22 Chromium. Actual B03–B05 pass on two declared meshes each through API/CLI, with unsigned refusal and pending engineering-owner acceptance. Original B03 coarse stress error 8.05157312256193% is retained; explicit 0.04/0.035-m refinement passes the same 5% stress/2% tip criteria. Native actuation, selected-body gravity, partial/conflicting supports, pressure/gravity subtraction, self-equilibrated and absolute near-zero loads, intentional RF corruption, immutable density edits, cleanup and restart pass. Browser glyphs/equilibrium screenshots were inspected. Initial hosted CI passed native/fast/integration and both new workflows, then exposed an existing premature project write before session/CSRF readiness. A delayed real-session regression proves and fixes the race. A second hosted run correctly refused excessive scratch but exposed a stale reported peak after native exit; final audited bytes now join the peak, with a deterministic real short-lived-probe regression. No numerical criterion, resource cap, browser timeout or retry changed. [Evidence](docs/validation/T015.md), [manifest](docs/validation/results/T015/index.json), [guide](docs/ESSENTIAL_LOADS.md) and [ADR-023](docs/adr/ADR-023.md) record source/tool/lock hashes and corrections.
 
-No existing dependency/native lock, binary or benchmark criterion/sign-off changed. General/curved/arbitrary-direction solving, convergence, laptop/Windows/Edge/headed GPU and M2–M4 acceptance remain later work. T014 PR #11 was externally merged before this task. Next **T016**; create the requested T015 PR and leave it open after watching checks.
+No existing dependency/native lock, binary or benchmark criterion/sign-off changed. General/curved/arbitrary-direction solving, convergence, laptop/Windows/Edge/headed GPU and M2–M4 acceptance remain later work. T014 PR #11 was externally merged before this task. T015 PR #12 was subsequently externally merged; the user requested T016, recorded above.
 
 ## T014 completed — revisioned sizing, quadratic quality and bounded recovery
 

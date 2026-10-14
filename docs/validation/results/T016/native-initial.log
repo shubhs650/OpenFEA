@@ -1,0 +1,84 @@
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 156 items
+
+tests/native/test_bond_native.py ...                                     [  1%]
+tests/native/test_cleanup_resources.py ....                              [  4%]
+tests/native/test_deck_guards.py .......                                 [  8%]
+tests/native/test_directions.py .............                            [ 17%]
+tests/native/test_essential_loads.py ..................                  [ 28%]
+tests/native/test_face_decks.py .............                            [ 37%]
+tests/native/test_feasibility_stops.py ........                          [ 42%]
+tests/native/test_geometry_edits.py ...........                          [ 49%]
+tests/native/test_job_lifecycle.py ......F...                            [ 55%]
+tests/native/test_local_jobs.py .                                        [ 56%]
+tests/native/test_mapping.py ..............                              [ 65%]
+tests/native/test_material_response.py ...                               [ 67%]
+tests/native/test_mesh_controls.py ..............                        [ 76%]
+tests/native/test_result_views.py ........                               [ 81%]
+tests/native/test_run_snapshots.py ..                                    [ 82%]
+tests/native/test_step_import.py ..............                          [ 91%]
+tests/native/test_stress_native.py ....                                  [ 94%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+=================================== FAILURES ===================================
+_______ test_cancel_actual_mesher_confirms_native_death_before_next_job ________
+
+client = <starlette.testclient.TestClient object at 0x7f074615e960>
+application = <fastapi.applications.FastAPI object at 0x7f074615c680>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f074615e360>
+
+    def test_cancel_actual_mesher_confirms_native_death_before_next_job(
+        client: TestClient, application: FastAPI, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        path, _ = prepared(client)
+        launched = threading.Event()
+        actual: list[int] = []
+        original = application.state.deck_service.mesh
+    
+        def observed(
+            snapshot: Any, display: Any, directory: Path, control: NativeControl | None = None
+        ) -> dict[str, Any]:
+            assert control is not None
+            notify = control.started
+    
+            def started(pid: int, identity: str) -> None:
+                notify(pid, identity)
+                deadline = time.monotonic() + 2
+                while time.monotonic() < deadline:
+                    for child in descendants(pid):
+                        try:
+                            command = Path(f"/proc/{child}/cmdline").read_bytes()
+                        except FileNotFoundError:
+                            continue
+                        if command.startswith(str(NATIVE / "venvs/mesh/bin/python").encode() + b"\0"):
+                            # Pause a real pinned process to make HTTP edit/cancel
+                            # races reproducible; this is not capacity evidence.
+                            os.kill(child, signal.SIGSTOP)
+                            actual.extend([pid, child])
+                            launched.set()
+                            return
+                    time.sleep(0.005)
+                raise AssertionError("Actual Gmsh process was not observed")
+    
+            control.started = started
+            value: dict[str, Any] = original(snapshot, display, directory, control)
+            return value
+    
+        monkeypatch.setattr(application.state.deck_service, "mesh", observed)
+        job = submit(client, path)
+>       assert launched.wait(3), client.get(f"/api/v1/jobs/{job['id']}").text
+E       AssertionError: {"id":"4377cf97-6fad-4271-8612-b3d2c50386c0","analysis_id":"0411fb57-dd68-4fac-b8ff-e630a85128dc","project_id":"56e438c3-dfd1-40dc-9338-b2039181c724","analysis_revision":4,"geometry_revision_id":"ff2540ed-1265-404f-bb7b-62dc68960172","kind":"mesh","mesh_job_id":null,"input_sha256":"1dd367bb604b47493ff571699f85ae081614241c993f96129b42c86ce5ed76aa","status":"failed","stage":"finished","queued_at":"2026-10-14T08:22:01.731121Z","started_at":"2026-10-14T08:22:01.831470Z","finished_at":"2026-10-14T08:22:03.985992Z","heartbeat_at":"2026-10-14T08:22:03.985992Z","cancel_requested":false,"reason_code":"invalid_output","reason_message":"Native execution or outputs failed validation; no result was published","summary":{"wall_seconds":2.153004907995637},"artifacts":{"snapshot.json":{"sha256":"1dd367bb604b47493ff571699f85ae081614241c993f96129b42c86ce5ed76aa","size_bytes":25519,"media_type":"application/json"}},"events":[{"sequence":1,"status":"queued","stage":"queued","at":"2026-10-14T08:22:01.731566Z","reason_code":null},{"sequence":2,"status":"running","stage":"meshing","at":"2026-10-14T08:22:01.831712Z","reason_code":null},{"sequence":3,"status":"failed","stage":"finished","at":"2026-10-14T08:22:03.986337Z","reason_code":"invalid_output"}]}
+E       assert False
+E        +  where False = wait(3)
+E        +    where wait = <threading.Event at 0x7f07483b3e60: unset>.wait
+
+tests/native/test_job_lifecycle.py:211: AssertionError
+=========================== short test summary info ============================
+FAILED tests/native/test_job_lifecycle.py::test_cancel_actual_mesher_confirms_native_death_before_next_job
+================== 1 failed, 155 passed in 287.05s (0:04:47) ===================
+make: *** [Makefile:53: test-native] Error 1

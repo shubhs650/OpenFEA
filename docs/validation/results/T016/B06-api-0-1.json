@@ -1,0 +1,191 @@
+{
+  "placement": false,
+  "mesh_size_m": 0.5,
+  "nodes": 231,
+  "elements": 100,
+  "measurements": {
+    "placement": "identity",
+    "rotation_basis": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "translation_m": [
+      0,
+      0,
+      0
+    ],
+    "max_displacement_error_m": 4.778909525517167e-16,
+    "max_displacement_magnitude_error_m": 6.826126405862181e-16,
+    "max_tensor_error_pa": 7.021809e-11,
+    "max_von_mises_error_pa": 4.922640073345974e-11,
+    "max_displacement_m": 5.172752597322532e-09,
+    "max_von_mises_pa": 1000.0000000000196,
+    "reaction_force_error_n": 5.818880079999998e-13,
+    "reaction_moment_error_nm": 1.962890223694558e-06,
+    "expected_global_stress_pa": [
+      1000.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "equilibrium": {
+      "applied_force_n": [
+        1000.0000000000109,
+        0.0,
+        0.0
+      ],
+      "applied_moment_nm": [
+        0.0,
+        500.0000000000051,
+        -500.000000000005
+      ],
+      "characteristic_length_m": 1.0,
+      "force": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 1000.0,
+        "relative_residual": 1.0706591926986541e-14,
+        "relative_tolerance": 0.005,
+        "residual": [
+          1.0686562745831907e-11,
+          -2.998228086000001e-13,
+          5.818880079999998e-13
+        ],
+        "residual_norm": 1.0706591926986541e-11,
+        "tolerance": 5.0
+      },
+      "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained span only; internal ties/MPC/free-node RF excluded",
+      "moment": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 1000.0,
+        "relative_residual": 2.1388789062550616e-09,
+        "relative_tolerance": 0.005,
+        "residual": [
+          2.9563198534227086e-13,
+          1.9628953396022553e-06,
+          -8.496145369463193e-07
+        ],
+        "residual_norm": 2.138878906255062e-06,
+        "tolerance": 5.0
+      },
+      "moment_origin_m": [
+        0,
+        0,
+        0
+      ],
+      "passed": true,
+      "prescribed_actuator_reference_n": 0.0,
+      "reaction_force_n": [
+        -1000.0000000000002,
+        -2.998228086000001e-13,
+        5.818880079999998e-13
+      ],
+      "reaction_moment_nm": [
+        2.9563198534227086e-13,
+        -499.9999980371098,
+        499.99999915039047
+      ]
+    }
+  },
+  "manifest": {
+    "id": "B06",
+    "revision": 1,
+    "source": "Independent exact 3D uniaxial continuum solution: epsilon=F/(A*E); local u=(epsilon*x,-nu*epsilon*y,-nu*epsilon*z); sigma_local=diag(F/A,0,0); global u=R*u_local, sigma=R*sigma_local*R^T",
+    "units": "m,N,Pa,kg,s",
+    "geometry": "Native synthetic unit cube; identity placement and R=Rz(19deg)*Ry(37deg)*Rx(23deg), translation=(0.25,-0.4,0.15) m",
+    "rotation_degrees_xyz": [
+      23,
+      37,
+      19
+    ],
+    "translation_m": [
+      0.25,
+      -0.4,
+      0.15
+    ],
+    "material": {
+      "E_pa": 210000000000,
+      "nu": 0.3
+    },
+    "element": "C3D10 affine",
+    "mesh_sizes_m": [
+      0.5,
+      0.3
+    ],
+    "supports": "Planar symmetry (zero normal displacement) on the complete local x=0, y=0, z=0 faces; other components free; one combined rectangular transform per node",
+    "loads": "Total force +1000N along positive local X planar normal, uniformly distributed once over complete local x=1 face; converted to node-local CLOAD and audited globally",
+    "force_n": 1000,
+    "samples": "Every global native DAT displacement and raw IP tensor component, inverse-transformed physical coordinates, every-node displacement magnitude and every-IP von Mises; global external constrained-span reactions and origin moments; both placements and both meshes",
+    "tolerances": {
+      "relative": 1e-06,
+      "displacement_absolute_m": 1e-13,
+      "stress_absolute_pa": 0.01,
+      "force_absolute_n": 0.001,
+      "moment_absolute_nm": 0.001,
+      "equilibrium_relative": 0.005
+    },
+    "exclusions": "None; exact affine continuum solution. Independently remeshed placements have no assumed matching node/IP IDs",
+    "reason": "Exact continuum patch validates full vector/tensor rotation, force conversion, symmetry and external reactions without beam/clamping/singularity approximations",
+    "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  },
+  "artifacts": {
+    "snapshot.json": {
+      "sha256": "8431d5a58a5b25ab3e057620acde64c8d0b398f5f1a422b58421381a693a6b4f",
+      "size_bytes": 28366,
+      "media_type": "application/json"
+    },
+    "mesh.json": {
+      "sha256": "a1b3186a91b17e7c8d85fff009da1ffd17bb194500d9ba792a059bcd150a38ab",
+      "size_bytes": 100917,
+      "media_type": "application/json"
+    },
+    "analysis.inp": {
+      "sha256": "d3f86eaccf3ef30f88cb88c86c2246984c47e2da80d9cfd3f195e178cfbfad56",
+      "size_bytes": 23967,
+      "media_type": "text/plain"
+    },
+    "solver.log": {
+      "sha256": "98103f25857f78ef8e5a8454f90e819d65fd6df9bcbd3a5c7dcc745ca292f8ea",
+      "size_bytes": 2255,
+      "media_type": "text/plain"
+    },
+    "analysis.dat": {
+      "sha256": "9f46d6b6d40881862948f85912c803033185910c704b5e7aac5867d4d7bda200",
+      "size_bytes": 87277,
+      "media_type": "text/plain"
+    },
+    "analysis.frd": {
+      "sha256": "85e05a4545d5a32bd499a07032faad8100d255c44e8e9df90e9746f23d593494",
+      "size_bytes": 57859,
+      "media_type": "text/plain"
+    },
+    "resources.json": {
+      "sha256": "56e35cc8bbeb5b86f56864694534e2f8cf76a941468024391ea0dc88ff73d0d6",
+      "size_bytes": 111,
+      "media_type": "application/json"
+    },
+    "results.json": {
+      "sha256": "b22b4f055b2be9ae1a475f8718e6e5ec29810a2100eea0591b55d8414d4600cf",
+      "size_bytes": 526327,
+      "media_type": "application/json"
+    }
+  }
+}

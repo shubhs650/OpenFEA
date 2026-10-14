@@ -1,0 +1,13 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/directions.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:44348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/directions.spec.ts:53:1 › native rotated symmetry and edge sign preview drive real immutable global results (7.8s)
+  ✓  2 tests/e2e/directions.spec.ts:244:1 › native cylinder axis can be saved while curved symmetry and solving refuse (4.3s)
+
+  2 passed (14.1s)
