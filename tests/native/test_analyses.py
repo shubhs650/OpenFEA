@@ -128,7 +128,9 @@ def test_real_duplicate_variants_reuse_exact_mesh_and_keep_old_runs(client: Test
         assert client.get(f"/api/v1/jobs/{original['id']}/artifacts/{name}").content == raw
     for item in [original, run, another]:
         assert client.get(f"/api/v1/runs/{item['id']}/results").status_code == 200
-    Path("work/T018-variant-measurements.json").write_text(
+    output = Path("work/T018-variant-measurements.json")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(
             {
                 "cases": measurements,
