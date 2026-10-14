@@ -1,0 +1,94 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 8 items
+
+tests/native/test_analyses.py ......FF                                   [100%]
+
+=================================== FAILURES ===================================
+_ test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse[snapshot.json] _
+
+client = <starlette.testclient.TestClient object at 0x7f04cc18d6a0>
+application = <fastapi.applications.FastAPI object at 0x7f04bfe7dfd0>
+artifact = 'snapshot.json'
+
+    @pytest.mark.parametrize("artifact", ["snapshot.json", "mesh.json"])
+    def test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse(
+        client: TestClient, application: FastAPI, artifact: str
+    ) -> None:
+        path, _ = prepared(client)
+        mesh = wait_job(client, submit(client, path)["id"])
+        copy = duplicate(client, path)
+        digest = mesh["artifacts"][artifact]["sha256"]
+        stored = application.state.job_service.storage.blob_path(UUID(mesh["project_id"]), digest)
+>       stored.write_bytes(b"corrupted artifact")
+
+tests/native/test_analyses.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1036: in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/pytest-of-agent/pytest-9/test_corrupted_source_mesh_art0/artifacts/350b8e35-e015-48c8-b69b-803740476c0f/86c7d218529dc8b4f57c84cf38221d890e1b2dd2147193e1474818b4344b7b93')
+mode = 'wb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/tmp/pytest-of-agent/pytest-9/test_corrupted_source_mesh_art0/artifacts/350b8e35-e015-48c8-b69b-803740476c0f/86c7d218529dc8b4f57c84cf38221d890e1b2dd2147193e1474818b4344b7b93'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1013: PermissionError
+_ test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse[mesh.json] __
+
+client = <starlette.testclient.TestClient object at 0x7f04cc0dd550>
+application = <fastapi.applications.FastAPI object at 0x7f04cc0dcaa0>
+artifact = 'mesh.json'
+
+    @pytest.mark.parametrize("artifact", ["snapshot.json", "mesh.json"])
+    def test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse(
+        client: TestClient, application: FastAPI, artifact: str
+    ) -> None:
+        path, _ = prepared(client)
+        mesh = wait_job(client, submit(client, path)["id"])
+        copy = duplicate(client, path)
+        digest = mesh["artifacts"][artifact]["sha256"]
+        stored = application.state.job_service.storage.blob_path(UUID(mesh["project_id"]), digest)
+>       stored.write_bytes(b"corrupted artifact")
+
+tests/native/test_analyses.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1036: in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/tmp/pytest-of-agent/pytest-9/test_corrupted_source_mesh_art1/artifacts/245d6480-7d0b-43cf-93b2-d45dcb44176c/dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e')
+mode = 'wb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/tmp/pytest-of-agent/pytest-9/test_corrupted_source_mesh_art1/artifacts/245d6480-7d0b-43cf-93b2-d45dcb44176c/dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1013: PermissionError
+=========================== short test summary info ============================
+FAILED tests/native/test_analyses.py::test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse[snapshot.json]
+FAILED tests/native/test_analyses.py::test_corrupted_source_mesh_artifact_refuses_cross_analysis_reuse[mesh.json]
+========================= 2 failed, 6 passed in 21.80s =========================

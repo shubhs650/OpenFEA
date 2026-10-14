@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M2 — T013–T017 COMPLETE; T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: T018 — multiple analyses and setup duplication; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M2 COMPLETE — T013–T018; bounded technical exit PASS; M3 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: T019 / M3 — bond suggestions, review and gap policy; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -28,10 +28,11 @@ T014: COMPLETE
 T015: COMPLETE
 T016: COMPLETE
 T017: COMPLETE
-T018–T042: NOT STARTED
+T018: COMPLETE
+T019–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
-M2: IN PROGRESS — T013–T017 complete, exit gate NOT RUN.
+M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -41,6 +42,16 @@ B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed accepta
 B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T018 completed — independent analyses and exact compatible mesh reuse; M2 technical exit PASS
+
+The actual workspace duplicates current/historical saved geometry/material/load/direction/review/mesh setup into an independent revision-1 analysis. Original heads, jobs, exports and raw result history stay immutable. Owner/CSRF/tombstone/head guards apply transactionally. Refreshing another tab's analysis list preserves active setup. Exact same-project compatible mesh choices expose original provenance and byte hashes; geometry UUID/catalog/physical sizing/curvature/full tool policy, input and mesh integrity are independently checked again at admission. Draft sizing blocks solve; no approximate reuse or automatic remesh.
+
+**538 distinct verified passing cases, 0 remaining failures/skips:** 297 Python, 28 TS, 165 native, 16 actual-process integration and 32 Chromium. Actual source/material/load variants share one C3D10 mesh and meet unchanged 1e-13 m / 0.01 Pa criteria (maximum U error 4.83e-16 m, stress error 7.30e-12 Pa). Original snapshot/deck/DAT/FRD/parsed bytes stay identical. Full native plus final eight-case replay, full browser plus corrected seven-case replay and actual restart/concurrent tabs verify setup/history independence and stale/corrupt/geometry/size/local/curvature/policy refusal. Initial test-tampering/harness/duplicate-alert failures and the reproduced/fixed missing-tool 503 path are retained. Variant setup/contour screenshots were inspected. [Evidence](docs/validation/T018.md), [manifest](docs/validation/results/T018/index.json), [ADR-026](docs/adr/ADR-026.md) and [guide](docs/ANALYSES.md) bind source/tools/locks and limits.
+
+The first T018 hosted run exposed a fresh-checkout test-output defect: the variant case's numerical/history assertions passed, but its ignored `work/` directory was absent when writing the summary. Test-only parent-directory creation is verified by running that same real native case from an empty working directory (pass in 6.97 s), plus lint/format/types. Original failure and correction evidence are retained; no application/numerical/CI policy changed. Latest PR-head hosted checks remain the final confirmation.
+
+[M2 technical exit review](docs/validation/M2-exit-review.md) passes the bounded single-part development path through T018. Existing owner benchmark signatures, Windows Chrome/Edge, target-laptop/headed GPU/performance/usability and M4/T030 obligations remain unexecuted and deferred; no acceptance is fabricated. No dependency/native lock, worker numerical source, solver binary, benchmark criterion or retry/cap changed. T017 PR #14 was externally merged before this task. Next **T019/M3**; create the requested PR and watch until final hosted checks pass. Leave it open without merging.
 
 ## T017 completed — workspace checklist, themes and safe edits
 

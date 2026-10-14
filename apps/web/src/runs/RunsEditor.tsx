@@ -1,3 +1,4 @@
+import type { components } from "../../../../packages/contracts/api";
 import { useEffect, useRef, useState } from "react";
 import { ResultsEditor } from "../results/ResultsEditor";
 import type { ResultPresentation } from "../results/presentation";
@@ -36,6 +37,11 @@ export function RunsEditor({
   preset,
   showResult,
 }: Props) {
+  const [candidates, setCandidates] = useState<
+    components["schemas"]["MeshCandidates"] | null
+  >(null);
+  const [refreshMeshes, setRefreshMeshes] = useState(0);
+  const [candidateError, setCandidateError] = useState("");
   const [jobs, setJobs] = useState<LocalJob[]>([]);
   const [meshId, setMeshId] = useState("");
   const [reviewed, setReviewed] = useState(false);
@@ -66,16 +72,6 @@ export function RunsEditor({
           setJobs(data);
           setWorker(control.state);
           setClock(Date.now());
-          setMeshId((old) =>
-            data.some((j) => j.id === old && j.kind === "mesh")
-              ? old
-              : (data.find(
-                  (j) =>
-                    j.kind === "mesh" &&
-                    j.status === "succeeded" &&
-                    j.geometry_revision_id === geometryId,
-                )?.id ?? ""),
-          );
         }
       } catch (e) {
         if (current) setError((e as Error).message);
@@ -90,13 +86,48 @@ export function RunsEditor({
     };
   }, [analysisId, geometryId]);
 
-  const meshes = jobs.filter(
-    (j) =>
-      j.kind === "mesh" &&
-      j.status === "succeeded" &&
-      j.geometry_revision_id === geometryId,
-  );
-  const selected = meshes.find((j) => j.id === meshId);
+  const completedMeshes = jobs
+    .filter((j) => j.kind === "mesh" && j.status === "succeeded")
+    .map((j) => j.id)
+    .join(",");
+  useEffect(() => {
+    let current = true;
+    setCandidates(null);
+    setCandidateError("");
+    setReviewed(false);
+    void api<components["schemas"]["MeshCandidates"]>(
+      `/analyses/${analysisId}/compatible-meshes`,
+    )
+      .then((data) => {
+        if (!current) return;
+        if (
+          data.analysis_id !== analysisId ||
+          data.analysis_revision !== revision
+        ) {
+          setCandidateError("Mesh choices changed. Reload the saved analysis.");
+          return;
+        }
+        setCandidates(data);
+        setMeshId((old) =>
+          data.items.some((item) => item.job.id === old)
+            ? old
+            : (data.items[0]?.job.id ?? ""),
+        );
+      })
+      .catch((e: Error) => {
+        if (current) setCandidateError(e.message);
+      });
+    return () => {
+      current = false;
+    };
+  }, [analysisId, revision, geometryId, completedMeshes, refreshMeshes]);
+  const meshes =
+    candidates?.analysis_id === analysisId &&
+    candidates.analysis_revision === revision
+      ? candidates.items
+      : [];
+  const choice = meshes.find((item) => item.job.id === meshId);
+  const selected = choice?.job;
   async function submit(solve: boolean) {
     const intent = `${revision}:${solve ? meshId : "mesh"}`;
     if (!requestKey.current || requestKey.current.intent !== intent)
@@ -194,14 +225,38 @@ export function RunsEditor({
           }}
         >
           <option value="">Choose a completed mesh</option>
-          {meshes.map((j) => (
+          {meshes.map(({ job: j, source_analysis_name }) => (
             <option key={j.id} value={j.id}>
-              Revision {j.analysis_revision} · {String(j.summary.elements)}{" "}
-              C3D10 elements · {j.id.slice(0, 8)}
+              {source_analysis_name} · Revision {j.analysis_revision} ·{" "}
+              {String(j.summary.elements)} C3D10 elements · {j.id.slice(0, 8)}
             </option>
           ))}
         </select>
       </label>
+      <button
+        disabled={busy}
+        onClick={() => setRefreshMeshes((old) => old + 1)}
+      >
+        Refresh compatible meshes
+      </button>
+      <p>
+        Only checked meshes in this project with the exact geometry, physical
+        sizing and tool contract are offered. A draft or incompatible saved size
+        requires a new mesh.
+      </p>
+      {choice && (
+        <p>
+          Mesh source analysis <code>{choice.job.analysis_id}</code> · revision{" "}
+          {choice.job.analysis_revision}. Compatibility SHA-256{" "}
+          <code>{choice.compatibility_sha256}</code> · Mesh SHA-256{" "}
+          <code>{choice.mesh_sha256}</code>.
+        </p>
+      )}
+      {candidateError && (
+        <p className="material-notice" aria-live="polite">
+          Compatible meshes unavailable: {candidateError}
+        </p>
+      )}
       <button disabled={!selected} onClick={() => void preview()}>
         Preview selected mesh
       </button>
@@ -226,6 +281,7 @@ export function RunsEditor({
           busy ||
           conflict ||
           !ready ||
+          !meshReady ||
           !selected ||
           !reviewed ||
           worker === "blocked"

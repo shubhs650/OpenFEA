@@ -1,0 +1,180 @@
+check	Run make setup	2026-10-14T11:01:06.4690002Z  + cadquery-ocp==8.0.1.1.0
+check	Run make setup	2026-10-14T11:01:06.4690563Z  + cadquery-ocp-proxy==8.0.1.1.0
+check	Run make setup	2026-10-14T11:01:06.4691044Z  + contourpy==1.4.0
+check	Run make setup	2026-10-14T11:01:06.4691430Z  + cycler==0.12.1
+check	Run make setup	2026-10-14T11:01:06.4691786Z  + fonttools==4.66.1
+check	Run make setup	2026-10-14T11:01:06.4692130Z  + kiwisolver==1.5.1
+check	Run make setup	2026-10-14T11:01:06.4692526Z  + matplotlib==3.11.2
+check	Run make setup	2026-10-14T11:01:06.4692874Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T11:01:06.4693734Z  + packaging==26.3
+check	Run make setup	2026-10-14T11:01:06.4702392Z  + pillow==12.3.0
+check	Run make setup	2026-10-14T11:01:06.4707708Z  + pyparsing==3.3.3
+check	Run make setup	2026-10-14T11:01:06.4708164Z  + python-dateutil==2.9.0.post0
+check	Run make setup	2026-10-14T11:01:06.4708595Z  + six==1.17.0
+check	Run make setup	2026-10-14T11:01:06.4708960Z  + vtk==9.6.2
+check	Run make setup	2026-10-14T11:01:06.4801201Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T11:01:06.4802379Z Creating virtual environment at: .local/native/venvs/mesh
+check	Run make setup	2026-10-14T11:01:06.4815801Z Resolved 3 packages in 0.52ms
+check	Run make setup	2026-10-14T11:01:06.5481636Z Downloading gmsh (38.2MiB)
+check	Run make setup	2026-10-14T11:01:07.0125382Z  Downloaded gmsh
+check	Run make setup	2026-10-14T11:01:07.0127651Z Prepared 1 package in 530ms
+check	Run make setup	2026-10-14T11:01:07.0381887Z Installed 2 packages in 25ms
+check	Run make setup	2026-10-14T11:01:07.0382566Z  + gmsh==4.15.2
+check	Run make setup	2026-10-14T11:01:07.0382986Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T11:01:07.0474655Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T11:01:07.0475902Z Creating virtual environment at: .local/native/venvs/post
+check	Run make setup	2026-10-14T11:01:07.0490356Z Resolved 13 packages in 0.52ms
+check	Run make setup	2026-10-14T11:01:07.1102566Z Downloading vtk (133.2MiB)
+check	Run make setup	2026-10-14T11:01:08.2744418Z  Downloaded vtk
+check	Run make setup	2026-10-14T11:01:08.3446315Z Prepared 1 package in 1.29s
+check	Run make setup	2026-10-14T11:01:08.6130127Z Installed 12 packages in 268ms
+check	Run make setup	2026-10-14T11:01:08.6130680Z  + contourpy==1.4.0
+check	Run make setup	2026-10-14T11:01:08.6131088Z  + cycler==0.12.1
+check	Run make setup	2026-10-14T11:01:08.6131453Z  + fonttools==4.66.1
+check	Run make setup	2026-10-14T11:01:08.6132017Z  + kiwisolver==1.5.1
+check	Run make setup	2026-10-14T11:01:08.6132404Z  + matplotlib==3.11.2
+check	Run make setup	2026-10-14T11:01:08.6132842Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T11:01:08.6133431Z  + packaging==26.3
+check	Run make setup	2026-10-14T11:01:08.6133813Z  + pillow==12.3.0
+check	Run make setup	2026-10-14T11:01:08.6134172Z  + pyparsing==3.3.3
+check	Run make setup	2026-10-14T11:01:08.6134605Z  + python-dateutil==2.9.0.post0
+check	Run make setup	2026-10-14T11:01:08.6135034Z  + six==1.17.0
+check	Run make setup	2026-10-14T11:01:08.6135359Z  + vtk==9.7.1
+check	Run make setup	2026-10-14T11:01:55.0012555Z Building CPU CCX 2.23 with 4 jobs; log: .local/native/build.log
+check	Run make setup	2026-10-14T11:02:51.1764622Z Native CPU solver and network-denying launcher built and hashed
+check	Run make setup	2026-10-14T11:02:51.3911726Z v24.19.0
+check	Run make setup	2026-10-14T11:02:51.4695385Z 11.9.0
+check	Run make setup	2026-10-14T11:02:51.4771366Z uv 0.12.23 (x86_64-unknown-linux-gnu)
+check	Run make setup	2026-10-14T11:05:51.8183392Z F....................................................................... [ 43%]
+check	Run make setup	2026-10-14T11:08:17.0151454Z ........................................................................ [ 87%]
+check	Run make setup	2026-10-14T11:08:31.2209212Z .....................                                                    [100%]
+check	Run make setup	2026-10-14T11:08:31.2210742Z =================================== FAILURES ===================================
+check	Run make setup	2026-10-14T11:08:31.2211802Z _______ test_real_duplicate_variants_reuse_exact_mesh_and_keep_old_runs ________
+check	Run make setup	2026-10-14T11:08:31.2212583Z 
+check	Run make setup	2026-10-14T11:08:31.2213536Z client = <starlette.testclient.TestClient object at 0x7fd4443b1a00>
+check	Run make setup	2026-10-14T11:08:31.2214231Z 
+check	Run make setup	2026-10-14T11:08:31.2215009Z     def test_real_duplicate_variants_reuse_exact_mesh_and_keep_old_runs(client: TestClient) -> None:
+check	Run make setup	2026-10-14T11:08:31.2216080Z         path, geometry = prepared(client)
+check	Run make setup	2026-10-14T11:08:31.2216877Z         mesh = wait_job(client, submit(client, path)["id"])
+check	Run make setup	2026-10-14T11:08:31.2217744Z         original = wait_job(client, submit(client, path, mesh["id"])["id"])
+check	Run make setup	2026-10-14T11:08:31.2218748Z         measurements = [axial(client, original, mesh, 1000, 210e9)]
+check	Run make setup	2026-10-14T11:08:31.2271431Z         retained = {
+check	Run make setup	2026-10-14T11:08:31.2272196Z             name: client.get(f"/api/v1/jobs/{original['id']}/artifacts/{name}").content
+check	Run make setup	2026-10-14T11:08:31.2272684Z             for name in (
+check	Run make setup	2026-10-14T11:08:31.2273304Z                 "snapshot.json",
+check	Run make setup	2026-10-14T11:08:31.2273785Z                 "analysis.inp",
+check	Run make setup	2026-10-14T11:08:31.2274256Z                 "analysis.dat",
+check	Run make setup	2026-10-14T11:08:31.2274679Z                 "analysis.frd",
+check	Run make setup	2026-10-14T11:08:31.2275082Z                 "results.json",
+check	Run make setup	2026-10-14T11:08:31.2275450Z             )
+check	Run make setup	2026-10-14T11:08:31.2275771Z         }
+check	Run make setup	2026-10-14T11:08:31.2276155Z         copy = duplicate(client, path)
+check	Run make setup	2026-10-14T11:08:31.2276654Z         selected = choices(client, copy)
+check	Run make setup	2026-10-14T11:08:31.2277210Z         assert [item["job"]["id"] for item in selected["items"]] == [mesh["id"]]
+check	Run make setup	2026-10-14T11:08:31.2277663Z         contract = selected["compatibility_sha256"]
+check	Run make setup	2026-10-14T11:08:31.2278184Z         assert selected["items"][0]["mesh_sha256"] == mesh["artifacts"]["mesh.json"]["sha256"]
+check	Run make setup	2026-10-14T11:08:31.2278679Z         assert client.get(copy + "/jobs").json() == []
+check	Run make setup	2026-10-14T11:08:31.2278987Z         material = custom()
+check	Run make setup	2026-10-14T11:08:31.2279335Z         material["material"]["values"]["young_modulus"] = 420000
+check	Run make setup	2026-10-14T11:08:31.2279747Z         material["material"]["values"]["poisson_ratio"] = 0
+check	Run make setup	2026-10-14T11:08:31.2280055Z         assert (
+check	Run make setup	2026-10-14T11:08:31.2280272Z             client.put(
+check	Run make setup	2026-10-14T11:08:31.2280666Z                 copy + "/materials/" + geometry["bodies"][0]["id"],
+check	Run make setup	2026-10-14T11:08:31.2281022Z                 json=material,
+check	Run make setup	2026-10-14T11:08:31.2281309Z                 headers={"If-Match": '"1"'},
+check	Run make setup	2026-10-14T11:08:31.2281592Z             ).status_code
+check	Run make setup	2026-10-14T11:08:31.2281812Z             == 200
+check	Run make setup	2026-10-14T11:08:31.2282007Z         )
+check	Run make setup	2026-10-14T11:08:31.2282340Z         assert choices(client, copy)["compatibility_sha256"] == contract
+check	Run make setup	2026-10-14T11:08:31.2282817Z         run = wait_job(client, submit(client, copy, mesh["id"])["id"])
+check	Run make setup	2026-10-14T11:08:31.2283562Z         measurements.append(axial(client, run, mesh, 1000, 420e9))
+check	Run make setup	2026-10-14T11:08:31.2284097Z         frozen = client.get(f"/api/v1/jobs/{run['id']}/artifacts/snapshot.json").json()
+check	Run make setup	2026-10-14T11:08:31.2284581Z         assert frozen["mesh"]["job_id"] == mesh["id"]
+check	Run make setup	2026-10-14T11:08:31.2284992Z         assert frozen["mesh"]["compatibility_sha256"] == contract
+check	Run make setup	2026-10-14T11:08:31.2285473Z         assert frozen["snapshot"]["analysis"]["id"] != original["analysis_id"]
+check	Run make setup	2026-10-14T11:08:31.2285862Z         pressure = next(
+check	Run make setup	2026-10-14T11:08:31.2286449Z             a
+check	Run make setup	2026-10-14T11:08:31.2286807Z             for a in client.get(copy + "/loads").json()["setup"]["assignments"]
+check	Run make setup	2026-10-14T11:08:31.2287214Z             if a["kind"] == "pressure"
+check	Run make setup	2026-10-14T11:08:31.2287464Z         )
+check	Run make setup	2026-10-14T11:08:31.2287650Z         assert (
+check	Run make setup	2026-10-14T11:08:31.2288085Z             client.delete(copy + "/loads/" + pressure["id"], headers={"If-Match": '"2"'}).status_code
+check	Run make setup	2026-10-14T11:08:31.2288512Z             == 200
+check	Run make setup	2026-10-14T11:08:31.2288710Z         )
+check	Run make setup	2026-10-14T11:08:31.2289094Z         loaded = next(f["id"] for f in geometry["faces"] if f["signature"]["center_m"][0] == 1)
+check	Run make setup	2026-10-14T11:08:31.2289844Z         assign(client, copy, geometry, "pressure", [loaded], units="m-N-Pa", pressure=2000)
+check	Run make setup	2026-10-14T11:08:31.2290413Z         another = wait_job(client, submit(client, copy, mesh["id"])["id"])
+check	Run make setup	2026-10-14T11:08:31.2290901Z         measurements.append(axial(client, another, mesh, 2000, 420e9))
+check	Run make setup	2026-10-14T11:08:31.2291487Z         assert client.get(path + "/loads").json()["setup"]["assignments"][-1]["pressure_pa"] == 1000
+check	Run make setup	2026-10-14T11:08:31.2291972Z         for name, raw in retained.items():
+check	Run make setup	2026-10-14T11:08:31.2292475Z             assert client.get(f"/api/v1/jobs/{original['id']}/artifacts/{name}").content == raw
+check	Run make setup	2026-10-14T11:08:31.2292956Z         for item in [original, run, another]:
+check	Run make setup	2026-10-14T11:08:31.2293678Z             assert client.get(f"/api/v1/runs/{item['id']}/results").status_code == 200
+check	Run make setup	2026-10-14T11:08:31.2294222Z >       Path("work/T018-variant-measurements.json").write_text(
+check	Run make setup	2026-10-14T11:08:31.2294567Z             json.dumps(
+check	Run make setup	2026-10-14T11:08:31.2294793Z                 {
+check	Run make setup	2026-10-14T11:08:31.2295044Z                     "cases": measurements,
+check	Run make setup	2026-10-14T11:08:31.2295391Z                     "u_tolerance_m": 1e-13,
+check	Run make setup	2026-10-14T11:08:31.2295759Z                     "stress_tolerance_pa": 0.01,
+check	Run make setup	2026-10-14T11:08:31.2296103Z                     "compatibility_sha256": contract,
+check	Run make setup	2026-10-14T11:08:31.2296517Z                     "mesh_sha256": mesh["artifacts"]["mesh.json"]["sha256"],
+check	Run make setup	2026-10-14T11:08:31.2296907Z                     "original_raw_hashes": {
+check	Run make setup	2026-10-14T11:08:31.2297366Z                         name: hashlib.sha256(raw).hexdigest() for name, raw in retained.items()
+check	Run make setup	2026-10-14T11:08:31.2297765Z                     },
+check	Run make setup	2026-10-14T11:08:31.2297990Z                 },
+check	Run make setup	2026-10-14T11:08:31.2298204Z                 indent=2,
+check	Run make setup	2026-10-14T11:08:31.2298421Z             )
+check	Run make setup	2026-10-14T11:08:31.2298614Z             + "\n"
+check	Run make setup	2026-10-14T11:08:31.2298808Z         )
+check	Run make setup	2026-10-14T11:08:31.2298922Z 
+check	Run make setup	2026-10-14T11:08:31.2299085Z tests/native/test_analyses.py:131: 
+check	Run make setup	2026-10-14T11:08:31.2299499Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+check	Run make setup	2026-10-14T11:08:31.2300088Z /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/pathlib.py:1047: in write_text
+check	Run make setup	2026-10-14T11:08:31.2300708Z     with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+check	Run make setup	2026-10-14T11:08:31.2301194Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+check	Run make setup	2026-10-14T11:08:31.2301650Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+check	Run make setup	2026-10-14T11:08:31.2301892Z 
+check	Run make setup	2026-10-14T11:08:31.2302162Z self = PosixPath('work/T018-variant-measurements.json'), mode = 'w'
+check	Run make setup	2026-10-14T11:08:31.2302683Z buffering = -1, encoding = 'locale', errors = None, newline = None
+check	Run make setup	2026-10-14T11:08:31.2302942Z 
+check	Run make setup	2026-10-14T11:08:31.2303389Z     def open(self, mode='r', buffering=-1, encoding=None,
+check	Run make setup	2026-10-14T11:08:31.2303770Z              errors=None, newline=None):
+check	Run make setup	2026-10-14T11:08:31.2304033Z         """
+check	Run make setup	2026-10-14T11:08:31.2304380Z         Open the file pointed to by this path and return a file object, as
+check	Run make setup	2026-10-14T11:08:31.2304790Z         the built-in open() function does.
+check	Run make setup	2026-10-14T11:08:31.2305051Z         """
+check	Run make setup	2026-10-14T11:08:31.2305246Z         if "b" not in mode:
+check	Run make setup	2026-10-14T11:08:31.2305537Z             encoding = io.text_encoding(encoding)
+check	Run make setup	2026-10-14T11:08:31.2305994Z >       return io.open(self, mode, buffering, encoding, errors, newline)
+check	Run make setup	2026-10-14T11:08:31.2306647Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+check	Run make setup	2026-10-14T11:08:31.2307252Z E       FileNotFoundError: [Errno 2] No such file or directory: 'work/T018-variant-measurements.json'
+check	Run make setup	2026-10-14T11:08:31.2307633Z 
+check	Run make setup	2026-10-14T11:08:31.2307999Z /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/pathlib.py:1013: FileNotFoundError
+check	Run make setup	2026-10-14T11:08:31.2308590Z =========================== short test summary info ============================
+check	Run make setup	2026-10-14T11:08:31.2309690Z FAILED tests/native/test_analyses.py::test_real_duplicate_variants_reuse_exact_mesh_and_keep_old_runs - FileNotFoundError: [Errno 2] No such file or directory: 'work/T018-variant-measurements.json'
+check	Run make setup	2026-10-14T11:08:31.2310700Z 1 failed, 164 passed in 334.65s (0:05:34)
+check	Run make setup	2026-10-14T11:08:31.4136919Z Traceback (most recent call last):
+check	Run make setup	2026-10-14T11:08:31.4137965Z   File "/home/runner/work/OpenFEA/OpenFEA/scripts/dev/doctor.py", line 89, in <module>
+check	Run make setup	2026-10-14T11:08:31.4138937Z Platform: Linux x86_64; Python 3.12.14
+check	Run make setup	2026-10-14T11:08:31.4139497Z     raise SystemExit(main())
+check	Run make setup	2026-10-14T11:08:31.4139871Z                      ^^^^^^
+check	Run make setup	2026-10-14T11:08:31.4140539Z   File "/home/runner/work/OpenFEA/OpenFEA/scripts/dev/doctor.py", line 83, in main
+check	Run make setup	2026-10-14T11:08:31.4141252Z fastapi: 0.143.0
+check	Run make setup	2026-10-14T11:08:31.4141474Z pydantic: 2.14.1
+check	Run make setup	2026-10-14T11:08:31.4141679Z uvicorn: 0.54.0
+check	Run make setup	2026-10-14T11:08:31.4141883Z pytest: 9.1.1
+check	Run make setup	2026-10-14T11:08:31.4142083Z ruff: 0.17.0
+check	Run make setup	2026-10-14T11:08:31.4142272Z mypy: 2.4.0
+check	Run make setup	2026-10-14T11:08:31.4142549Z PASS: writable non-repository data root
+check	Run make setup	2026-10-14T11:08:31.4143373Z PASS: loopback HTTP round trip
+check	Run make setup	2026-10-14T11:08:31.4143901Z PASS: pinned CPU CCX and runtime library hashes verified
+check	Run make setup	2026-10-14T11:08:31.4144352Z PASS: isolated cad native geometry/I/O capability
+check	Run make setup	2026-10-14T11:08:31.4144779Z PASS: isolated mesh native geometry/I/O capability
+check	Run make setup	2026-10-14T11:08:31.4145204Z PASS: isolated post native geometry/I/O capability
+check	Run make setup	2026-10-14T11:08:31.4145769Z PASS: namespace-isolated STEP import, no-network/process filter and SI display
+check	Run make setup	2026-10-14T11:08:31.4146504Z     subprocess.run([sys.executable, "-m", "pytest", "tests/native", "-q"], cwd=ROOT, check=True)
+check	Run make setup	2026-10-14T11:08:31.4147221Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/subprocess.py", line 571, in run
+check	Run make setup	2026-10-14T11:08:31.4147786Z     raise CalledProcessError(retcode, process.args,
+check	Run make setup	2026-10-14T11:08:31.4148754Z subprocess.CalledProcessError: Command '['/home/runner/work/OpenFEA/OpenFEA/.venv/bin/python', '-m', 'pytest', 'tests/native', '-q']' returned non-zero exit status 1.
+check	Run make setup	2026-10-14T11:08:31.4293324Z make: *** [Makefile:18: setup] Error 1
+check	Run make setup	2026-10-14T11:08:31.4308862Z ##[error]Process completed with exit code 2.

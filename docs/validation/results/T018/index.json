@@ -1,0 +1,312 @@
+{
+  "artifacts": {
+    "browser-affected.log": {
+      "sha256": "38cdd9b69c384eb2c2f9b709bfed6104c86ce78e237c304e5df87f441c191ee6",
+      "size_bytes": 1316
+    },
+    "browser-full.log": {
+      "sha256": "9b6bf5f973221bb1f35395c06b1c125f53fe7e877a861503b5bd34451fae51ed",
+      "size_bytes": 7783
+    },
+    "browser-initial.log": {
+      "sha256": "8751097ea2f77b1c7489041f8796866e34ca1c28168460e11d08e62005d5c267",
+      "size_bytes": 2286
+    },
+    "check-build-smoke.log": {
+      "sha256": "20334f1619fbc09e55758dd91288411fbacf78eb19522601057a8eaffecbb2a4",
+      "size_bytes": 4242
+    },
+    "ci-fix-static.log": {
+      "sha256": "1a46300f83da0076fb1b6dc51fe7c4c8b8b9e9332aaf9b31d8be697f13ea5187",
+      "size_bytes": 487
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "fresh-cwd-replay.log": {
+      "sha256": "9ed65f73f172020f152901dffbed79a8d179a5b109d732f9d86a6b1df694e29c",
+      "size_bytes": 399
+    },
+    "handoff-check.log": {
+      "sha256": "573c354407e362f1c161a7d1382ef886dd450e396de225150a2e56e10d4b71f7",
+      "size_bytes": 3157
+    },
+    "hosted-fresh-checkout-failure.log": {
+      "sha256": "6c6113e514056ccee10922c418b948e96f564cb893f9b6aa02ad31fc970b8638",
+      "size_bytes": 17165
+    },
+    "independent-variant.png": {
+      "sha256": "f42e8d9112ebec1047de5c06296c2e2d4da55ea534aa6fbbf6e9dabb9f849680",
+      "size_bytes": 62167
+    },
+    "integration.log": {
+      "sha256": "393efe0ad648a1224c0300d1f3e620f62805ce2b90caefff59f6e20fd0c0cc80",
+      "size_bytes": 1166
+    },
+    "native-final.log": {
+      "sha256": "bdffdd2be0962b103921cd65b93e68bef376683a946f48dbc3503e93c779fa1f",
+      "size_bytes": 400
+    },
+    "native-initial.log": {
+      "sha256": "59835850f359b8c443f8efa85a710a9b98063ad1771c421e1785cb60c78d61b5",
+      "size_bytes": 5323
+    },
+    "native.log": {
+      "sha256": "7a3379a6b806ef8d14deebf5227a19885eedd2b11450cef6bbacd0afe919cc48",
+      "size_bytes": 1962
+    },
+    "unavailable-before.log": {
+      "sha256": "b2ad9a7f4617578a737f98c047bbde8e55866f123a24f8c5e0663cbe1897f07d",
+      "size_bytes": 8249
+    },
+    "variant-measurements.json": {
+      "sha256": "4a8562e0e16166c58c87305742cfc3955dd21021d99d8d7f3b59f810394281f0",
+      "size_bytes": 1040
+    },
+    "variant-setup.png": {
+      "sha256": "1c7a93e512b7d111cd3e6847110bea5929c3f9b933317b2af04e4b3001b06942",
+      "size_bytes": 70398
+    }
+  },
+  "base_commit": "20a0d64edd978209bdaf04f1b21fc3a0908314e8",
+  "commands": [
+    {
+      "command": "Actual native variant test from an empty working directory with explicit root pytest config",
+      "log": "fresh-cwd-replay.log",
+      "result": "1 pass, all three solves; output directory created independently"
+    },
+    {
+      "command": "make lint typecheck after test-only CI correction",
+      "log": "ci-fix-static.log",
+      "result": "PASS"
+    },
+    {
+      "command": "make check after final evidence generation/formatting",
+      "log": "handoff-check.log",
+      "result": "PASS: 297 Python / 28 TypeScript / static / contracts / docs"
+    },
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "PASS"
+    },
+    {
+      "command": "make check build smoke",
+      "log": "check-build-smoke.log",
+      "result": "PASS"
+    },
+    {
+      "command": "make test-native",
+      "log": "native.log",
+      "result": "165 pass / 0 fail / 0 skip"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_analyses.py",
+      "log": "native-final.log",
+      "result": "8 pass after final unavailable-tool handler"
+    },
+    {
+      "command": "make test-integration",
+      "log": "integration.log",
+      "result": "16 pass / 0 fail / 0 skip"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-full.log",
+      "result": "initial full 30 pass / two duplicate-alert failures; corrected affected replay covers both"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=\"$PWD/.local/browsers\" npm run test:e2e -- tests/e2e/analyses.spec.ts tests/e2e/loads.spec.ts tests/e2e/materials.spec.ts tests/e2e/runs.spec.ts",
+      "log": "browser-affected.log",
+      "result": "7 pass / 0 fail / 0 skip"
+    }
+  ],
+  "date": "2026-10-14",
+  "final_distinct_passes": {
+    "chromium": 32,
+    "integration": 16,
+    "native": 165,
+    "python_unit": 297,
+    "remaining_failed": 0,
+    "remaining_skipped": 0,
+    "total": 538,
+    "typescript_unit": 28
+  },
+  "final_verification_source_commit": "5066659d982b8e574ae0e30c9a5a2bcad2ff4a37",
+  "hosted_initial_failure": {
+    "correction": "test-only parent mkdir; clean-working-directory actual native replay passes",
+    "result": "164 native pass; variant numerical/history assertions pass but summary write fails without work directory",
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38553500440"
+  },
+  "implementation_commit": "51050ee44d35b99ce33b86c45591699d9047dbdc",
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "m2_technical_exit": "PASS for bounded local development; existing owner/laptop/benchmark deferrals retained",
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "numerical_measurements": {
+    "cases": [
+      {
+        "displacement_error_m": 4.778911572789183e-16,
+        "stress_error_pa": 3.649861e-12
+      },
+      {
+        "displacement_error_m": 4.821428571488396e-16,
+        "stress_error_pa": 3.649861e-12
+      },
+      {
+        "displacement_error_m": 4.778911572789183e-16,
+        "stress_error_pa": 7.299722e-12
+      }
+    ],
+    "compatibility_sha256": "230922cbd94f4c7aad2c297572753ee24b01be0f79a6976dd4ae4c881fa99cee",
+    "mesh_sha256": "dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e",
+    "original_raw_hashes": {
+      "analysis.dat": "f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0",
+      "analysis.frd": "f28cbf1ecb0d3b3110996a330ff60c0d1d4b32b9b50eb6cd82ad69e50737d3e5",
+      "analysis.inp": "c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b",
+      "results.json": "9c11198e66c5130765455edcfe91f7d770f280c57983f00b7dd0ed0493508211",
+      "snapshot.json": "3ea831f5ceb39bde81bf13630ee4ba95613a69aae39f6be859e7e8571e1659de"
+    },
+    "stress_tolerance_pa": 0.01,
+    "u_tolerance_m": 1e-13
+  },
+  "source_files": {
+    "apps/web/src/geometry/Workspace.tsx": {
+      "sha256": "d9653f17ca845534b904dcf667f4edc5e22de4d066898d3f497c21d1c39c08de",
+      "size_bytes": 24563
+    },
+    "apps/web/src/materials/MaterialsEditor.tsx": {
+      "sha256": "00fa15042ad64c0219030e888cf322ab6f4769b8281feea792291ec71197d8aa",
+      "size_bytes": 13229
+    },
+    "apps/web/src/runs/RunsEditor.tsx": {
+      "sha256": "f14179a47aad10d6dc4fca8c07c812c37c553ca8060942db308d7fae778cd4c1",
+      "size_bytes": 13986
+    },
+    "apps/web/src/workspace/EditToolbar.tsx": {
+      "sha256": "779467d4857f6a27e14af5838ed208516144db145f4fb7280d2f1d984a86b5d2",
+      "size_bytes": 11157
+    },
+    "packages/contracts/api.d.ts": {
+      "sha256": "ca0febf9838d3b81b558bba423d142d338efecd1da6b43deaaffd875ab5d8a92",
+      "size_bytes": 320090
+    },
+    "packages/contracts/openapi.json": {
+      "sha256": "5483bea92d5065adf22eef389e030541283d7d7d4ec4cedeeb489547a50a7bbd",
+      "size_bytes": 409278
+    },
+    "services/api/app/domain/jobs.py": {
+      "sha256": "544bbd92895ce2c78049bf7769cb1ade0bcee7c74ab2fccb39d85ceea08358f4",
+      "size_bytes": 2581
+    },
+    "services/api/app/domain/mesh_reuse.py": {
+      "sha256": "096daaf58bac431c6f1fd19685961e923d9a3c7b3b0e6f32747888dd701e757c",
+      "size_bytes": 908
+    },
+    "services/api/app/domain/models.py": {
+      "sha256": "1cdd4d681c721ff90b5993eaa74b5daa9dc2961ff52c6a184d91f7b852519e9d",
+      "size_bytes": 5080
+    },
+    "services/api/app/jobs/service.py": {
+      "sha256": "3ecd4f36952a1b51daa71db1df07c19cfe5dce24a5a4642a0f8815059ed4d281",
+      "size_bytes": 19445
+    },
+    "services/api/app/persistence/jobs.py": {
+      "sha256": "036bd9e235fec4782d61a520ca5a316a09e4a901896f88599e1fffe120510692",
+      "size_bytes": 17648
+    },
+    "services/api/app/persistence/repository.py": {
+      "sha256": "c0e3fe8064956fc670323511104ec18fd5dfdf61043782f396d891486e9f175e",
+      "size_bytes": 33500
+    },
+    "services/api/app/routes/jobs.py": {
+      "sha256": "d647ca5ef7b172a246bdd218dc9a4a3ea30621329190731dc134a624dfd00888",
+      "size_bytes": 4290
+    },
+    "services/api/app/routes/projects.py": {
+      "sha256": "71288cef28b8fa8e4681522aa36a366ebe67af8b1581b8f376bf77c9f23db005",
+      "size_bytes": 6743
+    },
+    "tests/e2e/analyses.spec.ts": {
+      "sha256": "ca9a350f00308f636998e92992ae08fc5d2275edac3fb71512fac580733e98a5",
+      "size_bytes": 6553
+    },
+    "tests/integration/test_analyses.py": {
+      "sha256": "4a4b6e5c113baef0e06c153ea48575aff91e35c79320d59650dc458b8ab6db09",
+      "size_bytes": 2504
+    },
+    "tests/native/test_analyses.py": {
+      "sha256": "da26b513f6b7985bf4d208965daa2f2e3b37dd0c27562f35d11425abcf03b97e",
+      "size_bytes": 9852
+    },
+    "tests/unit/test_analyses.py": {
+      "sha256": "fd5c0adcf4e695e4af96b4584472da12a8ae0ffbd4f7b82f7d23456b7fab982d",
+      "size_bytes": 9587
+    }
+  },
+  "task": "T018",
+  "timezone": "Asia/Calcutta",
+  "unexecuted": [
+    "Windows Chrome/Edge",
+    "owner laptop / headed GPU / maximum interactive capacity / formal usability",
+    "engineering-owner benchmark signatures",
+    "M3-M4 acceptance",
+    "general assembly / curved solving / convergence / reports / release security",
+    "deployment / AWS / Google auth / billing"
+  ],
+  "versions": {
+    "browser": "Chromium headless / software WebGL",
+    "ccx": "2.23",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux x86_64",
+    "playwright": "1.64.0",
+    "python": "3.12.14",
+    "uv": "0.12.23"
+  },
+  "visual_review": ["variant-setup.png", "independent-variant.png"],
+  "worker_numerical_sources_unchanged": true
+}

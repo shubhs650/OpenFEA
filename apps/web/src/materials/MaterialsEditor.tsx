@@ -212,6 +212,18 @@ export function MaterialsEditor({
           ))}
         </select>
       </label>
+      <button
+        disabled={busy}
+        onClick={() => {
+          void api<{ items: Analysis[]; total: number }>(
+            `/projects/${project.id}/analyses?limit=100`,
+          )
+            .then((page) => setAnalyses(page.items))
+            .catch((e: Error) => setError(e.message));
+        }}
+      >
+        Refresh analyses (keep selected setup)
+      </button>
       <label>
         New analysis name
         <input

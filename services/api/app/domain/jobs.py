@@ -29,6 +29,7 @@ class RunRequest(StrictModel):
 class MeshSource(StrictModel):
     job_id: UUID
     sha256: Hash
+    compatibility_sha256: Hash | None = None
 
 
 class JobInput(StrictModel):
@@ -77,6 +78,20 @@ class LocalJob(StrictModel):
     summary: dict[str, JsonValue]
     artifacts: dict[str, Artifact]
     events: list[JobEvent]
+
+
+class CompatibleMesh(StrictModel):
+    job: LocalJob
+    source_analysis_name: str
+    compatibility_sha256: Hash
+    mesh_sha256: Hash
+
+
+class MeshCandidates(StrictModel):
+    analysis_id: UUID
+    analysis_revision: int
+    compatibility_sha256: Hash
+    items: list[CompatibleMesh]
 
 
 class MeshPreview(StrictModel):

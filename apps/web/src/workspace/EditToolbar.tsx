@@ -30,6 +30,8 @@ export function EditToolbar({
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [createdCopy, setCreatedCopy] = useState("");
+  const [copyName, setCopyName] = useState("");
+  const [sourceRevision, setSourceRevision] = useState("");
   const [notice, setNotice] = useState("");
   useEffect(() => {
     let current = true;
@@ -40,6 +42,8 @@ export function EditToolbar({
           if (current) {
             setLoaded(a);
             setName(a.name);
+            setCopyName(`${a.name} copy`.slice(0, 200));
+            setSourceRevision("");
             observeRevision(a.id, a.revision);
           }
         })
@@ -127,6 +131,34 @@ export function EditToolbar({
     } catch (e) {
       setError((e as Error).message);
       invalidateEdits(analysisId);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function duplicateSetup() {
+    setBusy(true);
+    setError("");
+    try {
+      const copy = await mutate<Analysis>(
+        `/analyses/${analysisId}/duplicates`,
+        edits.revision,
+        {
+          source_revision:
+            sourceRevision === "" ? edits.revision : Number(sourceRevision),
+          name: copyName,
+        },
+      );
+      selectCopy(copy.id);
+      setNotice(
+        "Saved setup duplicated. Geometry is shared; materials, sizing, loads and run history are independent. Review a compatible mesh before solving.",
+      );
+    } catch (e) {
+      setError(
+        (e as Error).message +
+          " The copy was not acknowledged. Refresh the analysis list before retrying.",
+      );
+      if ((e as { code?: string }).code === "stale_revision")
+        invalidateEdits(analysisId);
     } finally {
       setBusy(false);
     }
@@ -220,6 +252,51 @@ export function EditToolbar({
           >
             Undo last setup edit
           </button>
+          <details>
+            <summary>Duplicate saved setup</summary>
+            <label>
+              New duplicate analysis name
+              <input
+                maxLength={200}
+                value={copyName}
+                disabled={busy}
+                onChange={(e) => setCopyName(e.target.value)}
+              />
+            </label>
+            <label>
+              Source setup revision (empty uses current saved revision)
+              <input
+                type="number"
+                min={1}
+                max={edits.revision}
+                step={1}
+                value={sourceRevision}
+                disabled={busy}
+                onChange={(e) => setSourceRevision(e.target.value)}
+              />
+            </label>
+            <p>
+              Copies saved geometry references, display units, materials,
+              loads/supports and mesh controls. Jobs/results stay with their
+              original analysis. Unsaved drafts must be applied or cancelled
+              first.
+            </p>
+            <button
+              disabled={
+                busy ||
+                edits.phase !== "saved" ||
+                !!edits.dirty.length ||
+                !copyName.trim() ||
+                (sourceRevision !== "" &&
+                  (!Number.isInteger(Number(sourceRevision)) ||
+                    Number(sourceRevision) < 1 ||
+                    Number(sourceRevision) > edits.revision))
+              }
+              onClick={() => void duplicateSetup()}
+            >
+              Duplicate analysis setup
+            </button>
+          </details>
           <button
             disabled={busy}
             onClick={() => {

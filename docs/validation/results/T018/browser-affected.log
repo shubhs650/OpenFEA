@@ -1,0 +1,18 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/analyses.spec.ts tests/e2e/loads.spec.ts tests/e2e/materials.spec.ts tests/e2e/runs.spec.ts
+
+
+Running 7 tests using 1 worker
+
+(node:17109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/analyses.spec.ts:31:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history (17.1s)
+  ✓  2 tests/e2e/analyses.spec.ts:107:1 › two real browser tabs keep analyses independent and refuse stale duplication (10.2s)
+  ✓  3 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (10.3s)
+  ✓  4 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (7.9s)
+  ✓  5 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (11.1s)
+  ✓  6 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (10.7s)
+  ✓  7 tests/e2e/runs.spec.ts:70:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (11.6s)
+
+  7 passed (1.4m)

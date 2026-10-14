@@ -38,6 +38,7 @@ export function Workspace() {
   const [qualityOverlay, setQualityOverlay] = useState(false);
   const [editorEpoch, setEditorEpoch] = useState(0);
   const [editingPreview, setEditingPreview] = useState(false);
+  const [meshForAnalysis, setMeshForAnalysis] = useState("");
   const [meshShownRevision, setMeshShownRevision] = useState(0);
   const [meshPreview, setMeshPreview] = useState<MeshPreview | null>(null);
   const [resultPresentation, setResultPresentation] =
@@ -245,7 +246,8 @@ export function Workspace() {
       ? display
       : null;
   const activeMesh =
-    meshPreview?.analysis_id === analysisId &&
+    meshPreview &&
+    meshForAnalysis === analysisId &&
     meshShownRevision === edits.revision &&
     meshPreview.geometry_revision_id === geometry?.id
       ? meshPreview
@@ -691,6 +693,7 @@ export function Workspace() {
             showMesh={(mesh) => {
               setResultPresentation(null);
               setMeshPreview(mesh);
+              setMeshForAnalysis(analysisId);
               setMeshShownRevision(edits.revision);
               setQualityOverlay(mesh?.quality?.accepted === false);
             }}

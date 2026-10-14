@@ -1,0 +1,49 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/analyses.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:12309) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/analyses.spec.ts:29:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history (24.4s)
+(node:12665) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/analyses.spec.ts:103:1 › two real browser tabs keep analyses independent and refuse stale duplication (45.2s)
+
+
+  1) tests/e2e/analyses.spec.ts:29:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByLabel('Result field viewport')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByLabel('Result field viewport') with timeout 5000ms
+      - waiting for getByLabel('Result field viewport')
+
+
+      64 |     .getByRole("button", { name: "View selected results", exact: true })
+      65 |     .click();
+    > 66 |   await expect(page.getByLabel("Result field viewport")).toBeVisible();
+         |                                                          ^
+      67 |   const view = await (
+      68 |     await page.request.get(`/api/v1/runs/${variantRun.id}/results`)
+      69 |   ).json();
+        at /workspace/OpenFEA/tests/e2e/analyses.spec.ts:66:58
+
+    Error Context: test-results/analyses-independent-dupli-2d982-serves-original-run-history/error-context.md
+
+  2) tests/e2e/analyses.spec.ts:103:1 › two real browser tabs keep analyses independent and refuse stale duplication 
+
+    Test timeout of 45000ms exceeded.
+
+    Error Context: test-results/analyses-two-real-browser--e1d3e-nd-refuse-stale-duplication/error-context.md
+
+  2 failed
+    tests/e2e/analyses.spec.ts:29:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history 
+    tests/e2e/analyses.spec.ts:103:1 › two real browser tabs keep analyses independent and refuse stale duplication 

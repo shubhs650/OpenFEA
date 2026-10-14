@@ -696,11 +696,26 @@ class Repository:
         self, owner: UUID, analysis: UUID, expected: int, source_revision: int, name: str
     ) -> Analysis:
         """Fork the session's observed setup only after a real revision conflict."""
+        return self.duplicate_analysis(
+            owner, analysis, expected, source_revision, name, conflict=True
+        )
+
+    def duplicate_analysis(
+        self,
+        owner: UUID,
+        analysis: UUID,
+        expected: int,
+        source_revision: int,
+        name: str,
+        *,
+        conflict: bool = False,
+    ) -> Analysis:
+        """Copy trusted complete setup in one transaction; never copy jobs or artifacts."""
         with self.write() as connection:
             current = self._analysis(connection, owner, analysis)
             if current.revision != expected:
                 raise stale_revision()
-            if source_revision >= current.revision:
+            if conflict and source_revision >= current.revision:
                 raise DomainError(
                     409, "conflict_required", "Only a superseded revision can be copied"
                 )

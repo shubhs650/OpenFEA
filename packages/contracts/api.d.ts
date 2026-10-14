@@ -22,6 +22,23 @@ export interface paths {
         patch: operations["edit_analysis_api_v1_analyses__analysis_id__patch"];
         trace?: never;
     };
+    "/api/v1/analyses/{analysis_id}/compatible-meshes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Compatible Meshes */
+        get: operations["compatible_meshes_api_v1_analyses__analysis_id__compatible_meshes_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/analyses/{analysis_id}/conflict-copies": {
         parameters: {
             query?: never;
@@ -89,6 +106,23 @@ export interface paths {
         head?: never;
         /** Set Display Units */
         patch: operations["set_display_units_api_v1_analyses__analysis_id__display_units_patch"];
+        trace?: never;
+    };
+    "/api/v1/analyses/{analysis_id}/duplicates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Duplicate Analysis */
+        post: operations["duplicate_analysis_api_v1_analyses__analysis_id__duplicates_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/analyses/{analysis_id}/jobs": {
@@ -943,6 +977,13 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** AnalysisDuplicate */
+        AnalysisDuplicate: {
+            /** Name */
+            name: string;
+            /** Source Revision */
+            source_revision: number;
+        };
         /** AnalysisPage */
         AnalysisPage: {
             /** Items */
@@ -1140,6 +1181,16 @@ export interface components {
                 number,
                 number
             ];
+        };
+        /** CompatibleMesh */
+        CompatibleMesh: {
+            /** Compatibility Sha256 */
+            compatibility_sha256: string;
+            job: components["schemas"]["LocalJob"];
+            /** Mesh Sha256 */
+            mesh_sha256: string;
+            /** Source Analysis Name */
+            source_analysis_name: string;
         };
         /** ConflictCopy */
         ConflictCopy: {
@@ -2274,6 +2325,20 @@ export interface components {
             /** Young Modulus */
             young_modulus: number;
         };
+        /** MeshCandidates */
+        MeshCandidates: {
+            /**
+             * Analysis Id
+             * Format: uuid
+             */
+            analysis_id: string;
+            /** Analysis Revision */
+            analysis_revision: number;
+            /** Compatibility Sha256 */
+            compatibility_sha256: string;
+            /** Items */
+            items: components["schemas"]["CompatibleMesh"][];
+        };
         /** MeshControls */
         MeshControls: {
             /**
@@ -3050,6 +3115,121 @@ export interface operations {
             };
         };
     };
+    compatible_meshes_api_v1_analyses__analysis_id__compatible_meshes_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MeshCandidates"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
     conflict_copy_api_v1_analyses__analysis_id__conflict_copies_post: {
         parameters: {
             query?: never;
@@ -3547,6 +3727,126 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MaterialState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    duplicate_analysis_api_v1_analyses__analysis_id__duplicates_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AnalysisDuplicate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Analysis"];
                 };
             };
             /** @description Unauthorized */
