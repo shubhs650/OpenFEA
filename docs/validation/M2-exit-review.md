@@ -1,3 +1,19 @@
 # M2 technical exit review — complete bounded single-part setup
 
-Status: REVIEW IN PROGRESS. The full native/browser/restart gates are running. No exit pass is claimed yet. Existing owner benchmark/laptop deferrals remain preserved.
+Date: 2026-10-14 (Asia/Calcutta)
+Disposition: **TECHNICAL EXIT PASS for the bounded local development slice**. T013–T018 are complete. Engineering-owner benchmark signatures and target-laptop/Windows acceptance retain the [owner decision](M0-owner-decision.md)'s explicit deferrals through M4/T030. This does not declare the validated M4 product complete.
+
+The current full regression and [T018 evidence](T018.md) verify **538 distinct passing cases, 0 remaining failures/skips**: 297 Python, 28 TypeScript, 165 actual native, 16 actual-process integration and 32 Chromium. Final affected/native replays are identified separately from the original failures and are not double counted. Existing numerical/quality/equilibrium/resource thresholds and dependency/native locks are unchanged.
+
+| M2 exit requirement | Executed evidence | Boundary |
+| --- | --- | --- |
+| Supported cleanup preview/apply/undo and conservative reference invalidation | Native geometry-edit suite and both real cleanup browser flows; [T013](T013.md) | Two validated synthetic feature classes; unresolved whole assignments block compute until review. No general healing. |
+| Revisioned local/global sizing, curvature, complete quadratic quality and explicit bounded recovery | Native mesh-controls/full-domain-quality suites and three browser mesh workflows; [T014](T014.md) | Existing 3,000-cell local cap; curved previews do not certify curved solving. No silent coarsening or widened quality. |
+| Essential supports/gravity, equilibrium and signed geometry directions/symmetry | Actual B03–B06/native action/constraint suites and direction/gravity browser solves; [T015](T015.md), [T016](T016.md) | Complete supports, native basis/sign, global raw outputs, force/moment certificates and curved-symmetry refusal remain mandatory. Owner signatures pending. |
+| Hybrid checklist, acknowledged edits, conflicts, session undo, themes and keyboard selection | Five workspace workflows, units/material/load conflicts and real saved setup restoration; [T017](T017.md) | Session history bounded; geometry changes invalidate references; actual light/dark target-size evidence is Linux Chromium. |
+| Independent analyses and saved/historical duplication | Fifteen unit, eight native, one restart and two new browser cases; [T018](T018.md) | Trusted stored setup copies, owner/head guards, no inherited job/results and exact pinned geometry. |
+| Exact compatible mesh reuse and immutable old runs | Same mesh used for three actual analytical variants; stale geometry/size/local/curvature/policy/corruption refusal; actual process/browser history | Same owned project only, exact physical/tool hash plus verified immutable bytes and independent admission. Original raw snapshot/deck/DAT/FRD/results unchanged. |
+
+The real local path now supports immutable STEP geometry, bounded cleanup and explicit reference review, independent geometry-pinned analyses, SI/provenance materials, essential global/native-direction loads/supports/gravity, controlled quadratic meshing, exact compatible connectivity reuse, frozen native solves and truthful core result/history views. Source and copy edits are independent, including in concurrent browser tabs. No successful result can bypass native output/quality/equilibrium validation.
+
+Open obligations stay explicit: engineering-owner reference criteria/signatures, target Windows Chrome/Edge/laptop/headed-GPU/performance/usability acceptance, general supported defeaturing, general curved solving and the later M3 assembly/full-field/probe/section/refinement gates. No unrun benchmark is counted as passed. B08 and other later references, reports/archives/local resource acceptance and cloud/auth/billing remain their dependency-ordered tasks. T019 is the next task; no M3 implementation or merge is included in this T018 PR.

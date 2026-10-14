@@ -1,0 +1,27 @@
+{
+  "cases": [
+    {
+      "displacement_error_m": 4.778911572789183e-16,
+      "stress_error_pa": 3.649861e-12
+    },
+    {
+      "displacement_error_m": 4.821428571488396e-16,
+      "stress_error_pa": 3.649861e-12
+    },
+    {
+      "displacement_error_m": 4.778911572789183e-16,
+      "stress_error_pa": 7.299722e-12
+    }
+  ],
+  "u_tolerance_m": 1e-13,
+  "stress_tolerance_pa": 0.01,
+  "compatibility_sha256": "230922cbd94f4c7aad2c297572753ee24b01be0f79a6976dd4ae4c881fa99cee",
+  "mesh_sha256": "dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e",
+  "original_raw_hashes": {
+    "snapshot.json": "3ea831f5ceb39bde81bf13630ee4ba95613a69aae39f6be859e7e8571e1659de",
+    "analysis.inp": "c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b",
+    "analysis.dat": "f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0",
+    "analysis.frd": "f28cbf1ecb0d3b3110996a330ff60c0d1d4b32b9b50eb6cd82ad69e50737d3e5",
+    "results.json": "9c11198e66c5130765455edcfe91f7d770f280c57983f00b7dd0ed0493508211"
+  }
+}
