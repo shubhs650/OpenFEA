@@ -13,6 +13,21 @@ from worker.runtime import NATIVE, verified_tool
 from worker.step_import import ImportSandboxError
 
 
+class SolverSingularity(ValueError):
+    pass
+
+
+def check_numerical_log(log: str) -> None:
+    if re.search(
+        r"singular|zero pivot|negative pivot|not positive definite|rigid.body.mode", log, re.I
+    ):
+        raise SolverSingularity(
+            "Native solver reported singular/indefinite stiffness or a "
+            "rigid-body mode. Review supports and connections; "
+            "no weak springs or solver substitution."
+        )
+
+
 def solve_snapshot(input_path: Path, output: Path, control: NativeControl) -> dict[str, Any]:
     bwrap = shutil.which("bwrap")
     if bwrap is None:
@@ -63,6 +78,7 @@ def validate_outputs(
     mesh_hash: str,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     log = (output / "solver.log").read_text(errors="replace")
+    check_numerical_log(log)
     if execution["returncode"] != 0 or "Job finished" not in log:
         raise ValueError("Solver did not complete")
     if re.search(

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID, uuid4
 
+from app.domain.assembly import validate_solution
 from app.domain.deck_service import canonical, deck_for
 from app.domain.errors import DomainError
 from app.domain.jobs import Artifact, JobInput, LocalJob, Status
@@ -18,7 +19,13 @@ from app.jobs.service import JobService
 from worker.actions import external_balance
 from worker.deck_mesh import MeshFailure
 from worker.local_process import NativeControl, NativeStop, fence
-from worker.local_solve import result_mesh, solve_snapshot, validate_outputs
+from worker.local_solve import (
+    SolverSingularity,
+    check_numerical_log,
+    result_mesh,
+    solve_snapshot,
+    validate_outputs,
+)
 from worker.mesh_quality import mesh_quality
 from worker.step_import import ImportSandboxError
 
@@ -212,12 +219,22 @@ class LocalWorker:
                     snapshot.materials,
                     snapshot.loads,
                     inputs.display,
+                    snapshot.bonds,
                 )
                 if quality["all_affine"] and not preview.blockers:
-                    deck, detail = deck_for(snapshot, mesh, preview, stress_coordinates=True)
-                    summary.update(detail)
-                    (directory / "analysis.inp").write_text(deck)
-                    paths["analysis.inp"] = directory / "analysis.inp"
+                    try:
+                        deck, detail = deck_for(snapshot, mesh, preview, stress_coordinates=True)
+                        summary.update(detail)
+                        (directory / "analysis.inp").write_text(deck)
+                        paths["analysis.inp"] = directory / "analysis.inp"
+                    except DomainError as error:
+                        if not snapshot.bonds.assignments or error.code not in (
+                            "assembly_preflight",
+                            "dependent_dof_load",
+                        ):
+                            raise
+                        summary["warnings"] = ["Mesh preview only: " + error.message]
+                        summary["solve_blockers"] = [error.message]
                 else:
                     summary["warnings"] = [
                         "Mesh preview only: complete setup and validated "
@@ -243,6 +260,7 @@ class LocalWorker:
                 execution = solve_snapshot(
                     directory / "analysis.inp", directory / "output", control
                 )
+                check_numerical_log((directory / "output/solver.log").read_text(errors="replace"))
                 if execution["returncode"] != 0:
                     raise ImportSandboxError("Native solver exited with an error")
                 self.repository.pulse(job.id, token, stage="validating")
@@ -258,12 +276,24 @@ class LocalWorker:
                     inputs.deck_sha256,
                     inputs.mesh.sha256,
                 )
+                assembly = validate_solution(
+                    snapshot,
+                    json.loads(raw_mesh),
+                    (directory / "analysis.inp").read_text(),
+                    result,
+                    summary,
+                )
+                result["assembly"] = assembly
+                summary["assembly"] = assembly
+                (directory / "assembly.json").write_bytes(canonical(assembly))
+                paths["assembly.json"] = directory / "assembly.json"
                 reference = load_state(
                     snapshot.analysis,
                     snapshot.geometry,
                     snapshot.materials,
                     snapshot.loads,
                     inputs.display,
+                    snapshot.bonds,
                 ).model_dump(mode="json")
                 reference["equilibrium_policy"] = inputs.policy["equilibrium"]
                 equilibrium, _ = external_balance(
@@ -302,6 +332,8 @@ class LocalWorker:
             )
             reason = "worker_shutdown" if self.stop.is_set() else error.reason
             message = "Native execution stopped; no validated result was published"
+        except SolverSingularity as error:
+            reason, message = "solver_singular", str(error)
         except DomainError as error:
             reason, message = error.code, error.message
         except MeshFailure as error:

@@ -5,6 +5,7 @@ import json
 from typing import Any
 from uuid import UUID, uuid4
 
+from app.domain.connections import AssemblyPreflight
 from app.domain.deck_service import DeckService, canonical, deck_for
 from app.domain.errors import DomainError, not_found, stale_revision
 from app.domain.imports import FaceDisplay, GeometryDisplay
@@ -16,7 +17,7 @@ from app.domain.jobs import (
     MeshPreview,
     MeshSource,
 )
-from app.domain.loads import load_state
+from app.domain.loads import DeckSnapshot, load_state
 from app.domain.materials import body_status
 from app.domain.mesh_reuse import compatibility_hash, physical_controls
 from app.domain.results import ResultData, ResultView
@@ -91,42 +92,16 @@ class JobService:
             ) from None
         source, deck_hash = None, None
         if mesh_job is not None:
-            mesh_state = self.repository.get(owner, mesh_job)
-            if (
-                mesh_state.kind != "mesh"
-                or mesh_state.status != "succeeded"
-                or mesh_state.project_id != snapshot.analysis.project_id
-                or mesh_state.geometry_revision_id != snapshot.geometry.id
-            ):
-                raise DomainError(
-                    422,
-                    "incompatible_mesh",
-                    "Select a completed mesh in this project for this exact geometry revision",
-                )
-            previous = self.repository.inputs(owner, mesh_job)
-
-            if physical_controls(previous.snapshot) != physical_controls(snapshot):
-                raise DomainError(
-                    422,
-                    "incompatible_mesh_controls",
-                    "Sizing or curvature changed. Generate a new mesh before solving",
-                )
-            if previous.policy != policy:
-                raise DomainError(
-                    409,
-                    "tool_contract_changed",
-                    "Regenerate the mesh with the current tool contract",
-                )
-            expected_hash = compatibility_hash(snapshot, policy)
-            if compatibility_hash(previous.snapshot, previous.policy) != expected_hash:
-                raise DomainError(422, "incompatible_mesh", "Mesh compatibility hash differs")
-            self.verified_inputs(owner, mesh_state)
-            mesh_artifact = mesh_state.artifacts.get("mesh.json")
-            if mesh_artifact is None:
-                raise not_found()
-            mesh = json.loads(self.artifact(owner, mesh_job, "mesh.json")[0])
+            mesh_state, mesh_artifact, mesh, expected_hash = self.validated_mesh(
+                owner, snapshot, policy, mesh_job
+            )
             preview = load_state(
-                snapshot.analysis, snapshot.geometry, snapshot.materials, snapshot.loads, display
+                snapshot.analysis,
+                snapshot.geometry,
+                snapshot.materials,
+                snapshot.loads,
+                display,
+                snapshot.bonds,
             )
             try:
                 deck, _ = deck_for(snapshot, mesh, preview, stress_coordinates=True)
@@ -159,7 +134,12 @@ class JobService:
                 for warning in body_status(assignment.body_id, assignment.material).warnings
             ]
             + load_state(
-                snapshot.analysis, snapshot.geometry, snapshot.materials, snapshot.loads, display
+                snapshot.analysis,
+                snapshot.geometry,
+                snapshot.materials,
+                snapshot.loads,
+                display,
+                snapshot.bonds,
             ).warnings,
         )
         path = directory / "snapshot.json"
@@ -184,6 +164,80 @@ class JobService:
             if JobInput.model_validate_json(raw) != inputs:
                 raise DomainError(503, "artifact_integrity", "Frozen mesh inputs disagree")
         return inputs
+
+    def assembly_preflight(
+        self, owner: UUID, analysis: UUID, expected: int, mesh_job: UUID
+    ) -> AssemblyPreflight:
+        current = self.decks.repository.get_analysis(owner, analysis)
+        if current.revision != expected:
+            raise stale_revision()
+        try:
+            snapshot, display = self.decks.freeze(owner, analysis, expected)
+            _, _, mesh, _ = self.validated_mesh(owner, snapshot, self.policy(), mesh_job)
+            preview = load_state(
+                snapshot.analysis,
+                snapshot.geometry,
+                snapshot.materials,
+                snapshot.loads,
+                display,
+                snapshot.bonds,
+            )
+            _, summary = deck_for(snapshot, mesh, preview, stress_coordinates=True)
+            result = preview.assembly.model_copy(
+                update={
+                    "mesh_checked": True,
+                    "expected_free_equations": summary["assembly_equations"] or None,
+                    "intended_slave_nodes": summary["assembly_slave_nodes"],
+                }
+            )
+        except DomainError as error:
+            if error.status != 422:
+                raise
+            result = AssemblyPreflight(blockers=[error.message])
+        except (ValueError, KeyError, TypeError, AssertionError):
+            result = AssemblyPreflight(blockers=["Mesh or written constraints failed validation"])
+        if self.decks.repository.get_analysis(owner, analysis).revision != expected:
+            raise stale_revision()
+        return result
+
+    def validated_mesh(
+        self, owner: UUID, snapshot: DeckSnapshot, policy: dict[str, Any], mesh_job: UUID
+    ) -> tuple[Any, Any, dict[str, Any], str]:
+        mesh_state = self.repository.get(owner, mesh_job)
+        if (
+            mesh_state.kind != "mesh"
+            or mesh_state.status != "succeeded"
+            or mesh_state.project_id != snapshot.analysis.project_id
+            or mesh_state.geometry_revision_id != snapshot.geometry.id
+        ):
+            raise DomainError(
+                422,
+                "incompatible_mesh",
+                "Select a completed mesh in this project for this exact geometry revision",
+            )
+        previous = self.repository.inputs(owner, mesh_job)
+
+        if physical_controls(previous.snapshot) != physical_controls(snapshot):
+            raise DomainError(
+                422,
+                "incompatible_mesh_controls",
+                "Sizing or curvature changed. Generate a new mesh before solving",
+            )
+        if previous.policy != policy:
+            raise DomainError(
+                409,
+                "tool_contract_changed",
+                "Regenerate the mesh with the current tool contract",
+            )
+        expected_hash = compatibility_hash(snapshot, policy)
+        if compatibility_hash(previous.snapshot, previous.policy) != expected_hash:
+            raise DomainError(422, "incompatible_mesh", "Mesh compatibility hash differs")
+        self.verified_inputs(owner, mesh_state)
+        mesh_artifact = mesh_state.artifacts.get("mesh.json")
+        if mesh_artifact is None:
+            raise not_found()
+        mesh = json.loads(self.artifact(owner, mesh_job, "mesh.json")[0])
+        return mesh_state, mesh_artifact, mesh, expected_hash
 
     def mesh_candidates(self, owner: UUID, analysis: UUID) -> MeshCandidates:
         current = self.decks.repository.get_analysis(owner, analysis)
@@ -403,6 +457,7 @@ class JobService:
                             inputs.snapshot.materials,
                             inputs.snapshot.loads,
                             inputs.display,
+                            inputs.snapshot.bonds,
                         ).model_dump(mode="json")
                         | {
                             "equilibrium_policy": inputs.policy.get(

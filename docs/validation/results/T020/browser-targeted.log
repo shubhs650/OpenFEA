@@ -1,0 +1,12 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/assembly.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:44513) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/assembly.spec.ts:89:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked (20.2s)
+
+  1 passed (23.1s)

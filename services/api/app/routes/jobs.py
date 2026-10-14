@@ -5,6 +5,7 @@ from uuid import UUID
 
 from fastapi import Depends, Header, Request, Response
 
+from app.domain.connections import AssemblyPreflight
 from app.domain.errors import DomainError
 from app.domain.jobs import JobEvent, LocalJob, MeshCandidates, MeshPreview, MeshRequest, RunRequest
 from app.domain.results import ResultView
@@ -40,6 +41,7 @@ Filename = Literal[
     "resources.json",
     "results.json",
     "recovery.json",
+    "assembly.json",
     "mesh-attempt-1.log",
     "mesh-attempt-2.log",
     "mesh-attempt-3.log",
@@ -127,3 +129,10 @@ def worker(owner: Owner, request: Request) -> dict[str, str]:
 @router.get("/runs/{job_id}/results", response_model=ResultView)
 def results(job_id: UUID, owner: Owner, service: Service) -> ResultView:
     return service.result_view(owner, job_id)
+
+
+@router.post("/analyses/{analysis_id}/assembly-preflight", response_model=AssemblyPreflight)
+def assembly_preflight(
+    analysis_id: UUID, payload: RunRequest, revision: Revision, owner: Owner, service: Service
+) -> AssemblyPreflight:
+    return service.assembly_preflight(owner, analysis_id, revision, payload.mesh_job_id)

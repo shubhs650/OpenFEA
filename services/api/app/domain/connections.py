@@ -97,3 +97,18 @@ def validate_pair(payload: BondRequest, pair: BondPair) -> None:
             "gap_approval_required",
             "Explicitly approve a tolerance covering the measured physical gap",
         )
+
+
+class AssemblyComponent(StrictModel):
+    body_ids: list[CatalogID]
+    support_rank: int = Field(ge=0, le=6)
+
+
+class AssemblyPreflight(StrictModel):
+    components: list[AssemblyComponent] = Field(default_factory=list)
+    blockers: list[str] = Field(default_factory=list)
+    warnings: list[str] = Field(default_factory=list)
+    mesh_checked: bool = False
+    stability_proven: bool = False
+    expected_free_equations: int | None = None
+    intended_slave_nodes: int = 0

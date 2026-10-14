@@ -7,7 +7,7 @@ from uuid import UUID
 from pydantic import Field, model_validator
 
 from app.domain.base import StrictModel
-from app.domain.connections import BondSetup
+from app.domain.connections import AssemblyComponent, AssemblyPreflight, BondSetup
 from app.domain.directions import (
     DirectionSelection,
     DirectionSnapshot,
@@ -20,7 +20,6 @@ from app.domain.materials import MaterialSetup
 from app.domain.mesh import MeshSetup
 from app.domain.models import Analysis, CatalogID, GeometryRevision, Hash, Name
 from app.domain.units import PresetID, to_si
-from worker.actions import rigid_rank_directions
 from worker.directions import IDENTITY, Constraint, constraint_frame
 from worker.meshing import Vec, add, cross, norm, scale, sub
 
@@ -218,6 +217,7 @@ class LoadState(StrictModel):
     force_scale_n: float = 0
     moment_scale_nm: float = 0
     characteristic_length_m: float = 0
+    assembly: AssemblyPreflight = Field(default_factory=AssemblyPreflight)
     resultant_complete: bool = True
     blockers: list[str]
     warnings: list[str]
@@ -512,11 +512,13 @@ def load_state(
     materials: MaterialSetup,
     setup: LoadSetup,
     display: GeometryDisplay | None,
+    bonds: BondSetup | None = None,
 ) -> LoadState:
     previews: list[LoadPreview] = []
     markers: list[LoadMarker] = []
     warnings: list[str] = []
     blockers: list[str] = []
+    assembly = AssemblyPreflight()
     total_force: Vec = (0, 0, 0)
     total_moment: Vec = (0, 0, 0)
     complete = True
@@ -536,37 +538,49 @@ def load_state(
         for index, body in enumerate(geometry.bodies, 1):
             if body.id not in assigned:
                 blockers.append(f"Body {index} needs a confirmed material.")
+        from app.domain.assembly import reviewed_groups
+        from worker.calculix.assembly import WARNING, support_rank
+
+        groups, connection_errors = reviewed_groups(geometry, bonds or BondSetup())
+        connection_errors = list(connection_errors)
+        component_checks = []
+        for group in groups:
             rows: list[tuple[Vec, Vec]] = []
+            coordinates = [
+                p for face in face_display.values() if face.body_id in group for p in face.points_m
+            ]
             for item in setup.assignments:
-                if (
-                    item.kind not in ("fixed", "displacement", "symmetry")
-                    or item.review_faces
-                    or item.review_direction
-                ):
+                if item.review_faces or item.review_direction:
                     continue
                 for ref in item.face_ids:
                     face = face_display.get(ref)
-                    if face and face.body_id == body.id:
+                    if face and face.body_id in group:
                         rows.extend(
                             (point, direction)
                             for point in face.points_m
                             for direction, _ in support_rows(item, ref)
                         )
-            native = body_display.get(body.id)
-            rank = (
-                rigid_rank_directions(
-                    rows,
-                    (native.bounds_m[0], native.bounds_m[1], native.bounds_m[2]),
-                    max(native.bounds_m[a + 3] - native.bounds_m[a] for a in range(3)),
-                )
-                if native
-                else 0
-            )
+            rank = support_rank(rows, coordinates)
+            component_checks.append(AssemblyComponent(body_ids=group, support_rank=rank))
             if rank < 6:
-                blockers.append(
-                    f"Body {index} needs a fixed face or sufficient global/directional supports "
-                    f"(rigid-motion rank {rank}/6)."
+                label = (
+                    f"Body {next(i for i, b in enumerate(geometry.bodies, 1) if b.id == group[0])}"
+                    if len(group) == 1
+                    else "Connected bodies"
                 )
+                connection_errors.append(
+                    f"{label} needs a fixed face or sufficient "
+                    f"global/directional supports (rigid-motion rank {rank}/6). "
+                    "Detached or underconstrained; no weak springs."
+                )
+        blockers.extend(connection_errors)
+        if len(geometry.bodies) > 1 or (bonds and bonds.assignments):
+            warnings.append(WARNING)
+        assembly = AssemblyPreflight(
+            components=component_checks,
+            blockers=connection_errors,
+            warnings=[WARNING] if len(geometry.bodies) > 1 else [],
+        )
         if not any(
             a.kind in ("pressure", "force", "directional_force", "gravity")
             or (a.kind == "displacement" and a.displacement_m != 0)
@@ -727,6 +741,7 @@ def load_state(
         analysis_id=analysis.id,
         analysis_revision=analysis.revision,
         geometry_revision_id=analysis.geometry_revision_id,
+        assembly=assembly,
         setup=setup,
         previews=previews,
         markers=markers,

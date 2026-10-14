@@ -1,0 +1,11 @@
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 188 items
+
+tests/native/test_analyses.py ........                                   [  4%]
+tests/native/test_assembly.py ............                               [ 10%]
+tests/native/test_bond_native.py 

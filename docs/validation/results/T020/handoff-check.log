@@ -1,0 +1,73 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+174 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 134 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 324 items
+
+tests/unit/test_analyses.py ...............                              [  4%]
+tests/unit/test_api.py .........                                         [  7%]
+tests/unit/test_approval.py ................                             [ 12%]
+tests/unit/test_assembly.py ................                             [ 17%]
+tests/unit/test_bonds.py ................                                [ 22%]
+tests/unit/test_connections.py ...........                               [ 25%]
+tests/unit/test_directions.py ...........                                [ 29%]
+tests/unit/test_essential_actions.py .............                       [ 33%]
+tests/unit/test_essential_setup.py .............                         [ 37%]
+tests/unit/test_face_loads.py ....................                       [ 43%]
+tests/unit/test_geometry_edits.py ...............                        [ 47%]
+tests/unit/test_imports.py ......                                        [ 49%]
+tests/unit/test_local_queue.py ...................                       [ 55%]
+tests/unit/test_materials.py ........................                    [ 62%]
+tests/unit/test_mesh_controls.py ............                            [ 66%]
+tests/unit/test_mesh_quality.py ......                                   [ 68%]
+tests/unit/test_projects.py ............................                 [ 77%]
+tests/unit/test_quadratic.py .....................                       [ 83%]
+tests/unit/test_result_views.py ...................                      [ 89%]
+tests/unit/test_stress.py ............................                   [ 98%]
+tests/unit/test_workspace_edits.py ......                                [100%]
+
+============================= 324 passed in 26.94s =============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  5 passed (5)
+      Tests  28 passed (28)
+   Start at  17:27:09
+   Duration  612ms (tests 45%, import 30%, transform 13%, worker 12%)
+
+    Isolate  5 workers spawned · ~86ms startup each (spawn + environment, per file)
+             at least ~346ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpq0etptxo/openapi.json → /tmp/tmpq0etptxo/api.d.ts [229.6ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 149 Markdown files; 42 task statuses and acyclic dependencies

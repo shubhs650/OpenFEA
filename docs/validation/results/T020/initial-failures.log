@@ -1,0 +1,302 @@
+
+===== work/T020-initial-lint.log =====
+E501 Line too long (102 > 100)
+  --> services/api/app/domain/assembly.py:14:101
+   |
+14 | def reviewed_groups(geometry: GeometryRevision, setup: BondSetup) -> tuple[list[list[str]],list[str]]:
+   |                                                                                                     ^^
+15 |     bodies=[b.id for b in geometry.bodies]
+16 |     faces={f.id:f for f in geometry.faces}
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> services/api/app/domain/assembly.py:17:14
+   |
+15 |     bodies=[b.id for b in geometry.bodies]
+16 |     faces={f.id:f for f in geometry.faces}
+17 |     errors=[];edges=[];used=set()
+   |              ^
+18 |     for item in setup.assignments:
+19 |         try:
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> services/api/app/domain/assembly.py:17:23
+   |
+15 |     bodies=[b.id for b in geometry.bodies]
+16 |     faces={f.id:f for f in geometry.faces}
+17 |     errors=[];edges=[];used=set()
+   |                       ^
+18 |     for item in setup.assignments:
+19 |         try:
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> services/api/app/domain/assembly.py:29:37
+   |
+27 | …     if used & {a.id,b.id}:
+28 | …         raise ValueError("Redundant face connection")
+29 | …     used.update((a.id,b.id));edges.append((a.body_id,b.body_id))
+   |                               ^
+30 | …     if item.pair.gap_m > COINCIDENCE_M:
+31 | …         errors.append("Physical-gap product solving is unvalidated; the axial B08 experiment does not certify rotation/shear/bending…
+   |
+
+E501 Line too long (155 > 100)
+  --> services/api/app/domain/assembly.py:31:101
+   |
+29 | …b.body_id))
+30 | …
+31 | …s unvalidated; the axial B08 experiment does not certify rotation/shear/bending over a void.")
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+32 | …
+33 | …s,strict=True))<=1e-10
+   |
+
+E501 Line too long (111 > 100)
+  --> services/api/app/domain/assembly.py:35:101
+   |
+33 |             if not any(max(abs(x-y) for x,y in zip(normal,axis,strict=True))<=1e-10
+34 |                        for axis in (*IDENTITY,*(tuple(-x for x in axis) for axis in IDENTITY))):
+35 |                 errors.append("Bonded solving is limited to the validated axis-aligned unit-square interface.")
+   |                                                                                                     ^^^^^^^^^^^
+36 |         except (ValueError,KeyError,DomainError):
+37 |             errors.append(f"{item.name}: stale, invalid or redundant connection review; remove and review again.")
+   |
+
+E501 Line too long (114 > 100)
+  --> services/api/app/domain/assembly.py:37:101
+   |
+35 |                 errors.append("Bonded solving is limited to the validated axis-aligned unit-square interface.")
+36 |         except (ValueError,KeyError,DomainError):
+37 |             errors.append(f"{item.name}: stale, invalid or redundant connection review; remove and review again.")
+   |                                                                                                     ^^^^^^^^^^^^^^
+38 |     try:
+39 |         groups=components(bodies,edges)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> services/api/app/domain/assembly.py:41:34
+   |
+39 |         groups=components(bodies,edges)
+40 |     except ValueError as error:
+41 |         errors.append(str(error));groups=[[b] for b in bodies]
+   |                                  ^
+42 |     if len(setup.assignments)>1:
+43 |         errors.append("Multiple solver bonds are unvalidated; redundant/dependent constraints cannot be silently removed.")
+   |
+
+E501 Line too long (123 > 100)
+  --> services/api/app/domain/assembly.py:43:101
+   |
+41 |         errors.append(str(error));groups=[[b] for b in bodies]
+42 |     if len(setup.assignments)>1:
+43 |         errors.append("Multiple solver bonds are unvalidated; redundant/dependent constraints cannot be silently removed.")
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+44 |     return groups,errors
+   |
+
+E501 Line too long (115 > 100)
+  --> services/api/app/domain/assembly.py:61:101
+   |
+59 |     catalog={"revision":snapshot.geometry.brep_sha256,"units":"m",
+60 |              "bodies":[{"id":b.id} for b in snapshot.geometry.bodies],
+61 |              "faces":[{"id":f.id,"body":f.body_id,"area":f.signature["area_m2"]} for f in snapshot.geometry.faces]}
+   |                                                                                                     ^^^^^^^^^^^^^^^
+62 |     try:
+63 |         return plan(mesh,catalog,item.master_face_id,item.slave_face_id,supports,transforms)
+   |
+
+E501 Line too long (145 > 100)
+  --> services/worker/worker/calculix/assembly.py:18:101
+   |
+16 | …e,
+17 | …
+18 | …are necessary only, not proof of stiffness rank or stability; no weak springs are added."
+   |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+E702 Multiple statements on one line (semicolon)
+  --> services/worker/worker/calculix/assembly.py:30:27
+   |
+28 |         if left is right:
+29 |             raise ValueError("Redundant or cyclic body connection; dependent constraints refused")
+30 |         left.update(right);groups.remove(right)
+   |                           ^
+31 |     return sorted((sorted(g) for g in groups),key=lambda g:g[0])
+   |
+
+E501 Line too long (101 > 100)
+  --> services/worker/worker/calculix/assembly.py:42:101
+   |
+42 | def mesh_supports(mesh: dict[str,Any], groups: list[list[str]], supports: dict[tuple[int,int],float],
+   |                                                                                                     ^
+43 |                   transforms: dict[int,Basis]) -> list[dict[str,Any]]:
+44 |     typed = typed_mesh(mesh)
+   |
+
+E501 Line too long (200 > 100)
+  --> services/worker/worker/calculix/assembly.py:51:101
+   |
+49 | …
+50 | …
+51 | …y rigid-motion support rank {rank}/6. Add independent supports or explicitly review a valid bond; no weak springs.")
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+52 | …)
+53 | …
+   |
+
+E501 Line too long (105 > 100)
+  --> services/worker/worker/calculix/assembly.py:57:101
+   |
+56 | def plan(mesh: dict[str,Any], catalog: dict[str,Any], master: str, slave: str,
+57 |          supports: dict[tuple[int,int],float], transforms: dict[int,Basis]) -> tuple[Bond,dict[str,Any]]:
+   |                                                                                                     ^^^^^
+58 |     if transforms:
+59 |         raise ValueError("Bonded solves with transformed node constraints are unvalidated; use global components")
+   |
+
+E501 Line too long (114 > 100)
+  --> services/worker/worker/calculix/assembly.py:59:101
+   |
+57 |          supports: dict[tuple[int,int],float], transforms: dict[int,Basis]) -> tuple[Bond,dict[str,Any]]:
+58 |     if transforms:
+59 |         raise ValueError("Bonded solves with transformed node constraints are unvalidated; use global components")
+   |                                                                                                     ^^^^^^^^^^^^^^
+60 |     if len(catalog["bodies"]) != 2:
+61 |         raise ValueError("Bounded mortar requires exactly two independent bodies")
+   |
+
+Found 18 errors (2 fixed, 16 remaining).
+
+===== work/T020-types.log =====
+Success: no issues found in 131 source files
+
+===== work/T020-targeted.log =====
+..................F
+=================================== FAILURES ===================================
+______ test_detached_loaded_body_is_refused_without_a_job_or_weak_springs ______
+
+client = <starlette.testclient.TestClient object at 0x7f5729a13860>
+
+    def test_detached_loaded_body_is_refused_without_a_job_or_weak_springs(client: TestClient) -> None:
+        path, _ = prepared(client, approve=False)
+        state = client.get(path + "/loads").json()
+        assert state["assembly"]["components"][1]["support_rank"] == 0
+        assert any("Detached" in b for b in state["blockers"])
+        mesh = wait_job(client, submit(client, path)["id"])
+        assert mesh["status"] == "succeeded"
+        before = client.get(path + "/jobs").json()
+        checked = preflight(client, path, mesh["id"])
+        assert checked["blockers"] and not checked["stability_proven"]
+        response = client.post(
+            path + "/runs",
+            json={"mesh_job_id": mesh["id"]},
+            headers={
+                "If-Match": f'"{client.get(path).json()["revision"]}"',
+>               "Idempotency-Key": str(uuid4()),
+                                       ^^^^^
+            },
+        )
+E       NameError: name 'uuid4' is not defined
+
+tests/native/test_assembly.py:143: NameError
+=========================== short test summary info ============================
+FAILED tests/native/test_assembly.py::test_detached_loaded_body_is_refused_without_a_job_or_weak_springs
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 18 passed in 26.43s
+
+===== work/T020-native-first.log =====
+..                                                                       [100%]
+2 passed in 20.79s
+
+===== work/T020-native-second.log =====
+..                                                                       [100%]
+2 passed in 22.40s
+
+===== work/T020-browser-first.log =====
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/assembly.spec.ts tests/e2e/connections.spec.ts
+
+
+Running 3 tests using 1 worker
+
+(node:42871) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked (4.0s)
+(node:42980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists (11.8s)
+  ✓  3 tests/e2e/connections.spec.ts:140:1 › real partial coverage, excessive gap and body volume overlap never autoapprove (12.4s)
+
+
+  1) tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked 
+
+    Error: locator.click: Error: strict mode violation: locator('.body-tree summary') resolved to 2 elements:
+        1) <summary>Faces</summary> aka getByRole('group').filter({ hasText: 'FacesBody 1 face 1Body 1 face' }).locator('summary')
+        2) <summary>Faces</summary> aka getByRole('group').filter({ hasText: 'FacesBody 2 face 1Body 2 face' }).locator('summary')
+
+    Call log:
+      - waiting for locator('.body-tree summary')
+
+
+       at support/runs.ts:99
+
+       97 |     }),
+       98 |   ).toBeVisible();
+    >  99 |   await page.locator(".body-tree summary").click();
+          |                                            ^
+      100 |   if (!basicLoads) return { projectId, analysisId };
+      101 |   const fixed = geometry.faces.find((f) =>
+      102 |     bracket
+        at prepared (/workspace/OpenFEA/tests/e2e/support/runs.ts:99:44)
+        at assembly (/workspace/OpenFEA/tests/e2e/assembly.spec.ts:7:15)
+        at /workspace/OpenFEA/tests/e2e/assembly.spec.ts:89:37
+
+    Error Context: test-results/assembly-real-reviewed-con-492b6-etached-setup-stays-blocked/error-context.md
+
+  1 failed
+    tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked 
+  2 passed (31.7s)
+
+===== work/T020-browser-second.log =====
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/assembly.spec.ts
+
+
+Running 1 test using 1 worker
+
+(node:43902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked (1.0m)
+
+
+  1) tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked 
+
+    Test timeout of 60000ms exceeded.
+
+    Error Context: test-results/assembly-real-reviewed-con-492b6-etached-setup-stays-blocked/error-context.md
+
+  1 failed
+    tests/e2e/assembly.spec.ts:85:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked 
+
+===== work/T020-check-first.log =====
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+unformatted: File would be reformatted
+   --> tests/native/test_connections.py:105:12
+    |
+104 |     response = client.post(path + "/deck-exports", headers={"If-Match": '"2"'})
+    -     assert (
+    -         response.status_code == 422 and response.json()["code"] == "setup_incomplete"
+    -     ), response.text
+105 +     assert response.status_code == 422 and response.json()["code"] == "setup_incomplete", (
+106 +         response.text
+107 +     )
+108 |     assert (
+    |
+
+1 file would be reformatted, 172 files already formatted
+make: *** [Makefile:29: lint] Error 1

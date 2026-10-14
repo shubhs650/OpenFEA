@@ -112,7 +112,9 @@ test("real gap suggestion needs explicit review, master/slave preview, tolerance
     await page.request.get(`/api/v1/analyses/${analysisId}/bonds`)
   ).json();
   expect(original.setup.assignments[0].gap_approved).toBe(true);
-  expect(original.solve_blockers.join(" ")).toContain("cannot be ignored");
+  expect(original.solve_blockers.join(" ")).toContain(
+    "Physical-gap product solving is unvalidated",
+  );
   await page.reload();
   await page.getByLabel("Open project").selectOption(projectId);
   await page.getByLabel("Open analysis").selectOption(analysisId);

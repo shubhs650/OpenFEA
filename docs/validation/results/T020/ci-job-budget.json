@@ -1,0 +1,18 @@
+{
+  "prior_run_url": "https://github.com/shubhs650/OpenFEA/actions/runs/38594251512",
+  "prior_head_sha": "feecb07206af1b0517f519704a4c650ee1333bcd",
+  "prior_job_started_at": "2026-10-14T15:59:58Z",
+  "prior_job_completed_at": "2026-10-14T16:14:08Z",
+  "prior_job_seconds": 850.0,
+  "prior_limit_minutes": 15,
+  "new_limit_minutes": 20,
+  "additional_cases": 30,
+  "reason": "Leave aggregate setup/regression time for the added cases; prior job had only 50 seconds remaining.",
+  "unchanged": [
+    "individual test deadlines",
+    "native wall/CPU/memory/scratch caps",
+    "concurrency",
+    "automatic retries",
+    "numerical criteria"
+  ]
+}

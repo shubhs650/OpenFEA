@@ -412,11 +412,12 @@ class Repository:
                     "Connections reference changed geometry; "
                     "remove and explicitly review new pairs."
                 )
-            if setup.assignments:
-                blockers.append(
-                    "Bonded assembly solve/export is not yet available. "
-                    "Saved connections cannot be ignored."
-                )
+            if current.geometry_revision_id:
+                from app.domain.assembly import reviewed_groups
+
+                geometry = self._geometry(connection, owner, current.geometry_revision_id)
+                _, setup_errors = reviewed_groups(geometry, setup)
+                blockers.extend(setup_errors)
             return BondState(
                 analysis_id=analysis,
                 analysis_revision=current.revision,

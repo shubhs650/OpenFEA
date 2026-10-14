@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { components } from "../../../../packages/contracts/api";
-import { api, mutate, type Geometry } from "../geometry/api";
+import { api, mutate, type Geometry, type LoadState } from "../geometry/api";
 import { useDraft, useEdits } from "../workspace/edits";
 import type { DraftDirection } from "../loads/DirectionEditor";
 
@@ -28,6 +28,7 @@ export function ConnectionsEditor({
   preview,
 }: Props) {
   const edits = useEdits();
+  const [loads, setLoads] = useState<LoadState | null>(null);
   const [state, setState] = useState<State | null>(null);
   const [candidates, setCandidates] = useState<Candidates | null>(null);
   const [master, setMaster] = useState("");
@@ -41,6 +42,7 @@ export function ConnectionsEditor({
   useEffect(() => {
     let current = true;
     setState(null);
+    setLoads(null);
     setCandidates(null);
     setMaster("");
     setSlave("");
@@ -50,9 +52,15 @@ export function ConnectionsEditor({
     setTolerance("0");
     setError("");
     preview([]);
-    void api<State>(`/analyses/${analysisId}/bonds`)
-      .then((value) => {
-        if (current) setState(value);
+    void Promise.all([
+      api<State>(`/analyses/${analysisId}/bonds`),
+      api<LoadState>(`/analyses/${analysisId}/loads`),
+    ])
+      .then(([value, loadState]) => {
+        if (current) {
+          setState(value);
+          setLoads(loadState);
+        }
       })
       .catch((e: Error) => {
         if (current) setError(e.message);
@@ -160,9 +168,32 @@ export function ConnectionsEditor({
         Suggestions never activate a bond. Review master/slave, complete
         projected coverage and outward normals. Physical gaps require explicit
         approval. Development review supports complete planar unit-square
-        interfaces and gaps up to 10 µm. Assembly solving requires the next
-        constraint-validation stage.
+        interfaces and gap review up to 10 µm. Product solving supports one
+        validated zero-gap interface; physical-gap solving remains unavailable.
       </p>
+      {loads?.analysis_revision === revision && (
+        <div aria-label="Assembly support preflight">
+          <p>
+            Necessary support/connectivity checks only — not proof of stiffness
+            rank or stability. No weak springs.
+          </p>
+          <ul>
+            {loads.assembly?.components?.map((c, i) => (
+              <li key={i}>
+                Component {i + 1}: {c.body_ids.length} body/bodies; support rank{" "}
+                {c.support_rank}/6.
+              </li>
+            ))}
+          </ul>
+          {loads.assembly?.blockers?.map((b) => (
+            <p key={b}>{b}</p>
+          ))}
+          <p>
+            Generate a mesh, then use Check assembly constraints for actual node
+            coverage and dependency checks.
+          </p>
+        </div>
+      )}
       <button
         disabled={disabled || edits.dirty.some((k) => k !== "bonds")}
         onClick={() => void measure()}
