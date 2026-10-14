@@ -1,0 +1,272 @@
+{
+  "artifacts": {
+    "B03-api-1.json": {
+      "sha256": "beb6678670293307698196eb849df3b4e856ca93689bb3afc55e23b0920f445d",
+      "size_bytes": 6069
+    },
+    "B03-api-2.json": {
+      "sha256": "3edc7f107272a4991aa41310d06e895ec4203067cd8545eec77fc16917ac9956",
+      "size_bytes": 6079
+    },
+    "B03-initial-coarse-failure.json": {
+      "sha256": "50a3df6204d10f37234664c1bfca4934f271c4cfec0a1c7cfc683a94254960cb",
+      "size_bytes": 3948
+    },
+    "B03-revision-1-manifest.json": {
+      "sha256": "1c36bde32e3fb019c055726787f62adc164bf372383131680c6ffc90d541baf6",
+      "size_bytes": 1749
+    },
+    "B03.json": {
+      "sha256": "556843a7a762fa2d30af532ea2c4040a14f757e3d8d06ed8904a25ca5aa13b90",
+      "size_bytes": 6013
+    },
+    "B04-api-1.json": {
+      "sha256": "0a912db2bd2f65870d6da349f64179ed16ed1de3a625e1dc7722304443a5fef6",
+      "size_bytes": 5270
+    },
+    "B04-api-2.json": {
+      "sha256": "37a4a684b6e14ae2888eedd751840d6bd71ee934192847bf6e6f31bfdd026dba",
+      "size_bytes": 5276
+    },
+    "B04.json": {
+      "sha256": "e09bf937fcb0f07f12d981c7c606b0a7dd680dc2d21adabb492b33f297badcc3",
+      "size_bytes": 5686
+    },
+    "B05-api-1.json": {
+      "sha256": "f63bb8f4909f8738a46542d25e157689a439ca2c4ef028eafa08388be782803d",
+      "size_bytes": 5357
+    },
+    "B05-api-2.json": {
+      "sha256": "1fb7dacb38e85f5c0623fd8502e1ca3b0018a7db8ca8558f548faf07bf4e8d03",
+      "size_bytes": 5348
+    },
+    "B05.json": {
+      "sha256": "147c8b4fccdafcc64de84e1b6fc6f512c144038149b9b0fd9df9a3123b5a0696",
+      "size_bytes": 5566
+    },
+    "absolute-equilibrium.png": {
+      "sha256": "176d62603a9ce4d523c8569898317dd9ce81a2b6bb66b3b7f435db623e8230af",
+      "size_bytes": 26326
+    },
+    "equilibrium-table.png": {
+      "sha256": "e690e26f9cf8c6e7193079d77725fea12f43f90d847f857c3146be19dcfd93fb",
+      "size_bytes": 20028
+    },
+    "gravity-component-glyphs.png": {
+      "sha256": "fe084bb5c633d5d8366125eeea5613cd7f7e231d6c1a39f72b30281d69317b5f",
+      "size_bytes": 7183
+    },
+    "t015-browser-final.log": {
+      "sha256": "cd2f3dadc354e5f372a26a298175d21f04a943f26061a6299d529241a02c388d",
+      "size_bytes": 747
+    },
+    "t015-browser-visible.log": {
+      "sha256": "2aa128fe91af28d4cc99563b7c7d54a732e8ed9b56b45b652fe50d4671f8539e",
+      "size_bytes": 596
+    },
+    "t015-doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "t015-fast.log": {
+      "sha256": "c993250af53b653f3f8126b74b18408712ef925f0bf3c56c114638d768b780fb",
+      "size_bytes": 3986
+    },
+    "t015-final-build-docs.log": {
+      "sha256": "578d6337155fd494fd975ce1a65b2c2115a7ee3c4d176dfd0d891d194d6905b2",
+      "size_bytes": 1179
+    },
+    "t015-final-fast.log": {
+      "sha256": "ef39c94f145a5fa08b6f4d3cd5599f949f516512b3b8744a62d7f5446adb7bee",
+      "size_bytes": 2719
+    },
+    "t015-final-types.log": {
+      "sha256": "5e573e935e2cd44953f8f193052dc695a9faed5c1ce94fbab21cd7e0f51e3a4c",
+      "size_bytes": 108
+    },
+    "t015-integration-new.log": {
+      "sha256": "c1c1c62396229345c73757771844a0522d882254b5af627cb4e1c513ead2c3ed",
+      "size_bytes": 98
+    },
+    "t015-native-new.log": {
+      "sha256": "29bea479710b0408a7263068e76ccbe35c5e22d39dcc88699a48a45c40616f74",
+      "size_bytes": 100
+    },
+    "t015-regression.log": {
+      "sha256": "84f17cb61916e4aa19bfec46bb7a1779127bb6b105541975c8f978971c93d4de",
+      "size_bytes": 6961
+    }
+  },
+  "base_commit": "78cfb944f2283247784805c5c98bd9e356cb9a92",
+  "branch": "codex/t015-essential-loads",
+  "commands": [
+    {
+      "command": "make doctor",
+      "result": "Actual pinned native binaries, CAD/mesh/CCX/isolation/network denial available; passed"
+    },
+    {
+      "command": "make check build smoke",
+      "result": "265 Python +21 TS; lint/format/types/generated contracts/docs/build/real HTTP smoke passed; final docs replay recorded separately"
+    },
+    {
+      "command": "make test-native test-integration test-e2e",
+      "result": "142 native passed in247.38s;13 integration passed in40.82s; initial Chromium20passed1failed (signed-zero old glyph assertion)"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=$PWD/.local/browsers npm run test:e2e -- tests/e2e/loads.spec.ts tests/e2e/essential-loads.spec.ts",
+      "result": "Corrected normalization: all3 affected browser cases passed; all21 distinct Chromium verified"
+    },
+    {
+      "command": "PYTHONPATH=services/api:services/worker .venv/bin/python -m pytest tests/native/test_essential_loads.py -q",
+      "result": "All18 new native cases replayed after publication guard: passed49.40s"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=$PWD/.local/browsers npm run test:e2e -- tests/e2e/essential-loads.spec.ts",
+      "result": "Final visible gravity +relative/absolute tables:2passed19.1s; screenshot brown-pixel visibility assertion with cleared selection"
+    },
+    {
+      "command": "make benchmark CASE=B03 DEVELOPMENT=1",
+      "result": "DEVELOPMENT PASS on both declared meshes; pending engineering-owner acceptance; real Gmsh/CCX, code_commit numerical implementation"
+    },
+    {
+      "command": "make benchmark CASE=B04 DEVELOPMENT=1",
+      "result": "DEVELOPMENT PASS on both declared meshes; pending engineering-owner acceptance; real Gmsh/CCX, code_commit numerical implementation"
+    },
+    {
+      "command": "make benchmark CASE=B05 DEVELOPMENT=1",
+      "result": "DEVELOPMENT PASS on both declared meshes; pending engineering-owner acceptance; real Gmsh/CCX, code_commit numerical implementation"
+    },
+    {
+      "command": "make check; make docs-check build smoke",
+      "result": "Final265Python/21TS,lint/format/types/contracts,133Markdown/42status/dependency checks,build/real HTTP smoke passed. Documentation completion replay after manifest and links were created."
+    }
+  ],
+  "corrections": [
+    "B03 revision1 h0.08 failed original5% stress (max8.05157312256193%); original manifest/failure retained. Predeclared revision2 h0.04/0.035 passes unchanged references/sampling/exclusions/tolerances.",
+    "Per-component force normalization prevents reciprocal overflow for existing tiny loads and canonicalizes zero signs; original tests retained.",
+    "Fixture density corrected to7.85e-9 tonne/mm\u00b3 for7850kg/m\u00b3; conversion unchanged.",
+    "DAT/FRD repeated full mesh identity serialization replaced by one identical hash per parse; FRD contributor index built once. Numerical/coverage/hash semantics unchanged, full142 native passes.",
+    "Browser selectors/reload reopening aligned with actual workflow; state-only publication fixture corrected type/argument order.",
+    "Screenshot review found gravity glyph inside solid; COM leader and exterior arrow preserve physical centre/force/moment. Short leader remained projection-occluded; longer annotation passes actual screenshot visibility and inspected images.",
+    "Final documentation check initially ran before evidence copy and used a decorated COMPLETE status; exact status and real linked artifacts correct the check. Final133-file documentation graph passes."
+  ],
+  "criteria": {
+    "absolute_normalized_residual": null,
+    "absolute_when_reference_times_relative_lte_floor": true,
+    "benchmark_manifests": [
+      "tests/benchmarks/B03.json",
+      "tests/benchmarks/B04.json",
+      "tests/benchmarks/B05.json"
+    ],
+    "equilibrium_relative": 0.005,
+    "force_absolute_n": 1e-06,
+    "moment_absolute_nm": 1e-06,
+    "reviewer_signoffs": "PENDING engineering owner; development only",
+    "rigid_rank_dimensionless": 1e-10,
+    "written_deck_resultant_absolute_n_nm": 1e-08
+  },
+  "date": "2026-10-14",
+  "distinct_verified_cases": {
+    "chromium": 21,
+    "native": 142,
+    "python_unit": 265,
+    "real_process_integration": 13,
+    "remaining_failures": 0,
+    "repeats_counted": false,
+    "skips": 0,
+    "total": 462,
+    "typescript_unit": 21
+  },
+  "hosted_ci": "Reported on final PR head; PR remains open. No merge authorization for T015.",
+  "implementation_commit": "41804f70ea1a2bf238d491e81ad4f79d37a21870",
+  "milestone": "M2 IN PROGRESS",
+  "next_task": "T016",
+  "numerical_commit_relationship": "Final implementation changes only exterior gravity annotation and its browser visibility assertion; backend numerical source is identical to numerical commit. Later commit records documentation/evidence only.",
+  "numerical_implementation_commit": "ee6c2e53e4bc54902fb88c03a2c22652d61315b2",
+  "platform": {
+    "bubblewrap": "0.12.0",
+    "cadquery_ocp": "8.0.1.1.0",
+    "calculix": "2.23",
+    "gmsh": "4.15.2",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "python": "3.12.14",
+    "system": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "uv": "0.12.23"
+  },
+  "source_and_lock_reference": "41804f70ea1a2bf238d491e81ad4f79d37a21870",
+  "source_and_lock_sha256": {
+    "apps/web/src/geometry/Viewport.tsx": "4f2d22812d3e9aed9d5e923046718dd4702fabae96acf014e2da1d45b73d59a0",
+    "apps/web/src/loads/LoadsEditor.tsx": "48fd81875970109e113f8a06e730fc32ab7683020448383f68b52fd607110a29",
+    "apps/web/src/results/ResultsEditor.tsx": "8519020fe6c9c7eb0dc65d1cca41ec93167bb32076ae31cd3ae455590391e863",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "packages/contracts/api.d.ts": "02426d5ed91c51cf21555683798b3b021e402c6823de914047d47a3d6920209d",
+    "packages/contracts/openapi.json": "c0c74a8fd162ffacbfec45bc25622b78c8ace9dc7d66340edc1bb2f3f1114e17",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+    "services/api/app/domain/deck_service.py": "9b4a3e67f895f582c44405930177fda9d43e781bb06e5e2f20fd04bea39c06de",
+    "services/api/app/domain/edits.py": "59f22a8d2bf87a8ba58a22e14ed287b987ed1fdab0ff1a0d5c55a611187c4b6c",
+    "services/api/app/domain/imports.py": "fe35e7bb1e526d4ac57b630fa61f4810da93393090ff2b46229af786424f3478",
+    "services/api/app/domain/loads.py": "fd7fb6874e78161ce92f79152b197285ab53884c2aa87ab69ab1804244fd886a",
+    "services/api/app/domain/results.py": "10e896adf876daf7a4bbc028b894c0eb30db17f5ea388f85f72c3572327deedd",
+    "services/api/app/jobs/runner.py": "ac0195128489985d26227a1f3b72f57cf28e5652ef8ff9ddc98f4fd1e4946dc3",
+    "services/api/app/jobs/service.py": "dc5117479c2ad7191762816fec7b33da7b093d3f37d9f5160ae05aece35d158b",
+    "services/api/app/persistence/edits.py": "fe94ca4b545a1828e42a68dc89e994984352f06b1f21d1e502f7942b87ed2ccd",
+    "services/api/app/persistence/jobs.py": "60b3ffebf6798543f6c25b7747fe442cd3e21e796761be78a1e9f501182d59e8",
+    "services/api/app/routes/edits.py": "d2ca323b6036a7daecfb70197c3ca1cc34d2d880d163d694f5d152f4e19b37c7",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "services/worker/worker/actions.py": "e1e69975d5e39fd436fe194878e70f3579bd18c6c0ac115ba3087d4b96ad01c3",
+    "services/worker/worker/benchmark.py": "da6b78bb61440d0c5f5e65467e0f87b1ef18fed72c2a32f0ea2e237ab0d028d9",
+    "services/worker/worker/calculix/results.py": "d9df5e9598c0cebc633f928951fa19fab987bef0bedd0f5a34279a5c210a8c75",
+    "services/worker/worker/deck.py": "195bb1deda83fc124b190e1a9ebe67b6ba67f79a4a13edb0e94dc4f3b626d2e4",
+    "services/worker/worker/essential_benchmarks.py": "0c487ffeaf6a49a86aee498dd2d7e9d7cc34761043ac3377a0b27e8c0b2890f7",
+    "services/worker/worker/geometry_native/build.py": "46f2cc86940e32181d11dacf4304c24f8f13acd71ef62f87c5eab488b8bab0f8",
+    "services/worker/worker/geometry_native/import_step.py": "19197864e369b05aa090d218204a2ebaf61198c27c11bd479a69b3bf52447855",
+    "services/worker/worker/local_solve.py": "0c13f0296d5a041b920efd504fd51ca9e23279dcc4f880f4ab7e5ad93cca4333",
+    "services/worker/worker/postprocess/view.py": "20954949cf3624d34288ac63f1f0dbe044bbde445f09a42c16180205219e241d",
+    "services/worker/worker/runtime.py": "3d79fbd42c16f44bcbca5a6a6ddc5322d4b32d5357216c2fe1de45873e734a28",
+    "tests/benchmarks/B03.json": "4c18817699ee194fccb0b47bae489ce4d4b432b1f575ce322f25c7903f5894f0",
+    "tests/benchmarks/B04.json": "0454b9940297193e9cb110c37ade142a1783d51f87a598519ad778b2269aabed",
+    "tests/benchmarks/B05.json": "ff67414b4205ffdb6c6890b3b8e697c3fd2be97644123d392a39b1e2db295a87",
+    "tests/e2e/essential-loads.spec.ts": "2f0f102451d975640c12fd3ea34981ea046e042eac13bd53e80172b645628164",
+    "tests/fixtures/geometry/cantilever-m.step": "f8552faa584ac19e014d9465df636e3f4658e14b2a015d05e06e1e6f6c9d9d15",
+    "tests/integration/test_essential_loads.py": "a8ce3c10e2a3bf56b08369bc4cdd37053ec1017211ac0010a525853ed90d13ba",
+    "tests/native/test_essential_loads.py": "f0f17d3ac4c55e05549336403edaf06d1955125156ad873699dbcdaf8d7a042a",
+    "tests/native/test_result_views.py": "f6c7b60b51554ca16b178f0bf379db5c432245d5950c40e1ba469d72be3dd35a",
+    "tests/unit/test_essential_actions.py": "256f23a97596c4f4a20020bfc43d09f50890370ffc8ace15f0e3f3e8479e0f0c",
+    "tests/unit/test_essential_setup.py": "bac921634c1a75ff4123b4c60c5b4db837b622e46ab2b2817ca136797cb15874",
+    "tests/unit/test_face_loads.py": "f6bb545911f7b6658a221487ee04721bcd6fd3a2402678c11c4128abf9416f96",
+    "tests/unit/test_local_queue.py": "9c4eed8e549f966cb97d68b1dfe54c480b4d6dbab431b629c5111b80db3a2c0b",
+    "tests/unit/test_result_views.py": "d1abba8f11799d4717da696fb18c16a6ca41feddeb5e7001f1ac8ba85bef24be",
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc"
+  },
+  "timezone": "Asia/Calcutta",
+  "unchanged_existing_locks_and_manifests": [
+    "package-lock.json",
+    "uv.lock",
+    "scripts/native/toolchain-lock.json",
+    "services/worker/environments/cad/uv.lock",
+    "services/worker/environments/mesh/uv.lock",
+    "services/worker/environments/post/uv.lock",
+    "tests/benchmarks/B01.json",
+    "tests/benchmarks/B02.json",
+    "tests/benchmarks/B07.json",
+    "tests/benchmarks/B07-mortar.json",
+    "tests/benchmarks/B09.json",
+    "tests/benchmarks/T006.json"
+  ],
+  "unexecuted": [
+    "Engineering-owner hash-bound B03\u2013B05 and previous benchmark acceptance",
+    "Target-laptop/Windows/Edge/headed GPU/performance/max-cap acceptance",
+    "M2/M3/M4 exit gates",
+    "Arbitrary local directions/symmetry T016",
+    "General assembly/stiffness certification",
+    "Curved loads/CCX/results and mesh convergence",
+    "AWS/deployment/billing/full release security/reports"
+  ],
+  "verified_native_binary_sha256": {
+    "ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+    "netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0"
+  }
+}

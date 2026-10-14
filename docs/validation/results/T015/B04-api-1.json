@@ -1,0 +1,154 @@
+{
+  "run": "4e12e05d-be4b-4f5b-b7c2-c3c31dd9c62e",
+  "nodes": 231,
+  "elements": 100,
+  "mesh_size_m": 0.5,
+  "manifest": {
+    "id": "B04",
+    "revision": 1,
+    "source": "Independent exact hydrostatic continuum solution on unit cube: sigma=-p*I, u_i=-p*(1-2*nu)*x_i/E; inward pressure on three positive faces balances zero normal displacement reactions on opposite faces",
+    "units": "m,N,Pa,kg,s",
+    "geometry": "Synthetic unit cube, 0<=x,y,z<=1 m",
+    "material": {
+      "E_pa": 210000000000,
+      "nu": 0.3
+    },
+    "element": "C3D10 affine",
+    "mesh_sizes_m": [
+      0.5,
+      0.3
+    ],
+    "supports": "Global ux=0 on x=0, uy=0 on y=0, uz=0 on z=0; all other components free, no symmetry/rotation keyword or artificial springs",
+    "loads": "Positive inward pressure 1000 Pa on x=1, y=1, z=1 complete immutable planar faces",
+    "samples": "Every native DAT displacement component and every raw IP tensor component; constrained-component RF-minus-applied reactions, including pressure touching supports; force/moment about global origin",
+    "pressure_pa": 1000,
+    "expected_stress_ccx_pa": [
+      -1000,
+      -1000,
+      -1000,
+      0,
+      0,
+      0
+    ],
+    "tolerances": {
+      "relative": 1e-06,
+      "displacement_absolute_m": 1e-13,
+      "stress_absolute_pa": 0.01,
+      "equilibrium_relative": 0.005,
+      "force_absolute_n": 0.001,
+      "moment_absolute_nm": 0.001
+    },
+    "exclusions": "None; exact affine continuum solution, no thin-shell model",
+    "reason": "Exact continuum solution justifies tighter pointwise development checks than proposed generic equilibrium criterion; manual global component supports implement only T015 global axes",
+    "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  },
+  "measurements": {
+    "max_displacement_error_m": 4.914619047423398e-16,
+    "max_stress_error_pa": 2.700316e-12,
+    "reaction_force_error_n": 9.999999974752427e-06,
+    "reaction_moment_error_nm": 6.9745761557271635e-06,
+    "equilibrium": {
+      "applied_force_n": [
+        -1000.0000000000016,
+        -1000.0000000000018,
+        -1000.0000000000018
+      ],
+      "applied_moment_nm": [
+        4.618527782440651e-14,
+        -1.393997683326841e-14,
+        4.263256414560601e-14
+      ],
+      "characteristic_length_m": 1.0,
+      "force": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 3000.0,
+        "relative_residual": 3.3333339312473756e-09,
+        "relative_tolerance": 0.005,
+        "residual": [
+          -1.4779288903810084e-12,
+          -1.000000179374183e-05,
+          -1.9326762412674725e-12
+        ],
+        "residual_norm": 1.0000001793742127e-05,
+        "tolerance": 15.0
+      },
+      "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained components only; internal ties/MPC/free-node RF excluded",
+      "moment": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 3000.0,
+        "relative_residual": 2.4020834617195105e-09,
+        "relative_tolerance": 0.005,
+        "residual": [
+          6.974576201912441e-06,
+          -1.1132812216052721e-06,
+          -1.4303623103728569e-06
+        ],
+        "residual_norm": 7.206250385158531e-06,
+        "tolerance": 15.0
+      },
+      "moment_origin_m": [
+        0,
+        0,
+        0
+      ],
+      "passed": true,
+      "prescribed_actuator_reference_n": 0.0,
+      "reaction_force_n": [
+        1000.0000000000001,
+        999.99999,
+        999.9999999999999
+      ],
+      "reaction_moment_nm": [
+        6.9745761557271635e-06,
+        -1.1132812076652954e-06,
+        -1.430362353005421e-06
+      ]
+    }
+  },
+  "artifacts": {
+    "snapshot.json": {
+      "sha256": "ae21f3c15eadc6174cde7725d8fc90d2233c9141b8bb0ffda0bd405db868ab55",
+      "size_bytes": 16180,
+      "media_type": "application/json"
+    },
+    "mesh.json": {
+      "sha256": "a1b3186a91b17e7c8d85fff009da1ffd17bb194500d9ba792a059bcd150a38ab",
+      "size_bytes": 100917,
+      "media_type": "application/json"
+    },
+    "analysis.inp": {
+      "sha256": "a4aa45153f0a19bab51634e5e395370b22ad084e58ae2aac81933e4a03ab8810",
+      "size_bytes": 24061,
+      "media_type": "text/plain"
+    },
+    "solver.log": {
+      "sha256": "69963230f5d4f1e8fde95e83344b3dc8437dc4d4b1a3bf9d768b4eb78cd0a044",
+      "size_bytes": 2255,
+      "media_type": "text/plain"
+    },
+    "analysis.dat": {
+      "sha256": "be186144bd6cb6361f550e3094bee1a3dbfce2844143386cf5bbffc45453a16e",
+      "size_bytes": 87277,
+      "media_type": "text/plain"
+    },
+    "analysis.frd": {
+      "sha256": "f25e739ad2cb34743730c926d0c6975397c653287746479128f46b055636a8bc",
+      "size_bytes": 57859,
+      "media_type": "text/plain"
+    },
+    "resources.json": {
+      "sha256": "2d71da03c9f40f1ee72441b8ae93b5dbe983592b7b958f4bc8dc3f41d325f707",
+      "size_bytes": 111,
+      "media_type": "application/json"
+    },
+    "results.json": {
+      "sha256": "0bd46ef972d124218eb8364bd3e8a905c5480d372462d94bb1c44cf1c9dcc888",
+      "size_bytes": 520314,
+      "media_type": "application/json"
+    }
+  }
+}

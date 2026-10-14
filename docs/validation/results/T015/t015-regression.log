@@ -1,0 +1,109 @@
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 142 items
+
+tests/native/test_bond_native.py ...                                     [  2%]
+tests/native/test_cleanup_resources.py ....                              [  4%]
+tests/native/test_deck_guards.py ......                                  [  9%]
+tests/native/test_essential_loads.py ..................                  [ 21%]
+tests/native/test_face_decks.py .............                            [ 30%]
+tests/native/test_feasibility_stops.py ........                          [ 36%]
+tests/native/test_geometry_edits.py ...........                          [ 44%]
+tests/native/test_job_lifecycle.py ..........                            [ 51%]
+tests/native/test_local_jobs.py .                                        [ 52%]
+tests/native/test_mapping.py ..............                              [ 61%]
+tests/native/test_material_response.py ...                               [ 64%]
+tests/native/test_mesh_controls.py ..............                        [ 73%]
+tests/native/test_result_views.py ........                               [ 79%]
+tests/native/test_run_snapshots.py ..                                    [ 80%]
+tests/native/test_step_import.py ..............                          [ 90%]
+tests/native/test_stress_native.py ....                                  [ 93%]
+tests/native/test_toolchain.py .........                                 [100%]
+
+======================= 142 passed in 247.38s (0:04:07) ========================
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 13 items
+
+tests/integration/test_essential_loads.py .                              [  7%]
+tests/integration/test_geometry_edits.py .                               [ 15%]
+tests/integration/test_local_jobs.py ..                                  [ 30%]
+tests/integration/test_mesh_controls.py .                                [ 38%]
+tests/integration/test_persistence.py ...                                [ 61%]
+tests/integration/test_result_views.py .                                 [ 69%]
+tests/integration/test_startup.py ....                                   [100%]
+
+============================= 13 passed in 40.82s ==============================
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 21 tests using 1 worker
+
+(node:32710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/edits.spec.ts:6:1 › real hole preview apply undo retains setup and displays frozen old run (9.2s)
+  ✓   2 tests/e2e/edits.spec.ts:124:1 › changed face load requires explicit reselection and unsupported fillet keeps source (7.3s)
+  ✓   3 tests/e2e/essential-loads.spec.ts:58:1 › real body gravity and prescribed component persist across units with frozen equilibrium (7.5s)
+  ✓   4 tests/e2e/essential-loads.spec.ts:179:1 › real coordinate component supports self-equilibrated pressure and near-zero absolute balance (9.3s)
+  ✓   5 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.6s)
+  ✓   6 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.2s)
+  ✓   7 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.8s)
+  ✓   8 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (293ms)
+  ✓   9 tests/e2e/health.spec.ts:19:1 › page reports a health network failure without claiming readiness (310ms)
+  ✘  10 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (3.1s)
+(node:33033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (4.1s)
+  ✓  12 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (5.3s)
+  ✓  13 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (8.5s)
+  ✓  14 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (8.1s)
+  ✓  15 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (276ms)
+  ✓  16 tests/e2e/results.spec.ts:31:1 › synthetic bracket completes real import to contours, reactions and frozen result history (7.8s)
+  ✓  17 tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (7.9s)
+  ✓  18 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (6.6s)
+  ✓  19 tests/e2e/runs.spec.ts:70:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (6.5s)
+  ✓  20 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (170ms)
+  ✓  21 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (97ms)
+
+
+  1) tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+        -1,
+    -   0,
+    -   0,
+    +   -0,
+    +   -0,
+      ]
+
+      118 |   ).json();
+      119 |   const pressureMarker = state.markers.find((m) => m.kind === "pressure")!;
+    > 120 |   expect(pressureMarker.direction).toEqual([-1, 0, 0]);
+          |                                    ^
+      121 |   expect(pressureMarker.tip_on_face).toBe(true);
+      122 |   expect(state.total_force_n).toEqual([0, 0, 0]);
+      123 |   await page.getByLabel("Display detail").selectOption("fine");
+        at /workspace/OpenFEA/tests/e2e/loads.spec.ts:120:36
+
+    Error Context: test-results/loads-saved-face-loads-pre-3afbe-eck-downloads-and-conflicts/error-context.md
+
+  1 failed
+    tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts 
+  20 passed (1.8m)
+make: *** [Makefile:51: test-e2e] Error 1

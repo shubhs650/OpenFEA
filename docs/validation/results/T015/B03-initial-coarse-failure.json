@@ -1,0 +1,110 @@
+{
+  "case": "B03",
+  "status": "FAILED fixed 5% interior stress criterion; initial coarse mesh",
+  "mesh_size_m": 0.08,
+  "manifest": {
+    "id": "B03",
+    "revision": 1,
+    "source": "Independent Euler\u2013Bernoulli solid-cantilever approximation; uy_tip=-F*L^3/(3*E*I), sigma_xx=F*(L-x)*(y-h/2)/I; I=b*h^3/12. Timoshenko shear contribution F*L/(kappa*G*A) is 0.6% of EB with kappa=5/6 and nu=0; a disclosed approximation, not cross-solver evidence.",
+    "units": "m,N,Pa,kg,s",
+    "geometry": "Synthetic rectangular solid 0<=x<=1, 0<=y,z<=0.1 m; length/aspect ratio 10",
+    "material": {
+      "E_pa": 210000000000,
+      "nu": 0
+    },
+    "element": "C3D10 affine",
+    "mesh_sizes_m": [
+      0.08,
+      0.05
+    ],
+    "supports": "All translations fixed on complete immutable x=0 face",
+    "loads": "Total global force (0,-1,0) N uniformly spread once over complete x=1 face with quadratic consistent integration",
+    "samples": "Area-weighted mean native DAT uy on complete x=1 face; raw IP sigma_xx with 0.25<=x<=0.75, abs(y-0.05)>=0.02, 0.02<=z<=0.08; at least four stress samples per mesh",
+    "expected_tip_uy_m": -1.9047619047619048e-07,
+    "tolerances": {
+      "displacement_relative": 0.02,
+      "displacement_absolute_m": 1e-12,
+      "stress_relative": 0.05,
+      "stress_absolute_pa": 1,
+      "equilibrium_relative": 0.005,
+      "force_absolute_n": 1e-06,
+      "moment_absolute_nm": 1e-06
+    },
+    "exclusions": "Root and loaded-face end effects, neutral-axis relative stress, side-edge samples and peak singularities excluded by fixed physical sample regions before execution. No shell/beam elements or claimed solid peak accuracy.",
+    "reason": "docs/VALIDATION.md proposed 2% slender-cantilever displacement and 5% non-root stress criteria; nu=0 avoids added Poisson clamping disturbance while disclosed shear correction is below displacement budget",
+    "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  },
+  "maximum_sample": {
+    "position_m": [
+      0.5662926,
+      0.07236068,
+      0.05
+    ],
+    "actual_sigma_xx_pa": 1257.46,
+    "expected_sigma_xx_pa": 1163.7590862038394,
+    "relative_error": 0.0805157312256193
+  },
+  "declared_sample_count": 174,
+  "equilibrium": {
+    "applied_force_n": [
+      0.0,
+      -0.9999999999999907,
+      0.0
+    ],
+    "applied_moment_nm": [
+      0.05000000000000006,
+      0.0,
+      -0.9999999999999907
+    ],
+    "characteristic_length_m": 1.0,
+    "force": {
+      "absolute_tolerance": 1e-06,
+      "criterion": "relative",
+      "passed": true,
+      "reference": 1.0,
+      "relative_residual": 2.7900312298387e-07,
+      "relative_tolerance": 0.005,
+      "residual": [
+        -2.790000001029469e-07,
+        -1.3199907833438829e-09,
+        -1.419999979824756e-11
+      ],
+      "residual_norm": 2.7900312298387e-07,
+      "tolerance": 0.005
+    },
+    "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained components only; internal ties/MPC/free-node RF excluded",
+    "moment": {
+      "absolute_tolerance": 1e-06,
+      "criterion": "relative",
+      "passed": true,
+      "reference": 1.0012492197250393,
+      "relative_residual": 8.207500022804573e-08,
+      "relative_tolerance": 0.005,
+      "residual": [
+        -7.449757477573371e-11,
+        -3.683478781886518e-08,
+        7.345978003669984e-08
+      ],
+      "residual_norm": 8.21775299372632e-08,
+      "tolerance": 0.005006246098625196
+    },
+    "moment_origin_m": [
+      0,
+      0,
+      0
+    ],
+    "passed": true,
+    "prescribed_actuator_reference_n": 0.0,
+    "reaction_force_n": [
+      -2.790000001029469e-07,
+      0.9999999986799999,
+      -1.419999979824756e-11
+    ],
+    "reaction_moment_nm": [
+      -0.05000000007449763,
+      -3.683478781886518e-08,
+      1.0000000734597707
+    ]
+  },
+  "dirty_development_source": true
+}
