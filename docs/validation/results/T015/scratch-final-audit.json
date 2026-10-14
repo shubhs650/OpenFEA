@@ -1,0 +1,67 @@
+{
+  "aggregate_scratch_cap_bytes": 201326592,
+  "individual_file_cap_bytes": 67108864,
+  "observations": [
+    {
+      "probe": "test_mesh_recovery_stops_at_ag1",
+      "recovery": {
+        "max_mesh_attempts": 3,
+        "mesh_attempts": [
+          {
+            "mesh-attempt-1-resources.json_sha256": "95211b7a1fffed480b112b4f56049cd24a7c5bb153f07b57b2352b6e571c1290",
+            "mesh-attempt-1.log_sha256": "cca418292dd09e18d3889058f81a393e94762d21cbaee9d890550c6b46e2f3bf",
+            "number": 1,
+            "profile": "Delaunay",
+            "settings": {
+              "body_sizes_m": [
+                0.5
+              ],
+              "curvature_elements": 16,
+              "face_sizes_m": {},
+              "profile": 0
+            },
+            "status": "resource_exceeded"
+          }
+        ],
+        "sizing_unchanged": true
+      },
+      "resources": {
+        "peak_rss_bytes": 0,
+        "peak_scratch_bytes": 201327381,
+        "returncode": 1,
+        "wall_seconds": 0.06396706200030167
+      }
+    },
+    {
+      "probe": "test_mesh_recovery_stops_at_ag0",
+      "recovery": {
+        "max_mesh_attempts": 3,
+        "mesh_attempts": [
+          {
+            "mesh-attempt-1-resources.json_sha256": "6c034d917d5b426db3e9e869655527c2051407ca2b2567440d7917f489d5be3e",
+            "mesh-attempt-1.log_sha256": "e3af1e2b3a68732d41baa0a0c44353fe223129743a20717c710db621738b5c4f",
+            "number": 1,
+            "profile": "Delaunay",
+            "settings": {
+              "body_sizes_m": [
+                0.5
+              ],
+              "curvature_elements": 16,
+              "face_sizes_m": {},
+              "profile": 0
+            },
+            "status": "resource_exceeded"
+          }
+        ],
+        "sizing_unchanged": true
+      },
+      "resources": {
+        "peak_rss_bytes": 552960,
+        "peak_scratch_bytes": 201327381,
+        "returncode": 1,
+        "wall_seconds": 0.07903535700097564
+      }
+    }
+  ],
+  "scope": "Actual isolated resource writer, diagnostic only; no numerical mesh success"
+}

@@ -57,6 +57,10 @@
       "sha256": "fe084bb5c633d5d8366125eeea5613cd7f7e231d6c1a39f72b30281d69317b5f",
       "size_bytes": 7183
     },
+    "scratch-final-audit.json": {
+      "sha256": "356cfbb6814a11b6c1f6c43e1cb241a3b7205b14e5cd7ed9fafdd74726507d88",
+      "size_bytes": 2065
+    },
     "t015-browser-complete.log": {
       "sha256": "40d79d8910167425ab748cc3b57be24669499253667f399fabbd4a89d746fe71",
       "size_bytes": 3202
@@ -72,6 +76,10 @@
     "t015-ci-failure.log": {
       "sha256": "5e5d48a3436c2014587f7cce2679350f0825aa5bbd8799bd6d3ce26cabc545fc",
       "size_bytes": 21234
+    },
+    "t015-ci-second-failure.log": {
+      "sha256": "d88b78354bc29fac98f23538c84c0637c972d1b847a6de4e9c4162e6a7c78cf7",
+      "size_bytes": 24506
     },
     "t015-doctor.log": {
       "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
@@ -97,6 +105,10 @@
       "sha256": "c1c1c62396229345c73757771844a0522d882254b5af627cb4e1c513ead2c3ed",
       "size_bytes": 98
     },
+    "t015-native-final.log": {
+      "sha256": "955947b91a25dc2cbe1860084e6307599af52dbb6c35e1c982f1defe0ea7f635",
+      "size_bytes": 1722
+    },
     "t015-native-new.log": {
       "sha256": "29bea479710b0408a7263068e76ccbe35c5e22d39dcc88699a48a45c40616f74",
       "size_bytes": 100
@@ -104,6 +116,22 @@
     "t015-regression.log": {
       "sha256": "84f17cb61916e4aa19bfec46bb7a1779127bb6b105541975c8f978971c93d4de",
       "size_bytes": 6961
+    },
+    "t015-resource-final-checks.log": {
+      "sha256": "0c3b3f9816fabc95085d19b64ee28b42c606356e9ff0c43eeb3ce6d1453336d7",
+      "size_bytes": 3986
+    },
+    "t015-scratch-final-source.log": {
+      "sha256": "c0383ad1db55dae26894b3311f1215a49c08143d47b90de5a41f0889795ba863",
+      "size_bytes": 98
+    },
+    "t015-scratch-replay-final.log": {
+      "sha256": "7f23ab09b75cc8679dee2e5308c8e3dae2c3c24a5e6fd16a1ffc3c27f39b63a1",
+      "size_bytes": 98
+    },
+    "t015-scratch-reproduction.log": {
+      "sha256": "3f79fee53c5f6b599645ed63971d29680712985fa1d6f4cea256f641ad55a61f",
+      "size_bytes": 3461
     },
     "t015-session-build.log": {
       "sha256": "fc8084388f9075564ec11436c3656c46628f581a0deed251f5e053f9a7f90404",
@@ -172,6 +200,18 @@
     {
       "command": "make test-e2e; make docs-check build smoke",
       "result": "Final session-readiness implementation:22Chromiumpassed1.9m;133Markdown/status/dependency checks,build/realHTTPsmokepassed"
+    },
+    {
+      "command": "PYTHONPATH=services/api:services/worker .venv/bin/python -m pytest tests/native/test_deck_guards.py -q",
+      "result": "7passed6.98s incl live/finished-before-sample, exact budget assertion; final source replay retained"
+    },
+    {
+      "command": "make test-native",
+      "result": "Final143passed254.06s; nofailed/skipped"
+    },
+    {
+      "command": "make check build smoke",
+      "result": "Final native telemetry source:265Python+21TS,lint/format/types/contracts/133Markdown/status/build/realHTTPsmokepassed"
     }
   ],
   "corrections": [
@@ -182,7 +222,9 @@
     "Browser selectors/reload reopening aligned with actual workflow; state-only publication fixture corrected type/argument order.",
     "Screenshot review found gravity glyph inside solid; COM leader and exterior arrow preserve physical centre/force/moment. Short leader remained projection-occluded; longer annotation passes actual screenshot visibility and inspected images.",
     "Final documentation check initially ran before evidence copy and used a decorated COMPLETE status; exact status and real linked artifacts correct the check. Final133-file documentation graph passes.",
-    "Initial hosted CI native142/unit265/TS21/integration13/build passed;20Chromiumpassed1existingmultibodycase failed after early project creation. Delayed real-session browser regression reproduces premature write enablement. Final frontend gates project creation/opening until session/CSRF+initial listing finish;7affected cases pass. No numerical tolerance, timeout or retry changed."
+    "Initial hosted CI native142/unit265/TS21/integration13/build passed;20Chromiumpassed1existingmultibodycase failed after early project creation. Delayed real-session browser regression reproduces premature write enablement. Final frontend gates project creation/opening until session/CSRF+initial listing finish;7affected cases pass. No numerical tolerance, timeout or retry changed.",
+    "Second hosted run141nativepassed,oneexistingbudgetassertionfailed:resource_exceeded correctly refuses and no nextattempt, but197140664-byte lastlivepeak omitted finalpostexit audit above201326592-byte cap. Final audit joins peak, same cap/refusal preserved. Actual finished-before-first-sample variant reproduces oldpeak0 and passesfix;oneaddednativecase.",
+    "New probe monkeypatch target changed to the directly imported subprocess module for strict typing; same module/Popen object and real native child, no physics/criterion change."
   ],
   "criteria": {
     "absolute_normalized_residual": null,
@@ -202,17 +244,18 @@
   "date": "2026-10-14",
   "distinct_verified_cases": {
     "chromium": 22,
-    "native": 142,
+    "native": 143,
     "python_unit": 265,
     "real_process_integration": 13,
     "remaining_failures": 0,
     "repeats_counted": false,
     "skips": 0,
-    "total": 463,
+    "total": 464,
     "typescript_unit": 21
   },
+  "frontend_implementation_commit": "b4fab6a8231ccbadeb721a75ccb4ac16e6f75c62",
   "hosted_ci": "Reported on final PR head; PR remains open. No merge authorization for T015.",
-  "implementation_commit": "b4fab6a8231ccbadeb721a75ccb4ac16e6f75c62",
+  "implementation_commit": "b9eb7a23fe610bc6669fd46bc52ef62b8fb8afcd",
   "initial_hosted_ci": {
     "browser_failed": 1,
     "browser_passed": 20,
@@ -226,7 +269,7 @@
   },
   "milestone": "M2 IN PROGRESS",
   "next_task": "T016",
-  "numerical_commit_relationship": "Final source adds only frontend exterior gravity annotation and session/initial-project-list readiness with browser tests. Backend numerical source is identical to numerical implementation commit. Later commits record docs/evidence only.",
+  "numerical_commit_relationship": "Final source adds frontend gravity annotation/session readiness and native resource telemetry that retains the final scratch audit. Physical/numerical actions, parser criteria, reference checker, mesh sizing, solver inputs and all tolerances are identical to numerical implementation commit; resource caps/refusal/recovery unchanged.",
   "numerical_implementation_commit": "ee6c2e53e4bc54902fb88c03a2c22652d61315b2",
   "platform": {
     "bubblewrap": "0.12.0",
@@ -239,7 +282,14 @@
     "system": "Linux-6.18.44-x86_64-with-glibc2.41",
     "uv": "0.12.23"
   },
-  "source_and_lock_reference": "b4fab6a8231ccbadeb721a75ccb4ac16e6f75c62",
+  "second_hosted_ci": {
+    "failure": "Existing aggregate scratch assertion: finalaudit correctly refuses resource_exceeded, but recordedpeak197140664bytes below201326592cap. Finalsample retained inpeak; deterministic actual native short-livedcase reproduces/corrects. No budget/assertion/retry changes.",
+    "head": "5101e5edf5f00e761fc7aa82754d1e74cda78ad3",
+    "native_failed": 1,
+    "native_passed": 141,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38518476964"
+  },
+  "source_and_lock_reference": "b9eb7a23fe610bc6669fd46bc52ef62b8fb8afcd",
   "source_and_lock_sha256": {
     "apps/web/src/geometry/Viewport.tsx": "4f2d22812d3e9aed9d5e923046718dd4702fabae96acf014e2da1d45b73d59a0",
     "apps/web/src/geometry/Workspace.tsx": "4c6a699bc439d898562a9044e02d807d81d84ddc5fa720612c2b59b108fef050",
@@ -269,6 +319,7 @@
     "services/worker/worker/essential_benchmarks.py": "0c487ffeaf6a49a86aee498dd2d7e9d7cc34761043ac3377a0b27e8c0b2890f7",
     "services/worker/worker/geometry_native/build.py": "46f2cc86940e32181d11dacf4304c24f8f13acd71ef62f87c5eab488b8bab0f8",
     "services/worker/worker/geometry_native/import_step.py": "19197864e369b05aa090d218204a2ebaf61198c27c11bd479a69b3bf52447855",
+    "services/worker/worker/local_process.py": "638e760f9556830e902d29594aed265cc6a7cb1dafbcfd262b872ad2baf331b9",
     "services/worker/worker/local_solve.py": "0c13f0296d5a041b920efd504fd51ca9e23279dcc4f880f4ab7e5ad93cca4333",
     "services/worker/worker/postprocess/view.py": "20954949cf3624d34288ac63f1f0dbe044bbde445f09a42c16180205219e241d",
     "services/worker/worker/runtime.py": "3d79fbd42c16f44bcbca5a6a6ddc5322d4b32d5357216c2fe1de45873e734a28",
@@ -279,6 +330,7 @@
     "tests/e2e/projects.spec.ts": "43fbb31afcaa1d809fed8aee45c117f9e940c68b0746b3dada288465a1d6a047",
     "tests/fixtures/geometry/cantilever-m.step": "f8552faa584ac19e014d9465df636e3f4658e14b2a015d05e06e1e6f6c9d9d15",
     "tests/integration/test_essential_loads.py": "a8ce3c10e2a3bf56b08369bc4cdd37053ec1017211ac0010a525853ed90d13ba",
+    "tests/native/test_deck_guards.py": "2393ece78569b1625858cba352c8b6d2f967816e17d278ce6256555d79548371",
     "tests/native/test_essential_loads.py": "f0f17d3ac4c55e05549336403edaf06d1955125156ad873699dbcdaf8d7a042a",
     "tests/native/test_result_views.py": "f6c7b60b51554ca16b178f0bf379db5c432245d5950c40e1ba469d72be3dd35a",
     "tests/unit/test_essential_actions.py": "256f23a97596c4f4a20020bfc43d09f50890370ffc8ace15f0e3f3e8479e0f0c",
