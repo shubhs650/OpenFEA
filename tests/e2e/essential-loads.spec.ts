@@ -129,8 +129,36 @@ test("real body gravity and prescribed component persist across units with froze
     page.getByLabel("Geometry viewport", { exact: true }),
   ).toHaveAttribute("data-load-markers", "3");
   await page
+    .getByRole("button", { name: "Clear selection", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Fit", exact: true }).click();
+  const glyphImage = await page
     .getByLabel("Geometry viewport", { exact: true })
     .screenshot({ path: testInfo.outputPath("gravity-component-glyphs.png") });
+  const brownPixels = await page.evaluate(async (encoded) => {
+    const image = new Image();
+    image.src = `data:image/png;base64,${encoded}`;
+    await image.decode();
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext("2d")!;
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(0, 0, image.width, image.height).data;
+    let count = 0;
+    for (let i = 0; i < pixels.length; i += 4) {
+      if (
+        pixels[i] > 120 &&
+        pixels[i] < 210 &&
+        pixels[i + 1] > 45 &&
+        pixels[i + 1] < 130 &&
+        pixels[i + 2] < 40
+      )
+        count++;
+    }
+    return count;
+  }, glyphImage.toString("base64"));
+  expect(brownPixels).toBeGreaterThan(10);
   await mesh(page);
   const run = await solve(page);
   const view = await results(page, run.id);

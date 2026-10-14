@@ -219,17 +219,36 @@ export function Viewport({
       const poly = vtkPolyData.newInstance();
       const mapper = vtkMapper.newInstance({ scalarVisibility: false });
       const actor = vtkActor.newInstance({ pickable: false });
+      const markerOrigin = marker.position_m.map(
+        (v, i) => v - center[i],
+      ) as Point;
+      let arrowOrigin = markerOrigin.map(
+        (v, i) => v - (marker.tip_on_face ? marker.direction[i] * length : 0),
+      ) as Point;
+      if (marker.kind === "gravity") {
+        const body = display.bodies.find((b) => b.id === marker.body_id)!;
+        const exit = Math.min(
+          ...marker.direction.flatMap((direction, axis) =>
+            direction === 0
+              ? []
+              : [
+                  (body.bounds_m[axis + (direction > 0 ? 3 : 0)] -
+                    marker.position_m[axis]) /
+                    direction,
+                ],
+          ),
+        );
+        arrowOrigin = markerOrigin.map(
+          (v, i) => v + marker.direction[i] * (exit + length * 4),
+        ) as Point;
+      }
       const lines = glyph(
-        marker.position_m.map(
-          (v, i) =>
-            v -
-            center[i] -
-            (marker.tip_on_face ? marker.direction[i] * length : 0),
-        ) as Point,
+        arrowOrigin,
         marker.direction,
         length,
         marker.kind === "fixed",
       );
+      if (marker.kind === "gravity") lines.unshift([markerOrigin, arrowOrigin]);
       poly.getPoints().setData(new Float32Array(lines.flat(2)), 3);
       let offset = 0;
       poly.getLines().setData(
