@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: OWNED PHYSICAL PROBES + AUTHORITATIVE VOLUME SECTIONS + SESSION CAMERA/FIELD STATE + FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 IN PROGRESS — T019–T022 COMPLETE, T023 refinement IN PROGRESS; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: Finish T023 validation/evidence and open a signed-off PR; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: FROZEN-PHYSICS REFINEMENT COMPARISONS + RETAINED ASSUMPTION EXPLANATIONS/JSON EXPORT + OWNED PHYSICAL PROBES + AUTHORITATIVE VOLUME SECTIONS + SESSION CAMERA/FIELD STATE + FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M3 IN PROGRESS — T019–T023 COMPLETE, T024 M3 engineering exit next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: Review T023 PR (hosted outcome tracked on the PR), then execute T024 M3 engineering gate; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -33,7 +33,7 @@ T019: COMPLETE
 T020: COMPLETE
 T021: COMPLETE
 T022: COMPLETE
-T023: IN PROGRESS
+T023: COMPLETE
 T024–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
@@ -49,6 +49,12 @@ B11: DEVELOPMENT PASS for invalid-setup refusal; actual finite unsupported nativ
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T023 completed — common physical refinement comparison and retained assumptions
+
+Actual owned CSRF-protected comparisons require matching frozen geometry/material/loading/support/bond/numerical contracts and explicit physical positions/body/element sides in both meshes. They expose signed/absolute/near-zero relative changes separately from moving native raw peaks, with no convergence/safety badge. Batched volume interpolation preserves all-ten-node displacement and tensor-before-invariant semantics. Current v5 views add structured frozen-yield, existing 1% displacement/extent and unassessed-singularity explanations, retaining original raw warnings. The actual duplicated-analysis browser flow discovers completed runs, keeps canonical samples, invalidates stale field responses and downloads both runs' warnings/explanations/source identities as exact comparison JSON. [ADR-031](docs/adr/ADR-031.md), [guide](docs/CORE_RESULTS.md), [evidence](docs/validation/T023.md) and [manifest](docs/validation/results/T023/index.json) retain bounds and raw/source hashes.
+
+**668 distinct verified passes, 0 remaining failures/skips:** 388 Python, 33 TypeScript, 191 native, 18 actual-process integration and 38 Chromium. Full native regression passes in 579.37 s; actual 100/388-element axial meshes meet unchanged 1e-13 m/0.01 Pa criteria (max error 2.37e-16 m / 1.14e-13 Pa). A deliberately overstretched E=10,000 Pa linear model retains its 10% displacement/extent and supplied-yield exceedance warnings in both exported runs; numerical completion is not physical certification. Full browser/native/integration and final static/build/smoke checks pass. Discovery/readiness/selector harness corrections preserve all individual deadlines/retries/tolerances. Aggregate hosted headroom alone increases 20→25 minutes because the preceding successful job consumed 19m17s before these multi-run cases. Native caps, locks/binaries and benchmark criteria remain unchanged. Curved volume results refuse, no automatic singularity detector or saved report view is claimed, and owner/laptop/Windows/formal benchmark obligations remain pending. Next **T024**, whose M3 exit remains NOT RUN. All task commits carry the user's authorized DCO sign-off; watch the requested PR's hosted checks and leave it unmerged.
 
 ## T022 completed — physical probes and authoritative volume sections
 

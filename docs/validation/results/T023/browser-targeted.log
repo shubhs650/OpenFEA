@@ -1,0 +1,12 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts --grep refinement compares
+
+
+Running 1 test using 1 worker
+
+(node:83376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/results.spec.ts:486:1 › refinement compares real meshes at saved physical locations and exports all warnings (22.7s)
+
+  1 passed (26.3s)

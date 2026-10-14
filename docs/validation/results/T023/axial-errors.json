@@ -1,0 +1,9 @@
+{
+  "displacement_absolute_m": 2.361673616508679e-16,
+  "stress_absolute_pa": 1.1368683772161603e-13,
+  "max_stress_sample_change_pa": 0.0,
+  "mesh_elements": [100, 388],
+  "mesh_nodes": [231, 805],
+  "near_zero_relative_states": [null, null],
+  "criteria": "tests/fixtures/native/result-comparison.json"
+}

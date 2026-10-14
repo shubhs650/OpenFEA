@@ -1,0 +1,12 @@
+{
+  "prior_job": {
+    "completed_at": "2026-10-14T21:02:09Z",
+    "conclusion": "success",
+    "html_url": "https://github.com/shubhs650/OpenFEA/actions/runs/38634383368/job/116093693700",
+    "started_at": "2026-10-14T20:42:52Z"
+  },
+  "prior_aggregate_seconds": 1157,
+  "previous_limit_minutes": 20,
+  "new_limit_minutes": 25,
+  "reason": "Prior T022 used 19m17s; T023 adds multi-run native and browser cases. All individual/native deadlines, memory/scratch limits, concurrency and retries remain unchanged."
+}

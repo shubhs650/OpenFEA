@@ -1,0 +1,39 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts --grep refinement compares
+
+
+Running 1 test using 1 worker
+
+(node:81756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/results.spec.ts:486:1 › refinement compares real meshes at saved physical locations and exports all warnings (16.6s)
+
+
+  1) tests/e2e/results.spec.ts:486:1 › refinement compares real meshes at saved physical locations and exports all warnings 
+
+    Error: expect(locator).not.toHaveValue(expected) failed
+
+    Locator: getByLabel('Open analysis', { exact: true })
+    Expected: not "bccecb2f-c6ee-4a1a-a6d5-6570847fa854"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "not toHaveValue" getByLabel('Open analysis', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('Open analysis', { exact: true })
+
+
+      509 |   await expect(
+      510 |     page.getByLabel("Open analysis", { exact: true }),
+    > 511 |   ).not.toHaveValue(analysisId);
+          |         ^
+      512 |   const refinedAnalysis = await page
+      513 |     .getByLabel("Open analysis", { exact: true })
+      514 |     .inputValue();
+        at /workspace/OpenFEA/tests/e2e/results.spec.ts:511:9
+
+    Error Context: test-results/results-refinement-compare-a60c7-ns-and-exports-all-warnings/error-context.md
+
+  1 failed
+    tests/e2e/results.spec.ts:486:1 › refinement compares real meshes at saved physical locations and exports all warnings 
