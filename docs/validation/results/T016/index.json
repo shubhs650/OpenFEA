@@ -36,6 +36,10 @@
       "sha256": "8c17baac2be4eefba5f12b4e9b0baa640fc5e9114eacb4708f1635aa411e4586",
       "size_bytes": 557
     },
+    "browser-readiness-final.log": {
+      "sha256": "c89f2b6a7d88c74bffce4c63d857ff02592164c8205a9d0832da32b3054ae4e0",
+      "size_bytes": 3596
+    },
     "cylinder-axis.png": {
       "sha256": "8b95b7d89bd7e17e41f7f339762c710021f5973a0c5d0c7c714d589f9d57a733",
       "size_bytes": 9135
@@ -72,6 +76,10 @@
       "sha256": "c236d700a8c86891dafa5b32ebf3417f45bc62769b6d8c5f1c4af49c14976913",
       "size_bytes": 4066
     },
+    "hosted-mesh-readiness-failure.log": {
+      "sha256": "f2a0a57cb71558156bedf77ce95e1fefe3e0230b8ae32b3e841a6c7cf5addd60",
+      "size_bytes": 2885
+    },
     "integration-final.log": {
       "sha256": "fc76a1f68f83182d1f3ccd1eb25176cd57b42c54381061aa3cde3539751e3c3e",
       "size_bytes": 1006
@@ -79,6 +87,18 @@
     "integration-initial.log": {
       "sha256": "5cf9e642929de21de1a59263f9a5fb17fd96dcefa54057e0bebee04a13e235c1",
       "size_bytes": 3276
+    },
+    "mesh-readiness-before.log": {
+      "sha256": "9741f16207294bdbb556951b406cc26c7890b2ef78908e4103e954f5d8c55764",
+      "size_bytes": 1701
+    },
+    "mesh-readiness-fast.log": {
+      "sha256": "01ca57dd55e71bb1269fd1e0f466e2bcefd0b4b6ff6945d44cede9e79d541673",
+      "size_bytes": 4083
+    },
+    "mesh-readiness-targeted.log": {
+      "sha256": "a375ce29f8426d48bf13f0449f5586883da227a59e1059488acb643d04838cb6",
+      "size_bytes": 961
     },
     "native-initial.log": {
       "sha256": "53af53a0d973f0497711f29464f3d3b762df53c05d515255c8af5e33734b85c7",
@@ -131,6 +151,22 @@
     {
       "command": ".venv/bin/python scripts/ci/failure_probes.py",
       "result": "All six deliberate Python/TypeScript lint/type/test failures propagate correctly; temporary probes removed."
+    },
+    {
+      "command": "npm run test:e2e -- tests/e2e/mesh.spec.ts -g \"permission waits\"",
+      "result": "Old source deterministicfailure: recovery permission enabled before held real GET."
+    },
+    {
+      "command": "npm run test:e2e -- tests/e2e/mesh.spec.ts tests/e2e/directions.spec.ts",
+      "result": "Final5browserpassed37.4s, actual APIs/native meshes/solves; includes delayed real GET regression and actual bounded recovery failure."
+    },
+    {
+      "command": "make check build smoke",
+      "result": "Mesh readiness source:276Python/21TS,lint/format/types/contracts/136Markdown/status/build/realHTTPsmoke passed."
+    },
+    {
+      "command": "make test-e2e; make docs-check; git diff --check",
+      "result": "Final25Chromium pass2.3min;136Markdown/status/dependency/diff checks pass. No failures/skips."
     }
   ],
   "corrections": [
@@ -138,7 +174,8 @@
     "Native lifecycle/integration observer rescanned every host PID at each tree depth and missed actual tiny mesher. One snapshot per observation retains descendant ownership and real SIGSTOP/cancel/fencing checks, without timeout/retry/cap change.",
     "New browser save/results assertions initially raced refreshed load state or queued solve completion. Explicit fresh GET and terminal history waits correct harness; production state machine/timeouts/retries unchanged.",
     "Symmetry face reselection recomputes source maps before model validation; synchronous source choice clears stale draft reference/reverse.",
-    "Initial format/type/fixture selector corrections resolved with locked tools; no numerical criteria widened."
+    "Initial format/type/fixture selector corrections resolved with locked tools; no numerical criteria widened.",
+    "Second hosted CI passed native/fast/integration,23browser; one existing recovery-checkbox race. Delayed actual GET regression fails old enabled controls and passes current analysis/revision/geometry/preset gating. All5 affected browser cases pass37.4s. One added browser case makes492distinct."
   ],
   "criteria": {
     "basis_tolerance": 1e-10,
@@ -150,17 +187,18 @@
   },
   "date": "2026-10-14",
   "distinct_verified_cases": {
-    "chromium": 24,
+    "chromium": 25,
     "native": 156,
     "python_unit": 276,
     "real_process_integration": 14,
     "remaining_failures": 0,
     "repeats_counted": false,
     "skips": 0,
-    "total": 491,
+    "total": 492,
     "typescript_unit": 21
   },
-  "hosted_ci": "First implementation/evidence head passed; final documentation-only head outcome reported on PR #13.",
+  "frontend_implementation_commit": "184ddab55b3083d98a6f7d312cdc052c54339da8",
+  "hosted_ci": "Initial head passed; documentation-only second run exposed existing mesh-settings race. Final frontend/evidence head outcome reported on PR #13; leave open.",
   "implementation_commit": "fd2d73af72a3d2c37ae4b99cce02903674142872",
   "initial_hosted_ci": {
     "chromium": 24,
@@ -187,7 +225,19 @@
     "system": "Linux-6.18.44-x86_64-with-glibc2.41",
     "uv": "0.12.23"
   },
-  "source_and_lock_reference": "Implementation source commit fd2d73af72a3d2c37ae4b99cce02903674142872; subsequent documentation/evidence commit does not change numerical/API/browser source.",
+  "second_hosted_ci": {
+    "chromium_failed": 1,
+    "chromium_passed": 23,
+    "conclusion": "failure",
+    "failure": "Existing mesh-recovery checkbox editable before saved-settings response; response resets early draft. Real delayed GET regression proves premature enablement; frontend now gates current settings readiness. No numerical/source/cap/timeout/retry changes.",
+    "head": "8e4066b7d111a95aae94678156d770d402ff85fe",
+    "integration": 14,
+    "native": 156,
+    "python_unit": 276,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38539007722",
+    "typescript_unit": 21
+  },
+  "source_and_lock_reference": "Numerical/API/direction source fd2d73af72a3d2c37ae4b99cce02903674142872; mesh readiness frontend/test source184ddab55b3083d98a6f7d312cdc052c54339da8. Subsequent documentation changes no mathematical source. Official B06 remains bound to the numerical source.",
   "source_and_lock_sha256": {
     ".gitattributes": "0aadf6dac81d2371bd13cab51d8411a74a15f21ecb6abf8e8cab6acf453bf336",
     "Makefile": "fa9da209950cea10de6b9c4afd9c20ff76213b24236187d1f580a76f2988ea41",
@@ -196,6 +246,7 @@
     "apps/web/src/loads/DirectionEditor.tsx": "b80615ed9f1e27559058c04f024e71d8e8669f958ea191cd09744d1dc59adc98",
     "apps/web/src/loads/LoadsEditor.tsx": "e12ca24e44a883406f131d25bd5cb425ee2e523f3c0025a82329f5fac11efc00",
     "apps/web/src/materials/MaterialsEditor.tsx": "b49782599da41ce82eb8c6fae6cbd2a612d4962dbd1ccdeeca1bf8300cd2e267",
+    "apps/web/src/mesh/MeshEditor.tsx": "c73a4de8f51b976cbf4f412e3fb8ba7b5b2577b0b487ea00309ba1e79895cedc",
     "apps/web/src/results/ResultsEditor.tsx": "8519020fe6c9c7eb0dc65d1cca41ec93167bb32076ae31cd3ae455590391e863",
     "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
     "packages/contracts/api.d.ts": "a5917f3b31a423955429337bc262572a3f0b01f022b83c803df474bef5de74e3",
@@ -237,6 +288,7 @@
     "tests/benchmarks/B06.json": "45a68e5b6f75af888e6767c451b3a5727c250f96820a896b91a7374e261e080b",
     "tests/e2e/directions.spec.ts": "f5f5f8903db5444225539ad1c4973e8e09690a4bb920038e7bd646fe6f021e64",
     "tests/e2e/essential-loads.spec.ts": "2f0f102451d975640c12fd3ea34981ea046e042eac13bd53e80172b645628164",
+    "tests/e2e/mesh.spec.ts": "cf2d5d909a41c1746addea1e49b34c3b874c0448be72f3d2274f297df6ddbe1d",
     "tests/e2e/projects.spec.ts": "43fbb31afcaa1d809fed8aee45c117f9e940c68b0746b3dada288465a1d6a047",
     "tests/e2e/support/runs.ts": "19a35ecf21a8a192f324a4f61e4dde836268850210472e9f4f11ffd3d96f4943",
     "tests/fixtures/geometry/cantilever-m.step": "f8552faa584ac19e014d9465df636e3f4658e14b2a015d05e06e1e6f6c9d9d15",

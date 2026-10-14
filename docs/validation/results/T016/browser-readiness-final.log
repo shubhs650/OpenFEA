@@ -1,0 +1,37 @@
+npm run test:e2e
+
+> openfea@0.1.0 test:e2e
+> playwright test
+
+
+Running 25 tests using 1 worker
+
+(node:53776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/directions.spec.ts:53:1 › native rotated symmetry and edge sign preview drive real immutable global results (11.7s)
+  ✓   2 tests/e2e/directions.spec.ts:244:1 › native cylinder axis can be saved while curved symmetry and solving refuse (4.2s)
+  ✓   3 tests/e2e/edits.spec.ts:6:1 › real hole preview apply undo retains setup and displays frozen old run (9.3s)
+  ✓   4 tests/e2e/edits.spec.ts:124:1 › changed face load requires explicit reselection and unsupported fillet keeps source (7.5s)
+  ✓   5 tests/e2e/essential-loads.spec.ts:58:1 › real body gravity and prescribed component persist across units with frozen equilibrium (7.5s)
+  ✓   6 tests/e2e/essential-loads.spec.ts:207:1 › real coordinate component supports self-equilibrated pressure and near-zero absolute balance (11.2s)
+  ✓   7 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (5.2s)
+  ✓   8 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.0s)
+  ✓   9 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (5.0s)
+  ✓  10 tests/e2e/health.spec.ts:3:1 › workspace connects to the real API through Vite (292ms)
+  ✓  11 tests/e2e/health.spec.ts:19:1 › page reports a health network failure without claiming readiness (296ms)
+  ✓  12 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (5.7s)
+  ✓  13 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (4.1s)
+  ✓  14 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (5.2s)
+  ✓  15 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (9.1s)
+  ✓  16 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (9.0s)
+  ✓  17 tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing (3.2s)
+  ✓  18 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (272ms)
+  ✓  19 tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes (411ms)
+  ✓  20 tests/e2e/results.spec.ts:31:1 › synthetic bracket completes real import to contours, reactions and frozen result history (7.7s)
+  ✓  21 tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (7.4s)
+  ✓  22 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (7.4s)
+  ✓  23 tests/e2e/runs.spec.ts:70:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (6.8s)
+  ✓  24 tests/e2e/stress.spec.ts:21:1 › real native material jump stays separate in the display fixture (201ms)
+  ✓  25 tests/e2e/stress.spec.ts:54:1 › field and interface-node selection retain location and source semantics (103ms)
+
+  25 passed (2.3m)
