@@ -1,9 +1,12 @@
 import type { ResultView, UnitPreset } from "../geometry/api";
 
-export type ResultField = "displacement" | "von_mises";
+export type ResultField = ResultView["data"]["fields"][number]["key"];
+export const isDisplacement = (field: ResultField) =>
+  field === "displacement" || field.startsWith("u");
 export type ResultPresentation = {
   view: ResultView;
   field: ResultField;
+  smoothed: boolean;
   scale: number;
   preset: UnitPreset;
   range: [number, number];
@@ -11,19 +14,28 @@ export type ResultPresentation = {
 export function scalar(
   vertex: ResultView["data"]["vertices"][number],
   field: ResultField,
+  smoothed = false,
 ) {
-  return field === "displacement"
-    ? Math.hypot(...vertex.displacement_m)
-    : vertex.von_mises_pa;
+  if (field === "displacement") return Math.hypot(...vertex.displacement_m);
+  if (field === "ux" || field === "uy" || field === "uz")
+    return vertex.displacement_m[["ux", "uy", "uz"].indexOf(field)];
+  const stress = smoothed ? vertex.smoothed_stress : vertex.stress;
+  if (field === "von_mises") return stress.von_mises_pa;
+  if (field === "s1" || field === "s2" || field === "s3")
+    return stress.principal_pa[["s1", "s2", "s3"].indexOf(field)];
+  return stress.tensor_pa[
+    ["sxx", "syy", "szz", "sxy", "syz", "szx"].indexOf(field)
+  ];
 }
 export function fieldRange(
   view: ResultView,
   field: ResultField,
+  smoothed = false,
 ): [number, number] {
   let low = Infinity,
     high = -Infinity;
   for (const vertex of view.data.vertices) {
-    const value = scalar(vertex, field);
+    const value = scalar(vertex, field, smoothed);
     low = Math.min(low, value);
     high = Math.max(high, value);
   }

@@ -9,6 +9,29 @@ from app.domain.base import StrictModel
 from app.domain.models import Hash
 
 Vector = tuple[FiniteFloat, FiniteFloat, FiniteFloat]
+Tensor = tuple[FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat]
+FieldKey = Literal[
+    "displacement",
+    "ux",
+    "uy",
+    "uz",
+    "von_mises",
+    "sxx",
+    "syy",
+    "szz",
+    "sxy",
+    "syz",
+    "szx",
+    "s1",
+    "s2",
+    "s3",
+]
+
+
+class StressValues(StrictModel):
+    tensor_pa: Tensor
+    principal_pa: Vector
+    von_mises_pa: FiniteFloat
 
 
 class ResultVertex(StrictModel):
@@ -20,6 +43,9 @@ class ResultVertex(StrictModel):
     position_m: Vector
     displacement_m: Vector
     von_mises_pa: FiniteFloat
+    stress: StressValues
+    smoothed_stress: StressValues
+    smoothed_contributions: int
 
 
 class ResultSample(StrictModel):
@@ -30,11 +56,20 @@ class ResultSample(StrictModel):
     element_id: int | None
     integration_point_id: int | None
     body_id: str | None
+    material_id: str | None
 
 
 class ResultExtrema(StrictModel):
     minimum: ResultSample
     maximum: ResultSample
+
+
+class ResultField(StrictModel):
+    key: FieldKey
+    label: str
+    unit: Literal["m", "Pa"]
+    raw_location: Literal["node", "integration_point"]
+    extrema: ResultExtrema
 
 
 class YieldFactor(StrictModel):
@@ -83,6 +118,13 @@ class EquilibriumData(StrictModel):
 
 class ResultData(StrictModel):
     processor: str
+    fields: list[ResultField]
+    frame: Literal["global_cartesian"]
+    tensor_components: tuple[
+        Literal["xx"], Literal["yy"], Literal["zz"], Literal["xy"], Literal["yz"], Literal["zx"]
+    ]
+    principal_order: Literal["s1 >= s2 >= s3 (algebraic)"]
+    smoothing_method: str
     vertices: list[ResultVertex]
     triangles: list[tuple[int, int, int]]
     displacement: ResultExtrema

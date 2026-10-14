@@ -54,7 +54,11 @@ class Mesh:
 @dataclass(frozen=True)
 class StressPoint:
     location: Literal[
-        "integration_point", "element_node", "element_interpolated", "solver_averaged_node"
+        "integration_point",
+        "element_node",
+        "element_interpolated",
+        "solver_averaged_node",
+        "smoothed_node",
     ]
     element_id: int | None
     integration_point_id: int | None
