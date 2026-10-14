@@ -11,7 +11,7 @@ from typing import Literal
 ROOT = Path(__file__).resolve().parents[3]
 NATIVE = ROOT / ".local/native"
 Component = Literal["cad", "mesh", "post"]
-Fixture = Literal["box", "bracket", "two", "bonded", "gap-probe", "long-box", "beam"]
+Fixture = Literal["box", "bracket", "two", "bonded", "gap-probe", "long-box", "beam", "rotated-box"]
 
 
 class NativeOperationError(RuntimeError):
@@ -132,7 +132,16 @@ def solve_reference(directory: Path) -> subprocess.CompletedProcess[str]:
 
 
 def synthetic_geometry(directory: Path, fixture: Fixture) -> None:
-    if fixture not in ("box", "bracket", "two", "bonded", "gap-probe", "long-box", "beam"):
+    if fixture not in (
+        "box",
+        "bracket",
+        "two",
+        "bonded",
+        "gap-probe",
+        "long-box",
+        "beam",
+        "rotated-box",
+    ):
         raise ValueError("Unsupported synthetic fixture")
     execute(
         [

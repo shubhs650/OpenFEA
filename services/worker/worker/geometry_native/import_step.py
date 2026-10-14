@@ -11,7 +11,7 @@ from pathlib import Path
 
 from OCP.Bnd import Bnd_Box
 from OCP.BRep import BRep_Tool
-from OCP.BRepAdaptor import BRepAdaptor_Surface
+from OCP.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_Surface
 from OCP.BRepBndLib import BRepBndLib
 from OCP.BRepBuilderAPI import BRepBuilderAPI_Copy, BRepBuilderAPI_Transform
 from OCP.BRepCheck import BRepCheck_Analyzer
@@ -22,7 +22,7 @@ from OCP.collections import (
     IndexedMap_TopoDS_Shape_TopTools_ShapeMapHasher as IndexedMap_TopoDS_Shape,
 )
 from OCP.collections import Sequence_TCollection_AsciiString
-from OCP.GeomAbs import GeomAbs_Plane
+from OCP.GeomAbs import GeomAbs_Cylinder, GeomAbs_Line, GeomAbs_Plane
 from OCP.gp import gp_Pnt, gp_Trsf
 from OCP.GProp import GProp_GProps
 from OCP.IFSelect import IFSelect_RetDone
@@ -163,6 +163,7 @@ def export_shape(shape, source_sha256, unit, detected):
         raise RuntimeError("Cannot write canonical geometry")
     revision = digest(Path("geometry.brep"))
     body_display, catalog_faces, body_artifacts = [], [], []
+    catalog_edges, catalog_vertices = [], []
     display = {lod: [] for lod in ("coarse", "fine")}
     counts = {lod: 0 for lod in display}
     full_bounds = bounds(shape)
@@ -192,6 +193,7 @@ def export_shape(shape, source_sha256, unit, detected):
         body_artifacts.append(filename)
         original_faces = [TopoDS.Face(f) for f in explore(solid, TopAbs_FACE)]
         edge_map = IndexedMap_TopoDS_Shape()
+        vertex_map = IndexedMap_TopoDS_Shape()
         local = []
         for fi, face in enumerate(original_faces, 1):
             face_id = f"{body_id}:f{fi}"
@@ -202,6 +204,7 @@ def export_shape(shape, source_sha256, unit, detected):
                     "id": face_id,
                     "body_id": body_id,
                     "edges": edges,
+                    "vertices": {vertex_map.Add(v) for v in explore(face, TopAbs_VERTEX)},
                     "signature": {
                         "area_m2": props.Mass(),
                         "center_m": props.CentreOfMass().Coord(),
@@ -215,6 +218,44 @@ def export_shape(shape, source_sha256, unit, detected):
                 normal = surface.Plane().Axis().Direction().Coord()
                 sign = -1 if face.Orientation() == TopAbs_REVERSED else 1
                 local[-1]["signature"]["outward_normal"] = [sign * v for v in normal]
+            elif surface.GetType() == GeomAbs_Cylinder:
+                axis = surface.Cylinder().Axis()
+                local[-1]["signature"]["axis_direction"] = axis.Direction().Coord()
+                local[-1]["signature"]["axis_point_m"] = axis.Location().Coord()
+        if (
+            len(catalog_edges) + edge_map.Extent() > 20000
+            or len(catalog_vertices) + vertex_map.Extent() > 20000
+        ):
+            fail(
+                "direction_catalog_limit",
+                "Geometry exceeds the 20,000 native edge/vertex catalog limit",
+            )
+        for vi in range(1, vertex_map.Extent() + 1):
+            vertex = TopoDS.Vertex(vertex_map.FindKey(vi))
+            catalog_vertices.append(
+                {
+                    "id": f"{body_id}:v{vi}",
+                    "body_id": body_id,
+                    "point_m": BRep_Tool.Pnt_s(vertex).Coord(),
+                    "face_ids": sorted(f["id"] for f in local if vi in f["vertices"]),
+                }
+            )
+        for ei in range(1, edge_map.Extent() + 1):
+            edge = TopoDS.Edge(edge_map.FindKey(ei))
+            curve = BRepAdaptor_Curve(edge)
+            item = {
+                "id": f"{body_id}:e{ei}",
+                "body_id": body_id,
+                "curve_type": str(curve.GetType()),
+                "face_ids": sorted(f["id"] for f in local if ei in f["edges"]),
+                "vertex_ids": sorted(
+                    {f"{body_id}:v{vertex_map.FindIndex(v)}" for v in explore(edge, TopAbs_VERTEX)}
+                ),
+            }
+            if curve.GetType() == GeomAbs_Line:
+                item["start_m"] = curve.Value(curve.FirstParameter()).Coord()
+                item["end_m"] = curve.Value(curve.LastParameter()).Coord()
+            catalog_edges.append(item)
         for face in local:
             face["neighbors"] = sorted(
                 other["id"]
@@ -223,6 +264,7 @@ def export_shape(shape, source_sha256, unit, detected):
             )
         for face in local:
             del face["edges"]
+            del face["vertices"]
         catalog_faces.extend(local)
         for lod, fraction, angle in (("coarse", 0.01, 0.4), ("fine", 0.002, 0.15)):
             copied = BRepBuilderAPI_Copy(solid, True, False)
@@ -301,6 +343,8 @@ def export_shape(shape, source_sha256, unit, detected):
             "units": {"source_length_unit": unit, "canonical_length_unit": "m", "confirmed": True},
             "bodies": [{"id": b["id"]} for b in body_display],
             "faces": catalog_faces,
+            "edges": catalog_edges,
+            "vertices": catalog_vertices,
             "validation": {
                 "ocp_version": importlib.metadata.version("cadquery-ocp"),
                 "valid_solids": True,

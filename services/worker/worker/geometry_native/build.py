@@ -3,19 +3,21 @@
 import hashlib
 import importlib.metadata
 import json
+import math
 import sys
 from pathlib import Path
 
 from OCP.BRep import BRep_Builder, BRep_Tool
 from OCP.BRepAdaptor import BRepAdaptor_Surface
 from OCP.BRepAlgoAPI import BRepAlgoAPI_Cut
+from OCP.BRepBuilderAPI import BRepBuilderAPI_Transform
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
 from OCP.BRepMesh import BRepMesh_IncrementalMesh
 from OCP.BRepPrimAPI import BRepPrimAPI_MakeBox
 from OCP.BRepTools import BRepTools
 from OCP.GeomAbs import GeomAbs_Plane
-from OCP.gp import gp_Pnt
+from OCP.gp import gp_Pnt, gp_Trsf
 from OCP.GProp import GProp_GProps
 from OCP.IFSelect import IFSelect_RetDone
 from OCP.Interface import Interface_Static
@@ -69,6 +71,30 @@ elif kind == "long-box":
     bodies = [BRepPrimAPI_MakeBox(2.0, 1.0, 1.0).Shape()]
 elif kind == "beam":
     bodies = [BRepPrimAPI_MakeBox(1.0, 0.1, 0.1).Shape()]
+elif kind == "rotated-box":
+    ax, ay, az = map(math.radians, (23, 37, 19))
+    cx, sx, cy, sy, cz, sz = (
+        math.cos(ax),
+        math.sin(ax),
+        math.cos(ay),
+        math.sin(ay),
+        math.cos(az),
+        math.sin(az),
+    )
+    rotation = (
+        (cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx),
+        (sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx),
+        (-sy, cy * sx, cy * cx),
+    )
+    transform = gp_Trsf()
+    transform.SetValues(
+        *[
+            value
+            for row, translation in zip(rotation, (0.25, -0.4, 0.15), strict=True)
+            for value in (*row, translation)
+        ]
+    )
+    bodies = [BRepBuilderAPI_Transform(box, transform, True).Shape()]
 else:
     raise ValueError("Only allowlisted synthetic fixtures are supported")
 compound = TopoDS_Compound()

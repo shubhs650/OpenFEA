@@ -7,13 +7,20 @@ from uuid import UUID
 from pydantic import Field, model_validator
 
 from app.domain.base import StrictModel
+from app.domain.directions import (
+    DirectionSelection,
+    DirectionSnapshot,
+    resolve_direction,
+    verify_direction,
+)
 from app.domain.errors import DomainError
 from app.domain.imports import GeometryDisplay
 from app.domain.materials import MaterialSetup
 from app.domain.mesh import MeshSetup
 from app.domain.models import Analysis, CatalogID, GeometryRevision, Hash, Name
 from app.domain.units import PresetID, to_si
-from worker.actions import rigid_rank
+from worker.actions import rigid_rank_directions
+from worker.directions import IDENTITY, Constraint, constraint_frame
 from worker.meshing import Vec, add, cross, norm, scale, sub
 
 Number = Annotated[float, Field(strict=True)]
@@ -33,8 +40,33 @@ class FixedInput(FaceInput):
 class DisplacementInput(FaceInput):
     kind: Literal["displacement"]
     units: PresetID
-    axis: Literal["x", "y", "z"]
+    axis: Literal["x", "y", "z"] | None = None
+    direction: DirectionSelection | None = None
     displacement: Number
+
+    @model_validator(mode="after")
+    def one_direction(self) -> "DisplacementInput":
+        if (self.axis is None) == (self.direction is None):
+            raise ValueError("Choose exactly one global component or geometry direction")
+        return self
+
+
+class SymmetryInput(FaceInput):
+    kind: Literal["symmetry"]
+
+
+class DirectionalForceInput(FaceInput):
+    kind: Literal["directional_force"]
+    units: PresetID
+    magnitude: Number
+    direction: DirectionSelection
+    combine_confirmed: bool = False
+
+    @model_validator(mode="after")
+    def nonzero(self) -> "DirectionalForceInput":
+        if self.magnitude == 0:
+            raise ValueError("Directed total force must be nonzero")
+        return self
 
 
 class GravityInput(StrictModel):
@@ -81,7 +113,13 @@ class ForceInput(FaceInput):
 
 class LoadRequest(StrictModel):
     assignment: Annotated[
-        FixedInput | PressureInput | ForceInput | DisplacementInput | GravityInput,
+        FixedInput
+        | PressureInput
+        | ForceInput
+        | DisplacementInput
+        | GravityInput
+        | SymmetryInput
+        | DirectionalForceInput,
         Field(discriminator="kind"),
     ]
 
@@ -89,11 +127,17 @@ class LoadRequest(StrictModel):
 class LoadAssignment(StrictModel):
     id: UUID
     name: Name
-    kind: Literal["fixed", "pressure", "force", "displacement", "gravity"]
+    kind: Literal[
+        "fixed", "pressure", "force", "displacement", "gravity", "symmetry", "directional_force"
+    ]
     geometry_revision_id: UUID
     face_ids: list[CatalogID] = Field(default_factory=list)
     body_ids: list[CatalogID] = Field(default_factory=list)
     axis: Literal["x", "y", "z"] | None = None
+    direction: DirectionSnapshot | None = None
+    symmetry_directions: dict[str, DirectionSnapshot] = Field(default_factory=dict)
+    review_direction: bool = False
+    source_magnitude: float | None = None
     displacement_m: float | None = None
     acceleration_m_s2: Vec | None = None
     pressure_pa: float | None = None
@@ -119,8 +163,18 @@ class LoadAssignment(StrictModel):
                 raise ValueError("Gravity needs complete bodies and nonzero acceleration")
         elif self.body_ids or self.review_bodies or not self.face_ids:
             raise ValueError("Face assignments need complete face selections")
-        if self.kind == "displacement" and (self.axis is None or self.displacement_m is None):
-            raise ValueError("Prescribed displacement requires one global component")
+        if self.kind == "displacement" and (
+            self.displacement_m is None or (self.axis is None) == (self.direction is None)
+        ):
+            raise ValueError("Prescribed displacement requires one global or native direction")
+        if self.kind == "directional_force" and (
+            self.direction is None or not self.force_n or not any(self.force_n)
+        ):
+            raise ValueError(
+                "Directed total force requires a native direction and nonzero SI force"
+            )
+        if self.kind == "symmetry" and set(self.symmetry_directions) != set(self.face_ids):
+            raise ValueError("Each symmetry face requires its native planar direction")
         return self
 
 
@@ -133,7 +187,9 @@ class LoadMarker(StrictModel):
     assignment_id: UUID
     face_id: str
     body_id: str
-    kind: Literal["fixed", "pressure", "force", "displacement", "gravity"]
+    kind: Literal[
+        "fixed", "pressure", "force", "displacement", "gravity", "symmetry", "directional_force"
+    ]
     position_m: Vec
     direction: Vec
     tip_on_face: bool = False
@@ -186,7 +242,9 @@ class DeckExport(StrictModel):
     summary: dict[str, float | int | str | list[str]]
 
 
-def normalized(identifier: UUID, request: LoadRequest) -> LoadAssignment:
+def normalized(
+    identifier: UUID, request: LoadRequest, geometry: GeometryRevision | None = None
+) -> LoadAssignment:
     item = request.assignment
     fields: dict[str, Any] = dict(
         id=identifier,
@@ -207,7 +265,33 @@ def normalized(identifier: UUID, request: LoadRequest) -> LoadAssignment:
             )
             return LoadAssignment.model_validate(fields)
         fields["face_ids"] = sorted(set(item.face_ids))
+        if isinstance(item, SymmetryInput):
+            if geometry is None:
+                raise DomainError(409, "geometry_required", "Accept geometry first")
+            fields["symmetry_directions"] = {
+                ref: resolve_direction(
+                    geometry, DirectionSelection(kind="plane_normal", reference_id=ref)
+                )
+                for ref in fields["face_ids"]
+            }
+            return LoadAssignment.model_validate(fields)
+        if isinstance(item, DirectionalForceInput):
+            if geometry is None:
+                raise DomainError(409, "geometry_required", "Accept geometry first")
+            direction = resolve_direction(geometry, item.direction)
+            fields.update(
+                direction=direction,
+                force_n=scale(direction.vector, to_si(item.magnitude, item.units, "force")),
+                source_magnitude=item.magnitude,
+                source_units=item.units,
+                combine_confirmed=item.combine_confirmed,
+            )
+            return LoadAssignment.model_validate(fields)
         if isinstance(item, DisplacementInput):
+            if item.direction is not None:
+                if geometry is None:
+                    raise DomainError(409, "geometry_required", "Accept geometry first")
+                fields["direction"] = resolve_direction(geometry, item.direction)
             displacement = to_si(item.displacement, item.units, "length")
             if item.displacement != 0 and displacement == 0:
                 raise ValueError("Nonzero displacement underflows in SI")
@@ -295,10 +379,34 @@ def outward_normal(display: GeometryDisplay, face_id: str, geometry: GeometryRev
 def support_components(assignment: LoadAssignment) -> dict[int, float]:
     if assignment.kind == "fixed":
         return {1: 0, 2: 0, 3: 0}
-    if assignment.kind == "displacement":
-        assert assignment.axis is not None and assignment.displacement_m is not None
+    if assignment.kind == "displacement" and assignment.axis is not None:
+        assert assignment.displacement_m is not None
         return {"xyz".index(assignment.axis) + 1: assignment.displacement_m}
     return {}
+
+
+def support_rows(assignment: LoadAssignment, face_id: str) -> list[Constraint]:
+    if assignment.kind == "symmetry":
+        return [(assignment.symmetry_directions[face_id].vector, 0.0)]
+    if assignment.kind == "displacement" and assignment.direction is not None:
+        assert assignment.displacement_m is not None
+        return [(assignment.direction.vector, assignment.displacement_m)]
+    return [(IDENTITY[axis - 1], value) for axis, value in support_components(assignment).items()]
+
+
+def restore_direction_revision(item: LoadAssignment, geometry_id: UUID) -> LoadAssignment:
+    return item.model_copy(
+        update={
+            "geometry_revision_id": geometry_id,
+            "direction": item.direction.model_copy(update={"geometry_revision_id": geometry_id})
+            if item.direction
+            else None,
+            "symmetry_directions": {
+                ref: direction.model_copy(update={"geometry_revision_id": geometry_id})
+                for ref, direction in item.symmetry_directions.items()
+            },
+        }
+    )
 
 
 def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: LoadAssignment) -> None:
@@ -325,6 +433,11 @@ def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: Load
                 "Body accelerations overlap. Review and explicitly confirm their combination",
             )
         return
+    if not item.review_direction:
+        if item.direction:
+            verify_direction(geometry, item.direction)
+        for direction in item.symmetry_directions.values():
+            verify_direction(geometry, direction)
     for face_id in item.face_ids:
         face_metrics(geometry, face_id)
         face = next(f for f in geometry.faces if f.id == face_id)
@@ -339,8 +452,8 @@ def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: Load
     overlaps = any(
         not old.review_faces
         and old.id != item.id
-        and old.kind in ("pressure", "force")
-        and item.kind in ("pressure", "force")
+        and old.kind in ("pressure", "force", "directional_force")
+        and item.kind in ("pressure", "force", "directional_force")
         and set(old.face_ids) & set(item.face_ids)
         for old in setup.assignments
     )
@@ -357,7 +470,12 @@ def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: Load
             n for f in geometry.faces if f.id in item.face_ids for n in f.neighbors
         }
         for old in setup.assignments:
-            if old.id == item.id or old.review_faces or not touching.intersection(old.face_ids):
+            if (
+                old.id == item.id
+                or old.review_faces
+                or old.review_direction
+                or not touching.intersection(old.face_ids)
+            ):
                 continue
             previous = support_components(old)
             if any(
@@ -368,6 +486,22 @@ def validate_assignment(geometry: GeometryRevision, setup: LoadSetup, item: Load
                     "conflicting_constraints",
                     "Shared faces/edges prescribe different values for one global component",
                 )
+
+    # Native topology incidence, never proximity/triangle IDs, identifies common CAD vertices.
+    candidates = [a for a in setup.assignments if a.id != item.id] + [item]
+    for vertex in geometry.vertices:
+        rows = [
+            row
+            for a in candidates
+            if not a.review_faces and not a.review_direction
+            for ref in a.face_ids
+            if ref in vertex.face_ids
+            for row in support_rows(a, ref)
+        ]
+        try:
+            constraint_frame(rows)
+        except ValueError as error:
+            raise DomainError(422, "conflicting_constraints", str(error)) from None
 
 
 def load_state(
@@ -400,18 +534,25 @@ def load_state(
         for index, body in enumerate(geometry.bodies, 1):
             if body.id not in assigned:
                 blockers.append(f"Body {index} needs a confirmed material.")
-            rows: list[tuple[Vec, int]] = []
+            rows: list[tuple[Vec, Vec]] = []
             for item in setup.assignments:
-                if item.kind not in ("fixed", "displacement") or item.review_faces:
+                if (
+                    item.kind not in ("fixed", "displacement", "symmetry")
+                    or item.review_faces
+                    or item.review_direction
+                ):
                     continue
-                axes = (1, 2, 3) if item.kind == "fixed" else ("xyz".index(item.axis or "x") + 1,)
                 for ref in item.face_ids:
                     face = face_display.get(ref)
                     if face and face.body_id == body.id:
-                        rows.extend((point, axis) for point in face.points_m for axis in axes)
+                        rows.extend(
+                            (point, direction)
+                            for point in face.points_m
+                            for direction, _ in support_rows(item, ref)
+                        )
             native = body_display.get(body.id)
             rank = (
-                rigid_rank(
+                rigid_rank_directions(
                     rows,
                     (native.bounds_m[0], native.bounds_m[1], native.bounds_m[2]),
                     max(native.bounds_m[a + 3] - native.bounds_m[a] for a in range(3)),
@@ -421,11 +562,11 @@ def load_state(
             )
             if rank < 6:
                 blockers.append(
-                    f"Body {index} needs a fixed face or sufficient global component supports "
+                    f"Body {index} needs a fixed face or sufficient global/directional supports "
                     f"(rigid-motion rank {rank}/6)."
                 )
         if not any(
-            a.kind in ("pressure", "force", "gravity")
+            a.kind in ("pressure", "force", "directional_force", "gravity")
             or (a.kind == "displacement" and a.displacement_m != 0)
             for a in setup.assignments
         ):
@@ -433,10 +574,18 @@ def load_state(
                 "Add a nonzero pressure, total force, gravity or prescribed displacement."
             )
         for item in setup.assignments:
-            if item.review_faces or item.review_bodies:
+            if item.review_faces or item.review_bodies or item.review_direction:
                 complete = False
-                targets = item.review_faces or item.review_bodies
-                target_kind = "bodies" if item.kind == "gravity" else "faces"
+                targets = (
+                    item.review_faces
+                    or item.review_bodies
+                    or ([item.direction.reference_id] if item.direction else [])
+                )
+                target_kind = (
+                    "direction and faces"
+                    if item.review_direction
+                    else ("bodies" if item.kind == "gravity" else "faces")
+                )
                 blockers.append(
                     f"{item.name}: geometry changed. Reselect the intended {target_kind} "
                     "before meshing: " + ", ".join(targets)
@@ -508,12 +657,12 @@ def load_state(
                             outward_normal(display, face_id, geometry),
                             -item.pressure_pa * face_area,
                         )
-                    elif item.kind == "force":
+                    elif item.kind in ("force", "directional_force"):
                         assert item.force_n is not None
                         vector = scale(item.force_n, face_area / area)
                     magnitude = math.hypot(*vector)
                     if not math.isfinite(magnitude) or (
-                        item.kind in ("pressure", "force") and magnitude == 0
+                        item.kind in ("pressure", "force", "directional_force") and magnitude == 0
                     ):
                         raise DomainError(
                             422, "invalid_load", "Load preview must be finite and nonzero"
@@ -523,17 +672,9 @@ def load_state(
                         if magnitude
                         else (0, 0, 0)
                     )
-                    if item.kind == "displacement":
-                        assert item.axis is not None and item.displacement_m is not None
-                        direction = cast(
-                            Vec,
-                            tuple(
-                                (-1.0 if item.displacement_m < 0 else 1.0)
-                                if a == "xyz".index(item.axis)
-                                else 0.0
-                                for a in range(3)
-                            ),
-                        )
+                    if item.kind in ("displacement", "symmetry"):
+                        direction, prescribed = support_rows(item, face_id)[0]
+                        direction = scale(direction, -1) if prescribed < 0 else direction
                     markers.append(
                         LoadMarker(
                             assignment_id=item.id,

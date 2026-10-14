@@ -52,6 +52,23 @@ class CatalogFace(StrictModel):
     neighbors: list[CatalogID] = Field(default_factory=list)
 
 
+class CatalogVertex(StrictModel):
+    id: CatalogID
+    body_id: CatalogID
+    point_m: tuple[float, float, float]
+    face_ids: list[CatalogID]
+
+
+class CatalogEdge(StrictModel):
+    id: CatalogID
+    body_id: CatalogID
+    curve_type: str
+    face_ids: list[CatalogID]
+    vertex_ids: list[CatalogID]
+    start_m: tuple[float, float, float] | None = None
+    end_m: tuple[float, float, float] | None = None
+
+
 class UnitsDecision(StrictModel):
     source_length_unit: Literal["m", "mm", "inch"]
     canonical_length_unit: Literal["m"] = "m"
@@ -66,6 +83,8 @@ class GeometryMetadata(StrictModel):
     units: UnitsDecision
     bodies: list[CatalogBody] = Field(min_length=1)
     faces: list[CatalogFace] = Field(min_length=1)
+    edges: list[CatalogEdge] = Field(default_factory=list, max_length=20000)
+    vertices: list[CatalogVertex] = Field(default_factory=list, max_length=20000)
     edit_recipe: dict[str, JsonValue] = Field(default_factory=dict)
     validation: dict[str, JsonValue]
 
@@ -78,6 +97,24 @@ class GeometryMetadata(StrictModel):
         for face in self.faces:
             if face.body_id not in bodies or not set(face.neighbors) <= faces:
                 raise ValueError("Catalog references must resolve in this geometry revision")
+        vertices = {v.id for v in self.vertices}
+        if len(vertices) != len(self.vertices) or len({e.id for e in self.edges}) != len(
+            self.edges
+        ):
+            raise ValueError("Direction catalog identities must be unique")
+        face_owners = {face.id: face.body_id for face in self.faces}
+        vertex_owners = {vertex.id: vertex.body_id for vertex in self.vertices}
+        direction_entities: list[CatalogVertex | CatalogEdge] = [*self.vertices, *self.edges]
+        for entity in direction_entities:
+            if entity.body_id not in bodies or not set(entity.face_ids) <= faces:
+                raise ValueError("Direction catalog references must belong to this geometry")
+            if any(face_owners[ref] != entity.body_id for ref in entity.face_ids):
+                raise ValueError("Direction catalog cannot cross body ownership")
+        for edge in self.edges:
+            if not set(edge.vertex_ids) <= vertices:
+                raise ValueError("Direction edge vertex reference does not resolve")
+            if any(vertex_owners[ref] != edge.body_id for ref in edge.vertex_ids):
+                raise ValueError("Direction edge cannot cross body vertex ownership")
         return self
 
 

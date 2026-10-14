@@ -1,0 +1,27 @@
+{
+  "id": "B06",
+  "revision": 1,
+  "source": "Independent exact 3D uniaxial continuum solution: epsilon=F/(A*E); local u=(epsilon*x,-nu*epsilon*y,-nu*epsilon*z); sigma_local=diag(F/A,0,0); global u=R*u_local, sigma=R*sigma_local*R^T",
+  "units": "m,N,Pa,kg,s",
+  "geometry": "Native synthetic unit cube; identity placement and R=Rz(19deg)*Ry(37deg)*Rx(23deg), translation=(0.25,-0.4,0.15) m",
+  "rotation_degrees_xyz": [23, 37, 19],
+  "translation_m": [0.25, -0.4, 0.15],
+  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "element": "C3D10 affine",
+  "mesh_sizes_m": [0.5, 0.3],
+  "supports": "Planar symmetry (zero normal displacement) on the complete local x=0, y=0, z=0 faces; other components free; one combined rectangular transform per node",
+  "loads": "Total force +1000N along positive local X planar normal, uniformly distributed once over complete local x=1 face; converted to node-local CLOAD and audited globally",
+  "force_n": 1000,
+  "samples": "Every global native DAT displacement and raw IP tensor component, inverse-transformed physical coordinates, every-node displacement magnitude and every-IP von Mises; global external constrained-span reactions and origin moments; both placements and both meshes",
+  "tolerances": {
+    "relative": 0.000001,
+    "displacement_absolute_m": 1e-13,
+    "stress_absolute_pa": 0.01,
+    "force_absolute_n": 0.001,
+    "moment_absolute_nm": 0.001,
+    "equilibrium_relative": 0.005
+  },
+  "exclusions": "None; exact affine continuum solution. Independently remeshed placements have no assumed matching node/IP IDs",
+  "reason": "Exact continuum patch validates full vector/tensor rotation, force conversion, symmetry and external reactions without beam/clamping/singularity approximations",
+  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+}

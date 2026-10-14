@@ -12,13 +12,14 @@ from uuid import UUID, uuid4
 from app.domain.errors import DomainError, stale_revision
 from app.domain.import_service import ImportService
 from app.domain.imports import GeometryDisplay
-from app.domain.loads import DeckExport, DeckSnapshot, LoadState, load_state, support_components
+from app.domain.loads import DeckExport, DeckSnapshot, LoadState, load_state, support_rows
 from app.domain.mesh import estimate, sizing
 from app.persistence.repository import Repository
-from worker.actions import EQUILIBRIUM_POLICY, constrain, deck_actions, gravity_forces, rigid_rank
+from worker.actions import EQUILIBRIUM_POLICY, deck_actions, gravity_forces, rigid_rank_directions
 from worker.calculix.results import Mesh
 from worker.deck import generated_deck
 from worker.deck_mesh import mesh_snapshot
+from worker.directions import DIRECTION_POLICY, IDENTITY, Constraint, compile_constraints
 from worker.local_process import NativeControl
 from worker.mesh_quality import mesh_quality
 from worker.meshing import (
@@ -26,6 +27,7 @@ from worker.meshing import (
     Vec,
     add,
     convert_tetra,
+    dot,
     resultant,
     surface_integral,
     total_face_force,
@@ -59,27 +61,37 @@ def deck_for(
         raise ValueError("Preview mesh cap exceeded")
     elements = {int(e): tuple(ns) for e, ns in mesh["elements"].items()}
     owners = {int(e): b for e, b in mesh["owners"].items()}
-    supports: dict[tuple[int, int], float] = {}
+    rows: dict[int, list[Constraint]] = {}
     for assignment in snapshot.loads.assignments:
-        for axis, value in support_components(assignment).items():
-            for ref in assignment.face_ids:
-                for face in mesh["boundary"][ref]:
-                    for n in face["nodes"]:
-                        try:
-                            constrain(supports, n, axis, value)
-                        except ValueError as error:
-                            raise DomainError(422, "conflicting_constraints", str(error)) from None
+        if assignment.review_direction or assignment.review_faces or assignment.review_bodies:
+            raise DomainError(422, "geometry_review_required", "Review changed assignments first")
+        for ref in assignment.face_ids:
+            for face in mesh["boundary"][ref]:
+                for n in face["nodes"]:
+                    rows.setdefault(n, []).extend(support_rows(assignment, ref))
+    try:
+        supports, transforms = compile_constraints({n: r for n, r in rows.items() if r})
+    except ValueError as error:
+        raise DomainError(422, "conflicting_constraints", str(error)) from None
     for body in snapshot.geometry.bodies:
         owned = {n for e, ns in elements.items() if owners[e] == body.id for n in ns}
         origin = cast(Vec, tuple(min(nodes[n][a] for n in owned) for a in range(3)))
         extent = max(max(nodes[n][a] for n in owned) - origin[a] for a in range(3))
-        rank = rigid_rank(((nodes[n], axis) for n, axis in supports if n in owned), origin, extent)
+        rank = rigid_rank_directions(
+            (
+                (nodes[n], transforms.get(n, IDENTITY)[axis - 1])
+                for n, axis in supports
+                if n in owned
+            ),
+            origin,
+            extent,
+        )
         if rank < 6:
             raise DomainError(
                 422,
                 "insufficient_constraints",
                 "Each independent body needs rigid-motion coverage "
-                "from fixed or global component supports",
+                "from fixed, global or directional supports",
             )
     body_densities = {
         a.body_id: a.material.properties.density_kg_m3 for a in snapshot.materials.assignments
@@ -90,7 +102,7 @@ def deck_for(
     pressures: dict[tuple[int, int], float] = {}
     max_area_error = max_force_error = max_moment_error = 0.0
     for assignment in snapshot.loads.assignments:
-        if assignment.kind in ("fixed", "displacement"):
+        if assignment.kind in ("fixed", "displacement", "symmetry"):
             continue
         faces = [face for ref in assignment.face_ids for face in mesh["boundary"][ref]]
         expected = next(p for p in preview.previews if p.assignment_id == assignment.id)
@@ -115,15 +127,16 @@ def deck_for(
                 body_accelerations[body_id] = add(
                     body_accelerations.get(body_id, (0, 0, 0)), assignment.acceleration_m_s2
                 )
-        elif assignment.kind == "force":
+        elif assignment.kind in ("force", "directional_force"):
             assert assignment.force_n is not None
             actual = total_face_force([tuple(f["nodes"]) for f in faces], nodes, assignment.force_n)
             # CCX CLOAD on constrained DOFs is not an admissible applied-force contract.
             # Preserve every integrated value; refuse instead of dropping/redistributing it.
             if any(
-                abs(value) > 1e-10 and (n, axis) in supports
+                abs(dot(force, transforms.get(n, IDENTITY)[axis - 1])) > 1e-10
                 for n, force in actual.items()
-                for axis, value in enumerate(force, 1)
+                for axis in (1, 2, 3)
+                if (n, axis) in supports
             ):
                 raise DomainError(
                     422,
@@ -183,6 +196,7 @@ def deck_for(
             if b in body_accelerations and rho is not None
         },
         gravities={names[b]: g for b, g in body_accelerations.items()},
+        transforms=transforms,
     )
 
     # Audit the actual written numbers, including the combined/rounded pressures.
@@ -259,7 +273,9 @@ class DeckService:
         preview = load_state(current, geometry, materials, loads, display)
         if preview.blockers and not mesh_only:
             raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
-        if mesh_only and any(a.review_faces or a.review_bodies for a in loads.assignments):
+        if mesh_only and any(
+            a.review_faces or a.review_bodies or a.review_direction for a in loads.assignments
+        ):
             raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
         if len(geometry.faces) > 100 or (
             not mesh_only
@@ -294,8 +310,9 @@ class DeckService:
         policy = {
             "schema": 1,
             "gmsh": "4.15.2",
-            "loads_contract": "global-component-body-gravity-v2",
+            "loads_contract": "geometry-direction-symmetry-v3",
             "equilibrium": dict(EQUILIBRIUM_POLICY),
+            "directions": dict(DIRECTION_POLICY),
             "body_size": "explicit SI global/body/face minimum; legacy largest extent / 2",
             "mesh_quality": {
                 "jacobian_m3": 1e-15,
@@ -333,6 +350,8 @@ class DeckService:
                     "services/api/app/domain/mesh.py",
                     "services/worker/worker/deck.py",
                     "services/worker/worker/actions.py",
+                    "services/worker/worker/directions.py",
+                    "services/api/app/domain/directions.py",
                     "services/api/app/domain/deck_service.py",
                     "services/api/app/domain/loads.py",
                     "services/api/app/domain/units.py",

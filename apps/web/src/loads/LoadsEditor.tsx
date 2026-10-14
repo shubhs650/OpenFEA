@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import {
+  DirectionEditor,
+  type DirectionSelection,
+  type DirectionSnapshot,
+  type DirectionSource,
+  type DraftDirection,
+} from "./DirectionEditor";
 import { MeshEditor } from "../mesh/MeshEditor";
 import { RunsEditor } from "../runs/RunsEditor";
 import type { ResultPresentation } from "../results/presentation";
@@ -10,6 +17,7 @@ import {
   type LoadState,
   type UnitPreset,
   type MeshPreview,
+  type Geometry,
 } from "../geometry/api";
 
 type Props = {
@@ -22,6 +30,7 @@ type Props = {
   setBusy: (value: boolean) => void;
   saved: (revision: number) => void;
   preview: (state: LoadState | null) => void;
+  directionPreview: (values: DraftDirection[]) => void;
   showMesh: (mesh: MeshPreview | null) => void;
   showResult: (value: ResultPresentation | null) => void;
 };
@@ -36,6 +45,7 @@ export function LoadsEditor({
   setBusy,
   saved,
   preview,
+  directionPreview,
   showMesh,
   showResult,
 }: Props) {
@@ -48,6 +58,15 @@ export function LoadsEditor({
   const [force, setForce] = useState(["", "", ""]);
   const [displacement, setDisplacement] = useState("");
   const [axis, setAxis] = useState("x");
+  const [geometry, setGeometry] = useState<Geometry | null>(null);
+  const [directionSource, setDirectionSource] =
+    useState<DirectionSource>("global");
+  const [directionChoice, setDirectionChoice] =
+    useState<DirectionSelection | null>(null);
+  const [directionValues, setDirectionValues] = useState<DirectionSnapshot[]>(
+    [],
+  );
+  const [magnitude, setMagnitude] = useState("");
   const [acceleration, setAcceleration] = useState(["", "", ""]);
   const [bodies, setBodies] = useState<string[]>([]);
   const [gravityBodies, setGravityBodies] = useState<string[]>([]);
@@ -60,6 +79,7 @@ export function LoadsEditor({
     setPressure("");
     setForce(["", "", ""]);
     setDisplacement("");
+    setMagnitude("");
     setAcceleration(["", "", ""]);
   }, [preset.id]);
   useEffect(() => {
@@ -69,11 +89,12 @@ export function LoadsEditor({
     void Promise.all([
       api<LoadState>(`/analyses/${analysisId}/loads`),
       api<DeckExport[]>(`/analyses/${analysisId}/deck-exports`),
-      api<{ bodies: { id: string }[] }>(`/geometry/${geometryId}`),
+      api<Geometry>(`/geometry/${geometryId}`),
     ])
       .then(([data, outputs, geometry]) => {
         if (current) {
           setState(data);
+          setGeometry(geometry);
           setExports(outputs);
           const ids = geometry.bodies.map((b) => b.id);
           setBodies(ids);
@@ -104,25 +125,52 @@ export function LoadsEditor({
       ? a.kind === "gravity" &&
         !a.review_bodies?.length &&
         a.body_ids?.some((id) => gravityBodies.includes(id))
-      : ["pressure", "force"].includes(kind) &&
-        ["pressure", "force"].includes(a.kind) &&
+      : ["pressure", "force", "directional_force"].includes(kind) &&
+        ["pressure", "force", "directional_force"].includes(a.kind) &&
         !a.review_faces?.length &&
         a.face_ids?.some((f) => selected.has(f)),
   );
+  const hasDirectionReview = !!state?.setup.assignments?.some(
+    (a) => a.review_direction && a.direction,
+  );
+  useEffect(() => {
+    setDirectionSource(
+      kind === "directional_force" || hasDirectionReview
+        ? "plane_normal"
+        : "global",
+    );
+    setDirectionChoice(null);
+    setDirectionValues([]);
+  }, [kind, geometryId, hasDirectionReview]);
+  const directionReady =
+    directionValues.length === (kind === "symmetry" ? selected.size : 1) &&
+    directionValues.length > 0 &&
+    directionValues.every((v) => v.geometry_revision_id === geometryId) &&
+    (kind === "symmetry" || !!directionChoice);
   const valid =
     kind === "fixed" ||
-    (kind === "displacement"
-      ? displacement.trim() !== "" && Number.isFinite(Number(displacement))
-      : kind === "gravity"
-        ? acceleration.every(
-            (v) => v.trim() !== "" && Number.isFinite(Number(v)),
-          ) && acceleration.some((v) => Number(v) !== 0)
-        : kind === "pressure"
-          ? pressure.trim() !== "" &&
-            Number.isFinite(Number(pressure)) &&
-            Number(pressure) !== 0
-          : force.every((v) => v.trim() !== "" && Number.isFinite(Number(v))) &&
-            force.some((v) => Number(v) !== 0));
+    (kind === "symmetry"
+      ? directionReady
+      : kind === "directional_force"
+        ? magnitude.trim() !== "" &&
+          Number.isFinite(Number(magnitude)) &&
+          Number(magnitude) !== 0 &&
+          directionReady
+        : kind === "displacement"
+          ? displacement.trim() !== "" &&
+            Number.isFinite(Number(displacement)) &&
+            (directionSource === "global" || directionReady)
+          : kind === "gravity"
+            ? acceleration.every(
+                (v) => v.trim() !== "" && Number.isFinite(Number(v)),
+              ) && acceleration.some((v) => Number(v) !== 0)
+            : kind === "pressure"
+              ? pressure.trim() !== "" &&
+                Number.isFinite(Number(pressure)) &&
+                Number(pressure) !== 0
+              : force.every(
+                  (v) => v.trim() !== "" && Number.isFinite(Number(v)),
+                ) && force.some((v) => Number(v) !== 0));
   async function change(path: string, payload?: unknown, method = "POST") {
     if (!aligned) return;
     setBusy(true);
@@ -177,9 +225,9 @@ export function LoadsEditor({
     <section aria-label="Face loads" className="loads-panel">
       <h2>Supports, face loads and body gravity</h2>
       <p>
-        Global X, Y, Z directions. Positive pressure acts inward; negative
-        pressure acts outward. Total force is spread over the entire selected
-        area once.
+        Global components or native geometry directions. Positive pressure acts
+        inward; negative pressure acts outward. Total force is spread over the
+        entire selected area once.
       </p>
       <p>
         {selected.size} selected faces · pinned geometry{" "}
@@ -207,28 +255,70 @@ export function LoadsEditor({
           <option value="fixed">Fixed (all translations)</option>
           <option value="pressure">Uniform pressure</option>
           <option value="force">Total distributed force</option>
+          <option value="directional_force">
+            Total force along geometry direction
+          </option>
+          <option value="symmetry">
+            Planar symmetry (normal displacement zero)
+          </option>
           <option value="displacement">
-            Prescribed global displacement component
+            Prescribed displacement component
           </option>
           <option value="gravity">Gravity (body acceleration)</option>
         </select>
       </label>
+      {(kind === "displacement" ||
+        kind === "directional_force" ||
+        kind === "symmetry" ||
+        hasDirectionReview) && (
+        <DirectionEditor
+          key={`${analysisId}:${geometryId}:${kind}`}
+          analysisId={analysisId}
+          revision={revision}
+          geometry={geometry}
+          selected={selected}
+          source={directionSource}
+          setSource={setDirectionSource}
+          globalAllowed={kind === "displacement"}
+          symmetry={kind === "symmetry"}
+          disabled={busy || conflict || !aligned}
+          resolved={(choice, values) => {
+            setDirectionChoice(choice);
+            setDirectionValues(values);
+          }}
+          preview={directionPreview}
+        />
+      )}
+      {kind === "directional_force" && (
+        <label>
+          Directed total force ({preset.force.label})
+          <input
+            type="number"
+            step="any"
+            disabled={busy}
+            value={magnitude}
+            onChange={(e) => setMagnitude(e.target.value)}
+          />
+        </label>
+      )}
       {kind === "displacement" && (
         <>
-          <label>
-            Prescribed global component
-            <select
-              value={axis}
-              disabled={busy}
-              onChange={(e) => setAxis(e.target.value)}
-            >
-              {["x", "y", "z"].map((a) => (
-                <option key={a} value={a}>
-                  {a.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </label>
+          {directionSource === "global" && (
+            <label>
+              Prescribed global component
+              <select
+                value={axis}
+                disabled={busy}
+                onChange={(e) => setAxis(e.target.value)}
+              >
+                {["x", "y", "z"].map((a) => (
+                  <option key={a} value={a}>
+                    {a.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           <label>
             Prescribed displacement ({preset.length.label})
             <input
@@ -240,7 +330,7 @@ export function LoadsEditor({
             />
           </label>
           <p>
-            Zero is allowed. Only this global component is constrained; other
+            Zero is allowed. Only this selected component is constrained; other
             translations remain free. Shared edges/vertices inherit face
             constraints. Conflicting values are refused.
           </p>
@@ -357,7 +447,13 @@ export function LoadsEditor({
                 ? { body_ids: gravityBodies }
                 : { face_ids: [...selected] }),
               ...(kind === "displacement"
-                ? { units: preset.id, axis, displacement: Number(displacement) }
+                ? {
+                    units: preset.id,
+                    ...(directionSource === "global"
+                      ? { axis }
+                      : { direction: directionChoice }),
+                    displacement: Number(displacement),
+                  }
                 : kind === "gravity"
                   ? {
                       units: preset.id,
@@ -370,13 +466,20 @@ export function LoadsEditor({
                         pressure: Number(pressure),
                         combine_confirmed: combine,
                       }
-                    : kind === "force"
+                    : kind === "directional_force"
                       ? {
                           units: preset.id,
-                          force: force.map(Number),
+                          magnitude: Number(magnitude),
+                          direction: directionChoice,
                           combine_confirmed: combine,
                         }
-                      : {}),
+                      : kind === "force"
+                        ? {
+                            units: preset.id,
+                            force: force.map(Number),
+                            combine_confirmed: combine,
+                          }
+                        : {}),
             },
           })
         }
@@ -402,12 +505,72 @@ export function LoadsEditor({
           <ul>
             {state.setup.assignments?.map((a) => (
               <li key={a.id} data-assignment-id={a.id}>
+                {a.direction && (
+                  <div aria-label={`Saved direction ${a.name}`}>
+                    <p>
+                      {a.direction.kind} ·{" "}
+                      {a.direction.reverse ? "reversed" : "native positive"} ·
+                      X′ ={" "}
+                      {a.direction.vector
+                        .map((v) => v.toPrecision(7))
+                        .join(", ")}
+                    </p>
+                    {a.source_magnitude !== null &&
+                      a.source_magnitude !== undefined && (
+                        <p>
+                          Source directed force: {a.source_magnitude}{" "}
+                          {a.source_units}
+                        </p>
+                      )}
+                    {a.review_direction && (
+                      <>
+                        <p>
+                          Geometry direction needs review. Reselect target faces
+                          first, then choose its current direction reference.
+                        </p>
+                        <button
+                          disabled={
+                            busy ||
+                            conflict ||
+                            !aligned ||
+                            !!a.review_faces?.length ||
+                            !directionChoice ||
+                            !directionValues.length
+                          }
+                          onClick={() =>
+                            void change(
+                              `/loads/${a.id}/direction`,
+                              {
+                                geometry_revision_id: geometryId,
+                                direction: directionChoice,
+                                reviewed: true,
+                              },
+                              "PUT",
+                            )
+                          }
+                        >
+                          Reselect direction for {a.name}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+                {a.kind === "symmetry" && (
+                  <p>
+                    Planar symmetry:{" "}
+                    {Object.values(a.symmetry_directions ?? {})
+                      .map((value) =>
+                        value.vector.map((v) => v.toPrecision(5)).join(", "),
+                      )
+                      .join("; ")}
+                  </p>
+                )}
                 <strong>{a.name}</strong> · {a.kind} ·{" "}
                 {a.kind === "gravity"
                   ? `${a.body_ids?.length ?? 0} bodies`
                   : `${a.face_ids?.length ?? 0} faces`}
                 {a.displacement_m != null &&
-                  ` · u${a.axis?.toUpperCase()} = ${(a.displacement_m / preset.length.to_si).toPrecision(6)} ${preset.length.label}; other components free`}
+                  ` · u${a.direction ? "X′" : a.axis?.toUpperCase()} = ${(a.displacement_m / preset.length.to_si).toPrecision(6)} ${preset.length.label}; other components free`}
                 {a.acceleration_m_s2 &&
                   ` · [${a.acceleration_m_s2.map((v) => (v / preset.acceleration.to_si).toPrecision(6)).join(", ")}] ${preset.acceleration.label}`}
                 {a.pressure_pa !== null &&
@@ -542,7 +705,10 @@ export function LoadsEditor({
           aligned &&
           !conflict &&
           !state?.setup.assignments?.some(
-            (a) => a.review_faces?.length || a.review_bodies?.length,
+            (a) =>
+              a.review_faces?.length ||
+              a.review_bodies?.length ||
+              a.review_direction,
           )
         }
         busy={busy}

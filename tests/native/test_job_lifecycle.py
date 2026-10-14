@@ -151,21 +151,23 @@ def test_actual_solver_error_or_bad_outputs_never_succeed(
 
 
 def descendants(pid: int) -> list[int]:
+    # Build one process-tree snapshot per observation. Rescanning all host
+    # PIDs at every depth can outlive the real tiny Gmsh job on busy runners.
+    children: dict[int, list[int]] = {}
+    for path in Path("/proc").iterdir():
+        if not path.name.isdigit():
+            continue
+        try:
+            fields = (path / "stat").read_text().rsplit(")", 1)[1].split()
+            children.setdefault(int(fields[1]), []).append(int(path.name))
+        except (FileNotFoundError, ProcessLookupError):
+            pass
     found = []
     stack = [pid]
     while stack:
-        parent = stack.pop()
-        for path in Path("/proc").iterdir():
-            if not path.name.isdigit():
-                continue
-            try:
-                fields = (path / "stat").read_text().rsplit(")", 1)[1].split()
-                if int(fields[1]) == parent:
-                    child = int(path.name)
-                    found.append(child)
-                    stack.append(child)
-            except (FileNotFoundError, ProcessLookupError):
-                pass
+        direct = children.get(stack.pop(), [])
+        found.extend(direct)
+        stack.extend(direct)
     return found
 
 

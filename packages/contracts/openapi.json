@@ -249,6 +249,61 @@
         "title": "BalanceCheck",
         "type": "object"
       },
+      "Basis": {
+        "maxItems": 3,
+        "minItems": 3,
+        "prefixItems": [
+          {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          }
+        ],
+        "type": "array"
+      },
       "BodyDisplay": {
         "additionalProperties": false,
         "properties": {
@@ -452,6 +507,102 @@
         "title": "CatalogBody",
         "type": "object"
       },
+      "CatalogEdge": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Body Id",
+            "type": "string"
+          },
+          "curve_type": {
+            "title": "Curve Type",
+            "type": "string"
+          },
+          "end_m": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End M"
+          },
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "start_m": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start M"
+          },
+          "vertex_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Vertex Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "body_id",
+          "curve_type",
+          "face_ids",
+          "vertex_ids"
+        ],
+        "title": "CatalogEdge",
+        "type": "object"
+      },
       "CatalogFace": {
         "additionalProperties": false,
         "properties": {
@@ -490,6 +641,57 @@
           "signature"
         ],
         "title": "CatalogFace",
+        "type": "object"
+      },
+      "CatalogVertex": {
+        "additionalProperties": false,
+        "properties": {
+          "body_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Body Id",
+            "type": "string"
+          },
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "point_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Point M",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "body_id",
+          "point_m",
+          "face_ids"
+        ],
+        "title": "CatalogVertex",
         "type": "object"
       },
       "CustomMaterial": {
@@ -605,17 +807,231 @@
         "title": "DeckExport",
         "type": "object"
       },
+      "DirectionPreviewBatch": {
+        "additionalProperties": false,
+        "properties": {
+          "directions": {
+            "items": {
+              "$ref": "#/components/schemas/DirectionSelection"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Directions",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "directions"
+        ],
+        "title": "DirectionPreviewBatch",
+        "type": "object"
+      },
+      "DirectionSelection": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "plane_normal",
+              "straight_edge",
+              "cylinder_axis"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "reference_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reference Id",
+            "type": "string"
+          },
+          "reverse": {
+            "default": false,
+            "title": "Reverse",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "kind",
+          "reference_id"
+        ],
+        "title": "DirectionSelection",
+        "type": "object"
+      },
+      "DirectionSnapshot": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "$ref": "#/components/schemas/Basis"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "plane_normal",
+              "straight_edge",
+              "cylinder_axis"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "origin_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Origin M",
+            "type": "array"
+          },
+          "reference_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reference Id",
+            "type": "string"
+          },
+          "reverse": {
+            "default": false,
+            "title": "Reverse",
+            "type": "boolean"
+          },
+          "vector": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Vector",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "reference_id",
+          "geometry_revision_id",
+          "vector",
+          "basis",
+          "origin_m"
+        ],
+        "title": "DirectionSnapshot",
+        "type": "object"
+      },
+      "DirectionalForceInput": {
+        "additionalProperties": false,
+        "properties": {
+          "combine_confirmed": {
+            "default": false,
+            "title": "Combine Confirmed",
+            "type": "boolean"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/DirectionSelection"
+          },
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "kind": {
+            "const": "directional_force",
+            "title": "Kind",
+            "type": "string"
+          },
+          "magnitude": {
+            "title": "Magnitude",
+            "type": "number"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Units",
+            "type": "string"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "face_ids",
+          "name",
+          "kind",
+          "units",
+          "magnitude",
+          "direction"
+        ],
+        "title": "DirectionalForceInput",
+        "type": "object"
+      },
       "DisplacementInput": {
         "additionalProperties": false,
         "properties": {
           "axis": {
-            "enum": [
-              "x",
-              "y",
-              "z"
+            "anyOf": [
+              {
+                "enum": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "title": "Axis",
-            "type": "string"
+            "title": "Axis"
+          },
+          "direction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DirectionSelection"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "displacement": {
             "title": "Displacement",
@@ -664,7 +1080,6 @@
           "name",
           "kind",
           "units",
-          "axis",
           "displacement"
         ],
         "title": "DisplacementInput",
@@ -1470,6 +1885,14 @@
             "title": "Brep Sha256",
             "type": "string"
           },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogEdge"
+            },
+            "maxItems": 20000,
+            "title": "Edges",
+            "type": "array"
+          },
           "edit_recipe": {
             "additionalProperties": {
               "$ref": "#/components/schemas/JsonValue"
@@ -1499,6 +1922,14 @@
             },
             "title": "Validation",
             "type": "object"
+          },
+          "vertices": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogVertex"
+            },
+            "maxItems": 20000,
+            "title": "Vertices",
+            "type": "array"
           }
         },
         "required": [
@@ -1565,6 +1996,14 @@
             "title": "Created At",
             "type": "string"
           },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogEdge"
+            },
+            "maxItems": 20000,
+            "title": "Edges",
+            "type": "array"
+          },
           "edit_recipe": {
             "additionalProperties": {
               "$ref": "#/components/schemas/JsonValue"
@@ -1616,6 +2055,14 @@
             },
             "title": "Validation",
             "type": "object"
+          },
+          "vertices": {
+            "items": {
+              "$ref": "#/components/schemas/CatalogVertex"
+            },
+            "maxItems": 20000,
+            "title": "Vertices",
+            "type": "array"
           }
         },
         "required": [
@@ -2002,6 +2449,16 @@
             "title": "Combine Confirmed",
             "type": "boolean"
           },
+          "direction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DirectionSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "displacement_m": {
             "anyOf": [
               {
@@ -2062,7 +2519,9 @@
               "pressure",
               "force",
               "displacement",
-              "gravity"
+              "gravity",
+              "symmetry",
+              "directional_force"
             ],
             "title": "Kind",
             "type": "string"
@@ -2092,6 +2551,11 @@
             },
             "title": "Review Bodies",
             "type": "array"
+          },
+          "review_direction": {
+            "default": false,
+            "title": "Review Direction",
+            "type": "boolean"
           },
           "review_faces": {
             "items": {
@@ -2161,6 +2625,17 @@
             ],
             "title": "Source Force"
           },
+          "source_magnitude": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Magnitude"
+          },
           "source_pressure": {
             "anyOf": [
               {
@@ -2187,6 +2662,13 @@
               }
             ],
             "title": "Source Units"
+          },
+          "symmetry_directions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/DirectionSnapshot"
+            },
+            "title": "Symmetry Directions",
+            "type": "object"
           }
         },
         "required": [
@@ -2237,7 +2719,9 @@
               "pressure",
               "force",
               "displacement",
-              "gravity"
+              "gravity",
+              "symmetry",
+              "directional_force"
             ],
             "title": "Kind",
             "type": "string"
@@ -2359,11 +2843,13 @@
           "assignment": {
             "discriminator": {
               "mapping": {
+                "directional_force": "#/components/schemas/DirectionalForceInput",
                 "displacement": "#/components/schemas/DisplacementInput",
                 "fixed": "#/components/schemas/FixedInput",
                 "force": "#/components/schemas/ForceInput",
                 "gravity": "#/components/schemas/GravityInput",
-                "pressure": "#/components/schemas/PressureInput"
+                "pressure": "#/components/schemas/PressureInput",
+                "symmetry": "#/components/schemas/SymmetryInput"
               },
               "propertyName": "kind"
             },
@@ -2382,6 +2868,12 @@
               },
               {
                 "$ref": "#/components/schemas/GravityInput"
+              },
+              {
+                "$ref": "#/components/schemas/SymmetryInput"
+              },
+              {
+                "$ref": "#/components/schemas/DirectionalForceInput"
               }
             ],
             "title": "Assignment"
@@ -3684,6 +4176,31 @@
         "title": "ReselectBodies",
         "type": "object"
       },
+      "ReselectDirection": {
+        "additionalProperties": false,
+        "properties": {
+          "direction": {
+            "$ref": "#/components/schemas/DirectionSelection"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "reviewed": {
+            "const": true,
+            "title": "Reviewed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "direction",
+          "reviewed"
+        ],
+        "title": "ReselectDirection",
+        "type": "object"
+      },
       "ReselectFaces": {
         "additionalProperties": false,
         "properties": {
@@ -4231,6 +4748,46 @@
           "confirmed"
         ],
         "title": "SampleMaterial",
+        "type": "object"
+      },
+      "SymmetryInput": {
+        "additionalProperties": false,
+        "properties": {
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "kind": {
+            "const": "symmetry",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "face_ids",
+          "name",
+          "kind"
+        ],
+        "title": "SymmetryInput",
         "type": "object"
       },
       "Unit": {
@@ -5129,6 +5686,189 @@
           }
         ],
         "summary": "Export"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/direction-previews": {
+      "post": {
+        "operationId": "direction_previews_api_v1_analyses__analysis_id__direction_previews_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DirectionPreviewBatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DirectionSnapshot"
+                  },
+                  "title": "Response Direction Previews Api V1 Analyses  Analysis Id  Direction Previews Post",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Direction Previews"
       }
     },
     "/api/v1/analyses/{analysis_id}/display-units": {
@@ -6163,6 +6903,195 @@
           }
         ],
         "summary": "Reselect Bodies"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/direction": {
+      "put": {
+        "operationId": "reselect_direction_api_v1_analyses__analysis_id__loads__assignment_id__direction_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "assignment_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Assignment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReselectDirection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoadState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Reselect Direction"
       }
     },
     "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/faces": {

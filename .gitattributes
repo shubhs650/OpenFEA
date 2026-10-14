@@ -13,3 +13,5 @@ tests/fixtures/geometry/sliver-m.step -text whitespace=-trailing-space
 tests/fixtures/geometry/cantilever-m.step -text whitespace=-trailing-space
 docs/validation/results/T014/** -text whitespace=-trailing-space
 docs/validation/results/T015/** -text whitespace=-trailing-space
+tests/fixtures/geometry/rotated-cube-m.step -text whitespace=-trailing-space
+docs/validation/results/T016/** -text whitespace=-trailing-space

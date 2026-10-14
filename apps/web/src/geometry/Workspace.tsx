@@ -14,6 +14,7 @@ import {
 } from "./api";
 import { GeometryEdits } from "./GeometryEdits";
 import { Viewport } from "./Viewport";
+import type { DraftDirection } from "../loads/DirectionEditor";
 import { MaterialsEditor } from "../materials/MaterialsEditor";
 import { ResultViewport } from "../results/ResultViewport";
 import type { ResultPresentation } from "../results/presentation";
@@ -25,6 +26,7 @@ export function Workspace() {
   const [project, setProject] = useState<Project | null>(null);
   const [analysisId, setAnalysisId] = useState("");
   const [loadPreview, setLoadPreview] = useState<LoadState | null>(null);
+  const [draftDirections, setDraftDirections] = useState<DraftDirection[]>([]);
   const [editDisplay, setEditDisplay] = useState<Display | null>(null);
   const [editHighlights, setEditHighlights] = useState<Set<string> | null>(
     null,
@@ -78,6 +80,7 @@ export function Workspace() {
     setEditHighlights(null);
     setEditingPreview(false);
     setAnalysisId("");
+    setDraftDirections([]);
     displayedRevision.current = null;
     setGeometry(null);
     setLatestGeometry(null);
@@ -449,6 +452,15 @@ export function Workspace() {
             selected={editHighlights ?? selected}
             visible={previewVisible}
             toggle={qualityOverlay && activeMesh ? () => {} : toggle}
+            draftDirections={
+              !editingPreview
+                ? draftDirections.filter(
+                    (d) =>
+                      d.geometry_revision_id === geometry.id &&
+                      d.analysis_id === analysisId,
+                  )
+                : []
+            }
             faceColors={
               qualityOverlay && activeMesh ? qualityColors : undefined
             }
@@ -590,6 +602,7 @@ export function Workspace() {
             setBusy={setBusy}
             selected={selected}
             preview={setLoadPreview}
+            directionPreview={setDraftDirections}
             showMesh={(mesh) => {
               setResultPresentation(null);
               setMeshPreview(mesh);

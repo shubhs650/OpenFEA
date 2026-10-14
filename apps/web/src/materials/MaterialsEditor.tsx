@@ -14,6 +14,7 @@ import {
   type MeshPreview,
 } from "../geometry/api";
 import { MaterialForm } from "./MaterialForm";
+import type { DraftDirection } from "../loads/DirectionEditor";
 import { LoadsEditor } from "../loads/LoadsEditor";
 import type { ResultPresentation } from "../results/presentation";
 
@@ -27,6 +28,7 @@ type Props = {
   setBusy: (busy: boolean) => void;
   selected: Set<string>;
   preview: (state: LoadState | null) => void;
+  directionPreview: (values: DraftDirection[]) => void;
   showMesh: (mesh: MeshPreview | null) => void;
   showResult: (value: ResultPresentation | null) => void;
 };
@@ -41,6 +43,7 @@ export function MaterialsEditor({
   setBusy,
   selected,
   preview,
+  directionPreview,
   showMesh,
   showResult,
 }: Props) {
@@ -334,6 +337,7 @@ export function MaterialsEditor({
                   )
                 }
                 preview={preview}
+                directionPreview={directionPreview}
                 showMesh={showMesh}
                 showResult={showResult}
               />
