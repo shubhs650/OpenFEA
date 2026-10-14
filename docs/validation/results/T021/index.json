@@ -1,0 +1,315 @@
+{
+  "artifacts": {
+    "B09-raw.tar.gz": {
+      "sha256": "cb5c0af9b682d86a9481ccf9eeedc634601af834e4fed798a44eed4ff3a7dbc9",
+      "size_bytes": 7003
+    },
+    "axial-errors.json": {
+      "sha256": "4e713eae5d2bf73fe882d6a3ee6d0e3b11c1f0a9c914df87a3b41e491c476bc7",
+      "size_bytes": 288
+    },
+    "axial-summary.json": {
+      "sha256": "db321163962509446d1a6a50d8800d3470ac0f34dc8311c2d5065d9b76db4a95",
+      "size_bytes": 20116
+    },
+    "bracket-summary.json": {
+      "sha256": "0dd9dc212d187c221a1c82e539a2f5760970142eb80fcab4f76694b9fa6a47e1",
+      "size_bytes": 20055
+    },
+    "browser-affected.log": {
+      "sha256": "c733c1f3f9644b83cda77a22d58c892ddc5e8f3f82c785fae8a104a8c68c0845",
+      "size_bytes": 724
+    },
+    "browser-full.log": {
+      "sha256": "ab3936a84a9838f04b8a20fa49821fc9e2fbeb78c8a2ac5ed4299031bae9454d",
+      "size_bytes": 5178
+    },
+    "browser-targeted.log": {
+      "sha256": "cb9a59d62a191a8000432fef5c4a1df160e0d1832dcfff279582a85ff8a34f8b",
+      "size_bytes": 453
+    },
+    "check-build-smoke-integration.log": {
+      "sha256": "50270054bf63b89b06519f7ebab049b63e4b6307142ce2e706ff53214dc2bbfd",
+      "size_bytes": 5792
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "final-build.log": {
+      "sha256": "c95e231b491cad60005168937bc37559814a74361ef0be5be20c231eca8a4f37",
+      "size_bytes": 855
+    },
+    "handoff-check.log": {
+      "sha256": "15e335e2a4eca68d52d7de35c1952168ef32471227b11d7ccc981c20f116e694",
+      "size_bytes": 3397
+    },
+    "initial-failures.log": {
+      "sha256": "052764a4b6264c0906f014d48460678ff8525dbddf18a7d994e9ea32e13f08ef",
+      "size_bytes": 10659
+    },
+    "layout-check.json": {
+      "sha256": "3d2837564ef0ae2a5d948016860dd8a2cf42b9f58b3f05f9cda723332c15379b",
+      "size_bytes": 304
+    },
+    "native-focused.log": {
+      "sha256": "81938c43b5f6331fa5922e12593674938bbd0346dd25b92801930d8b6807d32e",
+      "size_bytes": 100
+    },
+    "native-full.log": {
+      "sha256": "8c255b257ef1b66245292ae378424e85e7fb09af874da1492bc047c1f41b52d7",
+      "size_bytes": 2122
+    },
+    "result-inspection.png": {
+      "sha256": "79b6cd59ec79edc73c735e10990e7324547b462b24461e4bf18c7c2e816a6401",
+      "size_bytes": 1136525
+    },
+    "result-raw.tar.gz": {
+      "sha256": "b0bad1f06bf33594c2765e8dd885f197a1a2422a04ebfdafe97bf2875f26dd8f",
+      "size_bytes": 312336
+    },
+    "signed-smoothed-stress.png": {
+      "sha256": "5cd646a17ea334164a56aee137559bac36c6aa47fff44809358e2b88287b03f3",
+      "size_bytes": 42661
+    },
+    "smoothing-reference.json": {
+      "sha256": "429b3c8a7ed7ad837f32ccc293d7f8a84cd153dc76f3ca19548892eee451d880",
+      "size_bytes": 268
+    }
+  },
+  "axial_errors": {
+    "max_boundary_displacement_error_m": 4.761904764210511e-16,
+    "max_boundary_principal_error_pa": 5.959224771138301e-12,
+    "max_boundary_tensor_error_pa": 6.77070285814995e-12,
+    "raw_displacement_max_error_m": 2.3809523821052557e-16,
+    "raw_vm_max_error_pa": 2.6147972675971687e-12
+  },
+  "base_commit": "64f72c9a633f076a0bddabc2d5c1c4b43e3cc850",
+  "commands": [
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "PASS pinned native hashes, sandbox, SI import and loopback"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_result_views.py tests/native/test_stress_native.py -q",
+      "log": "native-focused.log",
+      "result": "12 passed in 34.46s"
+    },
+    {
+      "command": "make check build smoke test-integration",
+      "log": "check-build-smoke-integration.log",
+      "result": "PASS 339 Python, 32 TS, 18 process integration; lint/format/types/contracts/docs/build/HTTP smoke"
+    },
+    {
+      "command": "make test-native",
+      "log": "native-full.log",
+      "result": "188 native cases passed, including expanded real axial/bracket/two-body/B09 assertions"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-full.log",
+      "result": "36 real Chromium workflows passed; final responsive CSS replay passes all 3 result workflows"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=.local/browsers npm run test:e2e -- tests/e2e/results.spec.ts",
+      "log": "browser-affected.log",
+      "result": "3 passed in 34.6s after final responsive-table fix; no deadline/retry change"
+    },
+    {
+      "command": "make build (final responsive CSS)",
+      "log": "final-build.log",
+      "result": "PASS production build after final CSS correction"
+    },
+    {
+      "command": "make check (completed evidence/handoff)",
+      "log": "handoff-check.log",
+      "result": "PASS 339 Python, 32 TS and final static/contracts/docs gates"
+    }
+  ],
+  "corrections": "Initial browser exact-label lookups for option-bearing Result field and Display units selects waited until the unchanged 45s test deadline. Existing role-based combobox locators fix the harness; corrected workflow passes in 11.7s, then 12.9s with the final viewport guard. Early format/type-only corrections retained. No deadlines, retries, native caps, numerical criteria or dependencies changed.",
+  "counts": {
+    "chromium": 36,
+    "distinct_verified_passes": 613,
+    "integration": 18,
+    "native": 188,
+    "python_unit": 339,
+    "remaining_failures": 0,
+    "remaining_skips": 0,
+    "typescript_unit": 32
+  },
+  "final_verification_source_commit": "83ecec83e270c87d9ef6dfd5ad3d8ae1decb7151",
+  "implementation_commit": "33d9f6b3e568c935b679e06380c1aa9a26cfbdd7",
+  "limitations": [
+    "Affine planar C3D10, existing 3000-element/30000-node view bound.",
+    "Equal-weight smoothing is a display derivative and can hide element jumps; it is not convergence or stability evidence.",
+    "Native FRD averaged stress remains diagnostic only; raw IP extrema and frozen yield factors remain authoritative.",
+    "Probes/authoritative sections T022, refinement T023, M3/T024 and M4 acceptance remain pending.",
+    "Engineering-owner benchmark/formulation signatures, Windows Chrome/Edge, target-laptop/headed-GPU/performance/usability acceptance deferred; no deployment or merge."
+  ],
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "native_build_manifest": {
+    "sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+    "size_bytes": 1084
+  },
+  "predeclared_criteria": {
+    "B09": "tests/benchmarks/B09.json",
+    "derivatives": "tests/fixtures/native/result-fields.json",
+    "existing_native_diagnostics": "tests/fixtures/native/stress-cases.json"
+  },
+  "raw_reference": "Both synthetic run entries retain exact original input/mesh/deck/results/DAT/FRD/log plus current derived view. Retention verified current processor sources and original byte hashes; summaries omit only bulky boundary arrays.",
+  "recorded_on": "2026-10-14 (Asia/Calcutta)",
+  "responsive_fix": "Visual inspection reproduced full-page width 1706 at a 1280 viewport. Fixed table layout and ID wrapping; final browser width assertion passes, screenshot width 1280.",
+  "smoothing_reference": {
+    "absolute_floor_pa": 1e-8,
+    "max_tensor_error_pa": 4.656612873077393e-10,
+    "max_visible_tensor_change_pa": 1465367.5886465418,
+    "method": "Independent inverse four-point Gauss extrapolation, then all-incident equal tensor mean",
+    "relative_criterion": 1e-10
+  },
+  "source_files": {
+    "apps/web/src/results/ResultViewport.tsx": {
+      "sha256": "bbff20f9758a897a6ffef5b93568aedafa8de21a97f0cf2facda320b6396eb53",
+      "size_bytes": 5462
+    },
+    "apps/web/src/results/ResultsEditor.tsx": {
+      "sha256": "6adc2934f67f99b1b5fe6079c3a5ab79869d6610b78e7e936430d3ef1b7c3d23",
+      "size_bytes": 17985
+    },
+    "apps/web/src/results/presentation.test.ts": {
+      "sha256": "07e3d9cc21feea86e5c2c6892a29c4200c5068602ba260fd1a49ba5673d96be9",
+      "size_bytes": 3386
+    },
+    "apps/web/src/results/presentation.ts": {
+      "sha256": "69c264e6f82aed32624afff1954a55d0d93e73ab5d4cdb9d610a55ba5f0b3061",
+      "size_bytes": 2206
+    },
+    "apps/web/src/style.css": {
+      "sha256": "d287fbf67afe7c5f37eef187b1a48b1e4d025ef1ae81ee5817644b6111dc055c",
+      "size_bytes": 5868
+    },
+    "packages/contracts/api.d.ts": {
+      "sha256": "0ede610695ef9b797040f1e030e6190e64222bf679ce57ddad77744d02700b82",
+      "size_bytes": 354018
+    },
+    "packages/contracts/openapi.json": {
+      "sha256": "82805851fbcad79ac73911bd29db8fbf0bd7e4f8e930c3e439299c7e5e422e0c",
+      "size_bytes": 455770
+    },
+    "services/api/app/domain/results.py": {
+      "sha256": "fb20a54a19564669f4559c98a178a301db8daf4fdf012d5c0a909138f12ec9d6",
+      "size_bytes": 3737
+    },
+    "services/api/app/jobs/service.py": {
+      "sha256": "d35d13e7432eaf0ab1e1e0ae80120ac9be732a55defbec63f1c5c7dbbc1db7c4",
+      "size_bytes": 21532
+    },
+    "services/worker/worker/calculix/results.py": {
+      "sha256": "da43f91763e9880a6e8728906202f1394d7b89a31af61e6a6f163c1190c29609",
+      "size_bytes": 14555
+    },
+    "services/worker/worker/postprocess/fields.py": {
+      "sha256": "3201afd7ad773d0865f77b992e941c5264484d87490964b84866ff87e718c2cf",
+      "size_bytes": 6451
+    },
+    "services/worker/worker/postprocess/tensors.py": {
+      "sha256": "9dc5efb68ebfafc05d5f964019548b801fdcad8706032554334aa0c537767584",
+      "size_bytes": 2264
+    },
+    "services/worker/worker/postprocess/view.py": {
+      "sha256": "dbc525f97a602d241ce4391599c8028d741efc25c1a1fc2d61eaeeb806a9f33d",
+      "size_bytes": 11366
+    },
+    "tests/benchmarks/B09.json": {
+      "sha256": "c7b0292a588c27595ddf3494f09ec5641b38485afae99b0832d4fa23bcb456af",
+      "size_bytes": 1862
+    },
+    "tests/e2e/results.spec.ts": {
+      "sha256": "6601bc70c20df6f4a8a2e5dbabb2df96f222095d9805822abab14c8d100f1c11",
+      "size_bytes": 11110
+    },
+    "tests/fixtures/native/result-fields.json": {
+      "sha256": "da6d7d972704fc6922df099ae41892de6306cda3e33c4c33380288d178423439",
+      "size_bytes": 754
+    },
+    "tests/fixtures/native/stress-cases.json": {
+      "sha256": "4a47a688f000a721ac81fe8bd9c50b9c0aee9220b3d40f0eeb8020ba75e23f8a",
+      "size_bytes": 1130
+    },
+    "tests/integration/test_result_views.py": {
+      "sha256": "ab3ec8a1793d3e12ea7d3efc4ec9eea558be166f07b5f33ab8b0a9b84ae811d7",
+      "size_bytes": 2004
+    },
+    "tests/native/test_result_views.py": {
+      "sha256": "63d9e4787f75a02f049ede8b0824d9d74e24eb926a69cf18f88c5addb3423c50",
+      "size_bytes": 16003
+    },
+    "tests/native/test_stress_native.py": {
+      "sha256": "aaa858c55a728377057b1bed641f51ad68049c43e85cbcc497fabbd3cfbfd76f",
+      "size_bytes": 5293
+    },
+    "tests/unit/test_result_fields.py": {
+      "sha256": "ef463d5cdb9364b8e56a62e3220404b9b4be77c23dd86153be2a08ef5e05a555",
+      "size_bytes": 5102
+    }
+  },
+  "task": "T021",
+  "versions": {
+    "cadquery-ocp": "8.0.1.1.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "threads": 1,
+    "uv": "0.12.23"
+  }
+}

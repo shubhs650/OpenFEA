@@ -1,0 +1,242 @@
+
+===== work/T021-test-static.log =====
+E501 Line too long (101 > 100)
+   --> services/worker/worker/postprocess/view.py:240:101
+    |
+238 |         "warnings": list(dict.fromkeys(warnings)),
+239 |         "stress_method": "linear_C3D10_extrapolation_from_native_DAT_IP; element-owned "
+240 |         "tensors, then invariants; default unaveraged, optional body/material-partitioned smoothing",
+    |                                                                                                     ^
+241 |         "extrema_method": "Displacement: all native DAT nodes; von Mises/yield factor: "
+242 |         "all raw DAT integration points, including interior",
+    |
+
+E501 Line too long (102 > 100)
+  --> tests/integration/test_result_views.py:23:101
+   |
+21 |         assert len(original["data"]["fields"])==14
+22 |         assert original["data"]["frame"]=="global_cartesian"
+23 |         assert all(len(v["smoothed_stress"]["principal_pa"])==3 for v in original["data"]["vertices"])
+   |                                                                                                     ^^
+24 |         raw_route=f"/jobs/{run['id']}/artifacts/results.json"
+25 |         raw_original=browser.request("GET",raw_route)[1]
+   |
+
+E501 Line too long (106 > 100)
+  --> tests/native/test_result_views.py:56:101
+   |
+54 |             assert vertex[mode]["tensor_pa"] == pytest.approx([-1000,0,0,0,0,0],abs=0.01)
+55 |             assert vertex[mode]["principal_pa"] == pytest.approx([0,0,-1000],abs=0.01)
+56 |         assert vertex["displacement_m"][0] == pytest.approx(-1000*vertex["position_m"][0]/210e9,abs=1e-13)
+   |                                                                                                     ^^^^^^
+57 |     assert fields["ux"]["extrema"]["minimum"]["value"] == pytest.approx(-expected_u,abs=1e-13)
+58 |     assert fields["sxx"]["extrema"]["minimum"]["value"] == pytest.approx(-1000,abs=0.01)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> tests/native/test_result_views.py:61:46
+   |
+59 |     raw_names = ["snapshot.json","analysis.inp","analysis.dat","analysis.frd","results.json"]
+60 |     originals = {n:client.get(f"/api/v1/jobs/{run['id']}/artifacts/{n}").content for n in raw_names}
+61 |     out=Path(".local/native/validation/T021");out.mkdir(parents=True,exist_ok=True)
+   |                                              ^
+62 |     (out/"axial-view.json").write_text(json.dumps(result,indent=2)+"\n")
+63 |     original = hashlib.sha256(json.dumps(result, sort_keys=True).encode()).hexdigest()
+   |
+
+E501 Line too long (108 > 100)
+  --> tests/native/test_result_views.py:78:101
+   |
+76 |         == original
+77 |     )
+78 |     assert {n:client.get(f"/api/v1/jobs/{run['id']}/artifacts/{n}").content for n in raw_names} == originals
+   |                                                                                                     ^^^^^^^^
+79 |     later = wait_job(client, submit(client, path, mesh["id"])["id"])
+80 |     assert view(client, later)["data"]["yield_factors"][0]["state"] == "unavailable"
+   |
+
+E501 Line too long (102 > 100)
+  --> tests/native/test_stress_native.py:95:101
+   |
+93 |         assert len({p["element_id"] for p in sides}) == 2
+94 |     mesh = hand_mesh(True)
+95 |     smooth = smooth_nodes(element_nodes(parse_dat(tmp_path/"analysis.dat",mesh)["samples"],mesh),mesh)
+   |                                                                                                     ^^
+96 |     for node in result["shared_node_ids"]:
+97 |         sides=[p for p in smooth if p.node_id==node]
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:73:35
+   |
+71 |     assert points==original and len(result)==20
+72 |     for p in result:
+73 |         if p.node_id not in {1,99}: continue
+   |                                   ^
+74 |         expected=2 if partition=="same" else 6 if p.element_id==1 else -2
+75 |         assert p.tensor_pa==pytest.approx([expected,0,0,0,0,0])
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:87:24
+   |
+85 |     points=[StressPoint("element_node",1,None,n,mesh.bodies[1],mesh.materials[1],mesh.nodes[n],
+86 |                         (1,0,0,0,0,0),{}) for n in mesh.elements[1]]
+87 |     if fault=="missing": points.pop()
+   |                        ^
+88 |     elif fault=="duplicate": points[-1]=points[0]
+89 |     elif fault=="body": points[0]=replace(points[0],body_id="foreign")
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:88:28
+   |
+86 |                         (1,0,0,0,0,0),{}) for n in mesh.elements[1]]
+87 |     if fault=="missing": points.pop()
+88 |     elif fault=="duplicate": points[-1]=points[0]
+   |                            ^
+89 |     elif fault=="body": points[0]=replace(points[0],body_id="foreign")
+90 |     else: points[0]=replace(points[0],tensor_pa=(float("nan"),0,0,0,0,0))
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:89:23
+   |
+87 |     if fault=="missing": points.pop()
+88 |     elif fault=="duplicate": points[-1]=points[0]
+89 |     elif fault=="body": points[0]=replace(points[0],body_id="foreign")
+   |                       ^
+90 |     else: points[0]=replace(points[0],tensor_pa=(float("nan"),0,0,0,0,0))
+91 |     with pytest.raises(ValueError): smooth_nodes(points,mesh)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:90:9
+   |
+88 |     elif fault=="duplicate": points[-1]=points[0]
+89 |     elif fault=="body": points[0]=replace(points[0],body_id="foreign")
+90 |     else: points[0]=replace(points[0],tensor_pa=(float("nan"),0,0,0,0,0))
+   |         ^
+91 |     with pytest.raises(ValueError): smooth_nodes(points,mesh)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> tests/unit/test_result_fields.py:91:35
+   |
+89 |     elif fault=="body": points[0]=replace(points[0],body_id="foreign")
+90 |     else: points[0]=replace(points[0],tensor_pa=(float("nan"),0,0,0,0,0))
+91 |     with pytest.raises(ValueError): smooth_nodes(points,mesh)
+   |                                   ^
+
+Found 12 errors.
+5 files reformatted, 150 files left unchanged
+
+===== work/T021-check.log =====
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+175 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+[warn] tests/e2e/results.spec.ts
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.
+make: *** [Makefile:30: lint] Error 1
+
+===== work/T021-check-second.log =====
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+175 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+tests/native/test_result_views.py:152: error: Need type annotation for "averaging_errors" (hint: "averaging_errors: list[<type>] = ...")  [var-annotated]
+tests/native/test_result_views.py:153: error: Need type annotation for "changes" (hint: "changes: list[<type>] = ...")  [var-annotated]
+Found 2 errors in 1 file (checked 135 source files)
+make: *** [Makefile:32: typecheck] Error 1
+
+===== work/T021-browser-initial-failure.log =====
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts
+
+
+Running 3 tests using 1 worker
+
+(node:56965) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history (45.0s)
+(node:57080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/results.spec.ts:133:1 › synthetic bracket completes real import to contours, reactions and frozen result history (9.2s)
+  ✓  3 tests/e2e/results.spec.ts:239:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (9.4s)
+
+
+  1) tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Result field', { exact: true })
+
+
+      51 |     await page
+      52 |       .getByLabel("Result field", { exact: true })
+    > 53 |       .selectOption(field.key);
+         |        ^
+      54 |     await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+      55 |       "data-result-field",
+      56 |       field.key,
+        at /workspace/OpenFEA/tests/e2e/results.spec.ts:53:8
+
+    Error Context: test-results/results-full-signed-fields-1d0a3-ngs-raw-extrema-and-history/error-context.md
+
+  1 failed
+    tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history 
+  2 passed (1.1m)
+
+===== work/T021-browser-second-failure.log =====
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts --grep full signed fields
+
+
+Running 1 test using 1 worker
+
+(node:57353) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history (45.0s)
+
+
+  1) tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Display units', { exact: true })
+
+
+      105 |   await page
+      106 |     .getByLabel("Display units", { exact: true })
+    > 107 |     .selectOption("inch-lbf-psi");
+          |      ^
+      108 |   await expect(page.getByLabel("Result legend")).toContainText(
+      109 |     "Stress σxx (psi)",
+      110 |   );
+        at /workspace/OpenFEA/tests/e2e/results.spec.ts:107:6
+
+    Error Context: test-results/results-full-signed-fields-1d0a3-ngs-raw-extrema-and-history/error-context.md
+
+  1 failed
+    tests/e2e/results.spec.ts:31:1 › full signed fields and partitioned smoothing preserve warnings, raw extrema and history 

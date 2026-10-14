@@ -1,0 +1,7 @@
+{
+  "viewport_width_px": 1280,
+  "initial_full_page_image_px": [1706, 8998],
+  "final_full_page_image_px": [1280, 8810],
+  "browser_assertion": "document.documentElement.scrollWidth <= window.innerWidth",
+  "final_result": "PASS in final 3-case replay, including full field/mode/unit/history workflow"
+}

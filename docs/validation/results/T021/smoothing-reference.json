@@ -1,0 +1,7 @@
+{
+  "method": "Independent inverse four-point Gauss extrapolation, then all-incident equal tensor mean",
+  "max_tensor_error_pa": 4.656612873077393e-10,
+  "max_visible_tensor_change_pa": 1465367.5886465418,
+  "relative_criterion": 1e-10,
+  "absolute_floor_pa": 1e-8
+}
