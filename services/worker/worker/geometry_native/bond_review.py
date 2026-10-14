@@ -6,14 +6,16 @@ import json
 from pathlib import Path
 
 from OCP.BRep import BRep_Builder, BRep_Tool
+from OCP.BRepAdaptor import BRepAdaptor_Curve
 from OCP.BRepAlgoAPI import BRepAlgoAPI_Common
 from OCP.BRepBuilderAPI import BRepBuilderAPI_Transform
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
 from OCP.BRepTools import BRepTools
+from OCP.GeomAbs import GeomAbs_Line
 from OCP.gp import gp_Trsf, gp_Vec
 from OCP.GProp import GProp_GProps
-from OCP.TopAbs import TopAbs_FACE, TopAbs_SOLID, TopAbs_VERTEX
+from OCP.TopAbs import TopAbs_EDGE, TopAbs_FACE, TopAbs_SOLID, TopAbs_VERTEX
 from OCP.TopoDS import TopoDS, TopoDS_Shape
 
 spec = importlib.util.spec_from_file_location("cad_export", "/import.py")
@@ -44,6 +46,11 @@ def common(a, b, surface=False):
 
 
 def unit_square(face):
+    edges = cad.explore(face, TopAbs_EDGE)
+    if len(edges) != 4 or any(
+        BRepAdaptor_Curve(TopoDS.Edge(e)).GetType() != GeomAbs_Line for e in edges
+    ):
+        return False
     points = sorted(
         {BRep_Tool.Pnt_s(TopoDS.Vertex(v)).Coord() for v in cad.explore(face, TopAbs_VERTEX)}
     )

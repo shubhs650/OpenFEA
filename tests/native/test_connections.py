@@ -121,6 +121,7 @@ def test_gap_approval_is_explicit_remeasured_revisioned_and_copied(client: TestC
     ("fixture", "kind"),
     [
         ("bond-zero-m.step", "zero"),
+        ("bond-curved-boundary-m.step", "curved-boundary"),
         ("bond-partial-m.step", "partial"),
         ("bond-excess-m.step", "excess"),
         ("bond-unrelated-m.step", "unrelated"),
