@@ -178,3 +178,8 @@ def test_invariants_follow_tensor_interpolation_instead_of_averaging_scalar_peak
         assert result["vertices"][0][mode]["tensor_pa"] == pytest.approx([0] * 6, abs=1e-12)
         assert result["vertices"][0][mode]["von_mises_pa"] == pytest.approx(0, abs=1e-12)
         assert result["vertices"][0][mode]["principal_pa"] == pytest.approx([0] * 3, abs=1e-12)
+
+
+def test_extreme_finite_probe_coordinates_refuse_without_arithmetic_overflow() -> None:
+    with pytest.raises(ValueError, match="outside"):
+        inspect_volume(*polynomial_fixture(), (1e308, 1e308, 1e308), element=1)

@@ -63,6 +63,11 @@ def test_real_axial_core_results_reactions_frozen_yield_and_edit_history(
     wire = client.get(f"/api/v1/jobs/{run['id']}/artifacts/mesh.json").json()
     eid, ns = next(iter(wire["elements"].items()))
     center = [sum(wire["nodes"][str(n)][k] for n in ns[:4]) / 4 for k in range(3)]
+    extreme = client.post(
+        f"/api/v1/runs/{run['id']}/probes",
+        json={"element_id": int(eid), "point_m": [1e308, 1e308, 1e308]},
+    )
+    assert extreme.status_code == 422
     inspections = []
     for kind, payload in [
         ("probes", {"element_id": int(eid), "point_m": center}),

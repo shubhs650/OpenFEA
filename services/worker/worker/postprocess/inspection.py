@@ -87,6 +87,13 @@ def inspect_volume(
             dot(a, cross(d, c)) / determinant,
             dot(a, cross(b, d)) / determinant,
         ]
+        # Reject huge but finite outside coordinates before a compensated sum
+        # can overflow. This does not expand the admitted reference domain.
+        if any(
+            not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
+            for v in bary
+        ):
+            raise ValueError("The physical probe point is outside the selected element side")
         bary.insert(0, 1 - math.fsum(bary))
         if any(
             not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
