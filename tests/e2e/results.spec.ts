@@ -495,18 +495,44 @@ test("refinement compares real meshes at saved physical locations and exports al
   );
   const coarse = await mesh(page);
   const firstRun = await solve(page);
-  // An explicit saved sizing change creates a second actual mesh and solve.
+  await expect(page.locator(`[data-job-id="${firstRun.id}"]`)).toHaveAttribute(
+    "data-job-status",
+    "succeeded",
+  );
+  await page.getByText("Duplicate saved setup", { exact: true }).click();
+  await page
+    .getByLabel("New duplicate analysis name", { exact: true })
+    .fill("T023 refined copy");
+  const duplicated = page.waitForResponse(
+    (r) => r.url().endsWith("/duplicates") && r.request().method() === "POST",
+  );
+  await page
+    .getByRole("button", { name: "Duplicate analysis setup", exact: true })
+    .click();
+  const duplicateResponse = await duplicated;
+  expect(duplicateResponse.status()).toBe(201);
+  const refinedAnalysis = (await duplicateResponse.json()).id as string;
+  await expect(
+    page.getByRole("combobox", { name: "Open analysis", exact: true }),
+  ).toHaveValue(refinedAnalysis);
+  await expect(page.getByLabel("Save state", { exact: true })).toContainText(
+    "Saved",
+  );
+  // The duplicated saved physics gets an explicit mesh change and actual solve.
   await page.getByRole("spinbutton", { name: /Global mesh size/ }).fill("300");
   await page
     .getByRole("button", { name: "Save mesh controls", exact: true })
     .click();
   const refined = await mesh(page);
   const secondRun = await solve(page);
-  await openResults(page, firstRun.id);
   await expect(page.locator(`[data-job-id="${secondRun.id}"]`)).toHaveAttribute(
     "data-job-status",
     "succeeded",
   );
+  await page
+    .getByRole("combobox", { name: "Open analysis", exact: true })
+    .selectOption(analysisId);
+  await openResults(page, firstRun.id);
   await page
     .getByRole("combobox", { name: "Result field", exact: true })
     .selectOption("uz");
@@ -517,6 +543,9 @@ test("refinement compares real meshes at saved physical locations and exports al
   await expect(
     page.getByRole("combobox", { name: "Compared analysis", exact: true }),
   ).toHaveValue(analysisId);
+  await page
+    .getByRole("combobox", { name: "Compared analysis", exact: true })
+    .selectOption(refinedAnalysis);
   await page
     .getByRole("combobox", { name: "Compared completed run", exact: true })
     .selectOption(secondRun.id);
