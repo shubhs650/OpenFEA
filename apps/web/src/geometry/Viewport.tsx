@@ -1,3 +1,4 @@
+import { useTheme } from "../workspace/theme";
 import { useEffect, useRef, useState } from "react";
 import "@kitware/vtk.js/Rendering/Profiles/Geometry";
 import vtkGenericRenderWindow, {
@@ -36,6 +37,7 @@ export function Viewport({
   faceColors,
   wireframe = false,
 }: Props) {
+  const theme = useTheme();
   const container = useRef<HTMLDivElement>(null);
   const scene = useRef<Window | null>(null);
   const actors = useRef(new Map<Actor, { id: string; body: string }>());
@@ -66,6 +68,16 @@ export function Viewport({
       scene.current = null;
     };
   }, [revision]);
+
+  useEffect(() => {
+    if (!scene.current) return;
+    const background =
+      theme === "dark" ? [0.07, 0.11, 0.15] : [0.94, 0.96, 0.98];
+    scene.current
+      .getRenderer()
+      .setBackground(background[0], background[1], background[2]);
+    scene.current.getRenderWindow().render();
+  }, [theme, revision]);
 
   useEffect(() => {
     const view = scene.current;

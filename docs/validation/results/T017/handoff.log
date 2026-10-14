@@ -1,0 +1,6 @@
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 139 Markdown files; 42 task statuses and acyclic dependencies
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpghatde61/openapi.json → /tmp/tmpghatde61/api.d.ts [296.3ms]
+PASS: API OpenAPI and TypeScript contracts

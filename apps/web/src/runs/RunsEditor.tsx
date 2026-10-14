@@ -152,7 +152,12 @@ export function RunsEditor({
     }
   }
   return (
-    <section className="runs-panel" aria-label="Local mesh and solve">
+    <section
+      id="setup-runs"
+      tabIndex={-1}
+      className="runs-panel"
+      aria-label="Local mesh and solve"
+    >
       <h2>Local mesh and solve</h2>
       <p>
         One engineering job runs at a time. Inputs are frozen when submitted;
@@ -231,114 +236,118 @@ export function RunsEditor({
       </button>
       {error && <p role="alert">{error}</p>}
       <p aria-live="polite">{status}</p>
-      <ul aria-label="Local job history">
-        {jobs.map((j) => (
-          <li key={j.id} data-job-id={j.id} data-job-status={j.status}>
-            <strong>
-              {j.kind === "mesh" ? "Mesh" : "Solve"} · {j.status}
-            </strong>{" "}
-            · {j.stage} · Analysis revision {j.analysis_revision}
-            <p>
-              Geometry <code>{j.geometry_revision_id}</code> · Input SHA-256{" "}
-              <code>{j.input_sha256}</code>
-            </p>
-            {!terminal.has(j.status) && (
-              <>
-                <p>
-                  Elapsed{" "}
-                  {Math.max(
-                    0,
-                    Math.floor(
-                      (clock - Date.parse(j.started_at ?? j.queued_at)) / 1000,
-                    ),
-                  )}{" "}
-                  s
-                  {j.heartbeat_at
-                    ? ` · Last heartbeat ${new Date(j.heartbeat_at).toLocaleTimeString()}`
-                    : " · Waiting in the durable queue"}
-                </p>
-                <button
-                  disabled={cancelling === j.id || j.status === "cancelling"}
-                  onClick={() => void cancel(j.id)}
-                >
-                  Cancel {j.kind} job {j.id.slice(0, 8)}
-                </button>
-                {j.status === "cancelling" && (
+      <details open>
+        <summary>Job history and diagnostics</summary>
+        <ul aria-label="Local job history">
+          {jobs.map((j) => (
+            <li key={j.id} data-job-id={j.id} data-job-status={j.status}>
+              <strong>
+                {j.kind === "mesh" ? "Mesh" : "Solve"} · {j.status}
+              </strong>{" "}
+              · {j.stage} · Analysis revision {j.analysis_revision}
+              <p>
+                Geometry <code>{j.geometry_revision_id}</code> · Input SHA-256{" "}
+                <code>{j.input_sha256}</code>
+              </p>
+              {!terminal.has(j.status) && (
+                <>
                   <p>
-                    Cancellation requested. Waiting for confirmed process
-                    termination.
+                    Elapsed{" "}
+                    {Math.max(
+                      0,
+                      Math.floor(
+                        (clock - Date.parse(j.started_at ?? j.queued_at)) /
+                          1000,
+                      ),
+                    )}{" "}
+                    s
+                    {j.heartbeat_at
+                      ? ` · Last heartbeat ${new Date(j.heartbeat_at).toLocaleTimeString()}`
+                      : " · Waiting in the durable queue"}
                   </p>
-                )}
-              </>
-            )}
-            {j.summary.mesh_attempt != null && (
-              <p>
-                Mesh attempt {String(j.summary.mesh_attempt)} of{" "}
-                {String(j.summary.max_mesh_attempts)} ·{" "}
-                {String(j.summary.mesh_profile)}
-              </p>
-            )}
-            {Array.isArray(j.summary.mesh_attempts) && (
-              <ul aria-label="Mesh recovery attempts">
-                {j.summary.mesh_attempts.map((attempt, i) =>
-                  typeof attempt === "object" &&
-                  attempt !== null &&
-                  !Array.isArray(attempt) ? (
-                    <li key={i}>
-                      Attempt {String(attempt.number)}:{" "}
-                      {String(attempt.profile)} — {String(attempt.status)};
-                      sizing unchanged
-                    </li>
-                  ) : null,
-                )}
-              </ul>
-            )}
-            {j.kind === "mesh" &&
-              j.status === "failed" &&
-              j.artifacts["mesh.json"] && (
-                <button onClick={() => void preview(j.id)}>
-                  Inspect failed mesh quality {j.id.slice(0, 8)}
-                </button>
+                  <button
+                    disabled={cancelling === j.id || j.status === "cancelling"}
+                    onClick={() => void cancel(j.id)}
+                  >
+                    Cancel {j.kind} job {j.id.slice(0, 8)}
+                  </button>
+                  {j.status === "cancelling" && (
+                    <p>
+                      Cancellation requested. Waiting for confirmed process
+                      termination.
+                    </p>
+                  )}
+                </>
               )}
-            {j.reason_message && (
-              <p>
-                {j.reason_message} ({j.reason_code})
-              </p>
-            )}
-            {Array.isArray(j.summary.warnings) &&
-              j.summary.warnings.map((w) =>
-                typeof w === "string" ? <p key={w}>{w}</p> : null,
+              {j.summary.mesh_attempt != null && (
+                <p>
+                  Mesh attempt {String(j.summary.mesh_attempt)} of{" "}
+                  {String(j.summary.max_mesh_attempts)} ·{" "}
+                  {String(j.summary.mesh_profile)}
+                </p>
               )}
-            {j.status === "succeeded" && (
-              <p>
-                {j.kind === "mesh"
-                  ? "Checked C3D10 mesh completed."
-                  : "Native solve completed and raw outputs validated. Open the completed solve in Engineering results."}
-              </p>
-            )}
-            <a href={`/api/v1/jobs/${j.id}/artifacts/snapshot.json`}>
-              Download job snapshot
-            </a>
-            {Object.keys(j.artifacts)
-              .filter((name) => name !== "snapshot.json")
-              .map((name) => (
-                <span key={name}>
-                  {" "}
-                  ·{" "}
-                  <a href={`/api/v1/jobs/${j.id}/artifacts/${name}`}>
-                    Download {name}
-                  </a>
-                </span>
-              ))}
-            {j.status !== "succeeded" && terminal.has(j.status) && (
-              <p>
-                Retained raw files are diagnostics; no validated result is
-                available.
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
+              {Array.isArray(j.summary.mesh_attempts) && (
+                <ul aria-label="Mesh recovery attempts">
+                  {j.summary.mesh_attempts.map((attempt, i) =>
+                    typeof attempt === "object" &&
+                    attempt !== null &&
+                    !Array.isArray(attempt) ? (
+                      <li key={i}>
+                        Attempt {String(attempt.number)}:{" "}
+                        {String(attempt.profile)} — {String(attempt.status)};
+                        sizing unchanged
+                      </li>
+                    ) : null,
+                  )}
+                </ul>
+              )}
+              {j.kind === "mesh" &&
+                j.status === "failed" &&
+                j.artifacts["mesh.json"] && (
+                  <button onClick={() => void preview(j.id)}>
+                    Inspect failed mesh quality {j.id.slice(0, 8)}
+                  </button>
+                )}
+              {j.reason_message && (
+                <p>
+                  {j.reason_message} ({j.reason_code})
+                </p>
+              )}
+              {Array.isArray(j.summary.warnings) &&
+                j.summary.warnings.map((w) =>
+                  typeof w === "string" ? <p key={w}>{w}</p> : null,
+                )}
+              {j.status === "succeeded" && (
+                <p>
+                  {j.kind === "mesh"
+                    ? "Checked C3D10 mesh completed."
+                    : "Native solve completed and raw outputs validated. Open the completed solve in Engineering results."}
+                </p>
+              )}
+              <a href={`/api/v1/jobs/${j.id}/artifacts/snapshot.json`}>
+                Download job snapshot
+              </a>
+              {Object.keys(j.artifacts)
+                .filter((name) => name !== "snapshot.json")
+                .map((name) => (
+                  <span key={name}>
+                    {" "}
+                    ·{" "}
+                    <a href={`/api/v1/jobs/${j.id}/artifacts/${name}`}>
+                      Download {name}
+                    </a>
+                  </span>
+                ))}
+              {j.status !== "succeeded" && terminal.has(j.status) && (
+                <p>
+                  Retained raw files are diagnostics; no validated result is
+                  available.
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </details>
       <ResultsEditor
         jobs={jobs}
         analysisId={analysisId}

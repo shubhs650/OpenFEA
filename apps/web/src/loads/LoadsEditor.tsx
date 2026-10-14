@@ -1,3 +1,4 @@
+import { useDraft, useEdits } from "../workspace/edits";
 import { useEffect, useState } from "react";
 import {
   DirectionEditor,
@@ -49,6 +50,7 @@ export function LoadsEditor({
   showMesh,
   showResult,
 }: Props) {
+  const edits = useEdits();
   const [meshReady, setMeshReady] = useState(false);
   const [state, setState] = useState<LoadState | null>(null);
   const [exports, setExports] = useState<DeckExport[]>([]);
@@ -171,6 +173,25 @@ export function LoadsEditor({
               : force.every(
                   (v) => v.trim() !== "" && Number.isFinite(Number(v)),
                 ) && force.some((v) => Number(v) !== 0));
+  useDraft(
+    "loads",
+    !!name ||
+      !!pressure ||
+      !!displacement ||
+      !!magnitude ||
+      force.some(Boolean) ||
+      acceleration.some(Boolean),
+  );
+  function cancelDraft() {
+    setName("");
+    setPressure("");
+    setDisplacement("");
+    setMagnitude("");
+    setForce(["", "", ""]);
+    setAcceleration(["", "", ""]);
+    setCombine(false);
+    setStatus("");
+  }
   async function change(path: string, payload?: unknown, method = "POST") {
     if (!aligned) return;
     setBusy(true);
@@ -186,8 +207,8 @@ export function LoadsEditor({
       setState(next);
       preview(next);
       saved(next.analysis_revision);
+      if (path === "/loads") cancelDraft();
       setStatus("Assignments saved in a new analysis revision.");
-      setCombine(false);
     } catch (e) {
       setStatus("Assignment was not saved.");
       setConflict(e instanceof RequestError && e.code === "stale_revision");
@@ -222,7 +243,12 @@ export function LoadsEditor({
     }
   }
   return (
-    <section aria-label="Face loads" className="loads-panel">
+    <section
+      id="setup-loads"
+      tabIndex={-1}
+      aria-label="Face loads"
+      className="loads-panel"
+    >
       <h2>Supports, face loads and body gravity</h2>
       <p>
         Global components or native geometry directions. Positive pressure acts
@@ -486,6 +512,9 @@ export function LoadsEditor({
       >
         {kind === "gravity" ? "Save body gravity" : "Save face assignment"}
       </button>
+      <button disabled={busy} onClick={cancelDraft}>
+        Cancel assignment draft
+      </button>
       {state && (
         <>
           <p>
@@ -718,7 +747,7 @@ export function LoadsEditor({
         showResult={showResult}
       />
       {error && <p role="alert">{error}</p>}
-      <p aria-live="polite">{status}</p>
+      <p aria-live="polite">{edits.dirty.length ? "" : status}</p>
     </section>
   );
 }

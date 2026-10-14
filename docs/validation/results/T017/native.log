@@ -1,0 +1,29 @@
+.venv/bin/python -m pytest tests/native
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 157 items
+
+tests/native/test_bond_native.py ...                                     [  1%]
+tests/native/test_cleanup_resources.py ....                              [  4%]
+tests/native/test_deck_guards.py .......                                 [  8%]
+tests/native/test_directions.py .............                            [ 17%]
+tests/native/test_essential_loads.py ..................                  [ 28%]
+tests/native/test_face_decks.py .............                            [ 36%]
+tests/native/test_feasibility_stops.py ........                          [ 42%]
+tests/native/test_geometry_edits.py ...........                          [ 49%]
+tests/native/test_job_lifecycle.py ..........                            [ 55%]
+tests/native/test_local_jobs.py .                                        [ 56%]
+tests/native/test_mapping.py ..............                              [ 64%]
+tests/native/test_material_response.py ...                               [ 66%]
+tests/native/test_mesh_controls.py ..............                        [ 75%]
+tests/native/test_result_views.py ........                               [ 80%]
+tests/native/test_run_snapshots.py ..                                    [ 82%]
+tests/native/test_step_import.py ..............                          [ 91%]
+tests/native/test_stress_native.py ....                                  [ 93%]
+tests/native/test_toolchain.py .........                                 [ 99%]
+tests/native/test_workspace_edits.py .                                   [100%]
+
+======================= 157 passed in 397.81s (0:06:37) ========================

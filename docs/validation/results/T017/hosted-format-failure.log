@@ -1,0 +1,25 @@
+check	Run make check build smoke test-integration test-e2e	﻿2026-10-14T10:14:21.8480098Z ##[group]Run make check build smoke test-integration test-e2e
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8480571Z [36;1mmake check build smoke test-integration test-e2e[0m
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8544860Z shell: /usr/bin/bash -e {0}
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8545119Z env:
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8545392Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8545841Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8546274Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8546652Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8547031Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8547414Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8547737Z ##[endgroup]
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8646518Z .venv/bin/ruff check services migrations scripts tests
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8939612Z All checks passed!
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.8947185Z .venv/bin/ruff format --check services migrations scripts tests
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.9265198Z 154 files already formatted
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:21.9272681Z npm run lint
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:22.0205751Z 
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:22.0205996Z > openfea@0.1.0 lint
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:22.0206390Z > eslint . && prettier --check .
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:22.0206598Z 
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:24.2222120Z Checking formatting...
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:25.9574372Z [[33mwarn[39m] docs/validation/results/T017/index.json
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:26.6241907Z [[33mwarn[39m] Code style issues found in the above file. Run Prettier with --write to fix.
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:26.6636234Z make: *** [Makefile:30: lint] Error 1
+check	Run make check build smoke test-integration test-e2e	2026-10-14T10:14:26.6655408Z ##[error]Process completed with exit code 2.

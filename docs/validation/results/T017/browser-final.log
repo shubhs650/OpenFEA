@@ -1,0 +1,16 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/workspace.spec.ts
+
+
+Running 5 tests using 1 worker
+
+(node:8622) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (5.2s)
+  ✓  2 tests/e2e/workspace.spec.ts:100:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (8.7s)
+  ✓  3 tests/e2e/workspace.spec.ts:165:1 › real stale edit offers reload or conflict copy without overwriting the other session (4.8s)
+  ✓  4 tests/e2e/workspace.spec.ts:216:1 › draft blockers and cancellation protect other edits; undo restores saved material prerequisites (3.2s)
+  ✓  5 tests/e2e/workspace.spec.ts:260:1 › failed conflict-copy application keeps the rejected draft and exposes the created copy (3.6s)
+
+  5 passed (28.9s)

@@ -1,0 +1,311 @@
+{
+  "artifacts": {
+    "browser-affected.log": {
+      "sha256": "d26523bab7a86a5e703c46dd5f431fb59b72730ebe150f85c37e40d232665633",
+      "size_bytes": 1876
+    },
+    "browser-final.log": {
+      "sha256": "8c690bb57e19218079aebcc02b30b41eb0606eca2ebab628540369ec84c2f3ef",
+      "size_bytes": 997
+    },
+    "browser-initial-full.log": {
+      "sha256": "73351d5a674690d3bed6e32deb6054dfa243719bd0944b951d6e7e9786f84408",
+      "size_bytes": 8379
+    },
+    "browser-initial-targeted.log": {
+      "sha256": "9f8d030733faa79ab4b70601fea830231187d77c8409369ae1604bffdabcc84e",
+      "size_bytes": 1903
+    },
+    "check-build-smoke.log": {
+      "sha256": "5a65c0fbea627a5501011d406f67a41e86dbf1b545119c72f7234d7cc91c2a79",
+      "size_bytes": 4144
+    },
+    "ci-format-check.log": {
+      "sha256": "0998930ac7259df9b6b26d8740d76bbe57f938a388db2046a39dac8d4b092bfa",
+      "size_bytes": 3077
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "final-static-build.log": {
+      "sha256": "4ce646ad0b26dcd9b9d013f599b07fa4c24490569790408e770311bca6971ab4",
+      "size_bytes": 1342
+    },
+    "handoff.log": {
+      "sha256": "db2352cb64d36e4b43257b756868a5af15051ad68a604307670d5aaf2a249023",
+      "size_bytes": 307
+    },
+    "hosted-format-failure.log": {
+      "sha256": "9f7b8d2038859e5b9c95631f0b6eb5f4b21a09e73bb8befc116d3aee979fe6e0",
+      "size_bytes": 3236
+    },
+    "integration.log": {
+      "sha256": "9d6c051a20ba8eb79a728f9656dec19a6a2c7f1b687b602e46cf6c43e913bf29",
+      "size_bytes": 1086
+    },
+    "native-measurements.json": {
+      "sha256": "fb3d672038240860da0c4bb08e70d24d5157b6d507eb1cfceecbfb09d49c7f4f",
+      "size_bytes": 371
+    },
+    "native.log": {
+      "sha256": "ba6279971d6a522c63644f0c6e57f6156edfcdc5aba4cec35499ee3eadd945b3",
+      "size_bytes": 1882
+    },
+    "workspace-dark-1280.png": {
+      "sha256": "34233e579cb9993d6f54c4a7664ad1e2665d9b5043d5eed698d05b196fc61041",
+      "size_bytes": 96323
+    },
+    "workspace-light-1366.png": {
+      "sha256": "41b6e8817ef61a398538c714b338447efb64299438c5b0c8b5d9884eca2f51b4",
+      "size_bytes": 102653
+    }
+  },
+  "base_commit": "361d52455724678bbd2007703a2a9a4d54872da1",
+  "commands": [
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "PASS"
+    },
+    {
+      "command": "make check build smoke",
+      "log": "check-build-smoke.log",
+      "result": "PASS"
+    },
+    {
+      "command": "make lint typecheck build",
+      "log": "final-static-build.log",
+      "result": "PASS after final toolbar change"
+    },
+    {
+      "command": "make test-native",
+      "log": "native.log",
+      "result": "157 pass / 0 fail / 0 skip"
+    },
+    {
+      "command": "make test-integration",
+      "log": "integration.log",
+      "result": "15 pass / 0 fail / 0 skip"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-initial-full.log",
+      "result": "initial 25 pass / 3 failures corrected by affected replay"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=\"$PWD/.local/browsers\" npm run test:e2e -- tests/e2e/workspace.spec.ts tests/e2e/loads.spec.ts tests/e2e/materials.spec.ts tests/e2e/mesh.spec.ts",
+      "log": "browser-affected.log",
+      "result": "11 pass / 0 fail / 0 skip"
+    },
+    {
+      "command": "PLAYWRIGHT_BROWSERS_PATH=\"$PWD/.local/browsers\" npm run test:e2e -- tests/e2e/workspace.spec.ts",
+      "log": "browser-final.log",
+      "result": "5 pass / 0 fail / 0 skip after final autosave change"
+    }
+  ],
+  "date": "2026-10-14",
+  "final_distinct_passes": {
+    "chromium": 30,
+    "integration": 15,
+    "native": 157,
+    "python_unit": 282,
+    "remaining_failed": 0,
+    "remaining_skipped": 0,
+    "total": 512,
+    "typescript_unit": 28
+  },
+  "final_source_commit": "6e4500ce16b532f90730fa07e3d33c4253da7b28",
+  "hosted_formatting_correction": {
+    "correction": "Format final evidence manifest with the locked Prettier; no application, numerical, lock or CI policy changes",
+    "failed_commit": "42d512b3cf237d09cf8d42a26e60b1f648744fc8",
+    "failed_run": "https://github.com/shubhs650/OpenFEA/actions/runs/38547207774",
+    "failure": "Prettier formatting of the generated T017 index.json visual_review array",
+    "hosted_native_before_failure": "157 pass / 0 fail / 0 skip",
+    "hosted_verification": "Check latest PR #14 head; rerun pending at correction commit",
+    "local_verification": "make check PASS: lint/types/282 Python/28 TypeScript/contracts/docs"
+  },
+  "implementation_commit": "4409235ba702ca50b5c9de9c161e64d74ea4d364",
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "numerical_measurements": {
+    "frozen_results_sha256": "a84c958accfeeff6a749dd3098418d664d9959d68595d1b992a4096a4a97885a",
+    "geometry_revision_id": "fc08ffd3-d4ee-4436-9f80-3d9b55c75a2c",
+    "native_run": "cc77090e-d476-434c-a2e2-5455352f6077",
+    "run_revision": 6,
+    "stress_error_pa": 3.649861e-12,
+    "stress_tolerance_pa": 0.01,
+    "u_error_m": 4.778911572789183e-16,
+    "u_tolerance_m": 1e-13
+  },
+  "source_files": {
+    "apps/web/src/geometry/Viewport.tsx": {
+      "sha256": "2171456cbc7b8b0faaeaf53844c93e4229955e72956606c188e1df2219b90f4c",
+      "size_bytes": 11947
+    },
+    "apps/web/src/geometry/Workspace.tsx": {
+      "sha256": "286bf3948395a76761c95036f498156232527530fa1e76d282ed28b05ca5e830",
+      "size_bytes": 24445
+    },
+    "apps/web/src/geometry/api.ts": {
+      "sha256": "76bbbbb63c21f14dc92f5adb79a021b763e284257914dee3baf54214b5f8c351",
+      "size_bytes": 5170
+    },
+    "apps/web/src/loads/LoadsEditor.tsx": {
+      "sha256": "5b1f573871debb85ad954d88f306b7c821f60c6a351947f056b84efc65f701bd",
+      "size_bytes": 25961
+    },
+    "apps/web/src/main.tsx": {
+      "sha256": "eabe2995850985bff3e6fa44b5cd9103217608107a55c65d0eec015748499e2f",
+      "size_bytes": 1268
+    },
+    "apps/web/src/materials/MaterialForm.tsx": {
+      "sha256": "2eb7bd1566a6df13e512c56a07bd80d14900d8fff9d58357e74f0f27b69482b9",
+      "size_bytes": 11069
+    },
+    "apps/web/src/materials/MaterialsEditor.tsx": {
+      "sha256": "3a449762d410a51252b8b85f4f02accfdc7f2d9257fed32d2301ca9282a04170",
+      "size_bytes": 12848
+    },
+    "apps/web/src/mesh/MeshEditor.tsx": {
+      "sha256": "4bfa7cd445d64b7d9d3d9f892141ffb9ec3844c289095f5a47c1fa8092572650",
+      "size_bytes": 12831
+    },
+    "apps/web/src/results/ResultViewport.tsx": {
+      "sha256": "9337a30873f01fed3518d89ac9c5b9a805551ac5d7f519169db67e1f80bdb299",
+      "size_bytes": 5154
+    },
+    "apps/web/src/runs/RunsEditor.tsx": {
+      "sha256": "a6a6a348760484d4961ef4e7b39289d90476df17b5b878a078c001bf0f3e651e",
+      "size_bytes": 12019
+    },
+    "apps/web/src/style.css": {
+      "sha256": "b0514b0861890b4c22a773fa779cbdda86587805007e99cf262af48e3e04af18",
+      "size_bytes": 5818
+    },
+    "apps/web/src/workspace/Checklist.tsx": {
+      "sha256": "7a1d8d9485f70a9ccc1b91538ec84b8f4209471945ad6ac006dfc4ca52bc2bd5",
+      "size_bytes": 6307
+    },
+    "apps/web/src/workspace/EditToolbar.tsx": {
+      "sha256": "f275f109bd87e7fb7288096b474c80ed34844574718bf2513ae7668c76d7c093",
+      "size_bytes": 8474
+    },
+    "apps/web/src/workspace/edits.test.ts": {
+      "sha256": "9df02f6a7eef2c5fbfabb064b82a4f1f8499e51a71b95a80171ea69668cfa02a",
+      "size_bytes": 3565
+    },
+    "apps/web/src/workspace/edits.ts": {
+      "sha256": "fbdddee47aad1b6e72df01d784b9803ceceb1f81679dd404295e3211a1c86950",
+      "size_bytes": 4163
+    },
+    "apps/web/src/workspace/theme.tsx": {
+      "sha256": "01f55f801008bbefcb7c199439e174c6305f68eb3fe6b035071ea8f5eb604fbd",
+      "size_bytes": 1769
+    },
+    "packages/contracts/api.d.ts": {
+      "sha256": "bf3044ad4f7755ed5237f9053e99c8e1e2ef63477b77203bc441e7403ec734ab",
+      "size_bytes": 310413
+    },
+    "packages/contracts/openapi.json": {
+      "sha256": "8b9ea67fe8d3f06169659d4e70989730464969bb39d96754a6a178816057c0af",
+      "size_bytes": 397876
+    },
+    "services/api/app/domain/models.py": {
+      "sha256": "701c7c96aca9d16ca6bb6e46c7a3b216eca4177ea15889b61821f28acd8d6b25",
+      "size_bytes": 5025
+    },
+    "services/api/app/persistence/repository.py": {
+      "sha256": "5c832a87a10a32260e737da549effcd0882edf196d11eb614040754a18be4ab1",
+      "size_bytes": 33047
+    },
+    "services/api/app/routes/projects.py": {
+      "sha256": "43f05004b5eb9eb60042438a571fdbca1f7a19db04dd787d28df9434ab51e014",
+      "size_bytes": 6205
+    },
+    "tests/e2e/health.spec.ts": {
+      "sha256": "7c26fa85d27d2ea2ae86abc6d1ae0842965811819328f5f87f2ff4b385ed64b5",
+      "size_bytes": 836
+    },
+    "tests/e2e/workspace.spec.ts": {
+      "sha256": "7b0de48c2eb500d67d5540b0cd42cc2de36de8a061117051dd5f08bf491ec6d9",
+      "size_bytes": 11633
+    },
+    "tests/integration/test_workspace_edits.py": {
+      "sha256": "e4674151baab8c60b589f4182da119ab5f84a9d29c25f879016bd5014a7c4c81",
+      "size_bytes": 2358
+    },
+    "tests/native/test_workspace_edits.py": {
+      "sha256": "e027356f31b08cc6661bfb28076efedeae7b17349e0e003b063671253fb74df5",
+      "size_bytes": 3040
+    },
+    "tests/unit/test_workspace_edits.py": {
+      "sha256": "80325b68da1be7ab06185c458ea8e52dc3e6f4969f724472ee38c62d70965ee7",
+      "size_bytes": 7305
+    }
+  },
+  "task": "T017",
+  "timezone": "Asia/Calcutta",
+  "unexecuted": [
+    "Windows Chrome/Edge",
+    "owner laptop / headed integrated GPU / formal usability",
+    "engineering-owner benchmark signatures",
+    "M2-M4 exit acceptance",
+    "full release security/report gates",
+    "deployment / AWS / billing"
+  ],
+  "versions": {
+    "browser": "Chromium headless / software WebGL",
+    "ccx": "2.23",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux x86_64",
+    "playwright": "1.64.0",
+    "python": "3.12.14",
+    "uv": "0.12.23"
+  },
+  "visual_review": ["workspace-dark-1280.png", "workspace-light-1366.png"]
+}

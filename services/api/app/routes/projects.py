@@ -11,6 +11,8 @@ from app.domain.models import (
     AnalysisCreate,
     AnalysisPage,
     AnalysisPatch,
+    AnalysisRestore,
+    ConflictCopy,
     ErrorResponse,
     GeometryPage,
     GeometryRevision,
@@ -166,4 +168,35 @@ def get_analysis_revision(
 ) -> Analysis:
     result = store.get_analysis(owner, analysis_id, revision)
     etag(response, result.revision)
+    return result
+
+
+@router.post("/analyses/{analysis_id}/restores", response_model=Analysis)
+def restore_analysis(
+    analysis_id: UUID,
+    payload: AnalysisRestore,
+    revision: Revision,
+    owner: Owner,
+    store: Store,
+    response: Response,
+) -> Analysis:
+    result = store.restore_analysis(owner, analysis_id, revision, payload.target_revision)
+    etag(response, result.revision)
+    return result
+
+
+@router.post("/analyses/{analysis_id}/conflict-copies", response_model=Analysis, status_code=201)
+def conflict_copy(
+    analysis_id: UUID,
+    payload: ConflictCopy,
+    revision: Revision,
+    owner: Owner,
+    store: Store,
+    response: Response,
+) -> Analysis:
+    result = store.conflict_copy(
+        owner, analysis_id, revision, payload.source_revision, payload.name
+    )
+    etag(response, result.revision)
+    response.headers["Location"] = f"/api/v1/analyses/{result.id}"
     return result

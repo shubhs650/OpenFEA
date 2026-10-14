@@ -1,3 +1,4 @@
+import { useDraft } from "../workspace/edits";
 import { useEffect, useState } from "react";
 import type {
   MaterialAssignment,
@@ -56,6 +57,7 @@ export function MaterialForm({
   const [sample, setSample] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [dirty, setDirty] = useState(false);
+  useDraft("material", dirty);
   const savedSignature = JSON.stringify(saved);
   useEffect(() => {
     const snapshot: MaterialSnapshot | undefined = savedSignature

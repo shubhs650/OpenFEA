@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-14 (Asia/Calcutta)
-Current state: NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M2 — T013–T016 COMPLETE; T017–T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: T017 — hybrid checklist, themes and edit flow; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M2 — T013–T017 COMPLETE; T018 NOT STARTED; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: T018 — multiple analyses and setup duplication; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -27,10 +27,11 @@ T013: COMPLETE
 T014: COMPLETE
 T015: COMPLETE
 T016: COMPLETE
-T017–T042: NOT STARTED
+T017: COMPLETE
+T018–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
-M2: IN PROGRESS — T013–T016 complete, exit gate NOT RUN.
+M2: IN PROGRESS — T013–T017 complete, exit gate NOT RUN.
 M3–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
@@ -40,6 +41,18 @@ B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed accepta
 B08, B10–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T017 completed — workspace checklist, themes and safe edits
+
+The real hybrid checklist reads saved material/load/mesh preflight and job state, focuses editors and explains blockers. Bounded shared edit state distinguishes drafts, saving, acknowledged revisions, failures and conflicts. Names autosave; engineering controls keep explicit review/Apply. Foreign drafts are protected. Keyboard face multiselection/navigation and persisted light/dark themes cover the actual CAD/results viewport and controls. Job history is expandable.
+
+Owned CSRF/ETag restore appends complete historical setup with geometry/current-head guards. Session undo is bounded to 50 commands and clears on reload/context/geometry changes; previews clear and raw history stays immutable. Conflict recovery copies the observed complete setup before submitting the rejected command through normal validation. Partial application failure retains the original draft and exposes the created copy. General duplication remains T018.
+
+**512 distinct verified passing cases, 0 remaining failures/skips:** 282 Python, 28 TS, 157 native, 15 actual-process integration and 30 Chromium. Actual restored pressure setup solves with U error 4.78e-16 m and stress error 3.65e-12 Pa under unchanged 1e-13 m/0.01 Pa criteria; old raw result bytes remain identical. Initial targeted theme locator and full-browser duplicate-alert/hidden-estimate failures are retained and corrected; affected 11-case plus final five-case replay passes. Latest-name retry, foreign-draft protection, multi-undo, real conflict/copy/reload, stale undo and partial-copy failure pass. Target-size dark/light screenshots were visually inspected. [Evidence](docs/validation/T017.md), [manifest](docs/validation/results/T017/index.json), [guide](docs/WORKSPACE_EDITS.md) and [ADR-025](docs/adr/ADR-025.md) retain commands/source/tool/lock hashes and pending acceptance.
+
+PR #14's first hosted run passed all 157 native tests, then failed Prettier on the final generated evidence manifest. The manifest is now formatted with the locked tool; fresh `make check` passes 282 Python/28 TypeScript plus lint/types/contracts/docs. Original failure and correction logs are retained in the [T017 evidence](docs/validation/T017.md). Application/numerical/CI policy is unchanged; latest PR-head hosted checks are the remaining confirmation.
+
+T016 PR #13 was externally merged before this task. No dependency/native lock, solver binary, earlier benchmark criterion or owner/laptop deferral changed. M2 stays IN PROGRESS; next **T018**. Create the requested T017 PR and leave it open for review; report hosted checks separately.
 
 ## T016 completed — native geometry directions and planar symmetry
 

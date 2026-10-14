@@ -1,3 +1,4 @@
+import { observeRevision, resetEdits, useEdits } from "../workspace/edits";
 import { useEffect, useState } from "react";
 import {
   api,
@@ -19,6 +20,7 @@ import { LoadsEditor } from "../loads/LoadsEditor";
 import type { ResultPresentation } from "../results/presentation";
 
 type Props = {
+  reloadWorkspace: () => void;
   project: Project;
   geometry: Geometry | null;
   analysisId: string;
@@ -34,6 +36,7 @@ type Props = {
 };
 
 export function MaterialsEditor({
+  reloadWorkspace,
   project,
   geometry,
   analysisId,
@@ -47,6 +50,7 @@ export function MaterialsEditor({
   showMesh,
   showResult,
 }: Props) {
+  const edits = useEdits();
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [name, setName] = useState("");
   const [state, setState] = useState<MaterialState | null>(null);
@@ -98,6 +102,7 @@ export function MaterialsEditor({
           if (current) {
             showGeometry(pinned);
             setState(data);
+            observeRevision(data.analysis_id, data.analysis_revision);
             setBody(data.bodies[0]?.body_id ?? "");
           }
         })
@@ -119,6 +124,15 @@ export function MaterialsEditor({
     (item) => item.body_id === body,
   )?.material;
   const readiness = active?.bodies.find((item) => item.body_id === body);
+
+  useEffect(() => {
+    if (edits.id === analysisId && edits.phase === "saved")
+      setState((old) =>
+        old && edits.revision > old.analysis_revision
+          ? { ...old, analysis_revision: edits.revision }
+          : old,
+      );
+  }, [edits.id, edits.revision, edits.phase, analysisId]);
 
   async function createAnalysis() {
     if (!geometry || geometry.project_id !== project.id) return;
@@ -176,13 +190,18 @@ export function MaterialsEditor({
     return false;
   }
   return (
-    <section className="materials-panel panel" aria-label="Analysis materials">
+    <section
+      id="setup-materials"
+      tabIndex={-1}
+      className="materials-panel panel"
+      aria-label="Analysis materials"
+    >
       <h2>Analysis and materials</h2>
       <label>
         Open analysis
         <select
           value={analysisId}
-          disabled={busy}
+          disabled={busy || !!edits.dirty.length}
           onChange={(e) => selectAnalysis(e.target.value)}
         >
           <option value="">Geometry preview (no analysis)</option>
@@ -205,6 +224,7 @@ export function MaterialsEditor({
       <button
         disabled={
           busy ||
+          !!edits.dirty.length ||
           !name.trim() ||
           !geometry ||
           geometry.project_id !== project.id
@@ -213,150 +233,164 @@ export function MaterialsEditor({
       >
         Create analysis for this geometry
       </button>
-      {active && (
-        <>
-          <p>
-            Analysis revision {active.analysis_revision} · Geometry revision{" "}
-            <code>{active.geometry_revision_id ?? "not assigned"}</code>
-          </p>
-          <label>
-            Display units
-            <select
-              value={active.setup.display_units}
-              disabled={busy || conflict || !preset}
-              onChange={(e) =>
-                void save(
-                  "/display-units",
-                  { preset: e.target.value },
-                  "PATCH",
-                  "Display units saved. Physical values unchanged.",
-                )
-              }
-            >
-              {presets.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          {preset && (
-            <p className="material-notice">
-              Density: {preset.density.label} · Acceleration:{" "}
-              {preset.acceleration.label}. These mass-density units are derived
-              from force, length and seconds; pound-force is not pound-mass.
+      <fieldset disabled={edits.phase === "conflict"} className="editor-fields">
+        {active && (
+          <>
+            <p>
+              Analysis revision {active.analysis_revision} · Geometry revision{" "}
+              <code>{active.geometry_revision_id ?? "not assigned"}</code>
             </p>
-          )}
-          <ul className="body-material-summary">
-            {active.bodies.map((b, index) => (
-              <li key={b.body_id}>
-                Body {index + 1}:{" "}
-                {active.setup.assignments?.find((a) => a.body_id === b.body_id)
-                  ?.material.provenance.name ?? "material missing"}
-              </li>
-            ))}
-          </ul>
-          {aligned && preset && (
-            <>
-              <label>
-                Material body
-                <select
-                  value={body}
-                  disabled={busy || conflict}
-                  onChange={(e) => {
-                    setBody(e.target.value);
-                    setStatus("");
-                  }}
-                >
-                  {active.bodies.map((b, index) => (
-                    <option key={b.body_id} value={b.body_id}>
-                      Body {index + 1}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              {readiness && (
-                <div
-                  className="material-readiness"
-                  aria-label="Saved material prerequisites"
-                >
-                  <p>
-                    Gravity:{" "}
-                    {readiness.gravity_available
-                      ? "density supplied"
-                      : "unavailable — density required"}
-                  </p>
-                  <p>
-                    Yield factor of safety:{" "}
-                    {readiness.yield_factor_available
-                      ? "yield supplied"
-                      : "unavailable — yield strength required"}
-                  </p>
-                  {readiness.warnings.map((warning) => (
-                    <p key={warning}>{warning}</p>
-                  ))}
-                </div>
-              )}
-              {body && (
-                <MaterialForm
-                  key={`${active.analysis_id}:${body}:${reload}`}
-                  saved={material}
-                  library={library}
-                  preset={preset}
-                  busy={busy || conflict}
-                  apply={(assignment: MaterialAssignment) =>
-                    save(
-                      `/materials/${encodeURIComponent(body)}`,
-                      assignment,
-                      "PUT",
-                      "Material saved in a new analysis revision.",
-                    )
-                  }
-                  remove={() =>
-                    void save(
-                      `/materials/${encodeURIComponent(body)}`,
-                      undefined,
-                      "DELETE",
-                      "Material removed in a new analysis revision.",
-                    )
-                  }
-                />
-              )}
-              <LoadsEditor
-                key={`${active.analysis_id}:${reload}`}
-                analysisId={active.analysis_id}
-                revision={active.analysis_revision}
-                geometryId={active.geometry_revision_id!}
-                selected={selected}
-                preset={preset}
-                busy={busy || conflict}
-                setBusy={setBusy}
-                saved={(revision) =>
-                  setState((old) =>
-                    old ? { ...old, analysis_revision: revision } : old,
+            <label>
+              Display units
+              <select
+                value={active.setup.display_units}
+                disabled={busy || conflict || !preset}
+                onChange={(e) =>
+                  void save(
+                    "/display-units",
+                    { preset: e.target.value },
+                    "PATCH",
+                    "Display units saved. Physical values unchanged.",
                   )
                 }
-                preview={preview}
-                directionPreview={directionPreview}
-                showMesh={showMesh}
-                showResult={showResult}
-              />
-            </>
-          )}
-          {!active.geometry_revision_id && (
-            <p>
-              Assign materials in a new analysis created for accepted geometry.
-            </p>
-          )}
-        </>
-      )}
+              >
+                {presets.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {preset && (
+              <p className="material-notice">
+                Density: {preset.density.label} · Acceleration:{" "}
+                {preset.acceleration.label}. These mass-density units are
+                derived from force, length and seconds; pound-force is not
+                pound-mass.
+              </p>
+            )}
+            <ul className="body-material-summary">
+              {active.bodies.map((b, index) => (
+                <li key={b.body_id}>
+                  Body {index + 1}:{" "}
+                  {active.setup.assignments?.find(
+                    (a) => a.body_id === b.body_id,
+                  )?.material.provenance.name ?? "material missing"}
+                </li>
+              ))}
+            </ul>
+            {aligned && preset && (
+              <>
+                <label>
+                  Material body
+                  <select
+                    value={body}
+                    disabled={
+                      busy || conflict || edits.dirty.includes("material")
+                    }
+                    onChange={(e) => {
+                      setBody(e.target.value);
+                      setStatus("");
+                    }}
+                  >
+                    {active.bodies.map((b, index) => (
+                      <option key={b.body_id} value={b.body_id}>
+                        Body {index + 1}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                {readiness && (
+                  <div
+                    className="material-readiness"
+                    aria-label="Saved material prerequisites"
+                  >
+                    <p>
+                      Gravity:{" "}
+                      {readiness.gravity_available
+                        ? "density supplied"
+                        : "unavailable — density required"}
+                    </p>
+                    <p>
+                      Yield factor of safety:{" "}
+                      {readiness.yield_factor_available
+                        ? "yield supplied"
+                        : "unavailable — yield strength required"}
+                    </p>
+                    {readiness.warnings.map((warning) => (
+                      <p key={warning}>{warning}</p>
+                    ))}
+                  </div>
+                )}
+                {body && (
+                  <MaterialForm
+                    key={`${active.analysis_id}:${body}:${reload}`}
+                    saved={material}
+                    library={library}
+                    preset={preset}
+                    busy={busy || conflict}
+                    apply={(assignment: MaterialAssignment) =>
+                      save(
+                        `/materials/${encodeURIComponent(body)}`,
+                        assignment,
+                        "PUT",
+                        "Material saved in a new analysis revision.",
+                      )
+                    }
+                    remove={() =>
+                      void save(
+                        `/materials/${encodeURIComponent(body)}`,
+                        undefined,
+                        "DELETE",
+                        "Material removed in a new analysis revision.",
+                      )
+                    }
+                  />
+                )}
+                <LoadsEditor
+                  key={`${active.analysis_id}:${reload}`}
+                  analysisId={active.analysis_id}
+                  revision={active.analysis_revision}
+                  geometryId={active.geometry_revision_id!}
+                  selected={selected}
+                  preset={preset}
+                  busy={busy || conflict}
+                  setBusy={setBusy}
+                  saved={(revision) =>
+                    setState((old) =>
+                      old ? { ...old, analysis_revision: revision } : old,
+                    )
+                  }
+                  preview={preview}
+                  directionPreview={directionPreview}
+                  showMesh={showMesh}
+                  showResult={showResult}
+                />
+              </>
+            )}
+            {!active.geometry_revision_id && (
+              <p>
+                Assign materials in a new analysis created for accepted
+                geometry.
+              </p>
+            )}
+          </>
+        )}
+      </fieldset>
       {analysisId && (
-        <button disabled={busy} onClick={() => setReload((old) => old + 1)}>
+        <button
+          disabled={busy}
+          onClick={() => {
+            resetEdits(analysisId);
+            setReload((old) => old + 1);
+            reloadWorkspace();
+          }}
+        >
           Reload saved analysis (discard edits)
         </button>
       )}
       {error && <p role="alert">{error}</p>}
-      <p aria-live="polite">{status}</p>
+      <p aria-live="polite">{edits.dirty.length ? "" : status}</p>
       <p className="material-notice">
         Materials and face loads are revisioned. Checked input export is a
         coarse preview. Local jobs and calculated result views retain the

@@ -1,3 +1,10 @@
+import {
+  assertDraftScope,
+  tracked,
+  beginEdit,
+  acknowledgeEdit,
+  failEdit,
+} from "../workspace/edits";
 import type { components } from "../../../../packages/contracts/api";
 
 export type Project = components["schemas"]["Project"];
@@ -54,23 +61,40 @@ export async function mutate<T>(
   payload?: unknown,
   method = "POST",
 ): Promise<T> {
-  const response = await fetch(`/api/v1${path}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken,
-      "If-Match": `"${revision}"`,
-    },
-    body: JSON.stringify(payload),
-  });
-  const data = await response.json();
-  if (!response.ok)
-    throw new RequestError(
-      data.message ?? "This setup changed. Reload before saving.",
-      response.status,
-      data.code,
-    );
-  return data as T;
+  const command = { path, revision, payload, method };
+  const tracking = tracked(command);
+  if (tracking) {
+    assertDraftScope(command);
+    beginEdit(command);
+  }
+  try {
+    const response = await fetch(`/api/v1${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken,
+        "If-Match": `"${revision}"`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok)
+      throw new RequestError(
+        data.message ?? "This setup changed. Reload before saving.",
+        response.status,
+        data.code,
+      );
+    if (tracking)
+      acknowledgeEdit(command, data.analysis_revision ?? data.revision);
+    return data as T;
+  } catch (error) {
+    if (tracking)
+      failEdit(
+        command,
+        error instanceof RequestError && error.code === "stale_revision",
+      );
+    throw error;
+  }
 }
 
 export async function session() {
