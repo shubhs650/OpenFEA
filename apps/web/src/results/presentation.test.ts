@@ -104,3 +104,26 @@ describe("result presentation", () => {
       expect(() => deformed(p, u, value)).toThrow();
   });
 });
+
+it("section contour limits use actual volume samples and leave raw extrema unchanged", () => {
+  const view = { data: { vertices: [vertex] } } as ResultView;
+  const samples = [
+    {
+      ...vertex,
+      stress: {
+        ...vertex.stress,
+        tensor_pa: [-12, 0, 0, 0, 0, 0] as [
+          number,
+          number,
+          number,
+          number,
+          number,
+          number,
+        ],
+      },
+    },
+  ];
+  expect(fieldRange(view, "sxx", false, samples)).toEqual([-12, -12]);
+  expect(fieldRange(view, "sxx", false, [])).toEqual([-6, -6]);
+  expect(vertex.stress.tensor_pa[0]).toBe(-6);
+});

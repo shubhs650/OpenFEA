@@ -23,6 +23,13 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
         assert all(
             len(v["smoothed_stress"]["principal_pa"]) == 3 for v in original["data"]["vertices"]
         )
+        inspection_route = f"/runs/{run['id']}/sections"
+        inspection_payload = {"point_m": [0.5, 0, 0], "normal": [1, 0, 0]}
+        status, inspection, _ = browser.request(
+            "POST", inspection_route, inspection_payload, headers
+        )
+        assert status == 200 and inspection["vertices"]
+        assert inspection["results_sha256"] == original["results_sha256"]
         raw_route = f"/jobs/{run['id']}/artifacts/results.json"
         raw_original = browser.request("GET", raw_route)[1]
         status, _, _ = browser.request(
@@ -36,6 +43,16 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
     with api_process(config, tmp_path / "second.log"):
         assert browser.request("GET", route)[0] == 401
         browser.request("GET", "/session")
+        fresh_session = browser.request("GET", "/session")[1]
+        assert (
+            browser.request(
+                "POST",
+                inspection_route,
+                inspection_payload,
+                {"X-CSRF-Token": fresh_session["csrf_token"]},
+            )[1]
+            == inspection
+        )
         assert browser.request("GET", route)[1] == original
         assert browser.request("GET", raw_route)[1] == raw_original
         assert (

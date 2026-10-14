@@ -24,11 +24,27 @@ export function ResultViewport({
 }) {
   const theme = useTheme();
   const container = useRef<HTMLDivElement>(null);
+  const camera = useRef<{
+    job: string;
+    position: number[];
+    focal: number[];
+    up: number[];
+    parallel: boolean;
+    parallelScale: number;
+    angle: number;
+  } | null>(null);
+  const resetting = useRef(false);
+  const [reset, setReset] = useState(0);
   const [error, setError] = useState("");
-  const { view, field, smoothed, scale, range, preset } = presentation;
+  const { view, section, field, smoothed, scale, range, preset } = presentation;
   const unit = isDisplacement(field) ? preset.length : preset.stress;
   useEffect(() => {
     if (!container.current) return;
+    if (resetting.current) {
+      camera.current = null;
+      resetting.current = false;
+    }
+    const geometry = section ?? view.data;
     const window = vtkGenericRenderWindow.newInstance({
       background: theme === "dark" ? [0.07, 0.11, 0.15] : [0.94, 0.96, 0.98],
       listenWindowResize: false,
@@ -54,7 +70,7 @@ export function ResultViewport({
       .getPoints()
       .setData(
         new Float32Array(
-          view.data.vertices.flatMap((v) =>
+          geometry.vertices.flatMap((v) =>
             deformed(v.position_m, v.displacement_m, scale).map(
               (p, axis) => p - center[axis],
             ),
@@ -66,8 +82,8 @@ export function ResultViewport({
       .getPolys()
       .setData(
         new Uint32Array(
-          view.data.triangles
-            .filter((t) => visible.has(view.data.vertices[t[0]].body_id))
+          geometry.triangles
+            .filter((t) => visible.has(geometry.vertices[t[0]].body_id))
             .flatMap((t) => [3, ...t]),
         ),
       );
@@ -75,7 +91,7 @@ export function ResultViewport({
       name: "ResultColors",
       numberOfComponents: 3,
       values: new Uint8Array(
-        view.data.vertices.flatMap((v) =>
+        geometry.vertices.flatMap((v) =>
           color(scalar(v, field, smoothed), range),
         ),
       ),
@@ -89,6 +105,32 @@ export function ResultViewport({
     window.getRenderer().getActiveCamera().setPosition(1, 1, 1);
     window.getRenderer().getActiveCamera().setViewUp(0, 0, 1);
     window.getRenderer().resetCamera();
+    const active = window.getRenderer().getActiveCamera();
+    if (camera.current?.job === view.job_id) {
+      active.setPosition(
+        ...(camera.current.position as [number, number, number]),
+      );
+      active.setFocalPoint(
+        ...(camera.current.focal as [number, number, number]),
+      );
+      active.setViewUp(...(camera.current.up as [number, number, number]));
+      active.setParallelProjection(camera.current.parallel);
+      active.setParallelScale(camera.current.parallelScale);
+      active.setViewAngle(camera.current.angle);
+      window.getRenderer().resetCameraClippingRange();
+    }
+    const publishCamera = () =>
+      container.current?.setAttribute(
+        "data-camera-state",
+        JSON.stringify({
+          position: active.getPosition(),
+          focal: active.getFocalPoint(),
+          up: active.getViewUp(),
+          parallelScale: active.getParallelScale(),
+        }),
+      );
+    const subscription = active.onModified(publishCamera);
+    publishCamera();
     const resize = new ResizeObserver(() => window.resize());
     resize.observe(container.current);
     try {
@@ -98,6 +140,16 @@ export function ResultViewport({
       setError("Result rendering failed. Check browser WebGL support.");
     }
     return () => {
+      camera.current = {
+        job: view.job_id,
+        position: [...active.getPosition()],
+        focal: [...active.getFocalPoint()],
+        up: [...active.getViewUp()],
+        parallel: active.getParallelProjection(),
+        parallelScale: active.getParallelScale(),
+        angle: active.getViewAngle(),
+      };
+      subscription.unsubscribe();
       resize.disconnect();
       window.getRenderer().removeActor(actor);
       actor.delete();
@@ -106,11 +158,12 @@ export function ResultViewport({
       colors.delete();
       window.delete();
     };
-  }, [theme, view, field, smoothed, scale, range, visible]);
+  }, [theme, view, section, field, smoothed, scale, range, visible, reset]);
   return (
     <section
       className="result-viewport"
       aria-label="Calculated result viewport"
+      data-result-section={section ? "volume" : "surface"}
       data-result-job={view.job_id}
       data-deformation-scale={scale}
       data-result-field={field}
@@ -118,7 +171,23 @@ export function ResultViewport({
         smoothed && !isDisplacement(field) ? "smoothed" : "unaveraged"
       }
     >
+      <button
+        onClick={() => {
+          resetting.current = true;
+          setReset((v) => v + 1);
+        }}
+      >
+        Reset result camera
+      </button>
       <div ref={container} className="viewport" aria-label="Result 3D canvas" />
+      {section && (
+        <p>
+          Server-generated volume section · {section.vertices.length} sampled
+          points.{" "}
+          {section.vertices.length === 0 &&
+            "The plane does not intersect a volume area."}
+        </p>
+      )}
       <div className="result-legend" aria-label="Result legend">
         <strong>
           {view.data.fields.find((f) => f.key === field)?.label} ({unit.label})

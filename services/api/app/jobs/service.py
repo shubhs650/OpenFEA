@@ -20,9 +20,16 @@ from app.domain.jobs import (
 from app.domain.loads import DeckSnapshot, load_state
 from app.domain.materials import body_status
 from app.domain.mesh_reuse import compatibility_hash, physical_controls
-from app.domain.results import ResultData, ResultView
+from app.domain.results import (
+    ProbeRequest,
+    ResultData,
+    ResultInspection,
+    ResultView,
+    SectionRequest,
+)
 from app.persistence.jobs import JobRepository
 from worker.mesh_quality import mesh_quality
+from worker.postprocess.inspection import inspect_volume
 from worker.postprocess.view import build_view
 from worker.runtime import ROOT, sha256
 
@@ -434,6 +441,7 @@ class JobService:
                     name: sha256(ROOT / name)
                     for name in (
                         "services/worker/worker/postprocess/view.py",
+                        "services/worker/worker/postprocess/inspection.py",
                         "services/worker/worker/postprocess/fields.py",
                         "services/worker/worker/postprocess/tensors.py",
                         "services/worker/worker/meshing.py",
@@ -478,3 +486,27 @@ class JobService:
             raise DomainError(
                 503, "result_integrity", "Frozen output or derived fields failed validation"
             ) from None
+
+    def result_inspection(
+        self, owner: UUID, identifier: UUID, payload: ProbeRequest | SectionRequest
+    ) -> ResultInspection:
+        # Verify the complete frozen run, native sources and tombstones on every request.
+        # There is no cached surface substitute when retained volume data is unavailable.
+        view = self.result_view(owner, identifier)
+        raw = json.loads(self.artifact(owner, identifier, "results.json")[0])
+        mesh = json.loads(self.artifact(owner, identifier, "mesh.json")[0])
+        materials = {f.body_id: {"material_id": f.material_id} for f in view.data.yield_factors}
+        try:
+            data = inspect_volume(
+                raw,
+                mesh,
+                materials,
+                payload.point_m,
+                element=payload.element_id if isinstance(payload, ProbeRequest) else None,
+                normal=payload.normal if isinstance(payload, SectionRequest) else None,
+            )
+        except ValueError as error:
+            raise DomainError(422, "invalid_inspection", str(error)) from None
+        result = ResultInspection.model_validate(view.model_dump(exclude={"data"}) | data)
+        self.repository.get(owner, identifier)
+        return result

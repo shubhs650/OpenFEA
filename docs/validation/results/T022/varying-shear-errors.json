@@ -1,0 +1,6 @@
+{
+  "displacement_absolute_m": 0.0,
+  "tensor_absolute_pa": 3.7555169114851976,
+  "section_plane_absolute_m": 0.0,
+  "criteria": "tests/fixtures/native/stress-cases.json (unchanged native stress); result-inspection.json (quadratic displacement)"
+}

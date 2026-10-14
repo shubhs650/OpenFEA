@@ -1,0 +1,31 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/results.spec.ts --grep physical probes
+
+
+Running 1 test using 1 worker
+
+(node:68959) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/results.spec.ts:305:1 › physical probes and volume sections preserve field and camera and reject unavailable data (13.4s)
+
+
+  1) tests/e2e/results.spec.ts:305:1 › physical probes and volume sections preserve field and camera and reject unavailable data 
+
+    Error: expect(received).not.toBe(expected) // Object.is equality
+
+    Expected: not "{\"position\":[1.9318516525781368,1.9318516525781368,1.9318516525781368],\"focal\":[0,0,0],\"up\":[0,0,1],\"parallelScale\":0.8660254037844386}"
+
+      352 |   await page.mouse.up();
+      353 |   const camera = await canvas.getAttribute("data-camera-state");
+    > 354 |   expect(camera).not.toBe(initialCamera);
+          |                      ^
+      355 |   const rawExtrema = await page
+      356 |     .getByLabel("Raw result extrema", { exact: true })
+      357 |     .textContent();
+        at /workspace/OpenFEA/tests/e2e/results.spec.ts:354:22
+
+    Error Context: test-results/results-physical-probes-an-f4ba7-and-reject-unavailable-data/error-context.md
+
+  1 failed
+    tests/e2e/results.spec.ts:305:1 › physical probes and volume sections preserve field and camera and reject unavailable data 

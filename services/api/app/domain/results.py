@@ -3,7 +3,7 @@
 from typing import Literal
 from uuid import UUID
 
-from pydantic import FiniteFloat
+from pydantic import Field, FiniteFloat, model_validator
 
 from app.domain.base import StrictModel
 from app.domain.models import Hash
@@ -142,7 +142,7 @@ class ResultData(StrictModel):
     extrema_method: str
 
 
-class ResultView(StrictModel):
+class ResultIdentity(StrictModel):
     schema_version: Literal[1] = 1
     job_id: UUID
     analysis_id: UUID
@@ -154,4 +154,50 @@ class ResultView(StrictModel):
     deck_sha256: Hash
     dat_sha256: Hash
     processor_sources: dict[str, Hash]
+
+
+class ResultView(ResultIdentity):
     data: ResultData
+
+
+class ProbeRequest(StrictModel):
+    element_id: int = Field(gt=0)
+    point_m: Vector
+
+
+class SectionRequest(StrictModel):
+    point_m: Vector
+    normal: Vector
+
+    @model_validator(mode="after")
+    def nonzero_normal(self) -> "SectionRequest":
+        if max(abs(v) for v in self.normal) == 0:
+            raise ValueError("A section normal must be nonzero")
+        return self
+
+
+class InspectionVertex(StrictModel):
+    element_id: int
+    body_id: str
+    material_id: str
+    position_m: Vector
+    barycentric: tuple[FiniteFloat, FiniteFloat, FiniteFloat, FiniteFloat]
+    displacement_m: Vector
+    stress: StressValues
+    smoothed_stress: StressValues
+
+
+class ResultInspection(ResultIdentity):
+    frame: Literal["global_cartesian"]
+    tensor_components: tuple[
+        Literal["xx"], Literal["yy"], Literal["zz"], Literal["xy"], Literal["yz"], Literal["zx"]
+    ]
+    principal_order: Literal["s1 >= s2 >= s3 (algebraic)"]
+    kind: Literal["probe", "section"]
+    processor: str
+    location: Literal["element_interpolated"]
+    method: str
+    point_m: Vector
+    normal: Vector | None
+    vertices: list[InspectionVertex]
+    triangles: list[tuple[int, int, int]]

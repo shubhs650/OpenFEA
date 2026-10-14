@@ -1,0 +1,315 @@
+{
+  "artifacts": {
+    "axial-errors.json": {
+      "sha256": "6fe988189b49393cbda50fb84d3a973e0337184f34f7c909f836155b37929772",
+      "size_bytes": 218
+    },
+    "axial-raw.tar.gz": {
+      "sha256": "9026bbd72f268e03593d914b818d8334afad1ad46be5e68bdcc83fef68f21b11",
+      "size_bytes": 159510
+    },
+    "axial-summary.json": {
+      "sha256": "1b0868938003d99635f1c31d86435e2c9962a1a82fe04a0966fbcdbf519fbb2d",
+      "size_bytes": 6527
+    },
+    "browser-full.log": {
+      "sha256": "fd2bb2a542abdb77b813ed94bf84b1dd33be9313aabf832c22ba7803ad1c08de",
+      "size_bytes": 5323
+    },
+    "browser-initial-failure.log": {
+      "sha256": "bedc4015b257107d1fd21d187af1e72f86bf97f566a8a88ddcb7ef4cae23ef14",
+      "size_bytes": 1466
+    },
+    "browser-targeted.log": {
+      "sha256": "8e4711bc5b9a5fa6f68e63f521aa2478c00cbf96325825decf4e5fca53dd064b",
+      "size_bytes": 453
+    },
+    "check-build-smoke-integration.log": {
+      "sha256": "2220017532636d72fa3a6d5ee2633087c5e63a820a95a61f4e4af2350c9474d4",
+      "size_bytes": 5872
+    },
+    "check-build.log": {
+      "sha256": "378f45ce17603c6a4b4efc95e643ca6a11916cbd4bc45e50dc774025383670b4",
+      "size_bytes": 4332
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "handoff-check.log": {
+      "sha256": "378f45ce17603c6a4b4efc95e643ca6a11916cbd4bc45e50dc774025383670b4",
+      "size_bytes": 4332
+    },
+    "inspection-controls.png": {
+      "sha256": "17ec14221adbf34c4c1debaf53ae390e786d56fd5200dd10cbca4b4a24d178b9",
+      "size_bytes": 153972
+    },
+    "integration-final-source.log": {
+      "sha256": "e3cec5ddf39cb9846f6d6d8e4f3654eb5428e0683e11b5fa7a8d4121fda4f194",
+      "size_bytes": 98
+    },
+    "integration-initial-command-failure.log": {
+      "sha256": "43562c687958121227e9263404f214924543b2ea1ff53d757ca7e6de1f7b14dc",
+      "size_bytes": 14232
+    },
+    "native-focused.log": {
+      "sha256": "b7ee696ac146338e1812f4f26e732d23cbafd53eb643979173dc3cf3d5bd47bd",
+      "size_bytes": 100
+    },
+    "native-full.log": {
+      "sha256": "974c9feaddd199de620169e4987da6a367a542bec9ffa1bfe46ada03ee4ff634",
+      "size_bytes": 2122
+    },
+    "native-initial-failure.log": {
+      "sha256": "a8783776af55126eb5fc5108a64a3e88a398907bcabcfad463f68b654f569c7c",
+      "size_bytes": 9911
+    },
+    "polynomial-errors.json": {
+      "sha256": "8c807593a85c068d8ee802ef3de61c271238d2d5d2d59d6ced2128db4d62aadb",
+      "size_bytes": 289
+    },
+    "polynomial-section.json": {
+      "sha256": "d5416ab0ab1713af53643f6dd7218a5a4db0506de2c6a8e4f33ed0ea025bf55a",
+      "size_bytes": 7124
+    },
+    "varying-shear-errors.json": {
+      "sha256": "511eff111480521235779e4fd99705828fda4419b8c0b55b2a95d86ff1f8e500",
+      "size_bytes": 248
+    },
+    "varying-shear-raw.tar.gz": {
+      "sha256": "b304a670e62f461b64d4ac06709fe0b6e0f938aad6aa707cdab94644f3bbe5a6",
+      "size_bytes": 5735
+    },
+    "volume-viewport.png": {
+      "sha256": "d916c939850041e594b3f9b191870d0a3922d5cb2c32418516119068a23ad510",
+      "size_bytes": 84947
+    }
+  },
+  "base_commit": "1ee988ae16726726ba0b969a8545ed84d56742d2",
+  "commands": [
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "PASS pinned native hashes, isolation/SI/loopback prerequisites"
+    },
+    {
+      "command": "make check build",
+      "log": "check-build.log",
+      "result": "361 Python, 33 TS, lint/format/types/contracts/docs and production build PASS"
+    },
+    {
+      "command": "make check build smoke test-integration",
+      "log": "check-build-smoke-integration.log",
+      "result": "All 18 actual-process integration cases, HTTP smoke and earlier fast checks PASS"
+    },
+    {
+      "command": "make test-native",
+      "log": "native-full.log",
+      "result": "188 native cases PASS; final 13-case replay covers final metadata, outside-coordinate refusal and new deletion-during-section case, 189 distinct native cases"
+    },
+    {
+      "command": ".venv/bin/python -m pytest tests/native/test_result_views.py tests/native/test_stress_native.py -q",
+      "log": "native-focused.log",
+      "result": "13 final-source actual native cases PASS"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-full.log",
+      "result": "37 real Chromium workflows PASS, including actual probe/section/camera/stale/expired-source checks"
+    }
+  ],
+  "corrections": "The first slice sampling assertion found no point strictly inside the volume. Added an independently evaluated interior centroid and a bounded polygon fan, retaining all numerical tolerances. Early format/type and synchronized in-progress docs status corrections. The initial new browser camera drag targeted an off-screen canvas; explicit scroll fixes the harness without changing its deadline. A final form check makes probes independent of unused section-normal drafts.",
+  "counts": {
+    "chromium": 37,
+    "distinct_verified_passes": 638,
+    "integration": 18,
+    "native": 189,
+    "python_unit": 361,
+    "remaining_failures": 0,
+    "remaining_skips": 0,
+    "typescript_unit": 33
+  },
+  "executed_date": "2026-10-15 (Asia/Calcutta)",
+  "final_verification_source_commit": "e22ca797d1d2b7cef328a3c2b69fbd81cf1b3902",
+  "implementation_commit": "f60f024c67c0b01ab05c54963df2f8f9315fe129",
+  "limitations": [
+    "Existing affine planar C3D10, 3000 elements/30000 nodes; curved/non-midpoint volume results explicitly refused.",
+    "Samples derive from volume tensor/quadratic displacement fields; linear display triangles between samples are approximations, not raw IP/node values.",
+    "Coplanar adjacent sides are duplicated and may visually overlap; explicit probe side/body visibility preserves discontinuities.",
+    "View state persists within the open run only; no saved report view or numeric cache. Missing retained data refuses; scheduled retention is T036.",
+    "Refinement T023, M3/T024 exit, engineering-owner benchmark signatures, Windows/Edge/target-laptop/headed-GPU/performance/usability acceptance remain pending. No deployment or merge."
+  ],
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "native_build_manifest": {
+    "sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+    "size_bytes": 1084
+  },
+  "numerical_errors": {
+    "axial-errors.json": {
+      "criteria": "tests/fixtures/native/result-inspection.json",
+      "displacement_absolute_m": 5.338402683844791e-16,
+      "section_plane_absolute_m": 1.1102230246251565e-16,
+      "tensor_absolute_pa": 4.263068835896963e-12
+    },
+    "polynomial-errors.json": {
+      "criteria": "tests/fixtures/native/result-inspection.json",
+      "interior_sample_count": 1,
+      "nodes": 7,
+      "quadratic_displacement_absolute_m": 0.0,
+      "section_area_absolute_m2": 0.0,
+      "section_plane_absolute_m": 0.0,
+      "tensor_absolute_pa": 1.7763568394002505e-15,
+      "triangles": 6
+    },
+    "varying-shear-errors.json": {
+      "criteria": "tests/fixtures/native/stress-cases.json (unchanged native stress); result-inspection.json (quadratic displacement)",
+      "displacement_absolute_m": 0.0,
+      "section_plane_absolute_m": 0.0,
+      "tensor_absolute_pa": 3.7555169114851976
+    }
+  },
+  "numerical_policy": {
+    "existing_fields": {
+      "sha256": "da6d7d972704fc6922df099ae41892de6306cda3e33c4c33380288d178423439",
+      "size_bytes": 754
+    },
+    "inspection": {
+      "sha256": "58c6bda30c68d72e9a8a4aa85ea7ceb1a0d04f393c43f8e9806a8583275aeb23",
+      "size_bytes": 684
+    },
+    "native_caps_retries_tolerances_and_existing_deadlines_unchanged": true,
+    "original_native_stress": {
+      "sha256": "4a47a688f000a721ac81fe8bd9c50b9c0aee9220b3d40f0eeb8020ba75e23f8a",
+      "size_bytes": 1130
+    }
+  },
+  "sources": {
+    "apps/web/src/geometry/api.ts": {
+      "sha256": "5c28d4c3f97cf50b06c4f2aa7d7ed1c407e47f7bfaa1fb1428ee97dbe259d5ca",
+      "size_bytes": 5244
+    },
+    "apps/web/src/results/InspectionEditor.tsx": {
+      "sha256": "9b9812b7afc65deae71df4f011c66c26b69685e6b419f51ce6b44cda68693212",
+      "size_bytes": 6683
+    },
+    "apps/web/src/results/ResultViewport.tsx": {
+      "sha256": "829c88b3ac76a8cf10813579d02e17da78b5605358adcf8de5ed42bd342e43be",
+      "size_bytes": 7751
+    },
+    "apps/web/src/results/ResultsEditor.tsx": {
+      "sha256": "000120ac3928720ac16ff4ff8ce02eb5945f210861055e06561f96362a3df8fd",
+      "size_bytes": 18718
+    },
+    "apps/web/src/results/presentation.test.ts": {
+      "sha256": "a8d695108b8cbfdb1e9e8fd6399e41e08ba634a8844b0aa672693fc186f6e6dc",
+      "size_bytes": 4001
+    },
+    "apps/web/src/results/presentation.ts": {
+      "sha256": "0778c1dea14b4cf4ba369b36bebc844444e62c914611d47e7dc66601423ac488",
+      "size_bytes": 2431
+    },
+    "services/api/app/domain/results.py": {
+      "sha256": "4ed827d9c4adf7860f04797e49d7f47d1ada7362214fc0f12d60da747e2746b0",
+      "size_bytes": 4985
+    },
+    "services/api/app/jobs/service.py": {
+      "sha256": "2417c82e16f56145d96b6f1b098530a6abfb6ed96e210ab851206486af4962b4",
+      "size_bytes": 22978
+    },
+    "services/api/app/routes/jobs.py": {
+      "sha256": "7dfc38a4c050cc5da86ff2ac131a9719ac31b48f2fd65bcdbe55ce419893b49f",
+      "size_bytes": 5219
+    },
+    "services/worker/worker/postprocess/inspection.py": {
+      "sha256": "414f9126fa500d3570c6a0f6dca6dc7d414fe04ea135ad82e3a6eef01466539f",
+      "size_bytes": 8003
+    },
+    "services/worker/worker/postprocess/view.py": {
+      "sha256": "e08d2c1d0af5d17ecf5e725fce4acbe4f607070201d74c10a0859524c31a10ac",
+      "size_bytes": 11642
+    },
+    "tests/e2e/results.spec.ts": {
+      "sha256": "58c61b9ef568397147420a8200cb46970cd5cb6bb1ede2d3a5f59cb4d5d98c18",
+      "size_bytes": 18036
+    },
+    "tests/fixtures/native/result-inspection.json": {
+      "sha256": "58c6bda30c68d72e9a8a4aa85ea7ceb1a0d04f393c43f8e9806a8583275aeb23",
+      "size_bytes": 684
+    },
+    "tests/integration/test_result_views.py": {
+      "sha256": "ca76f63159fcaa85b8db689b8c58bc27cd1a87094e4fdf891a01d8bdcc810355",
+      "size_bytes": 2709
+    },
+    "tests/native/test_result_views.py": {
+      "sha256": "0504dbc1a05c902732ce6ae69b0c785cbc5380871782896ae8938add4bfaaaa6",
+      "size_bytes": 20310
+    },
+    "tests/native/test_stress_native.py": {
+      "sha256": "ccba484ac1a2d1474de37fb3264c6d4716b406666b97fd11507d919eb2db42f6",
+      "size_bytes": 6707
+    },
+    "tests/unit/test_result_inspection.py": {
+      "sha256": "17db578c5034485ab968829d702fc8bdb08b5741b97131e95c46e43de7e59438",
+      "size_bytes": 7740
+    }
+  },
+  "task": "T022",
+  "versions": {
+    "cadquery-ocp": "8.0.1.1.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "threads": 1,
+    "uv": "0.12.23"
+  }
+}
