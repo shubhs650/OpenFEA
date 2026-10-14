@@ -72,11 +72,16 @@ test("checklist actions, keyboard multiselection and persisted light/dark at tar
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    document.querySelector("aside")?.scrollTo(0, 0);
+  });
   await page.screenshot({ path: info.outputPath("workspace-dark-1280.png") });
   await page.setViewportSize({ width: 1366, height: 768 });
   await page
     .getByRole("combobox", { name: "Theme", exact: true })
     .selectOption("light");
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: info.outputPath("workspace-light-1366.png") });
   await page.getByRole("combobox", { name: "Theme", exact: true }).focus();
   await page.keyboard.press("Tab");
@@ -126,9 +131,22 @@ test("autosave waits for acknowledgement, retains failed edits, retries and sess
   await expect(page.getByLabel("Analysis name (autosaves)")).toHaveValue(
     "Recovered setup",
   );
+  const latestFailure = page.waitForEvent(
+    "requestfailed",
+    (request) =>
+      request.method() === "PATCH" && request.url().endsWith(`/analyses/${id}`),
+  );
+  await page
+    .getByLabel("Analysis name (autosaves)")
+    .fill("Recovered latest setup");
+  await latestFailure;
+  await expect(saveState(page)).toContainText("Save failed");
   await page.unroute(`**/api/v1/analyses/${id}`);
   await page.getByRole("button", { name: "Retry unacknowledged edit" }).click();
   await expect(saveState(page)).toHaveText("Saved · revision 3");
+  await expect(page.getByLabel("Analysis name (autosaves)")).toHaveValue(
+    "Recovered latest setup",
+  );
   await page.getByRole("button", { name: "Undo last setup edit" }).click();
   await expect(saveState(page)).toHaveText("Saved · revision 4");
   await expect(page.getByLabel("Analysis name (autosaves)")).toHaveValue(

@@ -62,6 +62,14 @@ export function EditToolbar({
   }, [analysisId]);
   const dirty = loaded?.id === analysisId && name !== loaded.name;
   useDraft("analysis-name", !!dirty);
+  const pendingName =
+    edits.pending?.path === `/analyses/${analysisId}`
+      ? (edits.pending.payload as { name?: string })?.name
+      : undefined;
+  const retryingChangedName =
+    edits.phase === "error" &&
+    pendingName !== undefined &&
+    pendingName !== name;
   useEffect(() => {
     if (
       !dirty ||
@@ -69,7 +77,7 @@ export function EditToolbar({
       busy ||
       edits.id !== analysisId ||
       edits.dirty.some((key) => key !== "analysis-name") ||
-      edits.phase !== "saved"
+      (edits.phase !== "saved" && !retryingChangedName)
     )
       return;
     const timer = setTimeout(() => {
@@ -96,6 +104,7 @@ export function EditToolbar({
     edits.phase,
     edits.dirty,
     edits.revision,
+    retryingChangedName,
     analysisId,
   ]);
 
@@ -188,7 +197,15 @@ export function EditToolbar({
             <p role="alert">Enter a nonempty analysis name before autosave.</p>
           )}
           {dirty && (
-            <button disabled={busy} onClick={() => setName(loaded!.name)}>
+            <button
+              disabled={busy || edits.phase === "conflict"}
+              onClick={() => {
+                if (edits.phase === "error") {
+                  resetEdits(analysisId);
+                  reload();
+                } else setName(loaded!.name);
+              }}
+            >
               Cancel name edit
             </button>
           )}
@@ -212,7 +229,7 @@ export function EditToolbar({
           >
             Reload saved workspace (discard drafts)
           </button>
-          {edits.phase === "error" && (
+          {edits.phase === "error" && pendingName === name && (
             <button
               disabled={busy}
               onClick={() => {
