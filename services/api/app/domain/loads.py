@@ -7,6 +7,7 @@ from uuid import UUID
 from pydantic import Field, model_validator
 
 from app.domain.base import StrictModel
+from app.domain.connections import BondSetup
 from app.domain.directions import (
     DirectionSelection,
     DirectionSnapshot,
@@ -229,6 +230,7 @@ class DeckSnapshot(StrictModel):
     materials: MaterialSetup
     loads: LoadSetup
     mesh_setup: MeshSetup = Field(default_factory=MeshSetup)
+    bonds: BondSetup = Field(default_factory=BondSetup)
 
 
 class DeckExport(StrictModel):

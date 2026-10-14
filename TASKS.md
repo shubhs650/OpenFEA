@@ -1,6 +1,6 @@
 # Task index
 
-T001–T006 development deliverables are COMPLETE under the [M0 owner decision](docs/validation/M0-owner-decision.md), which approves progression to M1 and defers formal benchmark and target-laptop acceptance. The earlier [M0 exit review](docs/validation/M0-exit-review.md) remains historical NO-GO evidence; PR #2 corrected M0-R1/M0-R2. T007 persistence, T008 STEP import/viewport, T009 units/materials and T010 face loads/checked deck export are COMPLETE. T011 durable local mesh/solve is COMPLETE. T012 core results is COMPLETE, closing the bounded M1 technical path; T013 bounded geometry cleanup/reference invalidation is COMPLETE; T014 mesh sizing/quality/bounded recovery is COMPLETE; T015 essential loads/equilibrium is COMPLETE; T016 geometry directions/symmetry is COMPLETE; T017 workspace checklist/themes/safe edits is COMPLETE; T018 independent analyses/exact mesh reuse is COMPLETE; M2 bounded technical exit PASS. T019–T042 remain NOT STARTED and T019 is next. M1–M4 development runs in Codex Cloud; local laptop acceptance occurs at M4/T030. AWS backend work starts only in its later milestone.
+T001–T006 development deliverables are COMPLETE under the [M0 owner decision](docs/validation/M0-owner-decision.md), which approves progression to M1 and defers formal benchmark and target-laptop acceptance. The earlier [M0 exit review](docs/validation/M0-exit-review.md) remains historical NO-GO evidence; PR #2 corrected M0-R1/M0-R2. T007 persistence, T008 STEP import/viewport, T009 units/materials and T010 face loads/checked deck export are COMPLETE. T011 durable local mesh/solve is COMPLETE. T012 core results is COMPLETE, closing the bounded M1 technical path; T013 bounded geometry cleanup/reference invalidation is COMPLETE; T014 mesh sizing/quality/bounded recovery is COMPLETE; T015 essential loads/equilibrium is COMPLETE; T016 geometry directions/symmetry is COMPLETE; T017 workspace checklist/themes/safe edits is COMPLETE; T018 independent analyses/exact mesh reuse is COMPLETE; M2 bounded technical exit PASS. T019 native connection review and B08 development evidence are COMPLETE; T020–T042 remain NOT STARTED and T020 is next. M1–M4 development runs in Codex Cloud; local laptop acceptance occurs at M4/T030. AWS backend work starts only in its later milestone.
 
 | Task | Milestone | Goal | Depends on | Status |
 |---|---|---|---|---|
@@ -22,7 +22,7 @@ T001–T006 development deliverables are COMPLETE under the [M0 owner decision](
 | [T016](docs/tasks/T016.md) | M2 | Geometry-based directions and symmetry | T015 | COMPLETE |
 | [T017](docs/tasks/T017.md) | M2 | Hybrid checklist, themes and edit flow | T016 | COMPLETE |
 | [T018](docs/tasks/T018.md) | M2 | Multiple analyses and setup duplication | T017 | COMPLETE |
-| [T019](docs/tasks/T019.md) | M3 | Bond suggestions, review and gap policy | T018,T005 | NOT STARTED |
+| [T019](docs/tasks/T019.md) | M3 | Bond suggestions, review and gap policy | T018,T005 | COMPLETE |
 | [T020](docs/tasks/T020.md) | M3 | Assembly constraint preflight | T019 | NOT STARTED |
 | [T021](docs/tasks/T021.md) | M3 | Full result fields and averaging controls | T020 | NOT STARTED |
 | [T022](docs/tasks/T022.md) | M3 | Probes and authoritative section cuts | T021 | NOT STARTED |

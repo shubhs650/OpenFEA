@@ -187,7 +187,9 @@ class JobService:
 
     def mesh_candidates(self, owner: UUID, analysis: UUID) -> MeshCandidates:
         current = self.decks.repository.get_analysis(owner, analysis)
-        snapshot, _ = self.decks.freeze(owner, analysis, current.revision, mesh_only=True)
+        snapshot, _ = self.decks.freeze(
+            owner, analysis, current.revision, mesh_only=True, admission=False
+        )
         try:
             policy = self.policy()
         except (RuntimeError, OSError):

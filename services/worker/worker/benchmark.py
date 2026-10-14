@@ -70,6 +70,10 @@ def run_case(case: str, output: Path, development: bool = False) -> dict[str, An
         from worker.essential_benchmarks import run_essential
 
         return run_essential(case, output, development)
+    if case == "B08":
+        from worker.gap_fixture import run_b08
+
+        return run_b08(output, development)
     if case == "B07":
         from worker.bond_fixture import run_b07
 

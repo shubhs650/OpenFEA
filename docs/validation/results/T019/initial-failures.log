@@ -1,0 +1,369 @@
+T019-native-first.log
+.venv/lib/python3.12/site-packages/starlette/concurrency.py:34: in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/anyio/to_thread.py:65: in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:2706: in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:1100: in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/telemetry/_api.py:244: in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+services/api/app/routes/connections.py:38: in candidates
+    return service.candidates(owner, analysis_id, revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api/app/domain/connection_service.py:47: in candidates
+    directory = storage.directory("bond-reviews", uuid4())
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.storage.geometry.GeometryStorage object at 0x7f9d4527fb90>
+kind = 'bond-reviews', identifier = UUID('c05eb963-0e92-423d-b44d-8332995009ff')
+
+    def directory(self, kind: str, identifier: UUID) -> Path:
+        if kind not in ("uploads", "imports", "artifacts", "exports", "jobs", "edits"):
+>           raise ValueError("Unknown storage namespace")
+E           ValueError: Unknown storage namespace
+
+services/api/app/storage/geometry.py:20: ValueError
+=========================== short test summary info ============================
+FAILED tests/native/test_connections.py::test_gap_approval_is_explicit_remeasured_revisioned_and_copied
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 3.59s
+
+T019-native-second.log
+        response = client.post(path + "/bonds", json=payload, headers={"If-Match": '"1"'})
+        assert response.status_code == 200, response.text
+        saved = response.json()
+        assert saved["analysis_revision"] == 2
+        item = saved["setup"]["assignments"][0]
+        assert item["pair"]["master_face_id"] == payload["master_face_id"]
+        assert client.get(path + "/revisions/1/bonds").json() == original
+        assert (
+            client.post(path + "/bonds", json=payload, headers={"If-Match": '"1"'}).status_code == 409
+        )
+        assert (
+            client.post(path + "/bonds", json=payload, headers={"If-Match": '"2"'}).json()["code"]
+            == "bond_conflict"
+        )
+        copy = client.post(
+            path + "/duplicates",
+            json={"name": "Independent bonds", "source_revision": 2},
+            headers={"If-Match": '"2"'},
+        ).json()
+        copy_path = f"/api/v1/analyses/{copy['id']}"
+        assert client.get(copy_path + "/bonds").json()["setup"] == saved["setup"]
+        # A reviewed pair must never silently solve as two independent bodies.
+        response = client.post(path + "/deck-exports", headers={"If-Match": '"2"'})
+>       assert (
+            response.status_code == 422 and response.json()["code"] == "assembly_admission_pending"
+        ), response.text
+E       AssertionError: {"code":"geometry_busy","message":"Another native geometry/mesh operation is processing","field_errors":{},"retryable":false,"request_id":"182e45cd-4407-4ce5-9501-fa423fe46757"}
+E       assert (429 == 422)
+E        +  where 429 = <Response [429 Too Many Requests]>.status_code
+
+tests/native/test_connections.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/native/test_connections.py::test_gap_approval_is_explicit_remeasured_revisioned_and_copied
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 10.49s
+
+T019-native-third.log
+                422,
+                "unsupported_bond",
+                "Pair has no verified opposing planar projected overlap within the review search bound",
+            )
+        if report.report.overlaps:
+            raise DomainError(
+                422, "body_overlap", "Body volume overlap blocks all connection approval"
+            )
+        if pair.master_face_id != payload.master_face_id:
+            pair = pair.model_copy(
+                update={
+                    "master_face_id": pair.slave_face_id,
+                    "slave_face_id": pair.master_face_id,
+                    "master_coverage": pair.slave_coverage,
+                    "slave_coverage": pair.master_coverage,
+                    "master_normal": pair.slave_normal,
+                    "slave_normal": pair.master_normal,
+                    "master_center_m": pair.slave_center_m,
+                    "slave_center_m": pair.master_center_m,
+                }
+            )
+        validate_pair(payload, pair)
+>       item = BondAssignment(
+            **payload.model_dump(), id=uuid4(), pair=pair, review_sha256=report.report_sha256
+        )
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for BondAssignment
+E       review_report
+E         Field required [type=missing, input_value={'geometry_revision_id': ...1710eb28cc2526bddb2690'}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.14/v/missing
+
+services/api/app/domain/connection_service.py:128: ValidationError
+=========================== short test summary info ============================
+FAILED tests/native/test_connections.py::test_gap_approval_is_explicit_remeasured_revisioned_and_copied
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 13.29s
+
+T019-targeted.log
+        hyphens, and a URN prefix are all optional.  For example, these
+        expressions all yield the same UUID:
+    
+        UUID('{12345678-1234-5678-1234-567812345678}')
+        UUID('12345678123456781234567812345678')
+        UUID('urn:uuid:12345678-1234-5678-1234-567812345678')
+        UUID(bytes='\x12\x34\x56\x78'*4)
+        UUID(bytes_le='\x78\x56\x34\x12\x34\x12\x78\x56' +
+                      '\x12\x34\x56\x78\x12\x34\x56\x78')
+        UUID(fields=(0x12345678, 0x1234, 0x5678, 0x12, 0x34, 0x567812345678))
+        UUID(int=0x12345678123456781234567812345678)
+    
+        Exactly one of 'hex', 'bytes', 'bytes_le', 'fields', or 'int' must
+        be given.  The 'version' argument is optional; if given, the resulting
+        UUID will have its variant and version set according to RFC 4122,
+        overriding the given 'hex', 'bytes', 'bytes_le', 'fields', or 'int'.
+    
+        is_safe is an enum exposed as an attribute on the instance.  It
+        indicates whether the UUID has been generated in a way that is safe
+        for multiprocessing applications, via uuid_generate_time_safe(3).
+        """
+    
+        if [hex, bytes, bytes_le, fields, int].count(None) != 4:
+            raise TypeError('one of the hex, bytes, bytes_le, fields, '
+                            'or int arguments must be given')
+        if hex is not None:
+>           hex = hex.replace('urn:', '').replace('uuid:', '')
+                  ^^^^^^^^^^^
+E           AttributeError: 'dict' object has no attribute 'replace'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/uuid.py:175: AttributeError
+=========================== short test summary info ============================
+FAILED tests/unit/test_connections.py::test_saved_bonds_carry_through_edits_restore_and_independent_copy
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 8 passed in 0.92s
+
+T019-browser-first.log
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove (3ms)
+
+
+  1) tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists 
+
+    Error: browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/connections-real-gap-sugge-d9601-rance-approval-and-persists/error-context.md
+
+  2) tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove 
+
+    Error: browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-linux64/chrome-headless-shell
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results/connections-real-partial-c-47fae-e-overlap-never-autoapprove/error-context.md
+
+  2 failed
+    tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists 
+    tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove 
+
+T019-browser-second.log
+
+      45 |     .getByRole("button", { name: "Inspect bond candidates", exact: true })
+      46 |     .click();
+    > 47 |   expect((await response).status()).toBe(200);
+         |                                     ^
+      48 | }
+      49 |
+      50 | test("real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists", async ({
+        at inspect (/workspace/OpenFEA/tests/e2e/connections.spec.ts:47:37)
+        at /workspace/OpenFEA/tests/e2e/connections.spec.ts:57:3
+
+    Error Context: test-results/connections-real-gap-sugge-d9601-rance-approval-and-persists/error-context.md
+
+  2) tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 429
+
+      45 |     .getByRole("button", { name: "Inspect bond candidates", exact: true })
+      46 |     .click();
+    > 47 |   expect((await response).status()).toBe(200);
+         |                                     ^
+      48 | }
+      49 |
+      50 | test("real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists", async ({
+        at inspect (/workspace/OpenFEA/tests/e2e/connections.spec.ts:47:37)
+        at /workspace/OpenFEA/tests/e2e/connections.spec.ts:148:5
+
+    Error Context: test-results/connections-real-partial-c-47fae-e-overlap-never-autoapprove/error-context.md
+
+  2 failed
+    tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists 
+    tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove 
+
+T019-browser-third.log
+
+
+Running 2 tests using 1 worker
+
+(node:28691) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists (1.0m)
+(node:28981) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove (12.0s)
+
+
+  1) tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.inputValue: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Master face', { exact: true })
+
+
+      68 |   const master = await page
+      69 |     .getByLabel("Master face", { exact: true })
+    > 70 |     .inputValue();
+         |      ^
+      71 |   await page
+      72 |     .getByRole("button", { name: "Swap master/slave", exact: true })
+      73 |     .click();
+        at /workspace/OpenFEA/tests/e2e/connections.spec.ts:70:6
+
+    Error Context: test-results/connections-real-gap-sugge-d9601-rance-approval-and-persists/error-context.md
+
+  1 failed
+    tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists 
+  1 passed (1.3m)
+
+T019-native-full.log
+            try:
+                metadata = directory / "source.json"
+                metadata.write_text(geometry.model_dump_json())
+                metadata.chmod(0o400)
+                result = inspect_step(
+                    storage.blob_path(geometry.project_id, geometry.brep_sha256),
+                    directory / "output",
+                    bond_review=metadata,
+                )
+                if result.get("status") != "bond_review":
+                    raise DomainError(
+                        422,
+                        "bond_review_failed",
+                        result.get("error_message", "Native review failed"),
+                    )
+>               report = BondReport.model_validate(result["report"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               pydantic_core._pydantic_core.ValidationError: 1 validation error for BondReport
+E               policy
+E                 Extra inputs are not permitted [type=extra_forbidden, input_value={'name': 'planar-unit-com...mbly admission is T020'}, input_type=dict]
+E                   For further information visit https://errors.pydantic.dev/2.14/v/extra_forbidden
+
+services/api/app/domain/connection_service.py:63: ValidationError
+=========================== short test summary info ============================
+FAILED tests/native/test_connections.py::test_gap_approval_is_explicit_remeasured_revisioned_and_copied
+FAILED tests/native/test_connections.py::test_native_candidate_geometry_and_overlap_admission[bond-zero-m.step-zero]
+FAILED tests/native/test_connections.py::test_native_candidate_geometry_and_overlap_admission[bond-partial-m.step-partial]
+FAILED tests/native/test_connections.py::test_native_candidate_geometry_and_overlap_admission[bond-excess-m.step-excess]
+FAILED tests/native/test_connections.py::test_native_candidate_geometry_and_overlap_admission[bond-unrelated-m.step-unrelated]
+FAILED tests/native/test_connections.py::test_native_candidate_geometry_and_overlap_admission[bond-overlap-m.step-overlap]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py:355: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+=================== 6 failed, 17 passed in 112.03s (0:01:52) ===================
+make: *** [Makefile:53: test-native] Error 2
+
+T019-targeted-final.log
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:2706: in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py:1100: in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/fastapi/telemetry/_api.py:244: in _run_sync_endpoint
+    return function(**arguments)
+           ^^^^^^^^^^^^^^^^^^^^^
+services/api/app/routes/connections.py:38: in candidates
+    return service.candidates(owner, analysis_id, revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api/app/domain/connection_service.py:52: in candidates
+    result = inspect_step(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (PosixPath('/tmp/pytest-of-agent/pytest-28/test_native_review_rechecks_af1/artifacts/43eaf8b7-64b6-4de1-bf22-dd944e19f...p/pytest-of-agent/pytest-28/test_native_review_rechecks_af1/bond-reviews/0308f65b-62cb-4393-9930-bf752ad5f4c0/output'))
+kwargs = {'bond_review': PosixPath('/tmp/pytest-of-agent/pytest-28/test_native_review_rechecks_af1/bond-reviews/0308f65b-62cb-4393-9930-bf752ad5f4c0/source.json')}
+
+    def inspect_and_change(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        result = original(*args, **kwargs)
+        if change == "head":
+            service.repository.edit_analysis(
+                owner, UUID(path.split("/")[-1]), 1, AnalysisPatch(name="Other tab")
+            )
+        else:
+>           service.repository.delete_project(owner, UUID(geometry["project_id"]), 2)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'Repository' object has no attribute 'delete_project'. Did you mean: 'create_project'?
+
+tests/native/test_connections.py:222: AttributeError
+=========================== short test summary info ============================
+FAILED tests/native/test_connections.py::test_native_review_rechecks_after_actual_processing[tombstone]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 20 passed in 47.07s
+
+T019-integration.log
+E                   File "/workspace/OpenFEA/.venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+E                     module = importlib.import_module(module_str)
+E                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py", line 90, in import_module
+E                     return _bootstrap._gcd_import(name[level:], package, level)
+E                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E                   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+E                   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+E                   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+E                   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+E                   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+E                   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+E                   File "/workspace/OpenFEA/services/api/app/main.py", line 17, in <module>
+E                     from app.domain.connection_service import ConnectionService
+E                   File "/workspace/OpenFEA/services/api/app/domain/connection_service.py", line 18, in <module>
+E                     from app.domain.import_service import ImportService
+E                   File "/workspace/OpenFEA/services/api/app/domain/import_service.py", line 10, in <module>
+E                     from app.persistence.imports import ImportRepository
+E                   File "/workspace/OpenFEA/services/api/app/persistence/imports.py", line 12, in <module>
+E                     from app.persistence.repository import Repository, now
+E                   File "/workspace/OpenFEA/services/api/app/persistence/repository.py", line 14, in <module>
+E                     from app.domain.loads import (
+E                   File "/workspace/OpenFEA/services/api/app/domain/loads.py", line 11, in <module>
+E                     from app.domain.directions import (
+E                   File "/workspace/OpenFEA/services/api/app/domain/directions.py", line 10, in <module>
+E                     from worker.directions import Basis, frame, unit
+E                 ModuleNotFoundError: No module named 'worker'
+E                 
+E               assert 1 in (0, -15)
+E                +  where 1 = <Popen: returncode: 1 args: ['/workspace/OpenFEA/.venv/bin/python', '-m', 'u...>.returncode
+
+tests/integration/test_persistence.py:78: AssertionError
+=========================== short test summary info ============================
+FAILED tests/integration/test_connections.py::test_reviewed_gap_and_independent_copy_survive_real_restart
+1 failed in 1.21s

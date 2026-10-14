@@ -9,6 +9,7 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import Connection, text
 
+from app.domain.connections import BondAssignment, BondSetup, BondState
 from app.domain.errors import DomainError, not_found, stale_revision
 from app.domain.loads import (
     DeckExport,
@@ -318,6 +319,7 @@ class Repository:
         setup: MaterialSetup | None = None,
         loads: LoadSetup | None = None,
         mesh: MeshSetup | None = None,
+        bonds: BondSetup | None = None,
     ) -> None:
         connection.execute(
             text("""INSERT INTO analysis_revisions VALUES
@@ -364,6 +366,119 @@ class Repository:
             text("INSERT INTO analysis_mesh_setups VALUES (:id,:revision,:setup)"),
             {"id": str(analysis), "revision": revision, "setup": mesh.model_dump_json()},
         )
+
+        bond_table = connection.execute(
+            text(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='analysis_bond_setups'"
+            )
+        ).scalar_one_or_none()
+        if bond_table is None:
+            schema = connection.execute(
+                text("SELECT version_num FROM alembic_version")
+            ).scalar_one()
+            if bonds is None and schema[:4] in {f"000{i}" for i in range(1, 8)}:
+                return  # Explicit legacy migration fixture, before connection support.
+            raise DomainError(503, "database_integrity", "Bond setup schema is unavailable")
+        if bonds is None:
+            bonds = Repository._bond_setup(connection, analysis, revision - 1)
+        connection.execute(
+            text("INSERT INTO analysis_bond_setups VALUES (:id,:revision,:setup)"),
+            {"id": str(analysis), "revision": revision, "setup": bonds.model_dump_json()},
+        )
+
+    @staticmethod
+    def _bond_setup(connection: Connection, analysis: UUID, revision: int) -> BondSetup:
+        raw = connection.execute(
+            text(
+                "SELECT setup_json FROM analysis_bond_setups "
+                "WHERE analysis_id=:id AND revision=:revision"
+            ),
+            {"id": str(analysis), "revision": revision},
+        ).scalar_one_or_none()
+        return BondSetup.model_validate_json(raw) if raw is not None else BondSetup()
+
+    def bond_state(self, owner: UUID, analysis: UUID, revision: int | None = None) -> BondState:
+        with self.database.engine.connect() as connection, connection.begin():
+            current = self._analysis(connection, owner, analysis, revision)
+            setup = self._bond_setup(connection, analysis, current.revision)
+            review = [
+                a.id
+                for a in setup.assignments
+                if a.geometry_revision_id != current.geometry_revision_id
+            ]
+            blockers = []
+            if review:
+                blockers.append(
+                    "Connections reference changed geometry; "
+                    "remove and explicitly review new pairs."
+                )
+            if setup.assignments:
+                blockers.append(
+                    "Bonded assembly solve/export is not yet available. "
+                    "Saved connections cannot be ignored."
+                )
+            return BondState(
+                analysis_id=analysis,
+                analysis_revision=current.revision,
+                geometry_revision_id=current.geometry_revision_id,
+                setup=setup,
+                review_required=review,
+                solve_blockers=blockers,
+            )
+
+    def edit_bonds(
+        self,
+        owner: UUID,
+        analysis: UUID,
+        expected: int,
+        item: BondAssignment | None = None,
+        remove: UUID | None = None,
+    ) -> BondState:
+        with self.write() as connection:
+            current = self._analysis(connection, owner, analysis)
+            if current.revision != expected:
+                raise stale_revision()
+            setup = self._bond_setup(connection, analysis, expected)
+            items = list(setup.assignments)
+            if item is not None:
+                if item.geometry_revision_id != current.geometry_revision_id:
+                    raise DomainError(
+                        422, "stale_bond", "Connection must match the pinned geometry"
+                    )
+                if len(items) >= 10 or any(
+                    {a.master_face_id, a.slave_face_id} & {item.master_face_id, item.slave_face_id}
+                    for a in items
+                ):
+                    raise DomainError(
+                        409,
+                        "bond_conflict",
+                        "A face can belong to only one saved connection; at most 10 pairs",
+                    )
+                items.append(item)
+            else:
+                if remove not in {a.id for a in items}:
+                    raise not_found()
+                items = [a for a in items if a.id != remove]
+            timestamp = now()
+            self._insert_analysis_revision(
+                connection,
+                analysis,
+                current.project_id,
+                expected + 1,
+                AnalysisCreate(
+                    name=current.name, geometry_revision_id=current.geometry_revision_id
+                ),
+                timestamp,
+                bonds=BondSetup(assignments=items),
+            )
+            connection.execute(
+                text(
+                    "UPDATE analyses SET head_revision=head_revision+1, "
+                    "updated_at=:time WHERE id=:id"
+                ),
+                {"id": str(analysis), "time": timestamp},
+            )
+        return self.bond_state(owner, analysis)
 
     @staticmethod
     def _mesh_setup(connection: Connection, analysis: UUID, revision: int) -> MeshSetup:
@@ -682,6 +797,7 @@ class Repository:
                 self._material_setup(connection, analysis, target),
                 self._load_setup(connection, analysis, target),
                 self._mesh_setup(connection, analysis, target),
+                self._bond_setup(connection, analysis, target),
             )
             connection.execute(
                 text(
@@ -735,6 +851,7 @@ class Repository:
                 self._material_setup(connection, analysis, source_revision),
                 self._load_setup(connection, analysis, source_revision),
                 self._mesh_setup(connection, analysis, source_revision),
+                self._bond_setup(connection, analysis, source_revision),
             )
             return self._analysis(connection, owner, identifier)
 

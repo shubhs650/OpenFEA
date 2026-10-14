@@ -1,0 +1,123 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+168 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 129 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 308 items
+
+tests/unit/test_analyses.py ...............                              [  4%]
+tests/unit/test_api.py .........                                         [  7%]
+tests/unit/test_approval.py ................                             [ 12%]
+tests/unit/test_bonds.py ................                                [ 18%]
+tests/unit/test_connections.py ...........                               [ 21%]
+tests/unit/test_directions.py ...........                                [ 25%]
+tests/unit/test_essential_actions.py .............                       [ 29%]
+tests/unit/test_essential_setup.py .............                         [ 33%]
+tests/unit/test_face_loads.py ....................                       [ 40%]
+tests/unit/test_geometry_edits.py ...............                        [ 45%]
+tests/unit/test_imports.py ......                                        [ 47%]
+tests/unit/test_local_queue.py ...................                       [ 53%]
+tests/unit/test_materials.py ........................                    [ 61%]
+tests/unit/test_mesh_controls.py ............                            [ 64%]
+tests/unit/test_mesh_quality.py ......                                   [ 66%]
+tests/unit/test_projects.py ............................                 [ 75%]
+tests/unit/test_quadratic.py .....................                       [ 82%]
+tests/unit/test_result_views.py ...................                      [ 88%]
+tests/unit/test_stress.py ............................                   [ 98%]
+tests/unit/test_workspace_edits.py ......                                [100%]
+
+======================== 308 passed in 70.46s (0:01:10) ========================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  5 passed (5)
+      Tests  28 passed (28)
+   Start at  15:45:51
+   Duration  1.54s (transform 39%, tests 34%, import 18%, worker 9%)
+
+    Isolate  5 workers spawned · ~204ms startup each (spawn + environment, per file)
+             at least ~817ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpwr9rrmc5/openapi.json → /tmp/tmpwr9rrmc5/api.d.ts [642.3ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 146 Markdown files; 42 task statuses and acyclic dependencies
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 403 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.26 kB
+dist/assets/index-CiTuyCXl.css      4.67 kB │ gzip:   1.64 kB
+dist/assets/index-AvCBWfWE.js   1,160.44 kB │ gzip: 323.33 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.31s
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=31939
+STARTED api pid=31960
+STARTED web pid=31961
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 17 items
+
+tests/integration/test_analyses.py .                                     [  5%]
+tests/integration/test_connections.py .                                  [ 11%]
+tests/integration/test_directions.py .                                   [ 17%]
+tests/integration/test_essential_loads.py .                              [ 23%]
+tests/integration/test_geometry_edits.py .                               [ 29%]
+tests/integration/test_local_jobs.py ..                                  [ 41%]
+tests/integration/test_mesh_controls.py .                                [ 47%]
+tests/integration/test_persistence.py ...                                [ 64%]
+tests/integration/test_result_views.py .                                 [ 70%]
+tests/integration/test_startup.py ....                                   [ 94%]
+tests/integration/test_workspace_edits.py .                              [100%]
+
+======================== 17 passed in 138.46s (0:02:18) ========================

@@ -1,0 +1,17 @@
+# Reviewed bond connections
+
+Import two independently authored solid bodies, confirm dimensions and create an analysis. The **Bond connections** section appears for a multi-body analysis.
+
+1. Click **Inspect bond candidates**. Detection is read-only; no suggested connection is active. The native review reports body volume intersections, opposing normals, positive separation and actual trimmed projected overlap.
+2. Choose **Review pair**, use the master/slave lists, or select two viewport faces and choose **Use two selected faces**. **Swap master/slave** changes the proposed roles. **Preview pair normals** shows exterior normal arrows at the source face centres; the measured role labels and coverage remain visible.
+3. Review both complete coverages. Partial overlap, unrelated/nonopposing faces, curved faces and excessive gaps cannot be approved. Native body volume overlap above 1e-12 m³ blocks connection approval and mesh/solve/export admission.
+4. Enter a connection name. For a physical gap above 1e-8 m numerical coincidence, enter a metre tolerance covering the displayed separation and explicitly approve it. Confirm the experimental displacement-continuity assumption separately. **Approve saved bond** remeasures the native geometry and appends an acknowledged saved analysis revision.
+5. Saved setups, including the full measurement/tool/hash record, survive reload/restart and copy with analysis duplication. Remove a bond explicitly or use session undo; historical revisions and raw runs remain immutable. Geometry changes invalidate approval and require new review. Drafts participate in the shared save/conflict/undo flow.
+
+The current development approval scope is complete opposing planar **1 m × 1 m square** faces, with at most 10 pairs and 100 CAD faces per model. Detection searches positive gaps up to 1 mm for diagnosis; approval is capped at **10 µm**, derived only from the declared B08 axial unit-block experiment. The 1e-12 m comparison allowance handles coordinate subtraction. These bounds are visible and are not a universal CAD or adhesive tolerance. Tiny/curved/sliver geometry and arbitrary assemblies have no implied acceptance.
+
+B08 assumes equal interface displacement across a void without adhesive stiffness, contact, geometry movement or added compliance. It uses independent C3D10 meshes and consistent mortar equations in the development CLI. Actual native displacement, raw IP stress, external equilibrium, coverage and unchanged coordinates are checked in both master/slave orientations. Engineering-owner acceptance is pending.
+
+**Product assembly solving is blocked while saved bonds await T020 constraint admission.** Meshing disjoint bodies remains available; a solver deck cannot ignore saved connections. Native `*TIE` remains rejected and is not a fallback. No weak springs, bond auto-approval, force redistribution, coordinate adjustment or silent remeshing occurs. Shear/bending over a physical gap, curved/partial/nonunit interfaces, multi-bond solving, capacity/convergence and target-laptop acceptance remain unvalidated.
+
+See [ADR-027](adr/ADR-027.md), [T019 evidence](validation/T019.md) and [the engineering contract](ENGINEERING_SPEC.md). Run `make benchmark CASE=B08 DEVELOPMENT=1` for a fresh declared development experiment; an existing output directory refuses to prevent overwriting evidence. Remove only your scratch output or supply a fresh output path to `scripts/native/benchmark.py`. Unsigned execution without `DEVELOPMENT=1` refuses.

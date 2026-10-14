@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, cast
 from uuid import UUID, uuid4
 
+from app.domain.connection_service import ConnectionService
 from app.domain.errors import DomainError, stale_revision
 from app.domain.import_service import ImportService
 from app.domain.imports import GeometryDisplay
@@ -49,6 +50,12 @@ def deck_for(
     *,
     stress_coordinates: bool = False,
 ) -> tuple[str, dict[str, float | int | str | list[str]]]:
+    if snapshot.bonds.assignments:
+        raise DomainError(
+            422,
+            "assembly_admission_pending",
+            "Reviewed bonds require assembly constraint validation",
+        )
     quality = mesh_quality(mesh)
     if not quality["accepted"] or not quality["all_affine"]:
         raise ValueError("Mesh quality failed or curved C3D10 solve is not validated")
@@ -259,16 +266,38 @@ class DeckService:
             if geometry and loads.assignments
             else None
         )
-        return load_state(current, geometry, materials, loads, display)
+        result = load_state(current, geometry, materials, loads, display)
+        result.blockers.extend(
+            self.repository.bond_state(owner, analysis, current.revision).solve_blockers
+        )
+        return result
 
     def freeze(
-        self, owner: UUID, analysis: UUID, expected: int, *, mesh_only: bool = False
+        self,
+        owner: UUID,
+        analysis: UUID,
+        expected: int,
+        *,
+        mesh_only: bool = False,
+        admission: bool = True,
     ) -> tuple[DeckSnapshot, GeometryDisplay]:
         current, geometry, materials, loads = self.repository.load_inputs(owner, analysis)
         if current.revision != expected:
             raise stale_revision()
         if geometry is None:
             raise DomainError(422, "geometry_required", "Accept geometry first")
+        if admission and len(geometry.bodies) > 1:
+            report = ConnectionService(self.repository, self.imports).candidates(
+                owner, analysis, expected
+            )
+            if report.report.overlaps:
+                raise DomainError(
+                    422, "body_overlap", "Body volume overlap blocks meshing, export and solve"
+                )
+        if not mesh_only:
+            bonds = self.repository.bond_state(owner, analysis, expected)
+            if bonds.solve_blockers:
+                raise DomainError(422, "assembly_admission_pending", " ".join(bonds.solve_blockers))
         display = self.imports.display(owner, geometry.id, "coarse")
         preview = load_state(current, geometry, materials, loads, display)
         if preview.blockers and not mesh_only:
@@ -299,6 +328,7 @@ class DeckService:
             materials=materials,
             loads=loads,
             mesh_setup=mesh_setup,
+            bonds=self.repository.bond_state(owner, analysis, expected).setup,
         )
         return snapshot, display
 
@@ -414,6 +444,7 @@ class DeckService:
         )
 
     def generate(self, owner: UUID, analysis: UUID, expected: int) -> DeckExport:
+        snapshot, display = self.freeze(owner, analysis, expected)
         with (self.storage.root / "native-import.lock").open("a+b") as lock:
             try:
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -421,7 +452,6 @@ class DeckService:
                 raise DomainError(
                     429, "native_busy", "Another geometry or mesh operation is processing"
                 ) from None
-            snapshot, display = self.freeze(owner, analysis, expected)
             current, geometry = snapshot.analysis, snapshot.geometry
             policy = self.policy()
             digest = hashlib.sha256(

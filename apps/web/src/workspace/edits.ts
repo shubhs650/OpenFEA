@@ -73,6 +73,7 @@ export function tracked(command: Command) {
       match[2] === "/display-units" ||
       /^\/materials\/[^/]+$/.test(match[2]) ||
       (match[2] === "/mesh-controls" && command.method === "PUT") ||
+      /^\/bonds(?:\/[^/]+)?$/.test(match[2]) ||
       /^\/loads(?:\/[^/]+(?:\/(?:faces|bodies|direction))?)?$/.test(match[2]))
   );
 }
@@ -123,11 +124,13 @@ export function assertDraftScope(command: Command) {
   const suffix = command.path.replace(/^\/analyses\/[^/]+/, "");
   const owner = suffix.startsWith("/materials/")
     ? "material"
-    : suffix.startsWith("/loads")
-      ? "loads"
-      : suffix === "/mesh-controls"
-        ? "mesh"
-        : "analysis-name";
+    : suffix.startsWith("/bonds")
+      ? "bonds"
+      : suffix.startsWith("/loads")
+        ? "loads"
+        : suffix === "/mesh-controls"
+          ? "mesh"
+          : "analysis-name";
   const foreign = state.dirty.filter(
     (key) =>
       key !== owner && !(suffix === "/display-units" && key === "material"),

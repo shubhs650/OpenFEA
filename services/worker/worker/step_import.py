@@ -71,7 +71,10 @@ def inspect_step(
     unit: str | None = None,
     *,
     edit: tuple[Path, str] | None = None,
+    bond_review: Path | None = None,
 ) -> dict[str, Any]:
+    if edit is not None and bond_review is not None:
+        raise ValueError("Choose one isolated CAD operation")
     bubblewrap = shutil.which("bwrap")
     if bubblewrap is None:
         raise ImportSandboxError("Bubblewrap is required for isolated STEP imports")
@@ -144,6 +147,16 @@ def inspect_step(
             "/edit.py",
         ]
         command[-2:] = ["/edit.py", face_id]
+    if bond_review is not None:
+        command[1:1] = [
+            "--ro-bind",
+            str(bond_review),
+            "/work/metadata.json",
+            "--ro-bind",
+            str(ROOT / "services/worker/worker/geometry_native/bond_review.py"),
+            "/bond_review.py",
+        ]
+        command[-2:] = ["/bond_review.py"]
     if Path("/etc/ld.so.cache").is_file():
         command[1:1] = ["--ro-bind", "/etc/ld.so.cache", "/etc/ld.so.cache"]
     filter_path = output.parent / "process-filter.bpf"
@@ -199,8 +212,9 @@ def inspect_step(
     ):
         raise ImportSandboxError("CAD returned an invalid inspection record")
     result: dict[str, Any] = json.loads(descriptor.read_text())
-    if result.get("status") == "ready":
-        result["metadata"]["validation"]["runtime"] = {
+    if result.get("status") in ("ready", "bond_review"):
+        target = result["report"] if bond_review else result["metadata"]["validation"]
+        target["runtime"] = {
             "bubblewrap_sha256": sha256(Path(bubblewrap)),
             "bubblewrap_version": subprocess.check_output(
                 [bubblewrap, "--version"], text=True
@@ -215,7 +229,7 @@ def inspect_step(
             "worker_sha256": sha256(
                 ROOT
                 / "services/worker/worker/geometry_native"
-                / ("edit.py" if edit else "import_step.py")
+                / ("bond_review.py" if bond_review else "edit.py" if edit else "import_step.py")
             ),
             "exporter_sha256": sha256(
                 ROOT / "services/worker/worker/geometry_native/import_step.py"

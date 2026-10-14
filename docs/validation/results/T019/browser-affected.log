@@ -1,0 +1,14 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/connections.spec.ts tests/e2e/results.spec.ts --grep real gap suggestion|real partial coverage|actual zero-stress
+
+
+Running 3 tests using 1 worker
+
+(node:35160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/connections.spec.ts:50:1 › real gap suggestion needs explicit review, master/slave preview, tolerance approval and persists (11.8s)
+  ✓  2 tests/e2e/connections.spec.ts:138:1 › real partial coverage, excessive gap and body volume overlap never autoapprove (18.4s)
+  ✓  3 tests/e2e/results.spec.ts:137:1 › actual zero-stress solve displays constant field and unbounded factor; missing yield stays unavailable (13.3s)
+
+  3 passed (47.1s)
