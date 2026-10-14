@@ -22,6 +22,23 @@ export interface paths {
         patch: operations["edit_analysis_api_v1_analyses__analysis_id__patch"];
         trace?: never;
     };
+    "/api/v1/analyses/{analysis_id}/assembly-preflight": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Assembly Preflight */
+        post: operations["assembly_preflight_api_v1_analyses__analysis_id__assembly_preflight_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/analyses/{analysis_id}/bond-candidates": {
         parameters: {
             query?: never;
@@ -1085,6 +1102,39 @@ export interface components {
             sha256: string;
             /** Size Bytes */
             size_bytes: number;
+        };
+        /** AssemblyComponent */
+        AssemblyComponent: {
+            /** Body Ids */
+            body_ids: string[];
+            /** Support Rank */
+            support_rank: number;
+        };
+        /** AssemblyPreflight */
+        AssemblyPreflight: {
+            /** Blockers */
+            blockers?: string[];
+            /** Components */
+            components?: components["schemas"]["AssemblyComponent"][];
+            /** Expected Free Equations */
+            expected_free_equations?: number | null;
+            /**
+             * Intended Slave Nodes
+             * @default 0
+             */
+            intended_slave_nodes: number;
+            /**
+             * Mesh Checked
+             * @default false
+             */
+            mesh_checked: boolean;
+            /**
+             * Stability Proven
+             * @default false
+             */
+            stability_proven: boolean;
+            /** Warnings */
+            warnings?: string[];
         };
         /** BalanceCheck */
         BalanceCheck: {
@@ -2292,6 +2342,7 @@ export interface components {
             analysis_id: string;
             /** Analysis Revision */
             analysis_revision: number;
+            assembly?: components["schemas"]["AssemblyPreflight"];
             /** Blockers */
             blockers: string[];
             /**
@@ -3272,6 +3323,126 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Analysis"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    assembly_preflight_api_v1_analyses__analysis_id__assembly_preflight_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AssemblyPreflight"];
                 };
             };
             /** @description Unauthorized */
@@ -8794,7 +8965,7 @@ export interface operations {
             };
             path: {
                 job_id: string;
-                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "results.json" | "recovery.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
             };
             cookie?: never;
         };

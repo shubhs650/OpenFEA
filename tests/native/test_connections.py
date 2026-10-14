@@ -102,9 +102,9 @@ def test_gap_approval_is_explicit_remeasured_revisioned_and_copied(client: TestC
     assert client.get(copy_path + "/bonds").json()["setup"] == saved["setup"]
     # A reviewed pair must never silently solve as two independent bodies.
     response = client.post(path + "/deck-exports", headers={"If-Match": '"2"'})
-    assert (
-        response.status_code == 422 and response.json()["code"] == "assembly_admission_pending"
-    ), response.text
+    assert response.status_code == 422 and response.json()["code"] == "setup_incomplete", (
+        response.text
+    )
     assert (
         client.post(
             path + "/bonds", json=payload, headers={"If-Match": '"2"', "X-CSRF-Token": "invalid"}

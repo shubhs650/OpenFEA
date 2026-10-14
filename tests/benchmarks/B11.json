@@ -1,0 +1,29 @@
+{
+  "id": "B11",
+  "revision": 1,
+  "source": "Rigid-body kinematics u=t+omega cross x has zero infinitesimal strain. A disconnected loaded elastic body or support rows of rank below six must fail necessary preflight; solver finish/finite displacement alone cannot establish stability.",
+  "units": "m,N,Pa",
+  "geometry": "Two independently meshed unit cubes, zero-gap interface; C3D10 0.6/0.4 m, immutable body/face/node identities",
+  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "cases": [
+    "detached_loaded_body",
+    "connected_but_underconstrained",
+    "redundant_cycle",
+    "slave_spc_conflict",
+    "finite_rigid_translation_mode",
+    "native_singular_diagnostic"
+  ],
+  "supports": "Detached case supports x=0 body only; connected rank-deficient case has only ux on x=0. No weak springs/stabilization or silent constraint removal.",
+  "loads": "Axial +x force 1e6 N on second body's far face, only for controlled native diagnostic; application must refuse before solve admission",
+  "expected": "All invalid cases refuse with specific support/connectivity/dependency/native diagnostics. A preflight pass is necessary only and never a proof of stiffness rank/stability. Actual native failure transcripts, including finite outputs if produced, are diagnostic only.",
+  "criteria": {
+    "necessary_support_rank": 6,
+    "unapproved_bonds": 0,
+    "added_weak_springs": 0,
+    "published_invalid_results": 0,
+    "automatic_retries": 0
+  },
+  "numerical_policy": "No displacement magnitude threshold is invented to classify instability. Native singular/pivot/indefinite/mode messages fail; even finite outputs cannot override failed topology/support/MPC or frozen equilibrium gates.",
+  "exclusions": "No general eigenspectrum/stiffness-rank or arbitrary assembly stability certification. Product mortar remains one full axis-aligned planar zero-gap unit-square interface, <=65 trace nodes per side; physical gaps, multiple solver bonds and transformed constraints remain blocked.",
+  "reviewer_signoff": "PENDING engineering owner; development-only"
+}

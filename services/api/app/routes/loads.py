@@ -75,6 +75,7 @@ def assign(
         materials,
         LoadSetup(assignments=[*setup.assignments, item]),
         service.imports.display(owner, geometry.id, "coarse"),
+        store.bond_state(owner, analysis_id, revision).setup,
     )
     store.edit_loads(owner, analysis_id, revision, item)
     return get_loads(analysis_id, owner, service, response)

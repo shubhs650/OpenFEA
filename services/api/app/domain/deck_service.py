@@ -6,9 +6,10 @@ import json
 import math
 import shutil
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 from uuid import UUID, uuid4
 
+from app.domain.assembly import mesh_plan
 from app.domain.connection_service import ConnectionService
 from app.domain.errors import DomainError, stale_revision
 from app.domain.import_service import ImportService
@@ -16,7 +17,8 @@ from app.domain.imports import GeometryDisplay
 from app.domain.loads import DeckExport, DeckSnapshot, LoadState, load_state, support_rows
 from app.domain.mesh import estimate, sizing
 from app.persistence.repository import Repository
-from worker.actions import EQUILIBRIUM_POLICY, deck_actions, gravity_forces, rigid_rank_directions
+from worker.actions import EQUILIBRIUM_POLICY, deck_actions, gravity_forces
+from worker.calculix.assembly import ASSEMBLY_POLICY, keywords
 from worker.calculix.results import Mesh
 from worker.deck import generated_deck
 from worker.deck_mesh import mesh_snapshot
@@ -50,12 +52,6 @@ def deck_for(
     *,
     stress_coordinates: bool = False,
 ) -> tuple[str, dict[str, float | int | str | list[str]]]:
-    if snapshot.bonds.assignments:
-        raise DomainError(
-            422,
-            "assembly_admission_pending",
-            "Reviewed bonds require assembly constraint validation",
-        )
     quality = mesh_quality(mesh)
     if not quality["accepted"] or not quality["all_affine"]:
         raise ValueError("Mesh quality failed or curved C3D10 solve is not validated")
@@ -80,26 +76,7 @@ def deck_for(
         supports, transforms = compile_constraints({n: r for n, r in rows.items() if r})
     except ValueError as error:
         raise DomainError(422, "conflicting_constraints", str(error)) from None
-    for body in snapshot.geometry.bodies:
-        owned = {n for e, ns in elements.items() if owners[e] == body.id for n in ns}
-        origin = cast(Vec, tuple(min(nodes[n][a] for n in owned) for a in range(3)))
-        extent = max(max(nodes[n][a] for n in owned) - origin[a] for a in range(3))
-        rank = rigid_rank_directions(
-            (
-                (nodes[n], transforms.get(n, IDENTITY)[axis - 1])
-                for n, axis in supports
-                if n in owned
-            ),
-            origin,
-            extent,
-        )
-        if rank < 6:
-            raise DomainError(
-                422,
-                "insufficient_constraints",
-                "Each independent body needs rigid-motion coverage "
-                "from fixed, global or directional supports",
-            )
+    bond, assembly_report = mesh_plan(snapshot, mesh, supports, transforms)
     body_densities = {
         a.body_id: a.material.properties.density_kg_m3 for a in snapshot.materials.assignments
     }
@@ -206,6 +183,11 @@ def deck_for(
         transforms=transforms,
     )
 
+    if bond is not None:
+        text = text.replace("*MATERIAL,NAME=M1", keywords(bond) + "*MATERIAL,NAME=M1", 1)
+        if "*EQUATION" not in text:
+            raise ValueError("Connection equations were not emitted")
+
     # Audit the actual written numbers, including the combined/rounded pressures.
     # Do not credit full-precision intermediates if decimal export changes physics.
     def written(value: float) -> float:
@@ -220,6 +202,15 @@ def deck_for(
         written_nodes, elements, owners, {e: names[b] for e, b in owners.items()}, mesh["revision"]
     )
     written_actions = deck_actions(text, written_mesh, mesh["boundary"])
+    if bond and any(
+        math.hypot(*written_actions.applied.get(n, (0, 0, 0))) > 1e-10 for n in bond.slave_nodes
+    ):
+        raise DomainError(
+            422,
+            "dependent_dof_load",
+            "Applied loading reaches dependent slave nodes; choose separated faces. "
+            "No force redistribution is performed.",
+        )
     written_force, written_moment = resultant(written_actions.applied, written_nodes)
     written_force_error = max(
         abs(a - b) for a, b in zip(written_force, preview.total_force_n, strict=True)
@@ -251,6 +242,9 @@ def deck_for(
         "moment_x_nm": moment[0],
         "moment_y_nm": moment[1],
         "moment_z_nm": moment[2],
+        "assembly_equations": assembly_report.get("expected_free_equations", 0),
+        "assembly_slave_nodes": len(bond.slave_nodes) if bond else 0,
+        "assembly_formulation": bond.formulation if bond else "independent bodies",
         "warnings": preview.warnings,
     }
 
@@ -266,11 +260,8 @@ class DeckService:
             if geometry and loads.assignments
             else None
         )
-        result = load_state(current, geometry, materials, loads, display)
-        result.blockers.extend(
-            self.repository.bond_state(owner, analysis, current.revision).solve_blockers
-        )
-        return result
+        bonds = self.repository.bond_state(owner, analysis, current.revision).setup
+        return load_state(current, geometry, materials, loads, display, bonds)
 
     def freeze(
         self,
@@ -294,12 +285,26 @@ class DeckService:
                 raise DomainError(
                     422, "body_overlap", "Body volume overlap blocks meshing, export and solve"
                 )
-        if not mesh_only:
-            bonds = self.repository.bond_state(owner, analysis, expected)
-            if bonds.solve_blockers:
-                raise DomainError(422, "assembly_admission_pending", " ".join(bonds.solve_blockers))
+            saved = self.repository.bond_state(owner, analysis, expected).setup
+            for item in saved.assignments:
+                live = next(
+                    (
+                        p
+                        for p in report.report.pairs
+                        if {p.master_face_id, p.slave_face_id}
+                        == {item.master_face_id, item.slave_face_id}
+                    ),
+                    None,
+                )
+                if live is None or not live.eligible or live.gap_m != item.pair.gap_m:
+                    raise DomainError(
+                        422,
+                        "stale_bond",
+                        "Native pair measurements no longer match the saved review",
+                    )
         display = self.imports.display(owner, geometry.id, "coarse")
-        preview = load_state(current, geometry, materials, loads, display)
+        bonds = self.repository.bond_state(owner, analysis, expected).setup
+        preview = load_state(current, geometry, materials, loads, display, bonds)
         if preview.blockers and not mesh_only:
             raise DomainError(422, "setup_incomplete", " ".join(preview.blockers))
         if mesh_only and any(
@@ -343,6 +348,7 @@ class DeckService:
             "loads_contract": "geometry-direction-symmetry-v3",
             "equilibrium": dict(EQUILIBRIUM_POLICY),
             "directions": dict(DIRECTION_POLICY),
+            "assembly": dict(ASSEMBLY_POLICY),
             "body_size": "explicit SI global/body/face minimum; legacy largest extent / 2",
             "mesh_quality": {
                 "jacobian_m3": 1e-15,
@@ -381,6 +387,11 @@ class DeckService:
                     "services/worker/worker/deck.py",
                     "services/worker/worker/actions.py",
                     "services/worker/worker/directions.py",
+                    "services/worker/worker/calculix/assembly.py",
+                    "services/worker/worker/calculix/bonds.py",
+                    "services/worker/worker/calculix/mortar.py",
+                    "services/api/app/domain/assembly.py",
+                    "services/api/app/domain/connections.py",
                     "services/api/app/domain/directions.py",
                     "services/api/app/domain/deck_service.py",
                     "services/api/app/domain/loads.py",
@@ -467,7 +478,9 @@ class DeckService:
             directory = self.storage.directory("exports", identifier)
             try:
                 mesh = self.mesh(snapshot, display, directory)
-                preview = load_state(current, geometry, snapshot.materials, snapshot.loads, display)
+                preview = load_state(
+                    current, geometry, snapshot.materials, snapshot.loads, display, snapshot.bonds
+                )
                 deck, summary = deck_for(snapshot, mesh, preview)
             except ImportSandboxError:
                 raise DomainError(

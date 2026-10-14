@@ -96,7 +96,8 @@ export async function prepared(
       exact: true,
     }),
   ).toBeVisible();
-  await page.locator(".body-tree summary").click();
+  for (const summary of await page.locator(".body-tree summary").all())
+    await summary.click();
   if (!basicLoads) return { projectId, analysisId };
   const fixed = geometry.faces.find((f) =>
     bracket

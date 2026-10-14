@@ -208,6 +208,86 @@
         "title": "Artifact",
         "type": "object"
       },
+      "AssemblyComponent": {
+        "additionalProperties": false,
+        "properties": {
+          "body_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Body Ids",
+            "type": "array"
+          },
+          "support_rank": {
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Support Rank",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "body_ids",
+          "support_rank"
+        ],
+        "title": "AssemblyComponent",
+        "type": "object"
+      },
+      "AssemblyPreflight": {
+        "additionalProperties": false,
+        "properties": {
+          "blockers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Blockers",
+            "type": "array"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/AssemblyComponent"
+            },
+            "title": "Components",
+            "type": "array"
+          },
+          "expected_free_equations": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Free Equations"
+          },
+          "intended_slave_nodes": {
+            "default": 0,
+            "title": "Intended Slave Nodes",
+            "type": "integer"
+          },
+          "mesh_checked": {
+            "default": false,
+            "title": "Mesh Checked",
+            "type": "boolean"
+          },
+          "stability_proven": {
+            "default": false,
+            "title": "Stability Proven",
+            "type": "boolean"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "title": "AssemblyPreflight",
+        "type": "object"
+      },
       "BalanceCheck": {
         "additionalProperties": false,
         "properties": {
@@ -3458,6 +3538,9 @@
             "title": "Analysis Revision",
             "type": "integer"
           },
+          "assembly": {
+            "$ref": "#/components/schemas/AssemblyPreflight"
+          },
           "blockers": {
             "items": {
               "type": "string"
@@ -5936,6 +6019,185 @@
           }
         ],
         "summary": "Edit Analysis"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/assembly-preflight": {
+      "post": {
+        "operationId": "assembly_preflight_api_v1_analyses__analysis_id__assembly_preflight_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssemblyPreflight"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Assembly Preflight"
       }
     },
     "/api/v1/analyses/{analysis_id}/bond-candidates": {
@@ -13748,6 +14010,7 @@
                 "resources.json",
                 "results.json",
                 "recovery.json",
+                "assembly.json",
                 "mesh-attempt-1.log",
                 "mesh-attempt-2.log",
                 "mesh-attempt-3.log",

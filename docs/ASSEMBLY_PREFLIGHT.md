@@ -1,0 +1,15 @@
+# Assembly constraint checks
+
+Create a multi-body analysis, assign materials and supports/loads, and explicitly approve supported face pairs using [connection review](CONNECTIONS.md). Unapproved proximity never connects bodies.
+
+The connection editor shows each disconnected component and its necessary rigid-motion support rank out of six. A detached body or insufficient component support blocks solving. Reviewed full interfaces allow the component to share support coverage. A rank of six is **necessary only**, not proof of stiffness rank or stability. No weak springs or hidden supports are added.
+
+Generate a local mesh and select it under **Checked mesh**. **Check assembly constraints** reads the actual immutable mesh without creating a job or changing setup. It repeats ownership/revision/compatibility and native overlap checks, checks interface nodes and dependent constraints, and reports intended slave-node and expected free-equation counts. A passing mesh preflight is not stability certification. Solve and deck export run these checks independently, so bypassing the button cannot bypass validation.
+
+The current development solver supports one complete axis-aligned planar **zero-gap unit-square interface**, two independent body meshes and at most 65 nodes on each trace. Roles remain explicit. Slave nodes cannot also have prescribed support DOFs; transformed-node bonded constraints and externally loaded slave nodes are refused. Select supports/loads away from the dependent interface or reconsider roles; the system never moves forces or drops conflicts. Multiple/cyclic/redundant solver bonds and larger trace spaces remain unvalidated. Mesh previews can be retained even when assembly constraints block a solve.
+
+Explicitly reviewed physical gaps remain saved, but product solving across them is blocked. [B08's axial experiment](validation/T019.md) does not establish rotation/shear/bending behavior or a physical adhesive/contact model. See the rationale in [ADR-028](adr/ADR-028.md). This is a distinct approval from merely accepting the displayed gap tolerance.
+
+Successful bounded runs retain `assembly.json`, the complete immutable setup, generated deck, raw DAT/FRD and tool/source/artifact hashes. It audits native free equations and all intended slave displacements against the written mortar coefficients. The existing raw-output and external force/moment gates remain mandatory. Internal MPC forces are never counted as support reactions. A native singularity/pivot error or failed output/constraint audit gives a failed job with private diagnostics, without calculated results. “Job finished” and finite displacements alone are not a stability check.
+
+[B11](../tests/benchmarks/B11.json) and [T020 evidence](validation/T020.md) record real failure diagnostics and bounded axial validation. Engineering-owner, Windows/target-laptop/headed-GPU/convergence/capacity and the M3/T024 assembly gate remain pending. T021 supplies further result-field inspection; it is not implemented by these checks.

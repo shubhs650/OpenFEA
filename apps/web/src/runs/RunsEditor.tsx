@@ -4,6 +4,7 @@ import { ResultsEditor } from "../results/ResultsEditor";
 import type { ResultPresentation } from "../results/presentation";
 import {
   api,
+  mutate,
   RequestError,
   submitJob,
   type LocalJob,
@@ -42,6 +43,11 @@ export function RunsEditor({
   >(null);
   const [refreshMeshes, setRefreshMeshes] = useState(0);
   const [candidateError, setCandidateError] = useState("");
+  const [assembly, setAssembly] = useState<{
+    scope: string;
+    data: components["schemas"]["AssemblyPreflight"];
+  } | null>(null);
+  const scopeRef = useRef("");
   const [jobs, setJobs] = useState<LocalJob[]>([]);
   const [meshId, setMeshId] = useState("");
   const [reviewed, setReviewed] = useState(false);
@@ -51,6 +57,8 @@ export function RunsEditor({
   const [worker, setWorker] = useState("");
   const [cancelling, setCancelling] = useState("");
   const [clock, setClock] = useState(Date.now());
+  const assemblyScope = `${analysisId}:${revision}:${meshId}`;
+  scopeRef.current = assemblyScope;
   const requestKey = useRef<{ intent: string; key: string } | null>(null);
 
   useEffect(() => {
@@ -182,6 +190,23 @@ export function RunsEditor({
       setError((e as Error).message);
     }
   }
+  async function checkAssembly() {
+    const scope = assemblyScope;
+    setBusy(true);
+    setError("");
+    try {
+      const data = await mutate<components["schemas"]["AssemblyPreflight"]>(
+        `/analyses/${analysisId}/assembly-preflight`,
+        revision,
+        { mesh_job_id: meshId },
+      );
+      if (scopeRef.current === scope) setAssembly({ scope, data });
+    } catch (e) {
+      if (scopeRef.current === scope) setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
     <section
       id="setup-runs"
@@ -256,6 +281,30 @@ export function RunsEditor({
         <p className="material-notice" aria-live="polite">
           Compatible meshes unavailable: {candidateError}
         </p>
+      )}
+      <button
+        disabled={busy || !selected || !meshReady}
+        onClick={() => void checkAssembly()}
+      >
+        Check assembly constraints
+      </button>
+      {assembly?.scope === assemblyScope && (
+        <div aria-label="Actual mesh assembly preflight">
+          <p>
+            {assembly.data.mesh_checked && !assembly.data.blockers?.length
+              ? "Necessary mesh checks passed"
+              : "Assembly checks blocked"}
+            . This is not proof of stiffness rank or stability.
+          </p>
+          <p>
+            Intended slave nodes: {assembly.data.intended_slave_nodes}. Expected
+            free equations:{" "}
+            {assembly.data.expected_free_equations ?? "unavailable"}.
+          </p>
+          {assembly.data.blockers?.map((b) => (
+            <p key={b}>{b}</p>
+          ))}
+        </div>
       )}
       <button disabled={!selected} onClick={() => void preview()}>
         Preview selected mesh
