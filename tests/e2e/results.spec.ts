@@ -301,3 +301,182 @@ test("actual zero-stress solve displays constant field and unbounded factor; mis
     "Unavailable — missing yield",
   );
 });
+
+test("physical probes and volume sections preserve field and camera and reject unavailable data", async ({
+  page,
+}, info) => {
+  test.setTimeout(45_000);
+  const failures: string[] = [];
+  page.on("pageerror", (e) => failures.push(e.message));
+  const { projectId } = await prepared(page, "T022 volume inspection");
+  await mesh(page);
+  const run = await solve(page);
+  const view = await openResults(page, run.id);
+  const wire = await (
+    await page.request.get(`/api/v1/jobs/${run.id}/artifacts/mesh.json`)
+  ).json();
+  const [element, nodes] = Object.entries(wire.elements)[0] as [
+    string,
+    number[],
+  ];
+  const center = [0, 1, 2].map(
+    (k) => nodes.slice(0, 4).reduce((sum, n) => sum + wire.nodes[n][k], 0) / 4,
+  );
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("sxx");
+  await page.getByLabel("Probe element ID", { exact: true }).fill(element);
+  for (let k = 0; k < 3; k++)
+    await page
+      .getByLabel(`Inspection ${"xyz"[k]} (mm)`, { exact: true })
+      .fill(String(center[k] * 1000));
+  await page
+    .getByRole("button", { name: "Probe physical point", exact: true })
+    .click();
+  await expect(page.getByLabel("Physical probe result")).toContainText(
+    `Element ${element}`,
+  );
+  await expect(page.getByLabel("Physical probe result")).toContainText(
+    "-0.00100000 MPa",
+  );
+  const canvas = page.getByLabel("Result 3D canvas", { exact: true });
+  await canvas.scrollIntoViewIfNeeded();
+  const initialCamera = await canvas.getAttribute("data-camera-state");
+  const box = (await canvas.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(
+    box.x + box.width / 2 + 50,
+    box.y + box.height / 2 + 25,
+    { steps: 8 },
+  );
+  await page.mouse.up();
+  const camera = await canvas.getAttribute("data-camera-state");
+  expect(camera).not.toBe(initialCamera);
+  const rawExtrema = await page
+    .getByLabel("Raw result extrema", { exact: true })
+    .textContent();
+  for (let k = 0; k < 3; k++)
+    await page
+      .getByLabel(`Inspection ${"xyz"[k]} (mm)`, { exact: true })
+      .fill(k === 0 ? "500" : "0");
+  const response = page.waitForResponse((r) =>
+    r.url().endsWith(`/runs/${run.id}/sections`),
+  );
+  await page
+    .getByRole("button", { name: "Generate volume section", exact: true })
+    .click();
+  const received = await response;
+  expect(received.status()).toBe(200);
+  const section: components["schemas"]["ResultInspection"] =
+    await received.json();
+  expect(section.vertices.length).toBeGreaterThan(0);
+  expect(
+    section.vertices.every((v) => Math.abs(v.position_m[0] - 0.5) < 1e-12),
+  ).toBe(true);
+  await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+    "data-result-section",
+    "volume",
+  );
+  await expect(canvas).toHaveAttribute("data-camera-state", camera!);
+  await expect(
+    page.getByLabel("Inspection interpolation method"),
+  ).toContainText("interior centroid");
+  await page
+    .getByLabel("Smooth stress within each body and material", { exact: true })
+    .check();
+  await expect(canvas).toHaveAttribute("data-camera-state", camera!);
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("ux");
+  await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+    "data-result-field",
+    "ux",
+  );
+  await expect(canvas).toHaveAttribute("data-camera-state", camera!);
+  await expect(
+    page.getByLabel("Raw result extrema", { exact: true }),
+  ).toHaveText(rawExtrema!);
+  await page.screenshot({
+    path: info.outputPath("volume-section.png"),
+    fullPage: true,
+  });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page
+    .getByLabel("Volume inspection", { exact: true })
+    .screenshot({ path: info.outputPath("inspection-controls.png") });
+  await canvas.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: info.outputPath("volume-viewport.png") });
+  await page
+    .getByRole("button", { name: "Show exterior surface", exact: true })
+    .click();
+  await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
+    "data-result-section",
+    "surface",
+  );
+  await expect(canvas).toHaveAttribute("data-camera-state", camera!);
+  await page
+    .getByRole("button", { name: "Reset result camera", exact: true })
+    .click();
+  await expect(canvas).not.toHaveAttribute("data-camera-state", camera!);
+  await page.getByLabel("Inspection x (mm)", { exact: true }).fill("2000");
+  await page
+    .getByRole("button", { name: "Generate volume section", exact: true })
+    .click();
+  await expect(page.getByLabel("Volume section status")).toContainText(
+    "No volume area intersects",
+  );
+  await expect(canvas).toHaveAttribute("data-camera-state", initialCamera!);
+  await page.getByLabel("Inspection x (mm)", { exact: true }).fill("500");
+  // An actual old section response cannot reopen a closed result view.
+  let release!: () => void;
+  let started!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const fetched = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  const sectionPath = `**/api/v1/runs/${run.id}/sections`;
+  await page.route(sectionPath, async (route) => {
+    const response = await route.fetch();
+    started();
+    await held;
+    await route.fulfill({ response });
+  });
+  await page
+    .getByRole("button", { name: "Generate volume section", exact: true })
+    .click();
+  await fetched;
+  await page
+    .getByRole("button", { name: "Close result view", exact: true })
+    .click();
+  release();
+  await page.unrouteAll({ behavior: "wait" });
+  await expect(page.getByLabel("Calculated result viewport")).toHaveCount(0);
+  await openResults(page, run.id);
+  // Force actual retained-DAT unavailability; a prior successful section cannot be reused.
+  const { readFile, unlink, writeFile } = await import("node:fs/promises");
+  const { join } = await import("node:path");
+  const dataRoot = info.config.metadata.localDataRoot as string;
+  const datPath = join(dataRoot, "artifacts", projectId, view.dat_sha256);
+  const dat = await readFile(datPath);
+  await unlink(datPath);
+  try {
+    await page
+      .getByRole("button", { name: "Generate volume section", exact: true })
+      .click();
+    await expect(page.getByRole("alert")).toContainText(
+      "artifact is unavailable",
+    );
+    await expect(page.getByLabel("Calculated result viewport")).toHaveCount(0);
+    await expect(page.getByLabel("Physical probe result")).toHaveCount(0);
+  } finally {
+    await writeFile(datPath, dat, { mode: 0o400 });
+  }
+  expect(failures).toEqual([]);
+});

@@ -13,13 +13,9 @@ VIEW_VERSION = "affine-c3d10-full-fields-v4"
 ZERO_STRESS_PA = 1e-6  # Absolute display convention; never a finite safety factor.
 
 
-def build_view(
-    raw: dict[str, Any],
-    raw_mesh: dict[str, Any],
-    materials: dict[str, dict[str, Any]],
-    deck: str,
-    reference: dict[str, Any] | None = None,
-) -> dict[str, Any]:
+def volume_fields(
+    raw: dict[str, Any], raw_mesh: dict[str, Any], materials: dict[str, dict[str, Any]]
+) -> tuple[Mesh, list[StressPoint]]:
     if (
         raw.get("schema_version") != 1
         or raw.get("components") != list(COMPONENTS)
@@ -45,7 +41,18 @@ def build_view(
     points = [StressPoint(**p) for p in raw["integration_points"]]
     if any(p.provenance.get("source_sha256") != raw["dat"]["source_sha256"] for p in points):
         raise ValueError("Raw stress source identity disagrees")
-    derived = element_nodes(points, mesh)
+    return mesh, element_nodes(points, mesh)
+
+
+def build_view(
+    raw: dict[str, Any],
+    raw_mesh: dict[str, Any],
+    materials: dict[str, dict[str, Any]],
+    deck: str,
+    reference: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    mesh, derived = volume_fields(raw, raw_mesh, materials)
+    points = [StressPoint(**p) for p in raw["integration_points"]]
 
     def stress_values(point: StressPoint) -> dict[str, Any]:
         t = tensor(point.tensor_pa)

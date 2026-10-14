@@ -1,10 +1,11 @@
-import type { ResultView, UnitPreset } from "../geometry/api";
+import type { ResultInspection, ResultView, UnitPreset } from "../geometry/api";
 
 export type ResultField = ResultView["data"]["fields"][number]["key"];
 export const isDisplacement = (field: ResultField) =>
   field === "displacement" || field.startsWith("u");
 export type ResultPresentation = {
   view: ResultView;
+  section?: ResultInspection | null;
   field: ResultField;
   smoothed: boolean;
   scale: number;
@@ -12,7 +13,10 @@ export type ResultPresentation = {
   range: [number, number];
 };
 export function scalar(
-  vertex: ResultView["data"]["vertices"][number],
+  vertex: Pick<
+    ResultView["data"]["vertices"][number],
+    "displacement_m" | "stress" | "smoothed_stress"
+  >,
   field: ResultField,
   smoothed = false,
 ) {
@@ -31,10 +35,11 @@ export function fieldRange(
   view: ResultView,
   field: ResultField,
   smoothed = false,
+  vertices: readonly Parameters<typeof scalar>[0][] = view.data.vertices,
 ): [number, number] {
   let low = Infinity,
     high = -Infinity;
-  for (const vertex of view.data.vertices) {
+  for (const vertex of vertices.length ? vertices : view.data.vertices) {
     const value = scalar(vertex, field, smoothed);
     low = Math.min(low, value);
     high = Math.max(high, value);

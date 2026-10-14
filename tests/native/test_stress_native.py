@@ -2,12 +2,14 @@
 
 import json
 import shutil
+from dataclasses import asdict
 from pathlib import Path
 
 import pytest
 
 from worker.calculix.results import parse_dat
 from worker.postprocess.fields import element_nodes, probe_element, smooth_nodes
+from worker.postprocess.inspection import inspect_volume
 from worker.postprocess.tensors import principal, von_mises
 from worker.runtime import ROOT
 from worker.stress_fixture import diagnostic_case, hand_mesh, run_b09
@@ -56,6 +58,33 @@ def test_native_tensor_and_location_diagnostics(case: str, tmp_path: Path) -> No
             assert point["principal_pa"] == pytest.approx(
                 [shear, 0, -shear], rel=tolerance["relative"], abs=tolerance["stress_absolute_pa"]
             )
+        dat = parse_dat(tmp_path / "analysis.dat", mesh)
+        raw = {
+            "schema_version": 1,
+            "components": ["xx", "yy", "zz", "xy", "yz", "zx"],
+            "frame": "global_cartesian",
+            "stress_location": "integration_point",
+            "units": {"displacement": "m", "stress": "Pa", "force": "N"},
+            "result_mesh_sha256": mesh.identity(),
+            "integration_points": [asdict(p) for p in dat["samples"]],
+            "dat": {
+                "source_sha256": payload["source_sha256"]["dat"],
+                "displacements_m": dat["displacements_m"],
+            },
+        }
+        wire = asdict(mesh) | {"units": "m", "owners": mesh.bodies}
+        section = inspect_volume(
+            raw, wire, {mesh.bodies[1]: {"material_id": "UPPER"}}, (0, 0, 0.25), normal=(0, 0, 1)
+        )
+        for v in section["vertices"]:
+            _x, y, z = v["position_m"]
+            assert v["stress"]["tensor_pa"] == pytest.approx(
+                [0, 0, 0, mu * 0.001 * z, 0, mu * 0.001 * y],
+                rel=tolerance["relative"],
+                abs=tolerance["stress_absolute_pa"],
+            )
+            assert v["displacement_m"] == pytest.approx([0.001 * y * z, 0, 0], abs=1e-12)
+        (tmp_path / "section.json").write_text(json.dumps(section, indent=2) + "\n")
         points = element_nodes(parse_dat(tmp_path / "analysis.dat", mesh)["samples"], mesh)
         sample = probe_element(points, mesh, 1, (0.25, 0.25, 0.25, 0.25))
         assert sample.tensor_pa == pytest.approx(

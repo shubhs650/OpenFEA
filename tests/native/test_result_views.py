@@ -16,6 +16,7 @@ from tests.native import test_step_import as step_tests
 from tests.native.test_face_decks import assign, setup
 from tests.native.test_local_jobs import prepared, submit, wait_job
 from tests.unit.test_materials import custom
+from worker.postprocess.inspection import inspect_volume
 from worker.postprocess.view import build_view
 
 application = step_tests.application
@@ -58,6 +59,49 @@ def test_real_axial_core_results_reactions_frozen_yield_and_edit_history(
         )
     assert fields["ux"]["extrema"]["minimum"]["value"] == pytest.approx(-expected_u, abs=1e-13)
     assert fields["sxx"]["extrema"]["minimum"]["value"] == pytest.approx(-1000, abs=0.01)
+    # T022: actual retained volume, including points strictly inside an element.
+    wire = client.get(f"/api/v1/jobs/{run['id']}/artifacts/mesh.json").json()
+    eid, ns = next(iter(wire["elements"].items()))
+    center = [sum(wire["nodes"][str(n)][k] for n in ns[:4]) / 4 for k in range(3)]
+    inspections = []
+    for kind, payload in [
+        ("probes", {"element_id": int(eid), "point_m": center}),
+        ("sections", {"point_m": [0.5, 0, 0], "normal": [1, 0, 0]}),
+    ]:
+        response = client.post(f"/api/v1/runs/{run['id']}/{kind}", json=payload)
+        assert response.status_code == 200, response.text
+        inspection = response.json()
+        assert inspection["results_sha256"] == result["results_sha256"]
+        assert inspection["processor"] == "affine-c3d10-volume-inspection-v1"
+        assert inspection["location"] == "element_interpolated"
+        assert inspection["vertices"]
+        for v in inspection["vertices"]:
+            assert v["displacement_m"] == pytest.approx(
+                [-1000 * v["position_m"][0] / 210e9, 0, 0], abs=1e-13
+            )
+            for mode in ("stress", "smoothed_stress"):
+                assert v[mode]["tensor_pa"] == pytest.approx([-1000, 0, 0, 0, 0, 0], abs=0.01)
+        if kind == "sections":
+            assert inspection["triangles"]
+            assert all(
+                v["position_m"][0] == pytest.approx(0.5, abs=1e-12) for v in inspection["vertices"]
+            )
+        inspections.append(inspection)
+    assert inspections[0]["vertices"][0]["barycentric"] == pytest.approx([0.25] * 4, abs=1e-12)
+    retained = Path(".local/native/validation/T022")
+    retained.mkdir(parents=True, exist_ok=True)
+    (retained / "axial-inspections.json").write_text(json.dumps(inspections, indent=2) + "\n")
+    for name in (
+        "snapshot.json",
+        "mesh.json",
+        "analysis.inp",
+        "analysis.dat",
+        "analysis.frd",
+        "results.json",
+    ):
+        (retained / name).write_bytes(
+            client.get(f"/api/v1/jobs/{run['id']}/artifacts/{name}").content
+        )
     raw_names = ["snapshot.json", "analysis.inp", "analysis.dat", "analysis.frd", "results.json"]
     originals = {
         n: client.get(f"/api/v1/jobs/{run['id']}/artifacts/{n}").content for n in raw_names
@@ -251,13 +295,45 @@ def test_result_api_refuses_unfinished_mesh_foreign_tombstone_and_corruption(
     with pytest.raises(DomainError) as denied:
         application.state.job_service.result_view(uuid4(), UUID(run["id"]))
     assert denied.value.status == 404
+    inspection_route = f"/api/v1/runs/{run['id']}/sections"
+    inspection_payload = {"point_m": [0.5, 0, 0], "normal": [1, 0, 0]}
+    assert client.post(inspection_route, json=inspection_payload).status_code == 200
+    assert (
+        client.post(
+            inspection_route, json=inspection_payload, headers={"X-CSRF-Token": ""}
+        ).status_code
+        == 403
+    )
+    assert (
+        client.post(inspection_route, json={"point_m": [0, 0, 0], "normal": [0, 0, 0]}).status_code
+        == 422
+    )
+    assert (
+        client.post(f"/api/v1/runs/{mesh['id']}/sections", json=inspection_payload).status_code
+        == 409
+    )
+    from app.domain.results import SectionRequest
+
+    with pytest.raises(DomainError) as inspection_denied:
+        application.state.job_service.result_inspection(
+            uuid4(), UUID(run["id"]), SectionRequest.model_validate(inspection_payload)
+        )
+    assert inspection_denied.value.status == 404
     storage = application.state.job_service.storage
     dat_blob = storage.blob_path(
         UUID(geometry["project_id"]), run["artifacts"]["analysis.dat"]["sha256"]
     )
     original_dat = dat_blob.read_bytes()
+    # Simulated expired/unavailable retained native data must never fall back to
+    # a previously generated exterior or cached section. Retention scheduling is T036.
+    dat_blob.unlink()
+    expired = client.post(inspection_route, json=inspection_payload)
+    assert expired.status_code == 503 and expired.json()["code"] == "artifact_unavailable"
+    dat_blob.write_bytes(original_dat)
+
     dat_blob.chmod(0o600)
     dat_blob.write_bytes(b"damaged DAT\n")
+    assert client.post(inspection_route, json=inspection_payload).status_code == 503
     assert client.get(f"/api/v1/runs/{run['id']}/results").status_code == 503
     dat_blob.write_bytes(original_dat)
     assert view(client, run)
@@ -266,6 +342,7 @@ def test_result_api_refuses_unfinished_mesh_foreign_tombstone_and_corruption(
     )
     blob.chmod(0o600)
     blob.write_bytes(b"{}")
+    assert client.post(inspection_route, json=inspection_payload).status_code == 503
     assert client.get(f"/api/v1/runs/{run['id']}/results").status_code == 503
     project = client.get(f"/api/v1/projects/{geometry['project_id']}").json()
     assert (
@@ -276,6 +353,7 @@ def test_result_api_refuses_unfinished_mesh_foreign_tombstone_and_corruption(
         == 204
     )
     assert client.get(f"/api/v1/runs/{run['id']}/results").status_code == 404
+    assert client.post(inspection_route, json=inspection_payload).status_code == 404
 
 
 def test_real_pressure_touching_support_subtracts_applied_nodal_force(client: TestClient) -> None:
@@ -338,13 +416,14 @@ def test_real_two_body_contours_and_yield_keep_material_sides_separate(client: T
     assert data["reaction_force_n"] == pytest.approx([3000, 0, 0], abs=0.001)
 
 
+@pytest.mark.parametrize("kind", ["view", "section"])
 def test_tombstone_during_actual_result_derivation_prevents_publication(
-    client: TestClient, application: FastAPI, monkeypatch: pytest.MonkeyPatch
+    client: TestClient, application: FastAPI, monkeypatch: pytest.MonkeyPatch, kind: str
 ) -> None:
     path, geometry = prepared(client)
     mesh = wait_job(client, submit(client, path)["id"])
     run = wait_job(client, submit(client, path, mesh["id"])["id"])
-    original = build_view
+    original = build_view if kind == "view" else inspect_volume
 
     def delete_after_derivation(*args: Any) -> dict[str, Any]:
         data = original(*args)
@@ -358,5 +437,14 @@ def test_tombstone_during_actual_result_derivation_prevents_publication(
         )
         return data
 
-    monkeypatch.setattr(job_service, "build_view", delete_after_derivation)
-    assert client.get(f"/api/v1/runs/{run['id']}/results").status_code == 404
+    monkeypatch.setattr(
+        job_service, "build_view" if kind == "view" else "inspect_volume", delete_after_derivation
+    )
+    response = (
+        client.get(f"/api/v1/runs/{run['id']}/results")
+        if kind == "view"
+        else client.post(
+            f"/api/v1/runs/{run['id']}/sections", json={"point_m": [0.5, 0, 0], "normal": [1, 0, 0]}
+        )
+    )
+    assert response.status_code == 404

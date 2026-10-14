@@ -8,7 +8,7 @@ from fastapi import Depends, Header, Request, Response
 from app.domain.connections import AssemblyPreflight
 from app.domain.errors import DomainError
 from app.domain.jobs import JobEvent, LocalJob, MeshCandidates, MeshPreview, MeshRequest, RunRequest
-from app.domain.results import ResultView
+from app.domain.results import ProbeRequest, ResultInspection, ResultView, SectionRequest
 from app.jobs.service import JobService
 from app.routes.projects import Owner, Revision, router
 
@@ -136,3 +136,15 @@ def assembly_preflight(
     analysis_id: UUID, payload: RunRequest, revision: Revision, owner: Owner, service: Service
 ) -> AssemblyPreflight:
     return service.assembly_preflight(owner, analysis_id, revision, payload.mesh_job_id)
+
+
+@router.post("/runs/{job_id}/probes", response_model=ResultInspection)
+def probe(job_id: UUID, payload: ProbeRequest, owner: Owner, service: Service) -> ResultInspection:
+    return service.result_inspection(owner, job_id, payload)
+
+
+@router.post("/runs/{job_id}/sections", response_model=ResultInspection)
+def section(
+    job_id: UUID, payload: SectionRequest, owner: Owner, service: Service
+) -> ResultInspection:
+    return service.result_inspection(owner, job_id, payload)

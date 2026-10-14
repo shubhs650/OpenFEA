@@ -3,6 +3,7 @@ import {
   api,
   type LocalJob,
   type ResultView,
+  type ResultInspection,
   type UnitPreset,
 } from "../geometry/api";
 import {
@@ -11,6 +12,8 @@ import {
   type ResultField,
   type ResultPresentation,
 } from "./presentation";
+
+import { InspectionEditor } from "./InspectionEditor";
 
 type Props = {
   jobs: LocalJob[];
@@ -28,6 +31,7 @@ export function ResultsEditor({
 }: Props) {
   const [id, setId] = useState("");
   const [view, setView] = useState<ResultView | null>(null);
+  const [section, setSection] = useState<ResultInspection | null>(null);
   const [field, setField] = useState<ResultField>("displacement");
   const [smoothed, setSmoothed] = useState(false);
   const [scale, setScale] = useState("0");
@@ -48,6 +52,7 @@ export function ResultsEditor({
   useEffect(() => {
     request.current++;
     setView(null);
+    setSection(null);
     setId("");
     showResult(null);
     return () => {
@@ -61,18 +66,20 @@ export function ResultsEditor({
     if (scale.trim() && Number.isFinite(value) && value >= 0 && value <= 1e6)
       showResult({
         view,
+        section,
         field,
         smoothed,
         scale: value,
         preset,
-        range: custom ?? fieldRange(view, field, smoothed),
+        range: custom ?? fieldRange(view, field, smoothed, section?.vertices),
       });
-  }, [view, field, smoothed, scale, preset, custom, showResult]);
+  }, [view, section, field, smoothed, scale, preset, custom, showResult]);
   async function open() {
     const sequence = ++request.current;
     setLoading(true);
     setError("");
     setView(null);
+    setSection(null);
     showResult(null);
     try {
       const result = await api<ResultView>(`/runs/${selected}/results`);
@@ -111,6 +118,7 @@ export function ResultsEditor({
             request.current++;
             setId(e.target.value);
             setView(null);
+            setSection(null);
             showResult(null);
             setLoading(false);
           }}
@@ -130,6 +138,7 @@ export function ResultsEditor({
         onClick={() => {
           request.current++;
           setView(null);
+          setSection(null);
           showResult(null);
           setLoading(false);
         }}
@@ -149,6 +158,21 @@ export function ResultsEditor({
             <code>{view.input_sha256}</code> · Raw result SHA-256{" "}
             <code>{view.results_sha256}</code>
           </p>
+          <InspectionEditor
+            key={view.job_id}
+            view={view}
+            field={field}
+            smoothed={smoothed}
+            preset={preset}
+            onSection={setSection}
+            onUnavailable={(message) => {
+              setError(message);
+              request.current++;
+              setView(null);
+              setSection(null);
+              showResult(null);
+            }}
+          />
           <label>
             Result field
             <select

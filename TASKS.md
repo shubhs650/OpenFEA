@@ -25,7 +25,7 @@ T001–T006 development deliverables are COMPLETE under the [M0 owner decision](
 | [T019](docs/tasks/T019.md) | M3 | Bond suggestions, review and gap policy | T018,T005 | COMPLETE |
 | [T020](docs/tasks/T020.md) | M3 | Assembly constraint preflight | T019 | COMPLETE |
 | [T021](docs/tasks/T021.md) | M3 | Full result fields and averaging controls | T020 | COMPLETE |
-| [T022](docs/tasks/T022.md) | M3 | Probes and authoritative section cuts | T021 | NOT STARTED |
+| [T022](docs/tasks/T022.md) | M3 | Probes and authoritative section cuts | T021 | IN PROGRESS |
 | [T023](docs/tasks/T023.md) | M3 | Mesh refinement comparison and assumption warnings | T022 | NOT STARTED |
 | [T024](docs/tasks/T024.md) | M3 | Assembly engineering gate | T023 | NOT STARTED |
 | [T025](docs/tasks/T025.md) | M4 | Shared report model and PDF | T024 | NOT STARTED |

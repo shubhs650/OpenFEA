@@ -2953,6 +2953,95 @@
         "title": "ImportInspection",
         "type": "object"
       },
+      "InspectionVertex": {
+        "additionalProperties": false,
+        "properties": {
+          "barycentric": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Barycentric",
+            "type": "array"
+          },
+          "body_id": {
+            "title": "Body Id",
+            "type": "string"
+          },
+          "displacement_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Displacement M",
+            "type": "array"
+          },
+          "element_id": {
+            "title": "Element Id",
+            "type": "integer"
+          },
+          "material_id": {
+            "title": "Material Id",
+            "type": "string"
+          },
+          "position_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Position M",
+            "type": "array"
+          },
+          "smoothed_stress": {
+            "$ref": "#/components/schemas/StressValues"
+          },
+          "stress": {
+            "$ref": "#/components/schemas/StressValues"
+          }
+        },
+        "required": [
+          "element_id",
+          "body_id",
+          "material_id",
+          "position_m",
+          "barycentric",
+          "displacement_m",
+          "stress",
+          "smoothed_stress"
+        ],
+        "title": "InspectionVertex",
+        "type": "object"
+      },
       "JobEvent": {
         "additionalProperties": false,
         "properties": {
@@ -4702,6 +4791,39 @@
         "title": "PressureInput",
         "type": "object"
       },
+      "ProbeRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "element_id": {
+            "exclusiveMinimum": 0.0,
+            "title": "Element Id",
+            "type": "integer"
+          },
+          "point_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Point M",
+            "type": "array"
+          }
+        },
+        "required": [
+          "element_id",
+          "point_m"
+        ],
+        "title": "ProbeRequest",
+        "type": "object"
+      },
       "Project": {
         "additionalProperties": false,
         "properties": {
@@ -5181,6 +5303,225 @@
         "title": "ResultField",
         "type": "object"
       },
+      "ResultInspection": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_id": {
+            "format": "uuid",
+            "title": "Analysis Id",
+            "type": "string"
+          },
+          "analysis_revision": {
+            "title": "Analysis Revision",
+            "type": "integer"
+          },
+          "dat_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Dat Sha256",
+            "type": "string"
+          },
+          "deck_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Deck Sha256",
+            "type": "string"
+          },
+          "frame": {
+            "const": "global_cartesian",
+            "title": "Frame",
+            "type": "string"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "input_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Input Sha256",
+            "type": "string"
+          },
+          "job_id": {
+            "format": "uuid",
+            "title": "Job Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "probe",
+              "section"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "location": {
+            "const": "element_interpolated",
+            "title": "Location",
+            "type": "string"
+          },
+          "mesh_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Mesh Sha256",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "normal": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Normal"
+          },
+          "point_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Point M",
+            "type": "array"
+          },
+          "principal_order": {
+            "const": "s1 >= s2 >= s3 (algebraic)",
+            "title": "Principal Order",
+            "type": "string"
+          },
+          "processor": {
+            "title": "Processor",
+            "type": "string"
+          },
+          "processor_sources": {
+            "additionalProperties": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "title": "Processor Sources",
+            "type": "object"
+          },
+          "results_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Results Sha256",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Schema Version",
+            "type": "integer"
+          },
+          "tensor_components": {
+            "maxItems": 6,
+            "minItems": 6,
+            "prefixItems": [
+              {
+                "const": "xx",
+                "type": "string"
+              },
+              {
+                "const": "yy",
+                "type": "string"
+              },
+              {
+                "const": "zz",
+                "type": "string"
+              },
+              {
+                "const": "xy",
+                "type": "string"
+              },
+              {
+                "const": "yz",
+                "type": "string"
+              },
+              {
+                "const": "zx",
+                "type": "string"
+              }
+            ],
+            "title": "Tensor Components",
+            "type": "array"
+          },
+          "triangles": {
+            "items": {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            "title": "Triangles",
+            "type": "array"
+          },
+          "vertices": {
+            "items": {
+              "$ref": "#/components/schemas/InspectionVertex"
+            },
+            "title": "Vertices",
+            "type": "array"
+          }
+        },
+        "required": [
+          "job_id",
+          "analysis_id",
+          "analysis_revision",
+          "geometry_revision_id",
+          "input_sha256",
+          "results_sha256",
+          "mesh_sha256",
+          "deck_sha256",
+          "dat_sha256",
+          "processor_sources",
+          "frame",
+          "tensor_components",
+          "principal_order",
+          "kind",
+          "processor",
+          "location",
+          "method",
+          "point_m",
+          "normal",
+          "vertices",
+          "triangles"
+        ],
+        "title": "ResultInspection",
+        "type": "object"
+      },
       "ResultSample": {
         "additionalProperties": false,
         "properties": {
@@ -5545,6 +5886,51 @@
           "confirmed"
         ],
         "title": "SampleMaterial",
+        "type": "object"
+      },
+      "SectionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "normal": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Normal",
+            "type": "array"
+          },
+          "point_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Point M",
+            "type": "array"
+          }
+        },
+        "required": [
+          "point_m",
+          "normal"
+        ],
+        "title": "SectionRequest",
         "type": "object"
       },
       "StressValues": {
@@ -16788,6 +17174,169 @@
         "summary": "Create Upload"
       }
     },
+    "/api/v1/runs/{job_id}/probes": {
+      "post": {
+        "operationId": "probe_api_v1_runs__job_id__probes_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProbeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultInspection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Probe"
+      }
+    },
     "/api/v1/runs/{job_id}/results": {
       "get": {
         "operationId": "results_api_v1_runs__job_id__results_get",
@@ -16939,6 +17488,169 @@
           }
         ],
         "summary": "Results"
+      }
+    },
+    "/api/v1/runs/{job_id}/sections": {
+      "post": {
+        "operationId": "section_api_v1_runs__job_id__sections_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultInspection"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Section"
       }
     },
     "/api/v1/session": {
