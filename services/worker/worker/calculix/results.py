@@ -123,6 +123,7 @@ def identifier(value: str) -> int:
 
 def parse_dat(path: Path, mesh: Mesh) -> dict[str, Any]:
     mesh.validate()
+    mesh_digest = mesh.identity()
     text, digest = read_ascii(path)
     steps = re.findall(r"S T E P\s+(\d+)", text)
     increments = re.findall(r"INCREMENT\s+(\d+)", text)
@@ -198,7 +199,7 @@ def parse_dat(path: Path, mesh: Mesh) -> dict[str, Any]:
                     "components": COMPONENTS,
                     "source_components": ("xx", "yy", "zz", "xy", "xz", "yz"),
                     "method": "native_DAT_integration_point",
-                    "mesh_sha256": mesh.identity(),
+                    "mesh_sha256": mesh_digest,
                 },
             )
         )
@@ -220,6 +221,11 @@ def parse_dat(path: Path, mesh: Mesh) -> dict[str, Any]:
 
 def parse_frd(path: Path, mesh: Mesh) -> list[StressPoint]:
     mesh.validate()
+    mesh_digest = mesh.identity()
+    node_elements: dict[int, list[int]] = {n: [] for n in mesh.nodes}
+    for eid, connectivity in sorted(mesh.elements.items()):
+        for n in connectivity:
+            node_elements[n].append(eid)
     text, digest = read_ascii(path)
     lines = text.splitlines()
     if not lines or lines[-1].strip() != "9999":
@@ -253,7 +259,7 @@ def parse_frd(path: Path, mesh: Mesh) -> list[StressPoint]:
         if n not in mesh.nodes or n in records:
             raise ValueError("Duplicate/unknown FRD stress node")
         values = tensor([number(line[13 + 12 * k : 25 + 12 * k].strip()) for k in range(6)])
-        contributors = sorted(e for e, ns in mesh.elements.items() if n in ns)
+        contributors = node_elements[n]
         records[n] = StressPoint(
             "solver_averaged_node",
             None,
@@ -274,7 +280,7 @@ def parse_frd(path: Path, mesh: Mesh) -> list[StressPoint]:
                 "source_components": COMPONENTS,
                 "method": "native_FRD_extrapolated_nodal_average",
                 "contributing_elements": contributors,
-                "mesh_sha256": mesh.identity(),
+                "mesh_sha256": mesh_digest,
                 "warning": "May average across material/body boundaries; diagnostic only",
             },
         )

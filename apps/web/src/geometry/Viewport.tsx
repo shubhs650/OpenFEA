@@ -219,17 +219,36 @@ export function Viewport({
       const poly = vtkPolyData.newInstance();
       const mapper = vtkMapper.newInstance({ scalarVisibility: false });
       const actor = vtkActor.newInstance({ pickable: false });
+      const markerOrigin = marker.position_m.map(
+        (v, i) => v - center[i],
+      ) as Point;
+      let arrowOrigin = markerOrigin.map(
+        (v, i) => v - (marker.tip_on_face ? marker.direction[i] * length : 0),
+      ) as Point;
+      if (marker.kind === "gravity") {
+        const body = display.bodies.find((b) => b.id === marker.body_id)!;
+        const exit = Math.min(
+          ...marker.direction.flatMap((direction, axis) =>
+            direction === 0
+              ? []
+              : [
+                  (body.bounds_m[axis + (direction > 0 ? 3 : 0)] -
+                    marker.position_m[axis]) /
+                    direction,
+                ],
+          ),
+        );
+        arrowOrigin = markerOrigin.map(
+          (v, i) => v + marker.direction[i] * (exit + length * 4),
+        ) as Point;
+      }
       const lines = glyph(
-        marker.position_m.map(
-          (v, i) =>
-            v -
-            center[i] -
-            (marker.tip_on_face ? marker.direction[i] * length : 0),
-        ) as Point,
+        arrowOrigin,
         marker.direction,
         length,
         marker.kind === "fixed",
       );
+      if (marker.kind === "gravity") lines.unshift([markerOrigin, arrowOrigin]);
       poly.getPoints().setData(new Float32Array(lines.flat(2)), 3);
       let offset = 0;
       poly.getLines().setData(
@@ -248,7 +267,11 @@ export function Viewport({
         .setColor(
           ...(marker.kind === "fixed"
             ? ([0.1, 0.55, 0.25] as Point)
-            : ([0.85, 0.1, 0.15] as Point)),
+            : marker.kind === "displacement"
+              ? ([0.15, 0.35, 0.8] as Point)
+              : marker.kind === "gravity"
+                ? ([0.65, 0.3, 0.05] as Point)
+                : ([0.85, 0.1, 0.15] as Point)),
         );
       actor.getProperty().setLineWidth(3);
       renderer.addActor(actor);

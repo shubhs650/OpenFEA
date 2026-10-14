@@ -3,55 +3,14 @@
 import math
 from typing import Any
 
+from worker.actions import external_balance
 from worker.calculix.results import Mesh, StressPoint
-from worker.meshing import Vec, add, resultant, surface_integral
+from worker.meshing import Vec
 from worker.postprocess.fields import element_nodes
 from worker.postprocess.tensors import COMPONENTS, tensor, von_mises
 
-VIEW_VERSION = "affine-c3d10-core-results-v1"
+VIEW_VERSION = "affine-c3d10-essential-results-v2"
 ZERO_STRESS_PA = 1e-6  # Absolute display convention; never a finite safety factor.
-
-
-def deck_actions(
-    deck: str, mesh: Mesh, boundary: dict[str, Any]
-) -> tuple[set[int], dict[int, Vec]]:
-    """Recover written equivalent loads; DAT RF is reaction plus applied force."""
-    supported: dict[int, set[int]] = {}
-    loads: dict[int, Vec] = {}
-    faces = {(f["element"], f["face"]): f for fs in boundary.values() for f in fs}
-    mode = ""
-    for line in deck.splitlines():
-        if line.startswith("**") or not line.strip():
-            continue
-        if line.startswith("*"):
-            mode = line.split(",")[0]
-            continue
-        if mode not in {"*BOUNDARY", "*CLOAD", "*DLOAD"}:
-            continue
-        row = line.split(",")
-        if mode == "*BOUNDARY":
-            n, first, last = map(int, row[:3])
-            if n not in mesh.nodes or float(row[3]) != 0 or not 1 <= first <= last <= 3:
-                raise ValueError("Only frozen fully fixed supports are supported")
-            supported.setdefault(n, set()).update(range(first, last + 1))
-        elif mode == "*CLOAD":
-            n, axis, value = int(row[0]), int(row[1]), float(row[2])
-            if n not in mesh.nodes or axis not in (1, 2, 3) or not math.isfinite(value):
-                raise ValueError("Invalid written nodal force")
-            vector: Vec = tuple(value if a == axis else 0.0 for a in (1, 2, 3))  # type: ignore[assignment]
-            loads[n] = add(loads.get(n, (0, 0, 0)), vector)
-        else:
-            if not row[1].startswith("P") or not math.isfinite(float(row[2])):
-                raise ValueError("Invalid written pressure")
-            face = faces[(int(row[0]), int(row[1][1:]))]
-            values = surface_integral(
-                [mesh.nodes[n] for n in face["nodes"]], pressure=float(row[2])
-            )[2]
-            for n, nodal in zip(face["nodes"], values, strict=True):
-                loads[n] = add(loads.get(n, (0, 0, 0)), nodal)
-    if not supported or any(axes != {1, 2, 3} for axes in supported.values()):
-        raise ValueError("Incomplete fully fixed support contract")
-    return set(supported), loads
 
 
 def build_view(
@@ -59,6 +18,7 @@ def build_view(
     raw_mesh: dict[str, Any],
     materials: dict[str, dict[str, Any]],
     deck: str,
+    reference: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if (
         raw.get("schema_version") != 1
@@ -136,22 +96,15 @@ def build_view(
         )
         for p in points
     ]
-    supports, applied = deck_actions(deck, mesh, raw_mesh["boundary"])
-    nodal_reactions = {
-        n: add(forces[n], vector([-v for v in applied.get(n, (0, 0, 0))])) for n in supports
-    }
-    reactions = []
+    equilibrium, reactions = external_balance(
+        raw["dat"], mesh, raw_mesh["boundary"], deck, reference
+    )
+    if not equilibrium["passed"]:
+        raise ValueError("External force/moment equilibrium failed")
     factors = []
     warnings = list(raw["warnings"])
     for body, material in sorted(materials.items()):
         owned_nodes = {n for e, ns in mesh.elements.items() if mesh.bodies[e] == body for n in ns}
-        fixed = supports & owned_nodes
-        if not fixed:
-            raise ValueError("Body lacks fixed support")
-        force, moment = resultant({n: nodal_reactions[n] for n in sorted(fixed)}, mesh.nodes)
-        reactions.append(
-            {"body_id": body, "node_count": len(fixed), "force_n": force, "moment_nm": moment}
-        )
         body_samples = [s for s in stress_samples if s["body_id"] == body]
         peak = max(body_samples, key=lambda s: s["value"])
         strength = material["yield_strength_pa"]
@@ -190,7 +143,7 @@ def build_view(
                 f"extent ({ratio:.3g}); review the small-deformation assumption. "
                 "This heuristic cannot certify validity."
             )
-    force, moment = resultant(nodal_reactions, mesh.nodes)
+    force, moment = equilibrium["reaction_force_n"], equilibrium["reaction_moment_nm"]
     view = {
         "processor": VIEW_VERSION,
         "vertices": vertices,
@@ -200,11 +153,12 @@ def build_view(
         "yield_factors": factors,
         "zero_stress_pa": ZERO_STRESS_PA,
         "reactions": reactions,
+        "equilibrium": equilibrium,
         "reaction_force_n": force,
         "reaction_moment_nm": moment,
         "moment_origin_m": (0, 0, 0),
-        "reaction_method": "DAT RF minus written equivalent CLOAD/pressure on fully fixed "
-        "nodes; unique nodes per body",
+        "reaction_method": "DAT RF minus written equivalent CLOAD/pressure/consistent gravity, "
+        "constrained global components only; unique nodes/DOFs per body; internal ties excluded",
         "warnings": list(dict.fromkeys(warnings)),
         "stress_method": "linear_C3D10_extrapolation_from_native_DAT_IP; element-owned "
         "tensors, then von Mises; no averaging",

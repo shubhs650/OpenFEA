@@ -308,12 +308,12 @@ export function ResultsEditor({
               ))}
             </tbody>
           </table>
-          <h3>Fixed-support reactions</h3>
+          <h3>External support and prescribed-displacement reactions</h3>
           <table aria-label="Support reactions">
             <thead>
               <tr>
                 <th>Body</th>
-                <th>Unique fixed nodes</th>
+                <th>Constrained nodes / DOFs</th>
                 <th>Force [{force.label}]</th>
                 <th>
                   Moment [{force.label}·{length.label}]
@@ -324,7 +324,9 @@ export function ResultsEditor({
               {view.data.reactions.map((r) => (
                 <tr key={r.body_id}>
                   <td>{r.body_id}</td>
-                  <td>{r.node_count}</td>
+                  <td>
+                    {r.node_count} / {r.constrained_dof_count}
+                  </td>
                   <td>
                     {r.force_n.map((v) => format(v, force.to_si)).join(", ")}
                   </td>
@@ -344,9 +346,90 @@ export function ResultsEditor({
               .join(", ")}
             ] {force.label}. Moment origin: global [0, 0, 0] {length.label}.
           </p>
+          <p>{view.data.reaction_method}.</p>
+          <h3>Force and moment equilibrium</h3>
           <p>
-            {view.data.reaction_method}. Full force/moment equilibrium
-            validation is not available in this view.
+            Frozen external actions and reactions about global origin [0, 0, 0].
+            Passing these limits does not establish mesh convergence or design
+            safety.
+          </p>
+          <table aria-label="External equilibrium">
+            <thead>
+              <tr>
+                <th>Balance</th>
+                <th>Residual norm</th>
+                <th>Reference magnitude</th>
+                <th>Criterion / residual</th>
+                <th>Allowed residual</th>
+                <th>Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(["force", "moment"] as const).map((kind) => {
+                const check = view.data.equilibrium[kind];
+                const factor =
+                  force.to_si * (kind === "moment" ? length.to_si : 1);
+                const label =
+                  kind === "moment"
+                    ? `${force.label}·${length.label}`
+                    : force.label;
+                return (
+                  <tr key={kind}>
+                    <th>{kind === "force" ? "Force" : "Moment"}</th>
+                    <td>
+                      {format(check.residual_norm, factor)} {label}
+                    </td>
+                    <td>
+                      {format(check.reference, factor)} {label}
+                    </td>
+                    <td>
+                      {check.relative_residual == null
+                        ? "Absolute — near-zero reference; normalized residual unavailable"
+                        : `${format(check.relative_residual * 100)}% (limit ${format(check.relative_tolerance * 100)}%)`}
+                    </td>
+                    <td>
+                      {format(check.tolerance, factor)} {label}
+                    </td>
+                    <td>{check.passed ? "Passed" : "Failed"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <p>
+            Applied force: [
+            {view.data.equilibrium.applied_force_n
+              .map((v) => format(v, force.to_si))
+              .join(", ")}
+            ] {force.label}. Applied moment: [
+            {view.data.equilibrium.applied_moment_nm
+              .map((v) => format(v, force.to_si * length.to_si))
+              .join(", ")}
+            ] {force.label}·{length.label}.
+          </p>
+          <p>
+            Residual force vector: [
+            {view.data.equilibrium.force.residual
+              .map((v) => format(v, force.to_si))
+              .join(", ")}
+            ] {force.label}. Residual moment vector: [
+            {view.data.equilibrium.moment.residual
+              .map((v) => format(v, force.to_si * length.to_si))
+              .join(", ")}
+            ] {force.label}·{length.label}.
+          </p>
+          <p>
+            {view.data.equilibrium.method}. Actuator reference:{" "}
+            {format(
+              view.data.equilibrium.prescribed_actuator_reference_n,
+              force.to_si,
+            )}{" "}
+            {force.label}; characteristic length:{" "}
+            {format(
+              view.data.equilibrium.characteristic_length_m,
+              length.to_si,
+            )}{" "}
+            {length.label}.
           </p>
           <p>
             Warnings remain applicable when fields, units or contour limits

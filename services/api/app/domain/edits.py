@@ -68,3 +68,10 @@ class ReselectFaces(StrictModel):
     face_ids: list[CatalogID] = Field(min_length=1, max_length=200)
     reviewed: Literal[True]
     combine_confirmed: bool = False
+
+
+class ReselectBodies(StrictModel):
+    geometry_revision_id: UUID
+    body_ids: list[CatalogID] = Field(min_length=1, max_length=10)
+    reviewed: Literal[True]
+    combine_confirmed: bool = False

@@ -1,0 +1,26 @@
+{
+  "id": "B04",
+  "revision": 1,
+  "source": "Independent exact hydrostatic continuum solution on unit cube: sigma=-p*I, u_i=-p*(1-2*nu)*x_i/E; inward pressure on three positive faces balances zero normal displacement reactions on opposite faces",
+  "units": "m,N,Pa,kg,s",
+  "geometry": "Synthetic unit cube, 0<=x,y,z<=1 m",
+  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "element": "C3D10 affine",
+  "mesh_sizes_m": [0.5, 0.3],
+  "supports": "Global ux=0 on x=0, uy=0 on y=0, uz=0 on z=0; all other components free, no symmetry/rotation keyword or artificial springs",
+  "loads": "Positive inward pressure 1000 Pa on x=1, y=1, z=1 complete immutable planar faces",
+  "samples": "Every native DAT displacement component and every raw IP tensor component; constrained-component RF-minus-applied reactions, including pressure touching supports; force/moment about global origin",
+  "pressure_pa": 1000,
+  "expected_stress_ccx_pa": [-1000, -1000, -1000, 0, 0, 0],
+  "tolerances": {
+    "relative": 0.000001,
+    "displacement_absolute_m": 1e-13,
+    "stress_absolute_pa": 0.01,
+    "equilibrium_relative": 0.005,
+    "force_absolute_n": 0.001,
+    "moment_absolute_nm": 0.001
+  },
+  "exclusions": "None; exact affine continuum solution, no thin-shell model",
+  "reason": "Exact continuum solution justifies tighter pointwise development checks than proposed generic equilibrium criterion; manual global component supports implement only T015 global axes",
+  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+}

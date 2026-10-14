@@ -40,6 +40,7 @@ class BodyDisplay(StrictModel):
     id: str
     volume_m3: float
     bounds_m: Bounds
+    center_m: Vector | None = None
 
 
 class FaceDisplay(StrictModel):

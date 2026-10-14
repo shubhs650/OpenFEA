@@ -1,0 +1,235 @@
+check	Run make setup	﻿2026-10-14T05:47:35.3803757Z ##[group]Run make setup
+check	Run make setup	2026-10-14T05:47:35.3804098Z [36;1mmake setup[0m
+check	Run make setup	2026-10-14T05:47:35.3840947Z shell: /usr/bin/bash -e {0}
+check	Run make setup	2026-10-14T05:47:35.3841332Z env:
+check	Run make setup	2026-10-14T05:47:35.3841694Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make setup	2026-10-14T05:47:35.3842172Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+check	Run make setup	2026-10-14T05:47:35.3842698Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make setup	2026-10-14T05:47:35.3843128Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make setup	2026-10-14T05:47:35.3843538Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make setup	2026-10-14T05:47:35.3844151Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+check	Run make setup	2026-10-14T05:47:35.3844546Z ##[endgroup]
+check	Run make setup	2026-10-14T05:47:35.3924200Z bash scripts/codex/setup.sh
+check	Run make setup	2026-10-14T05:47:35.5331229Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T05:47:35.5332275Z Creating virtual environment at: .venv
+check	Run make setup	2026-10-14T05:47:35.5345622Z Resolved 35 packages in 0.73ms
+check	Run make setup	2026-10-14T05:47:35.5998151Z Downloading ast-serialize (1.3MiB)
+check	Run make setup	2026-10-14T05:47:35.5999758Z Downloading pygments (1.2MiB)
+check	Run make setup	2026-10-14T05:47:35.6000754Z Downloading mypy (14.8MiB)
+check	Run make setup	2026-10-14T05:47:35.6001790Z Downloading pydantic-core (2.1MiB)
+check	Run make setup	2026-10-14T05:47:35.6003294Z Downloading sqlalchemy (4.5MiB)
+check	Run make setup	2026-10-14T05:47:35.6006209Z Downloading ruff (9.9MiB)
+check	Run make setup	2026-10-14T05:47:35.6611923Z  Downloaded pygments
+check	Run make setup	2026-10-14T05:47:35.6642273Z  Downloaded ast-serialize
+check	Run make setup	2026-10-14T05:47:35.6754251Z  Downloaded pydantic-core
+check	Run make setup	2026-10-14T05:47:35.6962211Z  Downloaded sqlalchemy
+check	Run make setup	2026-10-14T05:47:35.7377300Z  Downloaded ruff
+check	Run make setup	2026-10-14T05:47:35.7913268Z  Downloaded mypy
+check	Run make setup	2026-10-14T05:47:35.7914456Z Prepared 32 packages in 256ms
+check	Run make setup	2026-10-14T05:47:35.8117807Z Installed 32 packages in 19ms
+check	Run make setup	2026-10-14T05:47:35.8118550Z  + alembic==1.20.0
+check	Run make setup	2026-10-14T05:47:35.8118944Z  + annotated-doc==0.0.5
+check	Run make setup	2026-10-14T05:47:35.8119342Z  + annotated-types==0.8.0
+check	Run make setup	2026-10-14T05:47:35.8119707Z  + anyio==4.15.1
+check	Run make setup	2026-10-14T05:47:35.8120307Z  + ast-serialize==0.12.1
+check	Run make setup	2026-10-14T05:47:35.8120730Z  + click==8.5.0
+check	Run make setup	2026-10-14T05:47:35.8121071Z  + fastapi==0.143.0
+check	Run make setup	2026-10-14T05:47:35.8121460Z  + h11==0.16.0
+check	Run make setup	2026-10-14T05:47:35.8121807Z  + httpcore2==2.13.1
+check	Run make setup	2026-10-14T05:47:35.8122125Z  + httpx2==2.13.1
+check	Run make setup	2026-10-14T05:47:35.8122502Z  + idna==3.20
+check	Run make setup	2026-10-14T05:47:35.8122783Z  + iniconfig==2.3.1
+check	Run make setup	2026-10-14T05:47:35.8123044Z  + librt==0.16.0
+check	Run make setup	2026-10-14T05:47:35.8123355Z  + mako==1.4.3
+check	Run make setup	2026-10-14T05:47:35.8123590Z  + markupsafe==3.0.4
+check	Run make setup	2026-10-14T05:47:35.8123868Z  + mypy==2.4.0
+check	Run make setup	2026-10-14T05:47:35.8124127Z  + mypy-extensions==1.1.0
+check	Run make setup	2026-10-14T05:47:35.8124416Z  + opentelemetry-api==1.45.1
+check	Run make setup	2026-10-14T05:47:35.8124748Z  + packaging==26.3
+check	Run make setup	2026-10-14T05:47:35.8125020Z  + pathspec==1.1.1
+check	Run make setup	2026-10-14T05:47:35.8125318Z  + pluggy==1.6.0
+check	Run make setup	2026-10-14T05:47:35.8125578Z  + pydantic==2.14.1
+check	Run make setup	2026-10-14T05:47:35.8125862Z  + pydantic-core==2.50.1
+check	Run make setup	2026-10-14T05:47:35.8126185Z  + pygments==2.21.0
+check	Run make setup	2026-10-14T05:47:35.8126487Z  + pytest==9.1.1
+check	Run make setup	2026-10-14T05:47:35.8126788Z  + ruff==0.17.0
+check	Run make setup	2026-10-14T05:47:35.8127190Z  + sqlalchemy==2.1.4
+check	Run make setup	2026-10-14T05:47:35.8127666Z  + starlette==1.7.0
+check	Run make setup	2026-10-14T05:47:35.8128155Z  + truststore==0.10.4
+check	Run make setup	2026-10-14T05:47:35.8128571Z  + typing-extensions==4.16.0
+check	Run make setup	2026-10-14T05:47:35.8129351Z  + typing-inspection==0.4.4
+check	Run make setup	2026-10-14T05:47:35.8133738Z  + uvicorn==0.54.0
+check	Run make setup	2026-10-14T05:47:36.8587839Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+check	Run make setup	2026-10-14T05:47:36.9263680Z npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+check	Run make setup	2026-10-14T05:47:39.5175218Z 
+check	Run make setup	2026-10-14T05:47:39.5176361Z added 228 packages, and audited 230 packages in 4s
+check	Run make setup	2026-10-14T05:47:39.5185229Z 
+check	Run make setup	2026-10-14T05:47:39.5186096Z found 0 vulnerabilities
+check	Run make setup	2026-10-14T05:47:40.0992937Z Downloading Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) from https://cdn.playwright.dev/builds/cft/156.0.8078.4/linux64/chrome-headless-shell-linux64.zip
+check	Run make setup	2026-10-14T05:47:40.5206060Z |                                                                                |   0% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.6610824Z |■■■■■■■■                                                                        |  10% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.7194687Z |■■■■■■■■■■■■■■■■                                                                |  20% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.7580861Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.8214356Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.8599023Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.9117345Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.9632044Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 120 MiB
+check	Run make setup	2026-10-14T05:47:40.9916216Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 120 MiB
+check	Run make setup	2026-10-14T05:47:41.0214667Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 120 MiB
+check	Run make setup	2026-10-14T05:47:41.0750940Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 120 MiB
+check	Run make setup	2026-10-14T05:47:43.3960373Z Chrome Headless Shell 156.0.8078.4 (playwright chromium-headless-shell v1248) downloaded to /home/runner/work/OpenFEA/OpenFEA/.local/browsers/chromium_headless_shell-1248
+check	Run make setup	2026-10-14T05:47:43.3962811Z Downloading FFmpeg (playwright ffmpeg v1013) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1013/ffmpeg-linux.zip
+check	Run make setup	2026-10-14T05:47:43.8684416Z |                                                                                |   0% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8724252Z |■■■■■■■■                                                                        |  10% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8745821Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8759438Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8772664Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8787959Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8797671Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8806031Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8816814Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8833889Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.8837577Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.2 MiB
+check	Run make setup	2026-10-14T05:47:43.9365443Z FFmpeg (playwright ffmpeg v1013) downloaded to /home/runner/work/OpenFEA/OpenFEA/.local/browsers/ffmpeg-1013
+check	Run make setup	2026-10-14T05:47:51.1615322Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T05:47:51.1617091Z Creating virtual environment at: .local/native/venvs/cad
+check	Run make setup	2026-10-14T05:47:51.1626882Z Resolved 15 packages in 0.62ms
+check	Run make setup	2026-10-14T05:47:51.2105934Z Downloading matplotlib (9.4MiB)
+check	Run make setup	2026-10-14T05:47:51.2106936Z Downloading kiwisolver (1.4MiB)
+check	Run make setup	2026-10-14T05:47:51.2107493Z Downloading fonttools (5.1MiB)
+check	Run make setup	2026-10-14T05:47:51.2233816Z Downloading pillow (6.6MiB)
+check	Run make setup	2026-10-14T05:47:51.2237896Z Downloading numpy (16.0MiB)
+check	Run make setup	2026-10-14T05:47:51.2238717Z Downloading vtk (139.3MiB)
+check	Run make setup	2026-10-14T05:47:51.2239342Z Downloading cadquery-ocp (64.1MiB)
+check	Run make setup	2026-10-14T05:47:51.2951611Z  Downloaded kiwisolver
+check	Run make setup	2026-10-14T05:47:51.3767666Z  Downloaded fonttools
+check	Run make setup	2026-10-14T05:47:51.3881662Z  Downloaded pillow
+check	Run make setup	2026-10-14T05:47:51.4150841Z  Downloaded matplotlib
+check	Run make setup	2026-10-14T05:47:51.5051824Z  Downloaded numpy
+check	Run make setup	2026-10-14T05:47:51.9261146Z  Downloaded cadquery-ocp
+check	Run make setup	2026-10-14T05:47:53.0157330Z  Downloaded vtk
+check	Run make setup	2026-10-14T05:47:53.0312330Z Prepared 13 packages in 1.86s
+check	Run make setup	2026-10-14T05:47:53.2797566Z Installed 14 packages in 248ms
+check	Run make setup	2026-10-14T05:47:53.2798279Z  + cadquery-ocp==8.0.1.1.0
+check	Run make setup	2026-10-14T05:47:53.2798996Z  + cadquery-ocp-proxy==8.0.1.1.0
+check	Run make setup	2026-10-14T05:47:53.2799430Z  + contourpy==1.4.0
+check	Run make setup	2026-10-14T05:47:53.2799778Z  + cycler==0.12.1
+check	Run make setup	2026-10-14T05:47:53.2800407Z  + fonttools==4.66.1
+check	Run make setup	2026-10-14T05:47:53.2801775Z  + kiwisolver==1.5.1
+check	Run make setup	2026-10-14T05:47:53.2802264Z  + matplotlib==3.11.2
+check	Run make setup	2026-10-14T05:47:53.2802627Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T05:47:53.2802988Z  + packaging==26.3
+check	Run make setup	2026-10-14T05:47:53.2803393Z  + pillow==12.3.0
+check	Run make setup	2026-10-14T05:47:53.2804044Z  + pyparsing==3.3.3
+check	Run make setup	2026-10-14T05:47:53.2804663Z  + python-dateutil==2.9.0.post0
+check	Run make setup	2026-10-14T05:47:53.2805217Z  + six==1.17.0
+check	Run make setup	2026-10-14T05:47:53.2805655Z  + vtk==9.6.2
+check	Run make setup	2026-10-14T05:47:53.2913021Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T05:47:53.2913718Z Creating virtual environment at: .local/native/venvs/mesh
+check	Run make setup	2026-10-14T05:47:53.2923950Z Resolved 3 packages in 0.57ms
+check	Run make setup	2026-10-14T05:47:53.3353029Z Downloading gmsh (38.2MiB)
+check	Run make setup	2026-10-14T05:47:53.6201813Z  Downloaded gmsh
+check	Run make setup	2026-10-14T05:47:53.7114534Z Prepared 1 package in 418ms
+check	Run make setup	2026-10-14T05:47:53.8317773Z Installed 2 packages in 120ms
+check	Run make setup	2026-10-14T05:47:53.8318837Z  + gmsh==4.15.2
+check	Run make setup	2026-10-14T05:47:53.8319500Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T05:47:53.8420323Z Using CPython 3.12.14 interpreter at: /opt/hostedtoolcache/Python/3.12.14/x64/bin/python3.12
+check	Run make setup	2026-10-14T05:47:53.8421621Z Creating virtual environment at: .local/native/venvs/post
+check	Run make setup	2026-10-14T05:47:53.8433751Z Resolved 13 packages in 0.58ms
+check	Run make setup	2026-10-14T05:47:53.9100850Z Downloading vtk (133.2MiB)
+check	Run make setup	2026-10-14T05:47:55.5142727Z  Downloaded vtk
+check	Run make setup	2026-10-14T05:47:55.6114807Z Prepared 1 package in 1.76s
+check	Run make setup	2026-10-14T05:47:55.8016771Z Installed 12 packages in 190ms
+check	Run make setup	2026-10-14T05:47:55.8017536Z  + contourpy==1.4.0
+check	Run make setup	2026-10-14T05:47:55.8018028Z  + cycler==0.12.1
+check	Run make setup	2026-10-14T05:47:55.8018406Z  + fonttools==4.66.1
+check	Run make setup	2026-10-14T05:47:55.8018763Z  + kiwisolver==1.5.1
+check	Run make setup	2026-10-14T05:47:55.8019405Z  + matplotlib==3.11.2
+check	Run make setup	2026-10-14T05:47:55.8019953Z  + numpy==2.5.4
+check	Run make setup	2026-10-14T05:47:55.8020726Z  + packaging==26.3
+check	Run make setup	2026-10-14T05:47:55.8021850Z  + pillow==12.3.0
+check	Run make setup	2026-10-14T05:47:55.8022451Z  + pyparsing==3.3.3
+check	Run make setup	2026-10-14T05:47:55.8023065Z  + python-dateutil==2.9.0.post0
+check	Run make setup	2026-10-14T05:47:55.8023569Z  + six==1.17.0
+check	Run make setup	2026-10-14T05:47:55.8023863Z  + vtk==9.7.1
+check	Run make setup	2026-10-14T05:48:37.7919152Z Building CPU CCX 2.23 with 4 jobs; log: .local/native/build.log
+check	Run make setup	2026-10-14T05:49:27.1811329Z Native CPU solver and network-denying launcher built and hashed
+check	Run make setup	2026-10-14T05:49:27.3676069Z v24.19.0
+check	Run make setup	2026-10-14T05:49:27.4352934Z 11.9.0
+check	Run make setup	2026-10-14T05:49:27.4425628Z uv 0.12.23 (x86_64-unknown-linux-gnu)
+check	Run make setup	2026-10-14T05:52:06.1704399Z ............F........................................................... [ 50%]
+check	Run make setup	2026-10-14T05:53:34.3827524Z ......................................................................   [100%]
+check	Run make setup	2026-10-14T05:53:34.3829310Z =================================== FAILURES ===================================
+check	Run make setup	2026-10-14T05:53:34.3831397Z ________ test_mesh_recovery_stops_at_aggregate_retained_scratch_budget _________
+check	Run make setup	2026-10-14T05:53:34.3832309Z 
+check	Run make setup	2026-10-14T05:53:34.3833494Z tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-0/test_mesh_recovery_stops_at_ag0')
+check	Run make setup	2026-10-14T05:53:34.3834329Z monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f99ce07b0e0>
+check	Run make setup	2026-10-14T05:53:34.3834839Z 
+check	Run make setup	2026-10-14T05:53:34.3835178Z     def test_mesh_recovery_stops_at_aggregate_retained_scratch_budget(
+check	Run make setup	2026-10-14T05:53:34.3835772Z         tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+check	Run make setup	2026-10-14T05:53:34.3836397Z     ) -> None:
+check	Run make setup	2026-10-14T05:53:34.3836715Z         import json
+check	Run make setup	2026-10-14T05:53:34.3837010Z     
+check	Run make setup	2026-10-14T05:53:34.3837400Z         from worker.local_process import NativeStop
+check	Run make setup	2026-10-14T05:53:34.3837791Z     
+check	Run make setup	2026-10-14T05:53:34.3838229Z         root = ROOT / "work/t014" / str(uuid4())
+check	Run make setup	2026-10-14T05:53:34.3838843Z         script = root / "services/worker/worker/meshing_native/build.py"
+check	Run make setup	2026-10-14T05:53:34.3839414Z         script.parent.mkdir(parents=True)
+check	Run make setup	2026-10-14T05:53:34.3840371Z         # Controlled native resource probe, never a numerically accepted mesh.
+check	Run make setup	2026-10-14T05:53:34.3840940Z         script.write_text(
+check	Run make setup	2026-10-14T05:53:34.3841526Z             "from pathlib import Path\nimport time\n"
+check	Run make setup	2026-10-14T05:53:34.3842241Z             "Path('allocation').write_bytes(b'x' * (70 * 1024**2))\ntime.sleep(5)\n"
+check	Run make setup	2026-10-14T05:53:34.3842802Z         )
+check	Run make setup	2026-10-14T05:53:34.3843237Z         inputs = tmp_path / "inputs"
+check	Run make setup	2026-10-14T05:53:34.3843677Z         inputs.mkdir()
+check	Run make setup	2026-10-14T05:53:34.3844258Z         monkeypatch.setattr(deck_mesh, "ROOT", root)
+check	Run make setup	2026-10-14T05:53:34.3844793Z         original = deck_mesh._mesh_attempt
+check	Run make setup	2026-10-14T05:53:34.3845222Z         launched = []
+check	Run make setup	2026-10-14T05:53:34.3845601Z     
+check	Run make setup	2026-10-14T05:53:34.3846236Z         def retained(inputs: Path, output: Path, sizes: list[float], **options: Any) -> dict[str, Any]:
+check	Run make setup	2026-10-14T05:53:34.3847212Z             # Represents retained previous attempt artifacts, outside the new child.
+check	Run make setup	2026-10-14T05:53:34.3848001Z             with (output.parent / "retained-allocation").open("wb") as allocation:
+check	Run make setup	2026-10-14T05:53:34.3848629Z                 allocation.truncate(128 * 1024**2)
+check	Run make setup	2026-10-14T05:53:34.3849163Z             launched.append(output.name)
+check	Run make setup	2026-10-14T05:53:34.3849717Z             return original(inputs, output, sizes, **options)
+check	Run make setup	2026-10-14T05:53:34.3850421Z     
+check	Run make setup	2026-10-14T05:53:34.3850881Z         monkeypatch.setattr(deck_mesh, "_mesh_attempt", retained)
+check	Run make setup	2026-10-14T05:53:34.3851530Z         with pytest.raises(NativeStop, match="resource_exceeded"):
+check	Run make setup	2026-10-14T05:53:34.3852295Z             deck_mesh.mesh_snapshot(inputs, tmp_path / "out", [0.5], recovery_enabled=True)
+check	Run make setup	2026-10-14T05:53:34.3852957Z         assert launched == ["attempt-1"]
+check	Run make setup	2026-10-14T05:53:34.3853588Z         report = json.loads((tmp_path / "out/recovery.json").read_bytes())
+check	Run make setup	2026-10-14T05:53:34.3854270Z         assert report["mesh_attempts"][0]["status"] == "resource_exceeded"
+check	Run make setup	2026-10-14T05:53:34.3854754Z         assert report["sizing_unchanged"] and not (tmp_path / "out/attempt-2").exists()
+check	Run make setup	2026-10-14T05:53:34.3855354Z         resources = json.loads((tmp_path / "out/mesh-attempt-1-resources.json").read_bytes())
+check	Run make setup	2026-10-14T05:53:34.3855892Z >       assert resources["peak_scratch_bytes"] > 192 * 1024**2
+check	Run make setup	2026-10-14T05:53:34.3856349Z E       assert 197140664 > (192 * (1024 ** 2))
+check	Run make setup	2026-10-14T05:53:34.3856773Z 
+check	Run make setup	2026-10-14T05:53:34.3856999Z tests/native/test_deck_guards.py:220: AssertionError
+check	Run make setup	2026-10-14T05:53:34.3857806Z =========================== short test summary info ============================
+check	Run make setup	2026-10-14T05:53:34.3858616Z FAILED tests/native/test_deck_guards.py::test_mesh_recovery_stops_at_aggregate_retained_scratch_budget - assert 197140664 > (192 * (1024 ** 2))
+check	Run make setup	2026-10-14T05:53:34.3859240Z 1 failed, 141 passed in 242.27s (0:04:02)
+check	Run make setup	2026-10-14T05:53:34.5268454Z Traceback (most recent call last):
+check	Run make setup	2026-10-14T05:53:34.5269537Z   File "/home/runner/work/OpenFEA/OpenFEA/scripts/dev/doctor.py", line 89, in <module>
+check	Run make setup	2026-10-14T05:53:34.5270927Z Platform: Linux x86_64; Python 3.12.14
+check	Run make setup	2026-10-14T05:53:34.5271547Z fastapi: 0.143.0
+check	Run make setup	2026-10-14T05:53:34.5271902Z pydantic: 2.14.1
+check	Run make setup	2026-10-14T05:53:34.5272460Z     raise SystemExit(main())
+check	Run make setup	2026-10-14T05:53:34.5272878Z                      ^^^^^^
+check	Run make setup	2026-10-14T05:53:34.5273420Z   File "/home/runner/work/OpenFEA/OpenFEA/scripts/dev/doctor.py", line 83, in main
+check	Run make setup	2026-10-14T05:53:34.5274133Z     subprocess.run([sys.executable, "-m", "pytest", "tests/native", "-q"], cwd=ROOT, check=True)
+check	Run make setup	2026-10-14T05:53:34.5274738Z   File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/subprocess.py", line 571, in run
+check	Run make setup	2026-10-14T05:53:34.5275248Z     raise CalledProcessError(retcode, process.args,
+check	Run make setup	2026-10-14T05:53:34.5276015Z subprocess.CalledProcessError: Command '['/home/runner/work/OpenFEA/OpenFEA/.venv/bin/python', '-m', 'pytest', 'tests/native', '-q']' returned non-zero exit status 1.
+check	Run make setup	2026-10-14T05:53:34.5276589Z uvicorn: 0.54.0
+check	Run make setup	2026-10-14T05:53:34.5276833Z pytest: 9.1.1
+check	Run make setup	2026-10-14T05:53:34.5277070Z ruff: 0.17.0
+check	Run make setup	2026-10-14T05:53:34.5277327Z mypy: 2.4.0
+check	Run make setup	2026-10-14T05:53:34.5277641Z PASS: writable non-repository data root
+check	Run make setup	2026-10-14T05:53:34.5277978Z PASS: loopback HTTP round trip
+check	Run make setup	2026-10-14T05:53:34.5278377Z PASS: pinned CPU CCX and runtime library hashes verified
+check	Run make setup	2026-10-14T05:53:34.5278911Z PASS: isolated cad native geometry/I/O capability
+check	Run make setup	2026-10-14T05:53:34.5279350Z PASS: isolated mesh native geometry/I/O capability
+check	Run make setup	2026-10-14T05:53:34.5279732Z PASS: isolated post native geometry/I/O capability
+check	Run make setup	2026-10-14T05:53:34.5280421Z PASS: namespace-isolated STEP import, no-network/process filter and SI display
+check	Run make setup	2026-10-14T05:53:34.5411082Z make: *** [Makefile:18: setup] Error 1
+check	Run make setup	2026-10-14T05:53:34.5426155Z ##[error]Process completed with exit code 2.

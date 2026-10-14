@@ -1,0 +1,153 @@
+{
+  "run": "c8384d57-c251-4a24-b791-f0ef42d14725",
+  "nodes": 231,
+  "elements": 100,
+  "mesh_size_m": 0.5,
+  "manifest": {
+    "id": "B05",
+    "revision": 1,
+    "source": "Independent exact nu=0 self-weight continuum solution: uz(z)=-rho*g*(L*z-z^2/2)/E, sigma_zz(z)=-rho*g*(L-z), ux=uy=0, other stress components zero; weight=rho*V*g",
+    "units": "m,N,Pa,kg,s",
+    "geometry": "Synthetic unit cube, 0<=x,y,z<=1 m, L=1 m, V=1 m^3",
+    "material": {
+      "E_pa": 210000000000,
+      "nu": 0,
+      "density_kg_m3": 7850
+    },
+    "element": "C3D10 affine",
+    "mesh_sizes_m": [
+      0.5,
+      0.3
+    ],
+    "supports": "All translations fixed on complete immutable z=0 face",
+    "loads": "Uniform global acceleration (0,0,-9.80665) m/s^2 on the complete body, written as native GRAV with density; no equivalent CLOAD duplication",
+    "samples": "All native DAT nodes and raw IP tensor components at their actual positions; corrected support reaction/weight and moments about global origin; every quadratic midside retained",
+    "acceleration_m_s2": [
+      0,
+      0,
+      -9.80665
+    ],
+    "expected_weight_n": 76982.2025,
+    "expected_top_uz_m": -1.8329095833333333e-07,
+    "tolerances": {
+      "relative": 1e-06,
+      "displacement_absolute_m": 1e-12,
+      "stress_absolute_pa": 0.1,
+      "equilibrium_relative": 0.005,
+      "force_absolute_n": 0.01,
+      "moment_absolute_nm": 0.01
+    },
+    "exclusions": "None; nu=0 removes lateral contraction/end disturbance so quadratic displacement is an exact continuum reference; no claim for arbitrary nu/clamped gravity shapes",
+    "reason": "Exact polynomial solution tests native density/GRAV, consistent negative corner/positive midside body loads and RF subtraction under unchanged proposed equilibrium policy",
+    "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  },
+  "measurements": {
+    "max_displacement_error_m": 4.931640623822982e-14,
+    "max_stress_error_pa": 0.008180948250810616,
+    "reaction_force_error_n": 4.641551640816033e-06,
+    "reaction_moment_error_nm": 0.00031474831484956667,
+    "equilibrium": {
+      "applied_force_n": [
+        0.0,
+        0.0,
+        -76982.20249999997
+      ],
+      "applied_moment_nm": [
+        -38491.101249998756,
+        38491.10125000102,
+        0.0
+      ],
+      "characteristic_length_m": 1.0,
+      "force": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 76982.20249999998,
+        "relative_residual": 6.029344947641688e-11,
+        "relative_tolerance": 0.005,
+        "residual": [
+          5.356681246249998e-12,
+          1.6229843960000003e-11,
+          -4.641522536985576e-06
+        ],
+        "residual_norm": 4.641522537017043e-06,
+        "tolerance": 384.9110124999999
+      },
+      "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained components only; internal ties/MPC/free-node RF excluded",
+      "moment": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 76982.20249999998,
+        "relative_residual": 4.510174886454301e-09,
+        "relative_tolerance": 0.005,
+        "residual": [
+          0.0003147495590383187,
+          -0.00014657003339380026,
+          8.593813978203123e-12
+        ],
+        "residual_norm": 0.00034720319641943945,
+        "tolerance": 384.9110124999999
+      },
+      "moment_origin_m": [
+        0,
+        0,
+        0
+      ],
+      "passed": true,
+      "prescribed_actuator_reference_n": 0.0,
+      "reaction_force_n": [
+        5.356681246249998e-12,
+        1.6229843960000003e-11,
+        76982.20249535845
+      ],
+      "reaction_moment_nm": [
+        38491.101564748315,
+        -38491.10139657105,
+        8.593813978203123e-12
+      ]
+    }
+  },
+  "artifacts": {
+    "snapshot.json": {
+      "sha256": "26a6a53dc11d4c0042b8d7e4f9de57ad56e53ea9fc64dfff5a398a45fb406b88",
+      "size_bytes": 14996,
+      "media_type": "application/json"
+    },
+    "mesh.json": {
+      "sha256": "a1b3186a91b17e7c8d85fff009da1ffd17bb194500d9ba792a059bcd150a38ab",
+      "size_bytes": 100917,
+      "media_type": "application/json"
+    },
+    "analysis.inp": {
+      "sha256": "16e02d0e0ff6da3eb3a0ea67f828617fca12421166771a404c597deab0236aa6",
+      "size_bytes": 23070,
+      "media_type": "text/plain"
+    },
+    "solver.log": {
+      "sha256": "3031c1dd004e98c5fbbc4d6b0c8c9dc2ee69214acb65035a63210b56ddaf2b5d",
+      "size_bytes": 2255,
+      "media_type": "text/plain"
+    },
+    "analysis.dat": {
+      "sha256": "dbb7932685f4a244b44428fbdfdbcf0719b2ff1b1f50327a3d5d4faca35f4b09",
+      "size_bytes": 87277,
+      "media_type": "text/plain"
+    },
+    "analysis.frd": {
+      "sha256": "65b7c6dc8007d1dfb1d635b564547e931d4a702bbd85008e46e8fb15715f2401",
+      "size_bytes": 57859,
+      "media_type": "text/plain"
+    },
+    "resources.json": {
+      "sha256": "d3ecbd17855d38b8a5736c3504ad997af11caf102f5d0c6c83d431a3f8a2b390",
+      "size_bytes": 111,
+      "media_type": "application/json"
+    },
+    "results.json": {
+      "sha256": "3c151656c5bde7af7f0cdf257a87007c3996a028666d92770e78ea2170d59b32",
+      "size_bytes": 527368,
+      "media_type": "application/json"
+    }
+  }
+}

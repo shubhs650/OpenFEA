@@ -15,9 +15,10 @@ from app.domain.errors import DomainError
 from app.domain.jobs import Artifact, JobInput, LocalJob, Status
 from app.domain.loads import load_state
 from app.jobs.service import JobService
+from worker.actions import external_balance
 from worker.deck_mesh import MeshFailure
 from worker.local_process import NativeControl, NativeStop, fence
-from worker.local_solve import solve_snapshot, validate_outputs
+from worker.local_solve import result_mesh, solve_snapshot, validate_outputs
 from worker.mesh_quality import mesh_quality
 from worker.step_import import ImportSandboxError
 
@@ -257,6 +258,29 @@ class LocalWorker:
                     inputs.deck_sha256,
                     inputs.mesh.sha256,
                 )
+                reference = load_state(
+                    snapshot.analysis,
+                    snapshot.geometry,
+                    snapshot.materials,
+                    snapshot.loads,
+                    inputs.display,
+                ).model_dump(mode="json")
+                reference["equilibrium_policy"] = inputs.policy["equilibrium"]
+                equilibrium, _ = external_balance(
+                    result["dat"],
+                    result_mesh(json.loads(raw_mesh), materials),
+                    json.loads(raw_mesh)["boundary"],
+                    (directory / "analysis.inp").read_text(),
+                    reference,
+                )
+                summary["equilibrium"] = equilibrium
+                if not equilibrium["passed"]:
+                    raise DomainError(
+                        422,
+                        "equilibrium_failed",
+                        "External force/moment balance failed; native outputs are diagnostic only",
+                    )
+                result["equilibrium"] = equilibrium
                 summary["warnings"] = list(dict.fromkeys([*inputs.warnings, *summary["warnings"]]))
                 result["warnings"] = summary["warnings"]
                 (directory / "results.json").write_bytes(canonical(result))

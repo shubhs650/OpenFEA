@@ -358,6 +358,15 @@ class JobRepository:
                     )
                 if row["kind"] == "mesh" and summary.get("quality", {}).get("accepted") is not True:
                     raise ValueError("Successful mesh requires passing quadratic quality")
+                if row["kind"] == "solve":
+                    balance = summary.get("equilibrium", {})
+                    if balance.get("passed") is not True or any(
+                        balance.get(k, {}).get("passed") is not True for k in ("force", "moment")
+                    ):
+                        raise ValueError(
+                            "Successful solve requires passing external "
+                            "force and moment equilibrium"
+                        )
             connection.execute(
                 text(
                     "UPDATE local_jobs SET status=:status,stage='finished',finished_at=:at,"

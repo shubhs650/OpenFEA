@@ -47,6 +47,7 @@ export function Workspace() {
   const [lod, setLod] = useState<"coarse" | "fine">("coarse");
   const [selected, setSelected] = useState(new Set<string>());
   const [visible, setVisible] = useState(new Set<string>());
+  const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [stage, setStage] = useState("");
   const [error, setError] = useState("");
@@ -57,7 +58,10 @@ export function Workspace() {
     void session()
       .then(() => api<Page<Project>>("/projects"))
       .then((page) => {
-        if (current) setProjects(page.items);
+        if (current) {
+          setProjects(page.items);
+          setReady(true);
+        }
       })
       .catch((e: Error) => {
         if (current) setError(e.message);
@@ -133,6 +137,7 @@ export function Workspace() {
     });
   }
   async function createProject() {
+    if (!ready) return;
     setBusy(true);
     setError("");
     try {
@@ -259,7 +264,7 @@ export function Workspace() {
         <label>
           Open project
           <select
-            disabled={busy}
+            disabled={!ready || busy}
             value={project?.id ?? ""}
             onChange={(e) => {
               setVisible(new Set());
@@ -284,7 +289,7 @@ export function Workspace() {
           />
         </label>
         <button
-          disabled={busy || !name.trim()}
+          disabled={!ready || busy || !name.trim()}
           onClick={() => void createProject()}
         >
           Create project

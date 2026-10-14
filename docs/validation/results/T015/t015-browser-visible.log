@@ -1,0 +1,13 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/essential-loads.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:34404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/essential-loads.spec.ts:58:1 › real body gravity and prescribed component persist across units with frozen equilibrium (8.2s)
+  ✓  2 tests/e2e/essential-loads.spec.ts:207:1 › real coordinate component supports self-equilibrated pressure and near-zero absolute balance (8.9s)
+
+  2 passed (19.1s)

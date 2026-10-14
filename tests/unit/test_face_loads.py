@@ -24,7 +24,9 @@ application = material_tests.application
 client = material_tests.client
 
 
-def fixture(client: TestClient, application: FastAPI) -> tuple[str, dict[str, Any]]:
+def fixture(
+    client: TestClient, application: FastAPI, *, centroid: bool = False
+) -> tuple[str, dict[str, Any]]:
     store = application.state.repository
     owner = application.state.owner
     project = store.create_project(owner, ProjectCreate(name="Synthetic load math"))
@@ -32,7 +34,14 @@ def fixture(client: TestClient, application: FastAPI) -> tuple[str, dict[str, An
         {
             "brep_sha256": "b" * 64,
             "lod": "coarse",
-            "bodies": [{"id": "body", "volume_m3": 1, "bounds_m": [0, 0, 0, 1, 1, 1]}],
+            "bodies": [
+                {
+                    "id": "body",
+                    "volume_m3": 1,
+                    "bounds_m": [0, 0, 0, 1, 1, 1],
+                    **({"center_m": [0.5, 0.5, 0.5]} if centroid else {}),
+                }
+            ],
             "faces": [
                 {
                     "id": "small",

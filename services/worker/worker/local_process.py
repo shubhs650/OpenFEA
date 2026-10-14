@@ -108,7 +108,11 @@ def supervise(
             "peak_rss_bytes": peak,
             "peak_scratch_bytes": disk_peak,
         }
-    if scratch_usage(scratch_root) > 192 * 1024**2:
+    # The child may finish a write between the last live sample and exit.
+    # Retain the final audit in the same peak used to enforce/report the cap.
+    disk_peak = max(disk_peak, scratch_usage(scratch_root))
+    result["peak_scratch_bytes"] = disk_peak
+    if disk_peak > 192 * 1024**2:
         reason = "resource_exceeded"
     # A native-created symlink must never redirect this trusted host-side write.
     descriptor = os.open(

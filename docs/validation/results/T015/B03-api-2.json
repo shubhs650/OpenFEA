@@ -1,0 +1,152 @@
+{
+  "run": "ddb10df6-4320-4f3d-b0ff-56820cc8cc0d",
+  "nodes": 3131,
+  "elements": 1552,
+  "mesh_size_m": 0.035,
+  "manifest": {
+    "id": "B03",
+    "revision": 2,
+    "source": "Independent Euler\u2013Bernoulli solid-cantilever approximation; uy_tip=-F*L^3/(3*E*I), sigma_xx=F*(L-x)*(y-h/2)/I; I=b*h^3/12. Timoshenko shear contribution F*L/(kappa*G*A) is 0.6% of EB with kappa=5/6 and nu=0; a disclosed approximation, not cross-solver evidence.",
+    "units": "m,N,Pa,kg,s",
+    "geometry": "Synthetic rectangular solid 0<=x<=1, 0<=y,z<=0.1 m; length/aspect ratio 10",
+    "material": {
+      "E_pa": 210000000000,
+      "nu": 0
+    },
+    "element": "C3D10 affine",
+    "mesh_sizes_m": [
+      0.04,
+      0.035
+    ],
+    "supports": "All translations fixed on complete immutable x=0 face",
+    "loads": "Total global force (0,-1,0) N uniformly spread once over complete x=1 face with quadratic consistent integration",
+    "samples": "Area-weighted mean native DAT uy on complete x=1 face; raw IP sigma_xx with 0.25<=x<=0.75, abs(y-0.05)>=0.02, 0.02<=z<=0.08; at least four stress samples per mesh",
+    "expected_tip_uy_m": -1.9047619047619048e-07,
+    "tolerances": {
+      "displacement_relative": 0.02,
+      "displacement_absolute_m": 1e-12,
+      "stress_relative": 0.05,
+      "stress_absolute_pa": 1,
+      "equilibrium_relative": 0.005,
+      "force_absolute_n": 1e-06,
+      "moment_absolute_nm": 1e-06
+    },
+    "exclusions": "Root and loaded-face end effects, neutral-axis relative stress, side-edge samples and peak singularities excluded by fixed physical sample regions before execution. No shell/beam elements or claimed solid peak accuracy.",
+    "reason": "docs/VALIDATION.md proposed 2% slender-cantilever displacement and 5% non-root stress criteria; nu=0 avoids added Poisson clamping disturbance while disclosed shear correction is below displacement budget",
+    "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance",
+    "mesh_revision_reason": "Revision 1 coarse 0.08-m mesh had 8.05157312256193% worst interior stress error against the unchanged 5% criterion. Explicitly refine both benchmark meshes to resolve the quadratic displacement approximation of bilinear bending stress; reference, sample regions, loads/supports and tolerances remain identical. Retain the failed revision-1 manifest and measurement; no automatic product coarsening/refinement."
+  },
+  "measurements": {
+    "tip_mean_uy_m": -1.9161123888390998e-07,
+    "expected_tip_mean_uy_m": -1.9047619047619048e-07,
+    "tip_relative_error": 0.005959004140527373,
+    "interior_stress_sample_count": 1083,
+    "max_displacement_error_m": 1.1350484077194997e-09,
+    "max_stress_error_pa": 32.873094275920266,
+    "reaction_force_error_n": 1.2050000106067493e-07,
+    "reaction_moment_error_nm": 1.1175077981040449e-09,
+    "equilibrium": {
+      "applied_force_n": [
+        0.0,
+        -0.999999999999991,
+        0.0
+      ],
+      "applied_moment_nm": [
+        0.04999999999999943,
+        0.0,
+        -0.999999999999991
+      ],
+      "characteristic_length_m": 1.0,
+      "force": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 1.0,
+        "relative_residual": 1.2138174277289119e-07,
+        "relative_tolerance": 0.005,
+        "residual": [
+          1.2050000106067493e-07,
+          1.4600008868548287e-08,
+          -3.419999999615831e-10
+        ],
+        "residual_norm": 1.2138174277289119e-07,
+        "tolerance": 0.005
+      },
+      "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained components only; internal ties/MPC/free-node RF excluded",
+      "moment": {
+        "absolute_tolerance": 1e-06,
+        "criterion": "relative",
+        "passed": true,
+        "reference": 1.0012492197250393,
+        "relative_residual": 1.56665601062922e-09,
+        "relative_tolerance": 0.005,
+        "residual": [
+          -6.194227075706493e-10,
+          -1.1175077981040449e-09,
+          9.099664355360915e-10
+        ],
+        "residual_norm": 1.5686131082200494e-09,
+        "tolerance": 0.005006246098625196
+      },
+      "moment_origin_m": [
+        0,
+        0,
+        0
+      ],
+      "passed": true,
+      "prescribed_actuator_reference_n": 0.0,
+      "reaction_force_n": [
+        1.2050000106067493e-07,
+        1.0000000145999999,
+        -3.419999999615831e-10
+      ],
+      "reaction_moment_nm": [
+        -0.050000000619422134,
+        -1.1175077981040449e-09,
+        1.0000000009099574
+      ]
+    }
+  },
+  "artifacts": {
+    "snapshot.json": {
+      "sha256": "85110ef58656dda9abed443ccbdff2234e797d87aa5b5303367deddec9ba2755",
+      "size_bytes": 15149,
+      "media_type": "application/json"
+    },
+    "mesh.json": {
+      "sha256": "bf5639ab64eee4505b5888a70c777d82bc3e88008f504a8e5d340536a75662c2",
+      "size_bytes": 1550686,
+      "media_type": "application/json"
+    },
+    "analysis.inp": {
+      "sha256": "ffa4f8b663afa03107a417b4a672d0b787c19f5afba5295f3de7bc284018db21",
+      "size_bytes": 297504,
+      "media_type": "text/plain"
+    },
+    "solver.log": {
+      "sha256": "3a57ebb75be848fd5697a9d7ec528299641327985591b8ea3325d7720cd2c8bd",
+      "size_bytes": 2257,
+      "media_type": "text/plain"
+    },
+    "analysis.dat": {
+      "sha256": "ea8a0959f84e368fca9c74431da20f4d4410907caffd708461fc1eb6aaa3af63",
+      "size_bytes": 1300725,
+      "media_type": "text/plain"
+    },
+    "analysis.frd": {
+      "sha256": "7d2f6201caf4e919822a1e3d485784cb2fc6198486016785ac46964b6c3475bf",
+      "size_bytes": 790375,
+      "media_type": "text/plain"
+    },
+    "resources.json": {
+      "sha256": "9a31e13370fb03f8b0b0434d985470946048ca376e81f2119b112ec78035209b",
+      "size_bytes": 114,
+      "media_type": "application/json"
+    },
+    "results.json": {
+      "sha256": "3a6435b9c22e8656c7a72bcb46480f7b5531c4c69d8cff3d927fad7917e7fd24",
+      "size_bytes": 7727181,
+      "media_type": "application/json"
+    }
+  }
+}

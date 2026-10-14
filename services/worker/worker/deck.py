@@ -19,6 +19,8 @@ def generated_deck(
     element_materials: dict[int, str] | None = None,
     stress_coordinates: bool = False,
     pressures: list[tuple[int, int, float]] | None = None,
+    densities: dict[str, float] | None = None,
+    gravities: dict[str, Vec] | None = None,
 ) -> str:
     lines = ["** OpenFEA SI generated deck; C3D10 affine validation scope", "*NODE,NSET=NALL"]
     for n, point in sorted(mesh["nodes"].items(), key=lambda item: int(item[0])):
@@ -31,6 +33,23 @@ def generated_deck(
         lines += [f"{f['element']},S{f['face']}" for f in sorted(faces, key=lambda f: f["element"])]
     if (materials is None) != (element_materials is None):
         raise ValueError("Materials and element ownership must be supplied together")
+    definitions = set(materials) if materials is not None else {"ISOTROPIC"}
+    if densities and (
+        not set(densities) <= definitions
+        or any(not math.isfinite(v) or v <= 0 for v in densities.values())
+    ):
+        raise ValueError("Gravity density must be positive and assigned to a known material")
+    if gravities:
+        targets = definitions if materials is not None else {"EALL"}
+        if not set(gravities) <= targets or any(
+            not all(math.isfinite(v) for v in g) for g in gravities.values()
+        ):
+            raise ValueError("Invalid internally generated gravity set/vector")
+        if any(
+            (name if materials is not None else "ISOTROPIC") not in (densities or {})
+            for name in gravities
+        ):
+            raise ValueError("Every gravity set requires density")
     if materials is not None and element_materials is not None:
         if set(element_materials) != {int(e) for e in mesh["elements"]}:
             raise ValueError("Every element requires one material")
@@ -48,20 +67,33 @@ def generated_deck(
                 f"*MATERIAL,NAME={name}",
                 "*ELASTIC",
                 f"{modulus:.12e},{ratio:.12e}",
-                f"*SOLID SECTION,ELSET={name},MATERIAL={name}",
             ]
+            if densities and name in densities:
+                lines += ["*DENSITY", f"{densities[name]:.12e}"]
+            lines.append(f"*SOLID SECTION,ELSET={name},MATERIAL={name}")
     else:
         lines += [
             "*MATERIAL,NAME=ISOTROPIC",
             "*ELASTIC",
             f"{young:.12e},{poisson:.12e}",
-            "*SOLID SECTION,ELSET=EALL,MATERIAL=ISOTROPIC",
         ]
+        if densities and "ISOTROPIC" in densities:
+            lines += ["*DENSITY", f"{densities['ISOTROPIC']:.12e}"]
+        lines.append("*SOLID SECTION,ELSET=EALL,MATERIAL=ISOTROPIC")
     lines.append("*BOUNDARY")
     lines += [
-        f"{node},{axis},{axis},{value:.12e}" for (node, axis), value in sorted(supports.items())
+        f"{node},{axis},{axis},{value:.12e}"
+        for (node, axis), value in sorted(supports.items())
+        if value == 0
     ]
     lines += ["*STEP", "*STATIC"]
+    if any(value != 0 for value in supports.values()):
+        lines.append("*BOUNDARY")
+        lines += [
+            f"{node},{axis},{axis},{value:.12e}"
+            for (node, axis), value in sorted(supports.items())
+            if value != 0
+        ]
     if loads:
         lines.append("*CLOAD")
         for n, force in sorted(loads.items()):
@@ -74,6 +106,13 @@ def generated_deck(
     if pressures:
         lines.append("*DLOAD")
         lines += [f"{eid},P{face},{value:.12e}" for eid, face, value in sorted(pressures)]
+    if gravities and any(any(g) for g in gravities.values()):
+        lines.append("*DLOAD")
+        for name, acceleration in sorted(gravities.items()):
+            for axis, value in enumerate(acceleration):
+                if value != 0:
+                    direction = [(-1 if value < 0 else 1) if a == axis else 0 for a in range(3)]
+                    lines.append(f"{name},GRAV,{abs(value):.12e}," + ",".join(map(str, direction)))
     lines += [
         "*NODE PRINT,NSET=NALL",
         "U,RF",
