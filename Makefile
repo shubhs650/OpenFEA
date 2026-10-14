@@ -11,7 +11,7 @@ PY := .venv/bin/python
 .PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke feasibility resource-browser
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
-	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01–B06, B07 or B09 DEVELOPMENT=1.'
+	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01–B06, B07, B08 or B09 DEVELOPMENT=1.'
 	@echo 'feasibility runs native cleanup diagnostics; MESHES=1 measures bounded workloads. resource-browser OUTPUT=<directory>.'
 	@echo 'Release benchmark acceptance, benchmark-all, full security and reports remain BLOCKED.'
 setup:

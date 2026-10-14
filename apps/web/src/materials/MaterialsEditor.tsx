@@ -1,3 +1,4 @@
+import { ConnectionsEditor } from "../connections/ConnectionsEditor";
 import { observeRevision, resetEdits, useEdits } from "../workspace/edits";
 import { useEffect, useState } from "react";
 import {
@@ -359,6 +360,25 @@ export function MaterialsEditor({
                     }
                   />
                 )}
+                {geometry &&
+                  geometry.id === active.geometry_revision_id &&
+                  geometry.bodies.length > 1 && (
+                    <ConnectionsEditor
+                      key={`bonds:${active.analysis_id}:${reload}`}
+                      analysisId={active.analysis_id}
+                      revision={active.analysis_revision}
+                      geometry={geometry}
+                      selected={selected}
+                      busy={busy || conflict}
+                      setBusy={setBusy}
+                      saved={(revision) =>
+                        setState((old) =>
+                          old ? { ...old, analysis_revision: revision } : old,
+                        )
+                      }
+                      preview={directionPreview}
+                    />
+                  )}
                 <LoadsEditor
                   key={`${active.analysis_id}:${reload}`}
                   analysisId={active.analysis_id}
