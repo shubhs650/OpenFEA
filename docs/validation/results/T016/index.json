@@ -160,8 +160,20 @@
     "total": 491,
     "typescript_unit": 21
   },
-  "hosted_ci": "Reported on PR head; leave requested T016 PR open.",
+  "hosted_ci": "First implementation/evidence head passed; final documentation-only head outcome reported on PR #13.",
   "implementation_commit": "fd2d73af72a3d2c37ae4b99cce02903674142872",
+  "initial_hosted_ci": {
+    "chromium": 24,
+    "conclusion": "success",
+    "duration": "12m32s",
+    "failure_probes": 6,
+    "head": "e387bf00197d6c510a7fa7385020a01589676ceb",
+    "integration": 14,
+    "native": 156,
+    "python_unit": 276,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38537337861",
+    "typescript_unit": 21
+  },
   "milestone": "M2 IN PROGRESS",
   "next_task": "T017",
   "platform": {
