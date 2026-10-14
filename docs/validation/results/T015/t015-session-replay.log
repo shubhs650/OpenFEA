@@ -1,0 +1,18 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/projects.spec.ts tests/e2e/geometry.spec.ts tests/e2e/essential-loads.spec.ts
+
+
+Running 7 tests using 1 worker
+
+(node:36325) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/essential-loads.spec.ts:58:1 › real body gravity and prescribed component persist across units with frozen equilibrium (8.0s)
+  ✓  2 tests/e2e/essential-loads.spec.ts:207:1 › real coordinate component supports self-equilibrated pressure and near-zero absolute balance (12.7s)
+  ✓  3 tests/e2e/geometry.spec.ts:5:1 › curved STEP picks survive actual triangle-count changes and replacement never mixes revisions (4.6s)
+  ✓  4 tests/e2e/geometry.spec.ts:83:1 › real multibody STEP, vtk picking, camera and LOD preserve catalog references (3.2s)
+  ✓  5 tests/e2e/geometry.spec.ts:215:1 › missing units need explicit choice and failed surface import retains accepted geometry (4.8s)
+  ✓  6 tests/e2e/projects.spec.ts:4:1 › real browser project CRUD uses local session, CSRF and revisions through Vite (272ms)
+  ✓  7 tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes (370ms)
+
+  7 passed (36.8s)

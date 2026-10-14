@@ -1,0 +1,41 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/projects.spec.ts --grep waits for the real local session
+
+
+Running 1 test using 1 worker
+
+(node:36133) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes (5.5s)
+
+
+  1) tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByRole('button', { name: 'Create project', exact: true })
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" getByRole('button', { name: 'Create project', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Create project', exact: true })
+        14 × locator resolved to <button>Create project</button>
+           - unexpected value "enabled"
+
+
+       97 |       exact: true,
+       98 |     });
+    >  99 |     await expect(create).toBeDisabled();
+          |                          ^
+      100 |     releaseSession();
+      101 |     await expect(create).toBeEnabled();
+      102 |     const created = page.waitForResponse(
+        at /workspace/OpenFEA/tests/e2e/projects.spec.ts:99:26
+
+    Error Context: test-results/projects-project-creation--eca8b-sion-before-enabling-writes/error-context.md
+
+  1 failed
+    tests/e2e/projects.spec.ts:81:1 › project creation waits for the real local session before enabling writes 

@@ -1,4 +1,5 @@
 {
+  "annotation_implementation_commit": "41804f70ea1a2bf238d491e81ad4f79d37a21870",
   "artifacts": {
     "B03-api-1.json": {
       "sha256": "beb6678670293307698196eb849df3b4e856ca93689bb3afc55e23b0920f445d",
@@ -56,6 +57,10 @@
       "sha256": "fe084bb5c633d5d8366125eeea5613cd7f7e231d6c1a39f72b30281d69317b5f",
       "size_bytes": 7183
     },
+    "t015-browser-complete.log": {
+      "sha256": "40d79d8910167425ab748cc3b57be24669499253667f399fabbd4a89d746fe71",
+      "size_bytes": 3202
+    },
     "t015-browser-final.log": {
       "sha256": "cd2f3dadc354e5f372a26a298175d21f04a943f26061a6299d529241a02c388d",
       "size_bytes": 747
@@ -63,6 +68,10 @@
     "t015-browser-visible.log": {
       "sha256": "2aa128fe91af28d4cc99563b7c7d54a732e8ed9b56b45b652fe50d4671f8539e",
       "size_bytes": 596
+    },
+    "t015-ci-failure.log": {
+      "sha256": "5e5d48a3436c2014587f7cce2679350f0825aa5bbd8799bd6d3ce26cabc545fc",
+      "size_bytes": 21234
     },
     "t015-doctor.log": {
       "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
@@ -95,6 +104,22 @@
     "t015-regression.log": {
       "sha256": "84f17cb61916e4aa19bfec46bb7a1779127bb6b105541975c8f978971c93d4de",
       "size_bytes": 6961
+    },
+    "t015-session-build.log": {
+      "sha256": "fc8084388f9075564ec11436c3656c46628f581a0deed251f5e053f9a7f90404",
+      "size_bytes": 1179
+    },
+    "t015-session-replay.log": {
+      "sha256": "f5748bac1a60085a9befbc6281b1494f6d91359a818474e22aacf983caec288d",
+      "size_bytes": 1321
+    },
+    "t015-session-reproduction.log": {
+      "sha256": "7dd2d5d37130da952ec7c62270ebe37a1937bba7a6362ed608005ee878fe9b44",
+      "size_bytes": 1640
+    },
+    "t015-session-static.log": {
+      "sha256": "d0fe66ffd5574531b75fb4d26b93eb8f6b1a4cdad7ca56684df22fec878828af",
+      "size_bytes": 230
     }
   },
   "base_commit": "78cfb944f2283247784805c5c98bd9e356cb9a92",
@@ -139,6 +164,14 @@
     {
       "command": "make check; make docs-check build smoke",
       "result": "Final265Python/21TS,lint/format/types/contracts,133Markdown/42status/dependency checks,build/real HTTP smoke passed. Documentation completion replay after manifest and links were created."
+    },
+    {
+      "command": "npm run lint; npm run typecheck; npm run test:e2e -- tests/e2e/projects.spec.ts tests/e2e/geometry.spec.ts tests/e2e/essential-loads.spec.ts",
+      "result": "Final session-readiness source: static passed;7browserpassed36.8s, includes deterministic real delayed-session regression"
+    },
+    {
+      "command": "make test-e2e; make docs-check build smoke",
+      "result": "Final session-readiness implementation:22Chromiumpassed1.9m;133Markdown/status/dependency checks,build/realHTTPsmokepassed"
     }
   ],
   "corrections": [
@@ -148,7 +181,8 @@
     "DAT/FRD repeated full mesh identity serialization replaced by one identical hash per parse; FRD contributor index built once. Numerical/coverage/hash semantics unchanged, full142 native passes.",
     "Browser selectors/reload reopening aligned with actual workflow; state-only publication fixture corrected type/argument order.",
     "Screenshot review found gravity glyph inside solid; COM leader and exterior arrow preserve physical centre/force/moment. Short leader remained projection-occluded; longer annotation passes actual screenshot visibility and inspected images.",
-    "Final documentation check initially ran before evidence copy and used a decorated COMPLETE status; exact status and real linked artifacts correct the check. Final133-file documentation graph passes."
+    "Final documentation check initially ran before evidence copy and used a decorated COMPLETE status; exact status and real linked artifacts correct the check. Final133-file documentation graph passes.",
+    "Initial hosted CI native142/unit265/TS21/integration13/build passed;20Chromiumpassed1existingmultibodycase failed after early project creation. Delayed real-session browser regression reproduces premature write enablement. Final frontend gates project creation/opening until session/CSRF+initial listing finish;7affected cases pass. No numerical tolerance, timeout or retry changed."
   ],
   "criteria": {
     "absolute_normalized_residual": null,
@@ -167,21 +201,32 @@
   },
   "date": "2026-10-14",
   "distinct_verified_cases": {
-    "chromium": 21,
+    "chromium": 22,
     "native": 142,
     "python_unit": 265,
     "real_process_integration": 13,
     "remaining_failures": 0,
     "repeats_counted": false,
     "skips": 0,
-    "total": 462,
+    "total": 463,
     "typescript_unit": 21
   },
   "hosted_ci": "Reported on final PR head; PR remains open. No merge authorization for T015.",
-  "implementation_commit": "41804f70ea1a2bf238d491e81ad4f79d37a21870",
+  "implementation_commit": "b4fab6a8231ccbadeb721a75ccb4ac16e6f75c62",
+  "initial_hosted_ci": {
+    "browser_failed": 1,
+    "browser_passed": 20,
+    "failure": "Existing multibody geometry case waits for STEP input after project creation; premature session/CSRF write enablement reproduced/fixed, no test timeout/retry changed.",
+    "head": "5f2a85bbc50e5594c986d5e055e79b8c394b7561",
+    "integration_passed": 13,
+    "native_passed": 142,
+    "python_passed": 265,
+    "run": "https://github.com/shubhs650/OpenFEA/actions/runs/38516884235",
+    "ts_passed": 21
+  },
   "milestone": "M2 IN PROGRESS",
   "next_task": "T016",
-  "numerical_commit_relationship": "Final implementation changes only exterior gravity annotation and its browser visibility assertion; backend numerical source is identical to numerical commit. Later commit records documentation/evidence only.",
+  "numerical_commit_relationship": "Final source adds only frontend exterior gravity annotation and session/initial-project-list readiness with browser tests. Backend numerical source is identical to numerical implementation commit. Later commits record docs/evidence only.",
   "numerical_implementation_commit": "ee6c2e53e4bc54902fb88c03a2c22652d61315b2",
   "platform": {
     "bubblewrap": "0.12.0",
@@ -194,9 +239,10 @@
     "system": "Linux-6.18.44-x86_64-with-glibc2.41",
     "uv": "0.12.23"
   },
-  "source_and_lock_reference": "41804f70ea1a2bf238d491e81ad4f79d37a21870",
+  "source_and_lock_reference": "b4fab6a8231ccbadeb721a75ccb4ac16e6f75c62",
   "source_and_lock_sha256": {
     "apps/web/src/geometry/Viewport.tsx": "4f2d22812d3e9aed9d5e923046718dd4702fabae96acf014e2da1d45b73d59a0",
+    "apps/web/src/geometry/Workspace.tsx": "4c6a699bc439d898562a9044e02d807d81d84ddc5fa720612c2b59b108fef050",
     "apps/web/src/loads/LoadsEditor.tsx": "48fd81875970109e113f8a06e730fc32ab7683020448383f68b52fd607110a29",
     "apps/web/src/results/ResultsEditor.tsx": "8519020fe6c9c7eb0dc65d1cca41ec93167bb32076ae31cd3ae455590391e863",
     "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
@@ -230,6 +276,7 @@
     "tests/benchmarks/B04.json": "0454b9940297193e9cb110c37ade142a1783d51f87a598519ad778b2269aabed",
     "tests/benchmarks/B05.json": "ff67414b4205ffdb6c6890b3b8e697c3fd2be97644123d392a39b1e2db295a87",
     "tests/e2e/essential-loads.spec.ts": "2f0f102451d975640c12fd3ea34981ea046e042eac13bd53e80172b645628164",
+    "tests/e2e/projects.spec.ts": "43fbb31afcaa1d809fed8aee45c117f9e940c68b0746b3dada288465a1d6a047",
     "tests/fixtures/geometry/cantilever-m.step": "f8552faa584ac19e014d9465df636e3f4658e14b2a015d05e06e1e6f6c9d9d15",
     "tests/integration/test_essential_loads.py": "a8ce3c10e2a3bf56b08369bc4cdd37053ec1017211ac0010a525853ed90d13ba",
     "tests/native/test_essential_loads.py": "f0f17d3ac4c55e05549336403edaf06d1955125156ad873699dbcdaf8d7a042a",
