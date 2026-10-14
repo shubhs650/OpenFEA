@@ -1,0 +1,22 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/workspace.spec.ts tests/e2e/loads.spec.ts tests/e2e/materials.spec.ts tests/e2e/mesh.spec.ts
+
+
+Running 11 tests using 1 worker
+
+(node:7549) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/e2e/loads.spec.ts:9:1 › saved face loads, pressure arrows, immutable real deck downloads and conflicts (12.3s)
+  ✓   2 tests/e2e/materials.spec.ts:41:1 › real per-body sample/custom materials, prerequisite blockers, unit cycles and reload (6.9s)
+  ✓   3 tests/e2e/materials.spec.ts:186:1 › conflicting material edits refuse and analysis geometry remains pinned after replacement (8.0s)
+  ✓   4 tests/e2e/mesh.spec.ts:13:1 › real mesh sizes, quality overlay, unit persistence and explicit coarsening (13.5s)
+  ✓   5 tests/e2e/mesh.spec.ts:168:1 › actual curved quadratic mesh preview before loads and bounded failed-quality recovery (13.2s)
+  ✓   6 tests/e2e/mesh.spec.ts:239:1 › mesh recovery permission waits for the real saved settings before editing (3.6s)
+  ✓   7 tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (2.9s)
+  ✓   8 tests/e2e/workspace.spec.ts:100:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (4.8s)
+  ✓   9 tests/e2e/workspace.spec.ts:152:1 › real stale edit offers reload or conflict copy without overwriting the other session (5.1s)
+  ✓  10 tests/e2e/workspace.spec.ts:203:1 › draft blockers and cancellation protect other edits; undo restores saved material prerequisites (3.1s)
+  ✓  11 tests/e2e/workspace.spec.ts:247:1 › failed conflict-copy application keeps the rejected draft and exposes the created copy (3.7s)
+
+  11 passed (1.3m)

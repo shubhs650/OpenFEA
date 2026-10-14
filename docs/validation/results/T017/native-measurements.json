@@ -1,0 +1,10 @@
+{
+  "u_error_m": 4.778911572789183e-16,
+  "stress_error_pa": 3.649861e-12,
+  "u_tolerance_m": 1e-13,
+  "stress_tolerance_pa": 0.01,
+  "frozen_results_sha256": "a84c958accfeeff6a749dd3098418d664d9959d68595d1b992a4096a4a97885a",
+  "geometry_revision_id": "fc08ffd3-d4ee-4436-9f80-3d9b55c75a2c",
+  "run_revision": 6,
+  "native_run": "cc77090e-d476-434c-a2e2-5455352f6077"
+}

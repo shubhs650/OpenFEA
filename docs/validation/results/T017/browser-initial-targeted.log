@@ -1,0 +1,39 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/workspace.spec.ts
+
+
+Running 3 tests using 1 worker
+
+(node:1543) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (30.0s)
+(node:2072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/e2e/workspace.spec.ts:87:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (8.2s)
+  ✓  3 tests/e2e/workspace.spec.ts:139:1 › real stale edit offers reload or conflict copy without overwriting the other session (7.1s)
+
+
+  1) tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Theme', { exact: true })
+
+
+      64 |     page.getByRole("heading", { name: "0 selected faces", exact: true }),
+      65 |   ).toBeVisible();
+    > 66 |   await page.getByLabel("Theme", { exact: true }).selectOption("dark");
+         |                                                   ^
+      67 |   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+      68 |   expect(
+      69 |     await page.evaluate(
+        at /workspace/OpenFEA/tests/e2e/workspace.spec.ts:66:51
+
+    Error Context: test-results/workspace-checklist-action-64cca-ht-dark-at-target-viewports/error-context.md
+
+  1 failed
+    tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports 
+  2 passed (49.9s)
