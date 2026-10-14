@@ -10,4 +10,5 @@ docs/validation/results/T006/** -text whitespace=-trailing-space
 docs/validation/results/M0/** -text whitespace=-trailing-space
 # Retain the generated OCCT sliver fixture and hash-linked T014 evidence bytes.
 tests/fixtures/geometry/sliver-m.step -text whitespace=-trailing-space
+tests/fixtures/geometry/cantilever-m.step -text whitespace=-trailing-space
 docs/validation/results/T014/** -text whitespace=-trailing-space

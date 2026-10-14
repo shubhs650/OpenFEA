@@ -50,8 +50,35 @@ class YieldFactor(StrictModel):
 class BodyReaction(StrictModel):
     body_id: str
     node_count: int
+    constrained_dof_count: int
     force_n: Vector
     moment_nm: Vector
+
+
+class BalanceCheck(StrictModel):
+    residual: Vector
+    residual_norm: FiniteFloat
+    reference: FiniteFloat
+    relative_residual: FiniteFloat | None
+    criterion: Literal["absolute", "relative"]
+    absolute_tolerance: FiniteFloat
+    relative_tolerance: FiniteFloat
+    tolerance: FiniteFloat
+    passed: bool
+
+
+class EquilibriumData(StrictModel):
+    passed: bool
+    applied_force_n: Vector
+    applied_moment_nm: Vector
+    reaction_force_n: Vector
+    reaction_moment_nm: Vector
+    moment_origin_m: Vector
+    characteristic_length_m: FiniteFloat
+    prescribed_actuator_reference_n: FiniteFloat
+    force: BalanceCheck
+    moment: BalanceCheck
+    method: str
 
 
 class ResultData(StrictModel):
@@ -67,6 +94,7 @@ class ResultData(StrictModel):
     reaction_moment_nm: Vector
     moment_origin_m: Vector
     reaction_method: str
+    equilibrium: EquilibriumData
     warnings: list[str]
     stress_method: str
     extrema_method: str

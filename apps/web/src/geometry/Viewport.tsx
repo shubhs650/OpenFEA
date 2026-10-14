@@ -248,7 +248,11 @@ export function Viewport({
         .setColor(
           ...(marker.kind === "fixed"
             ? ([0.1, 0.55, 0.25] as Point)
-            : ([0.85, 0.1, 0.15] as Point)),
+            : marker.kind === "displacement"
+              ? ([0.15, 0.35, 0.8] as Point)
+              : marker.kind === "gravity"
+                ? ([0.65, 0.3, 0.05] as Point)
+                : ([0.85, 0.1, 0.15] as Point)),
         );
       actor.getProperty().setLineWidth(3);
       renderer.addActor(actor);

@@ -171,6 +171,84 @@
         "title": "Artifact",
         "type": "object"
       },
+      "BalanceCheck": {
+        "additionalProperties": false,
+        "properties": {
+          "absolute_tolerance": {
+            "title": "Absolute Tolerance",
+            "type": "number"
+          },
+          "criterion": {
+            "enum": [
+              "absolute",
+              "relative"
+            ],
+            "title": "Criterion",
+            "type": "string"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "number"
+          },
+          "relative_residual": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relative Residual"
+          },
+          "relative_tolerance": {
+            "title": "Relative Tolerance",
+            "type": "number"
+          },
+          "residual": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Residual",
+            "type": "array"
+          },
+          "residual_norm": {
+            "title": "Residual Norm",
+            "type": "number"
+          },
+          "tolerance": {
+            "title": "Tolerance",
+            "type": "number"
+          }
+        },
+        "required": [
+          "residual",
+          "residual_norm",
+          "reference",
+          "relative_residual",
+          "criterion",
+          "absolute_tolerance",
+          "relative_tolerance",
+          "tolerance",
+          "passed"
+        ],
+        "title": "BalanceCheck",
+        "type": "object"
+      },
       "BodyDisplay": {
         "additionalProperties": false,
         "properties": {
@@ -199,6 +277,30 @@
             ],
             "title": "Bounds M",
             "type": "array"
+          },
+          "center_m": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Center M"
           },
           "id": {
             "title": "Id",
@@ -281,6 +383,10 @@
             "title": "Body Id",
             "type": "string"
           },
+          "constrained_dof_count": {
+            "title": "Constrained Dof Count",
+            "type": "integer"
+          },
           "force_n": {
             "maxItems": 3,
             "minItems": 3,
@@ -323,6 +429,7 @@
         "required": [
           "body_id",
           "node_count",
+          "constrained_dof_count",
           "force_n",
           "moment_nm"
         ],
@@ -498,6 +605,71 @@
         "title": "DeckExport",
         "type": "object"
       },
+      "DisplacementInput": {
+        "additionalProperties": false,
+        "properties": {
+          "axis": {
+            "enum": [
+              "x",
+              "y",
+              "z"
+            ],
+            "title": "Axis",
+            "type": "string"
+          },
+          "displacement": {
+            "title": "Displacement",
+            "type": "number"
+          },
+          "face_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 200,
+            "minItems": 1,
+            "title": "Face Ids",
+            "type": "array"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "kind": {
+            "const": "displacement",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Units",
+            "type": "string"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "face_ids",
+          "name",
+          "kind",
+          "units",
+          "axis",
+          "displacement"
+        ],
+        "title": "DisplacementInput",
+        "type": "object"
+      },
       "DisplayUnitsPatch": {
         "additionalProperties": false,
         "properties": {
@@ -656,6 +828,133 @@
           "analysis"
         ],
         "title": "EditResult",
+        "type": "object"
+      },
+      "EquilibriumData": {
+        "additionalProperties": false,
+        "properties": {
+          "applied_force_n": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Applied Force N",
+            "type": "array"
+          },
+          "applied_moment_nm": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Applied Moment Nm",
+            "type": "array"
+          },
+          "characteristic_length_m": {
+            "title": "Characteristic Length M",
+            "type": "number"
+          },
+          "force": {
+            "$ref": "#/components/schemas/BalanceCheck"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "moment": {
+            "$ref": "#/components/schemas/BalanceCheck"
+          },
+          "moment_origin_m": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Moment Origin M",
+            "type": "array"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "prescribed_actuator_reference_n": {
+            "title": "Prescribed Actuator Reference N",
+            "type": "number"
+          },
+          "reaction_force_n": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Reaction Force N",
+            "type": "array"
+          },
+          "reaction_moment_nm": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Reaction Moment Nm",
+            "type": "array"
+          }
+        },
+        "required": [
+          "passed",
+          "applied_force_n",
+          "applied_moment_nm",
+          "reaction_force_n",
+          "reaction_moment_nm",
+          "moment_origin_m",
+          "characteristic_length_m",
+          "prescribed_actuator_reference_n",
+          "force",
+          "moment",
+          "method"
+        ],
+        "title": "EquilibriumData",
         "type": "object"
       },
       "ErrorResponse": {
@@ -1334,6 +1633,79 @@
         "title": "GeometryRevision",
         "type": "object"
       },
+      "GravityInput": {
+        "additionalProperties": false,
+        "properties": {
+          "acceleration": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Acceleration",
+            "type": "array"
+          },
+          "body_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Body Ids",
+            "type": "array"
+          },
+          "combine_confirmed": {
+            "default": false,
+            "title": "Combine Confirmed",
+            "type": "boolean"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "kind": {
+            "const": "gravity",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "units": {
+            "enum": [
+              "mm-N-MPa",
+              "m-N-Pa",
+              "inch-lbf-psi"
+            ],
+            "title": "Units",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "geometry_revision_id",
+          "body_ids",
+          "name",
+          "units",
+          "acceleration"
+        ],
+        "title": "GravityInput",
+        "type": "object"
+      },
       "Health": {
         "properties": {
           "service": {
@@ -1576,10 +1948,70 @@
       "LoadAssignment": {
         "additionalProperties": false,
         "properties": {
+          "acceleration_m_s2": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acceleration M S2"
+          },
+          "axis": {
+            "anyOf": [
+              {
+                "enum": [
+                  "x",
+                  "y",
+                  "z"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Axis"
+          },
+          "body_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Body Ids",
+            "type": "array"
+          },
           "combine_confirmed": {
             "default": false,
             "title": "Combine Confirmed",
             "type": "boolean"
+          },
+          "displacement_m": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Displacement M"
           },
           "face_ids": {
             "items": {
@@ -1628,7 +2060,9 @@
             "enum": [
               "fixed",
               "pressure",
-              "force"
+              "force",
+              "displacement",
+              "gravity"
             ],
             "title": "Kind",
             "type": "string"
@@ -1650,6 +2084,15 @@
             ],
             "title": "Pressure Pa"
           },
+          "review_bodies": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "title": "Review Bodies",
+            "type": "array"
+          },
           "review_faces": {
             "items": {
               "maxLength": 200,
@@ -1658,6 +2101,41 @@
             },
             "title": "Review Faces",
             "type": "array"
+          },
+          "source_acceleration": {
+            "anyOf": [
+              {
+                "maxItems": 3,
+                "minItems": 3,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Acceleration"
+          },
+          "source_displacement": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Displacement"
           },
           "source_force": {
             "anyOf": [
@@ -1715,8 +2193,7 @@
           "id",
           "name",
           "kind",
-          "geometry_revision_id",
-          "face_ids"
+          "geometry_revision_id"
         ],
         "title": "LoadAssignment",
         "type": "object"
@@ -1758,7 +2235,9 @@
             "enum": [
               "fixed",
               "pressure",
-              "force"
+              "force",
+              "displacement",
+              "gravity"
             ],
             "title": "Kind",
             "type": "string"
@@ -1826,6 +2305,22 @@
             "title": "Force N",
             "type": "array"
           },
+          "force_scale_n": {
+            "default": 0,
+            "title": "Force Scale N",
+            "type": "number"
+          },
+          "mass_kg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mass Kg"
+          },
           "moment_nm": {
             "maxItems": 3,
             "minItems": 3,
@@ -1842,6 +2337,11 @@
             ],
             "title": "Moment Nm",
             "type": "array"
+          },
+          "moment_scale_nm": {
+            "default": 0,
+            "title": "Moment Scale Nm",
+            "type": "number"
           }
         },
         "required": [
@@ -1859,8 +2359,10 @@
           "assignment": {
             "discriminator": {
               "mapping": {
+                "displacement": "#/components/schemas/DisplacementInput",
                 "fixed": "#/components/schemas/FixedInput",
                 "force": "#/components/schemas/ForceInput",
+                "gravity": "#/components/schemas/GravityInput",
                 "pressure": "#/components/schemas/PressureInput"
               },
               "propertyName": "kind"
@@ -1874,6 +2376,12 @@
               },
               {
                 "$ref": "#/components/schemas/ForceInput"
+              },
+              {
+                "$ref": "#/components/schemas/DisplacementInput"
+              },
+              {
+                "$ref": "#/components/schemas/GravityInput"
               }
             ],
             "title": "Assignment"
@@ -1925,6 +2433,16 @@
             "title": "Blockers",
             "type": "array"
           },
+          "characteristic_length_m": {
+            "default": 0,
+            "title": "Characteristic Length M",
+            "type": "number"
+          },
+          "force_scale_n": {
+            "default": 0,
+            "title": "Force Scale N",
+            "type": "number"
+          },
           "geometry_revision_id": {
             "anyOf": [
               {
@@ -1944,12 +2462,22 @@
             "title": "Markers",
             "type": "array"
           },
+          "moment_scale_nm": {
+            "default": 0,
+            "title": "Moment Scale Nm",
+            "type": "number"
+          },
           "previews": {
             "items": {
               "$ref": "#/components/schemas/LoadPreview"
             },
             "title": "Previews",
             "type": "array"
+          },
+          "resultant_complete": {
+            "default": true,
+            "title": "Resultant Complete",
+            "type": "boolean"
           },
           "setup": {
             "$ref": "#/components/schemas/LoadSetup"
@@ -3118,6 +3646,44 @@
         "title": "ProjectPage",
         "type": "object"
       },
+      "ReselectBodies": {
+        "additionalProperties": false,
+        "properties": {
+          "body_ids": {
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Body Ids",
+            "type": "array"
+          },
+          "combine_confirmed": {
+            "default": false,
+            "title": "Combine Confirmed",
+            "type": "boolean"
+          },
+          "geometry_revision_id": {
+            "format": "uuid",
+            "title": "Geometry Revision Id",
+            "type": "string"
+          },
+          "reviewed": {
+            "const": true,
+            "title": "Reviewed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "geometry_revision_id",
+          "body_ids",
+          "reviewed"
+        ],
+        "title": "ReselectBodies",
+        "type": "object"
+      },
       "ReselectFaces": {
         "additionalProperties": false,
         "properties": {
@@ -3161,6 +3727,9 @@
         "properties": {
           "displacement": {
             "$ref": "#/components/schemas/ResultExtrema"
+          },
+          "equilibrium": {
+            "$ref": "#/components/schemas/EquilibriumData"
           },
           "extrema_method": {
             "title": "Extrema Method",
@@ -3298,6 +3867,7 @@
           "reaction_moment_nm",
           "moment_origin_m",
           "reaction_method",
+          "equilibrium",
           "warnings",
           "stress_method",
           "extrema_method"
@@ -5404,6 +5974,195 @@
           }
         ],
         "summary": "Remove"
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/bodies": {
+      "put": {
+        "operationId": "reselect_bodies_api_v1_analyses__analysis_id__loads__assignment_id__bodies_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "analysis_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Analysis Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "assignment_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Assignment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "if-match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReselectBodies"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoadState"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Reselect Bodies"
       }
     },
     "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/faces": {

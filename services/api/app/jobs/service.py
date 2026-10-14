@@ -316,12 +316,38 @@ class JobService:
                         "services/worker/worker/postprocess/fields.py",
                         "services/worker/worker/postprocess/tensors.py",
                         "services/worker/worker/meshing.py",
+                        "services/worker/worker/actions.py",
                         "services/worker/worker/calculix/results.py",
                         "services/api/app/jobs/service.py",
                         "services/api/app/domain/results.py",
                     )
                 },
-                data=ResultData.model_validate(build_view(raw, mesh, materials, deck)),
+                data=ResultData.model_validate(
+                    build_view(
+                        raw,
+                        mesh,
+                        materials,
+                        deck,
+                        load_state(
+                            inputs.snapshot.analysis,
+                            inputs.snapshot.geometry,
+                            inputs.snapshot.materials,
+                            inputs.snapshot.loads,
+                            inputs.display,
+                        ).model_dump(mode="json")
+                        | {
+                            "equilibrium_policy": inputs.policy.get(
+                                "equilibrium",
+                                {
+                                    "version": 1,
+                                    "relative": 0.005,
+                                    "force_absolute_n": 1e-6,
+                                    "moment_absolute_nm": 1e-6,
+                                },
+                            )
+                        },
+                    )
+                ),
             )
             self.repository.get(owner, identifier)
             return view

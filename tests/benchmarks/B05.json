@@ -1,0 +1,27 @@
+{
+  "id": "B05",
+  "revision": 1,
+  "source": "Independent exact nu=0 self-weight continuum solution: uz(z)=-rho*g*(L*z-z^2/2)/E, sigma_zz(z)=-rho*g*(L-z), ux=uy=0, other stress components zero; weight=rho*V*g",
+  "units": "m,N,Pa,kg,s",
+  "geometry": "Synthetic unit cube, 0<=x,y,z<=1 m, L=1 m, V=1 m^3",
+  "material": { "E_pa": 210000000000, "nu": 0, "density_kg_m3": 7850 },
+  "element": "C3D10 affine",
+  "mesh_sizes_m": [0.5, 0.3],
+  "supports": "All translations fixed on complete immutable z=0 face",
+  "loads": "Uniform global acceleration (0,0,-9.80665) m/s^2 on the complete body, written as native GRAV with density; no equivalent CLOAD duplication",
+  "samples": "All native DAT nodes and raw IP tensor components at their actual positions; corrected support reaction/weight and moments about global origin; every quadratic midside retained",
+  "acceleration_m_s2": [0, 0, -9.80665],
+  "expected_weight_n": 76982.2025,
+  "expected_top_uz_m": -0.00000018329095833333333,
+  "tolerances": {
+    "relative": 0.000001,
+    "displacement_absolute_m": 1e-12,
+    "stress_absolute_pa": 0.1,
+    "equilibrium_relative": 0.005,
+    "force_absolute_n": 0.01,
+    "moment_absolute_nm": 0.01
+  },
+  "exclusions": "None; nu=0 removes lateral contraction/end disturbance so quadratic displacement is an exact continuum reference; no claim for arbitrary nu/clamped gravity shapes",
+  "reason": "Exact polynomial solution tests native density/GRAV, consistent negative corner/positive midside body loads and RF subtraction under unchanged proposed equilibrium policy",
+  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+}

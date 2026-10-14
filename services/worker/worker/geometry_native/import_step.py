@@ -178,7 +178,14 @@ def export_shape(shape, source_sha256, unit, detected):
                 "invalid_geometry",
                 "A solid has invalid volume/orientation; export valid closed solids",
             )
-        body_display.append({"id": body_id, "volume_m3": props.Mass(), "bounds_m": bounds(solid)})
+        body_display.append(
+            {
+                "id": body_id,
+                "volume_m3": props.Mass(),
+                "bounds_m": bounds(solid),
+                "center_m": props.CentreOfMass().Coord(),
+            }
+        )
         filename = f"body{bi}.brep"
         if not BRepTools.Write_s(solid, filename):
             raise RuntimeError("Cannot write body geometry")

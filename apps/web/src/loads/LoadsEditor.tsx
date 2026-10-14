@@ -46,6 +46,11 @@ export function LoadsEditor({
   const [name, setName] = useState("");
   const [pressure, setPressure] = useState("");
   const [force, setForce] = useState(["", "", ""]);
+  const [displacement, setDisplacement] = useState("");
+  const [axis, setAxis] = useState("x");
+  const [acceleration, setAcceleration] = useState(["", "", ""]);
+  const [bodies, setBodies] = useState<string[]>([]);
+  const [gravityBodies, setGravityBodies] = useState<string[]>([]);
   const [combine, setCombine] = useState(false);
   const [error, setError] = useState("");
   const [conflict, setConflict] = useState(false);
@@ -54,6 +59,8 @@ export function LoadsEditor({
   useEffect(() => {
     setPressure("");
     setForce(["", "", ""]);
+    setDisplacement("");
+    setAcceleration(["", "", ""]);
   }, [preset.id]);
   useEffect(() => {
     let current = true;
@@ -62,11 +69,15 @@ export function LoadsEditor({
     void Promise.all([
       api<LoadState>(`/analyses/${analysisId}/loads`),
       api<DeckExport[]>(`/analyses/${analysisId}/deck-exports`),
+      api<{ bodies: { id: string }[] }>(`/geometry/${geometryId}`),
     ])
-      .then(([data, outputs]) => {
+      .then(([data, outputs, geometry]) => {
         if (current) {
           setState(data);
           setExports(outputs);
+          const ids = geometry.bodies.map((b) => b.id);
+          setBodies(ids);
+          setGravityBodies((old) => old.filter((id) => ids.includes(id)));
           preview(data);
           const stale = data.analysis_revision !== revision;
           setConflict(stale);
@@ -83,23 +94,35 @@ export function LoadsEditor({
     return () => {
       current = false;
     };
-  }, [analysisId, revision]);
+  }, [analysisId, revision, geometryId]);
 
   const aligned =
     state?.analysis_revision === revision &&
     state.geometry_revision_id === geometryId;
-  const overlap =
-    !!state?.setup.assignments?.some(
-      (a) => a.kind !== "fixed" && a.face_ids.some((f) => selected.has(f)),
-    ) && kind !== "fixed";
+  const overlap = !!state?.setup.assignments?.some((a) =>
+    kind === "gravity"
+      ? a.kind === "gravity" &&
+        !a.review_bodies?.length &&
+        a.body_ids?.some((id) => gravityBodies.includes(id))
+      : ["pressure", "force"].includes(kind) &&
+        ["pressure", "force"].includes(a.kind) &&
+        !a.review_faces?.length &&
+        a.face_ids?.some((f) => selected.has(f)),
+  );
   const valid =
     kind === "fixed" ||
-    (kind === "pressure"
-      ? pressure.trim() !== "" &&
-        Number.isFinite(Number(pressure)) &&
-        Number(pressure) !== 0
-      : force.every((v) => v.trim() !== "" && Number.isFinite(Number(v))) &&
-        force.some((v) => Number(v) !== 0));
+    (kind === "displacement"
+      ? displacement.trim() !== "" && Number.isFinite(Number(displacement))
+      : kind === "gravity"
+        ? acceleration.every(
+            (v) => v.trim() !== "" && Number.isFinite(Number(v)),
+          ) && acceleration.some((v) => Number(v) !== 0)
+        : kind === "pressure"
+          ? pressure.trim() !== "" &&
+            Number.isFinite(Number(pressure)) &&
+            Number(pressure) !== 0
+          : force.every((v) => v.trim() !== "" && Number.isFinite(Number(v))) &&
+            force.some((v) => Number(v) !== 0));
   async function change(path: string, payload?: unknown, method = "POST") {
     if (!aligned) return;
     setBusy(true);
@@ -115,7 +138,7 @@ export function LoadsEditor({
       setState(next);
       preview(next);
       saved(next.analysis_revision);
-      setStatus("Face assignments saved in a new analysis revision.");
+      setStatus("Assignments saved in a new analysis revision.");
       setCombine(false);
     } catch (e) {
       setStatus("Assignment was not saved.");
@@ -152,7 +175,7 @@ export function LoadsEditor({
   }
   return (
     <section aria-label="Face loads" className="loads-panel">
-      <h2>Fixed faces and loads</h2>
+      <h2>Supports, face loads and body gravity</h2>
       <p>
         Global X, Y, Z directions. Positive pressure acts inward; negative
         pressure acts outward. Total force is spread over the entire selected
@@ -184,8 +207,93 @@ export function LoadsEditor({
           <option value="fixed">Fixed (all translations)</option>
           <option value="pressure">Uniform pressure</option>
           <option value="force">Total distributed force</option>
+          <option value="displacement">
+            Prescribed global displacement component
+          </option>
+          <option value="gravity">Gravity (body acceleration)</option>
         </select>
       </label>
+      {kind === "displacement" && (
+        <>
+          <label>
+            Prescribed global component
+            <select
+              value={axis}
+              disabled={busy}
+              onChange={(e) => setAxis(e.target.value)}
+            >
+              {["x", "y", "z"].map((a) => (
+                <option key={a} value={a}>
+                  {a.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Prescribed displacement ({preset.length.label})
+            <input
+              type="number"
+              step="any"
+              disabled={busy}
+              value={displacement}
+              onChange={(e) => setDisplacement(e.target.value)}
+            />
+          </label>
+          <p>
+            Zero is allowed. Only this global component is constrained; other
+            translations remain free. Shared edges/vertices inherit face
+            constraints. Conflicting values are refused.
+          </p>
+        </>
+      )}
+      {(kind === "gravity" ||
+        state?.setup.assignments?.some((a) => a.review_bodies?.length)) && (
+        <fieldset>
+          <legend>Gravity bodies</legend>
+          {bodies.map((id, i) => (
+            <label key={id} className="check">
+              <input
+                type="checkbox"
+                disabled={busy}
+                checked={gravityBodies.includes(id)}
+                onChange={(e) =>
+                  setGravityBodies((old) =>
+                    e.target.checked
+                      ? [...old, id]
+                      : old.filter((x) => x !== id),
+                  )
+                }
+              />
+              Gravity body {i + 1}
+            </label>
+          ))}
+          <p>
+            Apply acceleration to complete selected bodies. Positive density is
+            required for weight and solve; missing density leaves weight
+            unavailable.
+          </p>
+        </fieldset>
+      )}
+      {kind === "gravity" && (
+        <div className="force-inputs">
+          {["X", "Y", "Z"].map((a, i) => (
+            <label key={a}>
+              Acceleration {a} ({preset.acceleration.label})
+              <input
+                type="number"
+                step="any"
+                disabled={busy}
+                value={acceleration[i]}
+                onChange={(e) =>
+                  setAcceleration((old) =>
+                    old.map((v, k) => (k === i ? e.target.value : v)),
+                  )
+                }
+              />
+            </label>
+          ))}
+        </div>
+      )}
       {kind === "pressure" && (
         <label>
           Pressure ({preset.stress.label})
@@ -235,7 +343,7 @@ export function LoadsEditor({
           conflict ||
           !aligned ||
           !name.trim() ||
-          !selected.size ||
+          (kind === "gravity" ? !gravityBodies.length : !selected.size) ||
           !valid ||
           (overlap && !combine)
         }
@@ -245,42 +353,63 @@ export function LoadsEditor({
               kind,
               name,
               geometry_revision_id: geometryId,
-              face_ids: [...selected],
-              ...(kind === "pressure"
-                ? {
-                    units: preset.id,
-                    pressure: Number(pressure),
-                    combine_confirmed: combine,
-                  }
-                : kind === "force"
+              ...(kind === "gravity"
+                ? { body_ids: gravityBodies }
+                : { face_ids: [...selected] }),
+              ...(kind === "displacement"
+                ? { units: preset.id, axis, displacement: Number(displacement) }
+                : kind === "gravity"
                   ? {
                       units: preset.id,
-                      force: force.map(Number),
+                      acceleration: acceleration.map(Number),
                       combine_confirmed: combine,
                     }
-                  : {}),
+                  : kind === "pressure"
+                    ? {
+                        units: preset.id,
+                        pressure: Number(pressure),
+                        combine_confirmed: combine,
+                      }
+                    : kind === "force"
+                      ? {
+                          units: preset.id,
+                          force: force.map(Number),
+                          combine_confirmed: combine,
+                        }
+                      : {}),
             },
           })
         }
       >
-        Save face assignment
+        {kind === "gravity" ? "Save body gravity" : "Save face assignment"}
       </button>
       {state && (
         <>
           <p>
-            Saved resultant (N):{" "}
-            {state.total_force_n.map((v) => v.toPrecision(6)).join(", ")} ·
+            {state.resultant_complete
+              ? "Saved resultant"
+              : "Known resultant (incomplete — unresolved contributions withheld)"}{" "}
+            (N): {state.total_force_n.map((v) => v.toPrecision(6)).join(", ")} ·
             Moment about global origin (N·m):{" "}
             {state.total_moment_nm.map((v) => v.toPrecision(6)).join(", ")}
           </p>
           <p>
             Arrow lengths are illustrative. Arrows show applied load directions;
-            fixed glyphs constrain all translations.
+            fixed glyphs constrain all translations. Blue component arrows show
+            prescribed/support directions, not forces; gravity arrows start at
+            native body centres of mass.
           </p>
           <ul>
             {state.setup.assignments?.map((a) => (
               <li key={a.id} data-assignment-id={a.id}>
-                <strong>{a.name}</strong> · {a.kind} · {a.face_ids.length} faces
+                <strong>{a.name}</strong> · {a.kind} ·{" "}
+                {a.kind === "gravity"
+                  ? `${a.body_ids?.length ?? 0} bodies`
+                  : `${a.face_ids?.length ?? 0} faces`}
+                {a.displacement_m != null &&
+                  ` · u${a.axis?.toUpperCase()} = ${(a.displacement_m / preset.length.to_si).toPrecision(6)} ${preset.length.label}; other components free`}
+                {a.acceleration_m_s2 &&
+                  ` · [${a.acceleration_m_s2.map((v) => (v / preset.acceleration.to_si).toPrecision(6)).join(", ")}] ${preset.acceleration.label}`}
                 {a.pressure_pa !== null &&
                   a.pressure_pa !== undefined &&
                   ` · ${(a.pressure_pa / preset.stress.to_si).toPrecision(6)} ${preset.stress.label} (${a.pressure_pa > 0 ? "inward" : "outward"})`}
@@ -309,6 +438,34 @@ export function LoadsEditor({
                       }
                     >
                       Reselect faces for {a.name}
+                    </button>
+                  </>
+                )}
+                {!!a.review_bodies?.length && (
+                  <>
+                    <p>
+                      Needs body/weight review: {a.review_bodies.join(", ")}.
+                      Geometry changed mass/centroid. Saved acceleration and
+                      source values remain unchanged.
+                    </p>
+                    <button
+                      disabled={
+                        busy || conflict || !aligned || !gravityBodies.length
+                      }
+                      onClick={() =>
+                        void change(
+                          `/loads/${a.id}/bodies`,
+                          {
+                            geometry_revision_id: geometryId,
+                            body_ids: gravityBodies,
+                            reviewed: true,
+                            combine_confirmed: combine,
+                          },
+                          "PUT",
+                        )
+                      }
+                    >
+                      Reselect bodies for {a.name}
                     </button>
                   </>
                 )}
@@ -341,10 +498,10 @@ export function LoadsEditor({
       </button>
       <p>
         Coarse planar C3D10 preview: at most 3,000 elements and 60 seconds.
-        Bodies remain independent and each needs a fixed face. Export can reject
-        an ambiguous mapping, unsuitable mesh or force on fixed degrees of
-        freedom. Local solve jobs and calculated result views are available
-        below.
+        Bodies remain independent and need sufficient global component supports.
+        Export can reject an ambiguous mapping, unsuitable mesh or force on
+        fixed degrees of freedom. Local solve jobs and calculated result views
+        are available below.
       </p>
       <ul aria-label="Saved deck exports">
         {exports.map((e) => (
@@ -384,7 +541,9 @@ export function LoadsEditor({
           meshReady &&
           aligned &&
           !conflict &&
-          !state?.setup.assignments?.some((a) => a.review_faces?.length)
+          !state?.setup.assignments?.some(
+            (a) => a.review_faces?.length || a.review_bodies?.length,
+          )
         }
         busy={busy}
         setBusy={setBusy}

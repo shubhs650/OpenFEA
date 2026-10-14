@@ -122,11 +122,11 @@ def test_pressure_on_fixed_nodes_is_removed_from_rf_and_support_nodes_deduplicat
     equivalent = surface_integral([wire["nodes"][n] for n in face["nodes"]], pressure=1000)[2]
     # Independent prescribed equilibrium: RF contains applied + reaction.
     for n, force in zip(face["nodes"], equivalent, strict=True):
-        raw["dat"]["external_forces_n"][n] = (force[0], force[1], force[2] - 10)
+        raw["dat"]["external_forces_n"][n] = (force[0], force[1], force[2] - 500 / 6)
     # Repeated boundary constraints must not create repeated support reactions.
     deck = deck.replace("*STEP", "1,1,3,0\n*STEP")
     result = build_view(raw, wire, materials, deck)
-    assert result["reaction_force_n"] == pytest.approx([0, 0, -60], abs=1e-12)
+    assert result["reaction_force_n"] == pytest.approx([0, 0, -500], abs=1e-12)
     assert result["reactions"][0]["node_count"] == 6
 
 

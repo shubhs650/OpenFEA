@@ -74,20 +74,7 @@ def validate_outputs(
     equations = re.search(r"number of equations\s*+:?\s*+(\d+)", log, re.I)
     if equations is None or int(equations[1]) <= 0:
         raise ValueError("No actual free equations were solved")
-    mesh = Mesh(
-        {
-            int(n): (
-                float(f"{point[0]:.12e}"),
-                float(f"{point[1]:.12e}"),
-                float(f"{point[2]:.12e}"),
-            )
-            for n, point in raw_mesh["nodes"].items()
-        },
-        {int(e): tuple(ns) for e, ns in raw_mesh["elements"].items()},
-        {int(e): body for e, body in raw_mesh["owners"].items()},
-        {int(e): materials[body] for e, body in raw_mesh["owners"].items()},
-        raw_mesh["revision"],
-    )
+    mesh = result_mesh(raw_mesh, materials)
     dat = parse_dat(output / "analysis.dat", mesh)
     frd = parse_frd(output / "analysis.frd", mesh)
     samples = [asdict(sample) for sample in dat.pop("samples")]
@@ -125,3 +112,20 @@ def validate_outputs(
     # Ensure canonical serialized values remain finite, including derived metadata.
     json.dumps(result, allow_nan=False)
     return result, summary
+
+
+def result_mesh(raw_mesh: dict[str, Any], materials: dict[str, str]) -> Mesh:
+    return Mesh(
+        {
+            int(n): (
+                float(f"{point[0]:.12e}"),
+                float(f"{point[1]:.12e}"),
+                float(f"{point[2]:.12e}"),
+            )
+            for n, point in raw_mesh["nodes"].items()
+        },
+        {int(e): tuple(ns) for e, ns in raw_mesh["elements"].items()},
+        {int(e): body for e, body in raw_mesh["owners"].items()},
+        {int(e): materials[body] for e, body in raw_mesh["owners"].items()},
+        raw_mesh["revision"],
+    )

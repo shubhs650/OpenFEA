@@ -18,6 +18,11 @@ def remap_loads(edit: GeometryEdit, geometry: GeometryRevision, setup: LoadSetup
     mappings = {m.source_face_id: m for m in edit.preview.mappings}
     assignments = []
     for item in setup.assignments:
+        if item.kind == "gravity":
+            assignments.append(
+                item.model_copy(update={"review_bodies": item.review_bodies or item.body_ids})
+            )
+            continue  # Body mass/centroid changed; never silently transfer gravity.
         uncertain = [
             f for f in item.face_ids if f not in mappings or mappings[f].status != "unchanged"
         ]
@@ -281,7 +286,7 @@ class EditRepository:
                     update={
                         "assignments": [
                             a.model_copy(update={"geometry_revision_id": geometry.id})
-                            if not a.review_faces
+                            if not a.review_faces and not a.review_bodies
                             else a
                             for a in loads.assignments
                         ]

@@ -15,7 +15,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.domain.deck_service import canonical
 from app.domain.errors import DomainError
-from app.domain.jobs import JobInput
+from app.domain.jobs import Artifact, JobInput, MeshSource
 from app.domain.loads import DeckSnapshot
 from app.domain.models import AnalysisPatch
 from app.persistence.database import Database
@@ -366,3 +366,45 @@ def test_populated_migration_round_trip_keeps_prior_analysis(tmp_path: Path) -> 
             assert connection.exec_driver_sql("PRAGMA foreign_key_check").all() == []
     finally:
         database.close()
+
+
+def test_successful_solve_cannot_publish_missing_or_inconsistent_equilibrium_certificate(
+    client: TestClient,
+    application: FastAPI,
+) -> None:
+    # State-only negative test: no numerical result or native success is fabricated.
+    store, owner, inputs = queued(client, application)
+    mesh = enqueue(store, owner, inputs)
+    store.cancel(owner, mesh.id)
+    artifact = Artifact(sha256="d" * 64, size_bytes=1, media_type="application/json")
+    solving = inputs.model_copy(
+        update={
+            "kind": "solve",
+            "mesh": MeshSource(job_id=mesh.id, sha256=artifact.sha256),
+            "deck_sha256": "d" * 64,
+        }
+    )
+    job = enqueue(store, owner, solving)
+    claimed = store.claim(uuid4())
+    assert claimed is not None and claimed[0].id == job.id
+    files = {
+        name: artifact
+        for name in (
+            "snapshot.json",
+            "mesh.json",
+            "resources.json",
+            "analysis.inp",
+            "solver.log",
+            "analysis.dat",
+            "analysis.frd",
+            "results.json",
+        )
+    }
+    files["snapshot.json"] = artifact.model_copy(update={"sha256": job.input_sha256})
+    for balance in ({}, {"passed": True, "force": {"passed": False}, "moment": {"passed": True}}):
+        with pytest.raises(ValueError, match="external force and moment equilibrium"):
+            store.finish(
+                job.id, claimed[1], "succeeded", None, None, {"equilibrium": balance}, files
+            )
+        assert store.get(owner, job.id).status == "running"
+    store.finish(job.id, claimed[1], "failed", "synthetic_state_test", None, {}, {})

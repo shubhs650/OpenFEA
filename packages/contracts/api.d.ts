@@ -109,6 +109,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/bodies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Reselect Bodies */
+        put: operations["reselect_bodies_api_v1_analyses__analysis_id__loads__assignment_id__bodies_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/analyses/{analysis_id}/loads/{assignment_id}/faces": {
         parameters: {
             query?: never;
@@ -886,6 +903,34 @@ export interface components {
             /** Size Bytes */
             size_bytes: number;
         };
+        /** BalanceCheck */
+        BalanceCheck: {
+            /** Absolute Tolerance */
+            absolute_tolerance: number;
+            /**
+             * Criterion
+             * @enum {string}
+             */
+            criterion: "absolute" | "relative";
+            /** Passed */
+            passed: boolean;
+            /** Reference */
+            reference: number;
+            /** Relative Residual */
+            relative_residual: number | null;
+            /** Relative Tolerance */
+            relative_tolerance: number;
+            /** Residual */
+            residual: [
+                number,
+                number,
+                number
+            ];
+            /** Residual Norm */
+            residual_norm: number;
+            /** Tolerance */
+            tolerance: number;
+        };
         /** BodyDisplay */
         BodyDisplay: {
             /** Bounds M */
@@ -897,6 +942,12 @@ export interface components {
                 number,
                 number
             ];
+            /** Center M */
+            center_m?: [
+                number,
+                number,
+                number
+            ] | null;
             /** Id */
             id: string;
             /** Volume M3 */
@@ -925,6 +976,8 @@ export interface components {
         BodyReaction: {
             /** Body Id */
             body_id: string;
+            /** Constrained Dof Count */
+            constrained_dof_count: number;
             /** Force N */
             force_n: [
                 number,
@@ -1008,6 +1061,35 @@ export interface components {
                 [key: string]: number | string | string[];
             };
         };
+        /** DisplacementInput */
+        DisplacementInput: {
+            /**
+             * Axis
+             * @enum {string}
+             */
+            axis: "x" | "y" | "z";
+            /** Displacement */
+            displacement: number;
+            /** Face Ids */
+            face_ids: string[];
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "displacement";
+            /** Name */
+            name: string;
+            /**
+             * Units
+             * @enum {string}
+             */
+            units: "mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi";
+        };
         /** DisplayUnitsPatch */
         DisplayUnitsPatch: {
             /**
@@ -1066,6 +1148,49 @@ export interface components {
             analysis: components["schemas"]["Analysis"] | null;
             geometry: components["schemas"]["GeometryRevision"];
             project: components["schemas"]["Project"];
+        };
+        /** EquilibriumData */
+        EquilibriumData: {
+            /** Applied Force N */
+            applied_force_n: [
+                number,
+                number,
+                number
+            ];
+            /** Applied Moment Nm */
+            applied_moment_nm: [
+                number,
+                number,
+                number
+            ];
+            /** Characteristic Length M */
+            characteristic_length_m: number;
+            force: components["schemas"]["BalanceCheck"];
+            /** Method */
+            method: string;
+            moment: components["schemas"]["BalanceCheck"];
+            /** Moment Origin M */
+            moment_origin_m: [
+                number,
+                number,
+                number
+            ];
+            /** Passed */
+            passed: boolean;
+            /** Prescribed Actuator Reference N */
+            prescribed_actuator_reference_n: number;
+            /** Reaction Force N */
+            reaction_force_n: [
+                number,
+                number,
+                number
+            ];
+            /** Reaction Moment Nm */
+            reaction_moment_nm: [
+                number,
+                number,
+                number
+            ];
         };
         /** ErrorResponse */
         ErrorResponse: {
@@ -1325,6 +1450,39 @@ export interface components {
                 [key: string]: components["schemas"]["JsonValue"];
             };
         };
+        /** GravityInput */
+        GravityInput: {
+            /** Acceleration */
+            acceleration: [
+                number,
+                number,
+                number
+            ];
+            /** Body Ids */
+            body_ids: string[];
+            /**
+             * Combine Confirmed
+             * @default false
+             */
+            combine_confirmed: boolean;
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            kind: "gravity";
+            /** Name */
+            name: string;
+            /**
+             * Units
+             * @enum {string}
+             */
+            units: "mm-N-MPa" | "m-N-Pa" | "inch-lbf-psi";
+        };
         /** Health */
         Health: {
             /**
@@ -1429,13 +1587,25 @@ export interface components {
         JsonValue: unknown;
         /** LoadAssignment */
         LoadAssignment: {
+            /** Acceleration M S2 */
+            acceleration_m_s2?: [
+                number,
+                number,
+                number
+            ] | null;
+            /** Axis */
+            axis?: ("x" | "y" | "z") | null;
+            /** Body Ids */
+            body_ids?: string[];
             /**
              * Combine Confirmed
              * @default false
              */
             combine_confirmed: boolean;
+            /** Displacement M */
+            displacement_m?: number | null;
             /** Face Ids */
-            face_ids: string[];
+            face_ids?: string[];
             /** Force N */
             force_n?: [
                 number,
@@ -1456,13 +1626,23 @@ export interface components {
              * Kind
              * @enum {string}
              */
-            kind: "fixed" | "pressure" | "force";
+            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity";
             /** Name */
             name: string;
             /** Pressure Pa */
             pressure_pa?: number | null;
+            /** Review Bodies */
+            review_bodies?: string[];
             /** Review Faces */
             review_faces?: string[];
+            /** Source Acceleration */
+            source_acceleration?: [
+                number,
+                number,
+                number
+            ] | null;
+            /** Source Displacement */
+            source_displacement?: number | null;
             /** Source Force */
             source_force?: [
                 number,
@@ -1495,7 +1675,7 @@ export interface components {
              * Kind
              * @enum {string}
              */
-            kind: "fixed" | "pressure" | "force";
+            kind: "fixed" | "pressure" | "force" | "displacement" | "gravity";
             /** Position M */
             position_m: [
                 number,
@@ -1523,17 +1703,29 @@ export interface components {
                 number,
                 number
             ];
+            /**
+             * Force Scale N
+             * @default 0
+             */
+            force_scale_n: number;
+            /** Mass Kg */
+            mass_kg?: number | null;
             /** Moment Nm */
             moment_nm: [
                 number,
                 number,
                 number
             ];
+            /**
+             * Moment Scale Nm
+             * @default 0
+             */
+            moment_scale_nm: number;
         };
         /** LoadRequest */
         LoadRequest: {
             /** Assignment */
-            assignment: components["schemas"]["FixedInput"] | components["schemas"]["PressureInput"] | components["schemas"]["ForceInput"];
+            assignment: components["schemas"]["FixedInput"] | components["schemas"]["PressureInput"] | components["schemas"]["ForceInput"] | components["schemas"]["DisplacementInput"] | components["schemas"]["GravityInput"];
         };
         /** LoadSetup */
         LoadSetup: {
@@ -1557,12 +1749,32 @@ export interface components {
             analysis_revision: number;
             /** Blockers */
             blockers: string[];
+            /**
+             * Characteristic Length M
+             * @default 0
+             */
+            characteristic_length_m: number;
+            /**
+             * Force Scale N
+             * @default 0
+             */
+            force_scale_n: number;
             /** Geometry Revision Id */
             geometry_revision_id: string | null;
             /** Markers */
             markers: components["schemas"]["LoadMarker"][];
+            /**
+             * Moment Scale Nm
+             * @default 0
+             */
+            moment_scale_nm: number;
             /** Previews */
             previews: components["schemas"]["LoadPreview"][];
+            /**
+             * Resultant Complete
+             * @default true
+             */
+            resultant_complete: boolean;
             setup: components["schemas"]["LoadSetup"];
             /** Total Force N */
             total_force_n: [
@@ -2005,6 +2217,26 @@ export interface components {
             /** Total */
             total: number;
         };
+        /** ReselectBodies */
+        ReselectBodies: {
+            /** Body Ids */
+            body_ids: string[];
+            /**
+             * Combine Confirmed
+             * @default false
+             */
+            combine_confirmed: boolean;
+            /**
+             * Geometry Revision Id
+             * Format: uuid
+             */
+            geometry_revision_id: string;
+            /**
+             * Reviewed
+             * @constant
+             */
+            reviewed: true;
+        };
         /** ReselectFaces */
         ReselectFaces: {
             /**
@@ -2028,6 +2260,7 @@ export interface components {
         /** ResultData */
         ResultData: {
             displacement: components["schemas"]["ResultExtrema"];
+            equilibrium: components["schemas"]["EquilibriumData"];
             /** Extrema Method */
             extrema_method: string;
             /** Moment Origin M */
@@ -3259,6 +3492,127 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LoadState"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    reselect_bodies_api_v1_analyses__analysis_id__loads__assignment_id__bodies_put: {
+        parameters: {
+            query?: never;
+            header?: {
+                "if-match"?: string | null;
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                analysis_id: string;
+                assignment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReselectBodies"];
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {

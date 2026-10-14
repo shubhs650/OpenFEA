@@ -1,0 +1,30 @@
+{
+  "id": "B03",
+  "revision": 2,
+  "source": "Independent Euler\u2013Bernoulli solid-cantilever approximation; uy_tip=-F*L^3/(3*E*I), sigma_xx=F*(L-x)*(y-h/2)/I; I=b*h^3/12. Timoshenko shear contribution F*L/(kappa*G*A) is 0.6% of EB with kappa=5/6 and nu=0; a disclosed approximation, not cross-solver evidence.",
+  "units": "m,N,Pa,kg,s",
+  "geometry": "Synthetic rectangular solid 0<=x<=1, 0<=y,z<=0.1 m; length/aspect ratio 10",
+  "material": {
+    "E_pa": 210000000000,
+    "nu": 0
+  },
+  "element": "C3D10 affine",
+  "mesh_sizes_m": [0.04, 0.035],
+  "supports": "All translations fixed on complete immutable x=0 face",
+  "loads": "Total global force (0,-1,0) N uniformly spread once over complete x=1 face with quadratic consistent integration",
+  "samples": "Area-weighted mean native DAT uy on complete x=1 face; raw IP sigma_xx with 0.25<=x<=0.75, abs(y-0.05)>=0.02, 0.02<=z<=0.08; at least four stress samples per mesh",
+  "expected_tip_uy_m": -1.9047619047619048e-7,
+  "tolerances": {
+    "displacement_relative": 0.02,
+    "displacement_absolute_m": 1e-12,
+    "stress_relative": 0.05,
+    "stress_absolute_pa": 1,
+    "equilibrium_relative": 0.005,
+    "force_absolute_n": 1e-6,
+    "moment_absolute_nm": 1e-6
+  },
+  "exclusions": "Root and loaded-face end effects, neutral-axis relative stress, side-edge samples and peak singularities excluded by fixed physical sample regions before execution. No shell/beam elements or claimed solid peak accuracy.",
+  "reason": "docs/VALIDATION.md proposed 2% slender-cantilever displacement and 5% non-root stress criteria; nu=0 avoids added Poisson clamping disturbance while disclosed shear correction is below displacement budget",
+  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance",
+  "mesh_revision_reason": "Revision 1 coarse 0.08-m mesh had 8.05157312256193% worst interior stress error against the unchanged 5% criterion. Explicitly refine both benchmark meshes to resolve the quadratic displacement approximation of bilinear bending stress; reference, sample regions, loads/supports and tolerances remain identical. Retain the failed revision-1 manifest and measurement; no automatic product coarsening/refinement."
+}
