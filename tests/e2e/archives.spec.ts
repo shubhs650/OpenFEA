@@ -50,7 +50,7 @@ test("review diagnostic contents and round-trip an owned project archive", async
     .scrollIntoViewIfNeeded();
   await page.screenshot({
     path: info.outputPath("diagnostic-preview.png"),
-    fullPage: true,
+    fullPage: false,
   });
   const diagnosticDownload = page.waitForEvent("download");
   await panel
@@ -128,6 +128,6 @@ test("review diagnostic contents and round-trip an owned project archive", async
     .scrollIntoViewIfNeeded();
   await page.screenshot({
     path: info.outputPath("archive-roundtrip.png"),
-    fullPage: true,
+    fullPage: false,
   });
 });

@@ -1,0 +1,116 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+222 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 169 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 466 items
+
+tests/unit/test_analyses.py ...............                              [  3%]
+tests/unit/test_api.py .........                                         [  5%]
+tests/unit/test_approval.py ................                             [  8%]
+tests/unit/test_archives.py ......................................       [ 16%]
+tests/unit/test_assembly.py ................                             [ 20%]
+tests/unit/test_bonds.py ................                                [ 23%]
+tests/unit/test_connections.py ...........                               [ 25%]
+tests/unit/test_directions.py ...........                                [ 28%]
+tests/unit/test_essential_actions.py .............                       [ 31%]
+tests/unit/test_essential_setup.py .............                         [ 33%]
+tests/unit/test_face_loads.py ....................                       [ 38%]
+tests/unit/test_geometry_edits.py ...............                        [ 41%]
+tests/unit/test_imports.py ......                                        [ 42%]
+tests/unit/test_local_queue.py ...................                       [ 46%]
+tests/unit/test_m3_gate.py ...............                               [ 50%]
+tests/unit/test_materials.py ........................                    [ 55%]
+tests/unit/test_mesh_controls.py ............                            [ 57%]
+tests/unit/test_mesh_quality.py ......                                   [ 59%]
+tests/unit/test_projects.py ............................                 [ 65%]
+tests/unit/test_quadratic.py .....................                       [ 69%]
+tests/unit/test_reports.py .............                                 [ 72%]
+tests/unit/test_result_comparison.py ...........................         [ 78%]
+tests/unit/test_result_fields.py ...............                         [ 81%]
+tests/unit/test_result_inspection.py ......................              [ 86%]
+tests/unit/test_result_views.py ...................                      [ 90%]
+tests/unit/test_stress.py ............................                   [ 96%]
+tests/unit/test_word.py ............                                     [ 98%]
+tests/unit/test_workspace_edits.py ......                                [100%]
+
+=============================== warnings summary ===============================
+tests/unit/test_archives.py::test_reject_bad_manifest_and_expansion[duplicate]
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'project.json'
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 466 passed, 1 warning in 35.15s ========================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  5 passed (5)
+      Tests  33 passed (33)
+   Start at  17:32:33
+   Duration  690ms (tests 47%, import 28%, worker 14%, transform 11%)
+
+    Isolate  5 workers spawned · ~98ms startup each (spawn + environment, per file)
+             at least ~391ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpe_457qyu/openapi.json → /tmp/tmpe_457qyu/api.d.ts [350.5ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 165 Markdown files; 42 task statuses and acyclic dependencies
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 408 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.40 kB │ gzip:   0.27 kB
+dist/assets/index-C9-AoXIq.css      4.72 kB │ gzip:   1.65 kB
+dist/assets/index-_k38cd3I.js   1,187.05 kB │ gzip: 330.32 kB
+
+✓ built in 366ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=9111
+STARTED api pid=9132
+STARTED web pid=9133
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs
