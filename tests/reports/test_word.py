@@ -76,11 +76,17 @@ def test_actual_word_parity_editing_and_converted_pages(kind: str, tmp_path: Pat
     word.mkdir()
     pdf = tmp_path / "pdf"
     pdf.mkdir()
-    (word / "model.json").write_text(model.model_dump_json())
+    if kind == "legacy":
+        (word / "model.json").write_bytes(LEGACY.read_bytes())
+        shutil.copyfile(LEGACY.with_suffix(".pdf"), pdf / "report.pdf")
+    else:
+        (word / "model.json").write_text(model.model_dump_json())
+        (pdf / "report.html").write_text(report_html(model))
+        render_pdf(pdf)
     model_sha = hashlib.sha256((word / "model.json").read_bytes()).hexdigest()
     provenance = {
         "source_model_sha256": model_sha,
-        "original_pdf_sha256": "a" * 64,
+        "original_pdf_sha256": hashlib.sha256((pdf / "report.pdf").read_bytes()).hexdigest(),
         **word_generator(),
     }
     (word / "provenance.json").write_text(json.dumps(provenance))
@@ -98,8 +104,6 @@ def test_actual_word_parity_editing_and_converted_pages(kind: str, tmp_path: Pat
     assert reopened.tables[0].cell(1, 0).text == "User edited this cell"
     assert edited_path.read_bytes() != raw and (word / "report.docx").read_bytes() == raw
     converted = convert_word(word)
-    (pdf / "report.html").write_text(report_html(model))
-    render_pdf(pdf)
     text = pdf_text(converted)
     assert "User-written conclusion" in text and "Word export provenance" in text
     assert str(model.source.job_id) in text

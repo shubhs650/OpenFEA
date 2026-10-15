@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: T025 SHARED IMMUTABLE REPORT MODEL + REAL A4 PDF COMPLETE; prior local setup, owner-approved M3 bounded engineering exit and result inspection delivered.
-Current milestone: M4 IN PROGRESS — T025 COMPLETE; T026 next. M0/M1/M2 and bounded owner-approved M3 complete. Local laptop/Windows and later external-reference acceptance remain T030.
-Next action: review the T025 PR, then T026 editable Word from the same report model. Preserve the existing exact M3 approvals/acceptance evidence and remaining M4/T030 obligations.
+Current state: T026 EDITABLE WORD EXPORT COMPLETE + T025 IMMUTABLE SHARED REPORT/PDF + owner-approved bounded M3.
+Current milestone: M4 IN PROGRESS — T025/T026 COMPLETE; T027 portable archives/diagnostic bundles next. Local Windows/laptop and later reference acceptance remain T030.
+Next action: review the T026 PR after hosted CI passes, then T027. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
 
 
 ## Current objective
@@ -37,12 +37,13 @@ T022: COMPLETE
 T023: COMPLETE
 T024: COMPLETE — exact owner approval and ten required acceptance cases PASS; bounded M3 exit PASS
 T025: COMPLETE
-T026–T042: NOT STARTED
+T026: COMPLETE
+T027–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4: IN PROGRESS; T025 PDF complete, T026 next. M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF/T026 Word complete, T027 next. M4–M6 exit gates: NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -53,6 +54,12 @@ B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported nati
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T026 completed — editable Word from exact saved reports
+
+The actual saved-report workspace/API adds append-only Word exports without changing the original PDF/model record. Same-model table cells, units, warnings, assumptions, figures and captions remain consistent, with native editable Word paragraphs/tables and a clear generated-version/edit notice. Both python-docx writing and figure rasterization run inside the bounded offline renderer. Existing owned downloads survive raw-source loss; new generation refuses missing/corrupt original/compared sources. Ownership/CSRF/lock/hash/publication/tombstone and migration/reopen paths are exercised. [ADR-033](docs/adr/ADR-033.md), [guide](docs/REPORTS_EXPORTS.md) and [T026 evidence](docs/validation/T026.md) record actual legacy/90-row Unicode DOCX, editing and converted-page QA, commands and source/tool hashes.
+
+Explicitly pinned python-docx 1.2.0/lxml 6.0.2 extend the root lock; npm/native locks, binary hashes, numerical criteria, retry/native budgets and CI job deadline are unchanged. LibreOffice is QA-only. DOCX is not a design certificate and future user edits are outside the generated checksum. T027 archives and actual T030 Windows/laptop/capacity/remaining references stay pending. The requested PR remains unmerged and CI is watched to completion.
 
 ## T025 completed — shared report model and actual A4 PDF
 
@@ -341,3 +348,5 @@ T001–T024 are complete within their recorded bounded scopes. The owner-approve
 The approved M3 model remains two independent bodies, one full axis-aligned planar zero-gap unit-square interface and <=65 trace nodes per side. Native TIE stays rejected; general/physical-gap/curved/multiple/transformed/scalable assembly behavior is not certified. At M4/T028–T030, complete the remaining tutorial/public/external references, reports/archives and actual Windows/WSL2 laptop/headed GPU/resources/performance/usability validation. No 100k or arbitrary-model capacity is promised. Historical raw/development results are unchanged; approval never credits unexecuted work. Dependency/native locks, numerical tolerances, resource caps, retries and CI limits remain unchanged.
 
 Current session handoff: T025 implemented and verified; requested review PR remains unmerged. Next T026. T024 acceptance records and raw evidence remain unchanged.
+
+Current session handoff: T026 complete; review the requested PR after hosted checks pass; next T027. No merge or deployment.

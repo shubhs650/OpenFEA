@@ -90,3 +90,7 @@ T023 adds 27 Python signed/near-zero/peak/physical-signature/assumption cases, t
 ## T025 reports
 
 `make test-reports` now executes actual historical-run and two-mesh comparison PDF workflows, source/owner/CSRF/lock/corruption/expiry/publication checks, A4 word bounds and long material-table repeated headers. Missing Chromium/Bubblewrap/font/Poppler is a failure. CI provisions DejaVu/Poppler alongside the existing locked Chromium and executes the target; DOCX rendering remains T026. See [T025 evidence](validation/T025.md) for exact final counts, inspected pages, sources and unexecuted acceptance checks.
+
+## T026 editable Word
+
+`make test-reports` now includes archived T025-model and 90-row Unicode DOCX cases, exact editable table/paragraph/caption/warning comparisons, edit/reopen checks, image extents and actual isolated LibreOffice conversion/A4 checks, plus owned native-run API failure/history/expiry tests. CI installs LibreOffice Writer and locked python-docx/lxml; missing conversion is a failing mandatory check. The report browser flow generates Word from the same saved PDF, downloads it and restores the link after reload. No native limits, numerical criteria, retries or job timeout are relaxed. [T026 evidence](validation/T026.md) identifies final executed counts and hosted results.
