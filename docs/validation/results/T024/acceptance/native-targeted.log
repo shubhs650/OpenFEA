@@ -1,0 +1,11 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 4 items
+
+tests/native/test_directions.py .                                        [ 25%]
+tests/native/test_essential_loads.py ...                                 [100%]
+
+============================== 4 passed in 15.29s ==============================
