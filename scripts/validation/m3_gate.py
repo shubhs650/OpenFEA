@@ -92,7 +92,7 @@ def run_gate(output: Path, development: bool = False) -> dict[str, Any]:
     }
     output.mkdir(parents=True)
     (output / "review-packet.json").write_text(json.dumps(packet, indent=2, allow_nan=False) + "\n")
-    frozen = snapshot()
+    frozen = {key: packet[key] for key in ("code_commit", "sources")}
     report: dict[str, Any] = {
         "gate": "M3",
         "development": development,

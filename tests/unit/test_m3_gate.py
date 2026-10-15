@@ -174,3 +174,15 @@ def test_reviewed_benchmarks_still_cannot_self_approve_the_product_exit(
     result = gate.run_gate(tmp_path / "synthetic-reviewed")
     assert result["benchmark_acceptance"] == "PASS"
     assert result["m3_exit_status"].startswith("NOT DETERMINED")
+
+
+def test_source_change_after_review_packet_cannot_start_a_native_case(
+    tmp_path: Path, records: dict[str, Any], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(gate, "snapshot", lambda: {"code_commit": "changed", "sources": {}})
+    result = gate.run_gate(tmp_path / "changed-before-start", development=True)
+    assert records["calls"] == []
+    assert result["numerical_status"] == "FAILED"
+    assert result["code_commit"] == records["packet"]["code_commit"]
+    assert result["cases"]["B01"]["status"] == "FAILED"
+    assert all(result["cases"][case]["status"] == "NOT RUN" for case in gate.CASES[1:])
