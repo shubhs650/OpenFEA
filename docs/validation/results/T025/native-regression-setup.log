@@ -1,0 +1,43 @@
+bash scripts/codex/setup.sh
+Resolved 35 packages in 6ms
+Downloading sqlalchemy (4.5MiB)
+ Downloaded sqlalchemy
+Prepared 4 packages in 845ms
+Installed 4 packages in 8ms
+ + alembic==1.20.0
+ + mako==1.4.3
+ + markupsafe==3.0.4
+ + sqlalchemy==2.1.4
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 228 packages in 3s
+Resolved 15 packages in 1ms
+Checked 14 packages in 16ms
+Resolved 3 packages in 1ms
+Checked 2 packages in 0.09ms
+Resolved 13 packages in 1ms
+Checked 12 packages in 0.17ms
+Native build reused: source/toolchain/launcher inputs and output hashes match
+v24.19.0
+11.9.0
+uv 0.12.23 (x86_64-unknown-linux-gnu)
+........................................................................ [ 37%]
+........................................................................ [ 75%]
+................................................                         [100%]
+192 passed in 711.25s (0:11:51)
+Platform: Linux x86_64; Python 3.12.14
+fastapi: 0.143.0
+pydantic: 2.14.1
+uvicorn: 0.54.0
+pytest: 9.1.1
+ruff: 0.17.0
+mypy: 2.4.0
+PASS: writable non-repository data root
+PASS: loopback HTTP round trip
+PASS: pinned CPU CCX and runtime library hashes verified
+PASS: isolated cad native geometry/I/O capability
+PASS: isolated mesh native geometry/I/O capability
+PASS: isolated post native geometry/I/O capability
+PASS: namespace-isolated STEP import, no-network/process filter and SI display
+PASS: local bootstrap and native toolchain prerequisites

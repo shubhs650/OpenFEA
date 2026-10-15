@@ -32,6 +32,10 @@ export function ResultsEditor({
 }: Props) {
   const [id, setId] = useState("");
   const [view, setView] = useState<ResultView | null>(null);
+  const [comparison, setComparison] = useState<
+    | import("../../../../packages/contracts/api").components["schemas"]["ComparisonRequest"]
+    | null
+  >(null);
   const [section, setSection] = useState<ResultInspection | null>(null);
   const [field, setField] = useState<ResultField>("displacement");
   const [smoothed, setSmoothed] = useState(false);
@@ -54,6 +58,7 @@ export function ResultsEditor({
     request.current++;
     setView(null);
     setSection(null);
+    setComparison(null);
     setId("");
     showResult(null);
     return () => {
@@ -67,6 +72,7 @@ export function ResultsEditor({
     if (scale.trim() && Number.isFinite(value) && value >= 0 && value <= 1e6)
       showResult({
         view,
+        comparison,
         section,
         field,
         smoothed,
@@ -74,13 +80,24 @@ export function ResultsEditor({
         preset,
         range: custom ?? fieldRange(view, field, smoothed, section?.vertices),
       });
-  }, [view, section, field, smoothed, scale, preset, custom, showResult]);
+  }, [
+    view,
+    comparison,
+    section,
+    field,
+    smoothed,
+    scale,
+    preset,
+    custom,
+    showResult,
+  ]);
   async function open() {
     const sequence = ++request.current;
     setLoading(true);
     setError("");
     setView(null);
     setSection(null);
+    setComparison(null);
     showResult(null);
     try {
       const result = await api<ResultView>(`/runs/${selected}/results`);
@@ -120,6 +137,7 @@ export function ResultsEditor({
             setId(e.target.value);
             setView(null);
             setSection(null);
+            setComparison(null);
             showResult(null);
             setLoading(false);
           }}
@@ -140,6 +158,7 @@ export function ResultsEditor({
           request.current++;
           setView(null);
           setSection(null);
+          setComparison(null);
           showResult(null);
           setLoading(false);
         }}
@@ -171,6 +190,7 @@ export function ResultsEditor({
               request.current++;
               setView(null);
               setSection(null);
+              setComparison(null);
               showResult(null);
             }}
           />
@@ -221,6 +241,7 @@ export function ResultsEditor({
           <details>
             <summary>Mesh refinement comparison</summary>
             <ComparisonEditor
+              onComparison={setComparison}
               key={view.job_id}
               view={view}
               projectId={
@@ -234,6 +255,7 @@ export function ResultsEditor({
                 request.current++;
                 setView(null);
                 setSection(null);
+                setComparison(null);
                 showResult(null);
               }}
             />

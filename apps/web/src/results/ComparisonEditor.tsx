@@ -18,6 +18,9 @@ type Props = {
   smoothed: boolean;
   preset: UnitPreset;
   onUnavailable: (message: string) => void;
+  onComparison: (
+    request: components["schemas"]["ComparisonRequest"] | null,
+  ) => void;
 };
 export function ComparisonEditor({
   view,
@@ -26,6 +29,7 @@ export function ComparisonEditor({
   smoothed,
   preset,
   onUnavailable,
+  onComparison,
 }: Props) {
   const [analyses, setAnalyses] = useState<Analysis[]>([]);
   const [analysis, setAnalysis] = useState(view.analysis_id);
@@ -84,6 +88,7 @@ export function ComparisonEditor({
   useEffect(() => {
     sequence.current++;
     setResult(null);
+    onComparison(null);
     setBusy(false);
     return () => {
       sequence.current++;
@@ -128,6 +133,7 @@ export function ComparisonEditor({
     setError("");
     setBusy(true);
     setResult(null);
+    onComparison(null);
     try {
       const response = await api<Comparison>(
         `/runs/${view.job_id}/comparisons`,
@@ -144,6 +150,7 @@ export function ComparisonEditor({
           "Comparison belongs to a different frozen run. Reopen results.",
         );
       setResult(response);
+      onComparison({ compared_run_id: other, field, smoothed, points });
     } catch (e) {
       if (current === sequence.current) {
         setError((e as Error).message);

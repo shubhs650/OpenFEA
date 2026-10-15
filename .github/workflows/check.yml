@@ -28,7 +28,7 @@ jobs:
       - name: Native compiler prerequisite
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor poppler-utils fonts-dejavu-core
           mkdir -p .local/ci-toolchain
           ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
           echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"
@@ -49,6 +49,6 @@ jobs:
             --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 \
             /usr/bin/true
       - run: make setup
-      - run: make check build smoke test-integration test-e2e
+      - run: make check build smoke test-integration test-e2e test-reports
       - name: Verify runner failure propagation
         run: .venv/bin/python scripts/ci/failure_probes.py

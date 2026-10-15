@@ -1,0 +1,18 @@
+{
+  "id": "bb9f002a-715e-4542-a549-6f161cfc1afd",
+  "job_id": "419f8707-5f91-40a0-a798-be2dcb13cf21",
+  "project_id": "2cfbe126-d82e-4c2d-a0da-26de02e02d17",
+  "created_at": "2026-10-15T04:02:20.559346Z",
+  "title": "T025 historical <analysis>",
+  "model_sha256": "b08055d3f4d0f6ebefb6ae4193d6b37eb1d3b45eaaee4870ef1d840691c76cef",
+  "html_sha256": "a338fdd2d6e25340add31d2499bced705953b35a23df9e702d6519dabe0cea1b",
+  "pdf_sha256": "83b2c0fe91830117a47950d16d3272a5641ae5ccf79ed1abdb6bbdf5d5d11ec3",
+  "renderer": {
+    "chromium": "156.0.8078.4",
+    "wall_seconds": "1.717",
+    "peak_rss_bytes": "277598208",
+    "peak_scratch_bytes": "1362230",
+    "isolation": "bubblewrap-unshare-all; offline; scripts-disabled",
+    "limits": "45 s / 1024 MiB sampled RSS / 64 MiB sampled scratch; no retries"
+  }
+}

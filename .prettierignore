@@ -28,3 +28,6 @@ dist/
 node_modules/
 test-results/
 playwright-report/
+
+# T025 report models, PDFs, HTML and audit logs retain their verified bytes.
+docs/validation/results/T025/

@@ -6,6 +6,9 @@ export const isDisplacement = (field: ResultField) =>
 export type ResultPresentation = {
   view: ResultView;
   section?: ResultInspection | null;
+  comparison?:
+    | import("../../../../packages/contracts/api").components["schemas"]["ComparisonRequest"]
+    | null;
   field: ResultField;
   smoothed: boolean;
   scale: number;

@@ -1,9 +1,10 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: M3 OWNER-APPROVED BOUNDED ENGINEERING EXIT PASS / TEN ACCEPTANCE CASES PASS + FROZEN-PHYSICS REFINEMENT COMPARISONS + RETAINED ASSUMPTION EXPLANATIONS/JSON EXPORT + OWNED PHYSICAL PROBES + AUTHORITATIVE VOLUME SECTIONS + SESSION CAMERA/FIELD STATE + FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 COMPLETE — T019–T024 complete; actual owner approval and required acceptance rerun pass. M4 NOT STARTED; next T025. M0/M1/M2 bounded decisions and remaining M4 laptop/external-reference obligations are preserved.
-Next action: review the T024 owner-acceptance follow-up PR, then implement T025 when requested. No M4 implementation or deployment is included in this approval session.
+Current state: T025 SHARED IMMUTABLE REPORT MODEL + REAL A4 PDF COMPLETE; prior local setup, owner-approved M3 bounded engineering exit and result inspection delivered.
+Current milestone: M4 IN PROGRESS — T025 COMPLETE; T026 next. M0/M1/M2 and bounded owner-approved M3 complete. Local laptop/Windows and later external-reference acceptance remain T030.
+Next action: review the T025 PR, then T026 editable Word from the same report model. Preserve the existing exact M3 approvals/acceptance evidence and remaining M4/T030 obligations.
+
 
 ## Current objective
 
@@ -35,12 +36,13 @@ T021: COMPLETE
 T022: COMPLETE
 T023: COMPLETE
 T024: COMPLETE — exact owner approval and ten required acceptance cases PASS; bounded M3 exit PASS
-T025–T042: NOT STARTED
+T025: COMPLETE
+T026–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF complete, T026 next. M4–M6 exit gates: NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -52,9 +54,17 @@ B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
 
+## T025 completed — shared report model and actual A4 PDF
+
+The actual workspace captures selected historical result camera/field/range/body/smoothing/deformation/section definitions, uses one report-wide unit preset and produces immutable shared-model JSON, light HTML preview and A4 PDF. Complete original warnings/assumptions, sourced materials, undeformed setup direction figures, full native extrema/yield/reactions/equilibrium, optional checked physical comparison and source/tool/font/lock identities remain included. No user-supplied image/HTML/URL or automatic design-safety conclusion. Generation and publication verify original numerical sources and ownership; failures publish no record. Existing report bytes survive source expiry, while project deletion revokes access. [ADR-032](docs/adr/ADR-032.md), [guide](docs/REPORTS_EXPORTS.md) and [T025 evidence](docs/validation/T025.md) retain commands, actual PDFs, layout inspection, final counts and limits.
+
+**700 distinct verified passes, 0 remaining failures/skips:** 416 Python, 33 TypeScript, 192 native, 18 actual-process integration, 39 Chromium and 2 real PDF/report cases. Final static/contracts/docs/build/smoke pass; actual 100/388-element comparison error is 2.36e-16 m under the unchanged 1e-13 m limit. Historical and 90-row stress PDFs pass A4 word bounds/repeated headers; actual warning/figure/table/dark-workspace images were inspected. [Evidence index](docs/validation/results/T025/index.json) retains exact source/tool/lock/artifact hashes, run provenance and replay limits. Full native/browser regression plus final affected-native/report replay covers the reconciled branch. Existing original job artifacts remain byte-identical. No DOCX/archive or laptop/remaining-reference acceptance is claimed.
+
+T024/M3 exact owner approval and ten acceptance cases are already recorded by [PR #22](https://github.com/shubhs650/OpenFEA/pull/22). This branch incorporates that merged record and preserves every approval/criterion hash. DOCX remains T026; archives T027; actual target-laptop/Windows/capacity and later references remain T030. No numerical tolerances, dependency/native locks, solver binaries, CI timeouts or retry policy changes.
+
 ## T024 complete — actual owner approval and bounded M3 acceptance
 
-The engineering owner shubham patil approved the exact T024 validation packet on 2026-10-15: “I approve everything from T024 from validation”. All eleven approved criteria/formulation/scope hashes remain identical. A subsequent default `make benchmark-m3` run without DEVELOPMENT passes all ten B01–B09/B11 cases with zero approval blockers/failures/skips. [Acceptance evidence](docs/validation/T024-acceptance.md), [owner decision](docs/validation/M3-owner-review.md), [M3 exit PASS](docs/validation/M3-exit-review.md) and [acceptance index](docs/validation/results/T024/acceptance/index.json) preserve source/raw/error identities. Earlier 684-case regression and development evidence remain historical; product numerical/API/viewer sources are unchanged. Current 403 Python cases and four affected actual native approval/refusal cases pass. Unsigned tests now use temporary in-memory metadata copies; real approved manifests are never modified by tests. No physical criteria, native limits, locks, retries or CI deadline changed. T024/M3 COMPLETE within the exact bounded scope; native TIE remains rejected and product physical-gap solves stay blocked. Next T025 NOT STARTED; remaining Windows/laptop/resources/usability, reports/archives and B10/B12+ acceptance remain M4 obligations.
+The engineering owner shubham patil approved the exact T024 validation packet on 2026-10-15: “I approve everything from T024 from validation”. All eleven approved criteria/formulation/scope hashes remain identical. A subsequent default `make benchmark-m3` run without DEVELOPMENT passes all ten B01–B09/B11 cases with zero approval blockers/failures/skips. [Acceptance evidence](docs/validation/T024-acceptance.md), [owner decision](docs/validation/M3-owner-review.md), [M3 exit PASS](docs/validation/M3-exit-review.md) and [acceptance index](docs/validation/results/T024/acceptance/index.json) preserve source/raw/error identities. Earlier 684-case regression and development evidence remain historical; product numerical/API/viewer sources are unchanged. Current 403 Python cases and four affected actual native approval/refusal cases pass. Unsigned tests now use temporary in-memory metadata copies; real approved manifests are never modified by tests. No physical criteria, native limits, locks, retries or CI deadline changed. T024/M3 COMPLETE within the exact bounded scope; native TIE remains rejected and product physical-gap solves stay blocked. Historical T024 handoff was T025; it is now complete above. Remaining Windows/laptop/resources/usability, archives/Word and B10/B12+ acceptance remain M4 obligations.
 
 ## T023 completed — common physical refinement comparison and retained assumptions
 
@@ -326,6 +336,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-T001–T024 are complete within their recorded bounded scopes. The owner-approved M0 progression exception remains historical; T024 now closes exact B01–B09/B11/formulation/scope review and the M3 engineering exit with real acceptance results. Next **T025**, NOT STARTED, begins M4 reporting when requested. This session records approval and runs acceptance; it does not implement T025, merge a PR, deploy or provision resources.
+T001–T024 are complete within their recorded bounded scopes. The owner-approved M0 progression exception remains historical; T024 now closes exact B01–B09/B11/formulation/scope review and the M3 engineering exit with real acceptance results. The preceding approval session closed T024. T025 reporting is now complete as recorded above; next T026. No merge, deployment or resource provisioning is included.
 
 The approved M3 model remains two independent bodies, one full axis-aligned planar zero-gap unit-square interface and <=65 trace nodes per side. Native TIE stays rejected; general/physical-gap/curved/multiple/transformed/scalable assembly behavior is not certified. At M4/T028–T030, complete the remaining tutorial/public/external references, reports/archives and actual Windows/WSL2 laptop/headed GPU/resources/performance/usability validation. No 100k or arbitrary-model capacity is promised. Historical raw/development results are unchanged; approval never credits unexecuted work. Dependency/native locks, numerical tolerances, resource caps, retries and CI limits remain unchanged.
+
+Current session handoff: T025 implemented and verified; requested review PR remains unmerged. Next T026. T024 acceptance records and raw evidence remain unchanged.
