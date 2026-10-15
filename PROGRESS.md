@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: FROZEN-PHYSICS REFINEMENT COMPARISONS + RETAINED ASSUMPTION EXPLANATIONS/JSON EXPORT + OWNED PHYSICAL PROBES + AUTHORITATIVE VOLUME SECTIONS + SESSION CAMERA/FIELD STATE + FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
-Current milestone: M3 IN PROGRESS — T019–T023 COMPLETE, T024 M3 engineering exit next; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
-Next action: Review T023 PR (hosted outcome tracked on the PR), then execute T024 M3 engineering gate; M4/T030 retains local laptop and benchmark acceptance obligations
+Current state: M3 REQUIRED NUMERICAL DEVELOPMENT SUBSET PASS / OWNER EXIT BLOCKED + FROZEN-PHYSICS REFINEMENT COMPARISONS + RETAINED ASSUMPTION EXPLANATIONS/JSON EXPORT + OWNED PHYSICAL PROBES + AUTHORITATIVE VOLUME SECTIONS + SESSION CAMERA/FIELD STATE + FULL RESULT FIELDS + PARTITIONED TENSOR SMOOTHING + NECESSARY ASSEMBLY PREFLIGHT + BOUNDED ZERO-GAP MORTAR SOLVES + FAIL-CLOSED NATIVE EQUATION/CONTINUITY AUDITS + B11 INVALID-SETUP DIAGNOSTICS + NATIVE REVIEWED BOND SETUP + EXPLICIT BOUNDED GAP POLICY + B08 DEVELOPMENT REFERENCES + INDEPENDENT SAVED/HISTORICAL ANALYSES + EXACT VERIFIED PROJECT MESH REUSE + M2 TECHNICAL EXIT PASS + HYBRID CHECKLIST + ACKNOWLEDGED SAVE/CONFLICT STATES + PERSISTENT THEMES + KEYBOARD SELECTION + GUARDED SESSION UNDO + NATIVE SIGNED GEOMETRY DIRECTIONS + PLANAR SYMMETRY + B06 ROTATION REFERENCES + GLOBAL COMPONENT SUPPORTS + BODY GRAVITY + FROZEN FORCE/MOMENT EQUILIBRIUM + REVISIONED SI MESH SIZING/CURVATURE + CERTIFIED QUADRATIC QUALITY DISPLAY + EXPLICIT BOUNDED NATIVE RECOVERY + REAL BOUNDED GEOMETRY CLEANUP/PREVIEW/APPLY/UNDO/REFERENCE REVIEW + REAL CORE RESULT CONTOURS/DEFORMATION/RAW EXTREMA/REACTIONS/FROZEN YIELD + DURABLE LOCAL MESH/SOLVE QUEUE + FROZEN RUN INPUTS/RAW OUTPUTS + ACTUAL MESH PREVIEW + REVISIONED FACE LOADS + IMMUTABLE CHECKED C3D10 DECK EXPORT + REAL SI UNIT/MATERIAL EDITOR + STEP IMPORT + SELECTABLE vtk.js WORKSPACE + PERSISTENT LOCAL PROJECT API + REAL SYNTHETIC CAD/MESH/SOLVE/STRESS/BOND/CLEANUP/RESOURCE DIAGNOSTICS
+Current milestone: M3 IN PROGRESS — T019–T023 COMPLETE; T024 numerical development subset PASS, engineering-owner acceptance/exit BLOCKED; M2 COMPLETE with bounded technical exit PASS; M1 bounded technical exit PASS and M0 owner/laptop/benchmark deferrals preserved
+Next action: review the T024 PR/packet and obtain exact engineering-owner criteria/formulation/scope approval, then acceptance rerun and final M3 disposition before T025; M4/T030 retains local laptop and benchmark acceptance obligations
 
 ## Current objective
 
@@ -34,11 +34,13 @@ T020: COMPLETE
 T021: COMPLETE
 T022: COMPLETE
 T023: COMPLETE
-T024–T042: NOT STARTED
+T024: IN PROGRESS — required numerical subset DEVELOPMENT PASS; engineering-owner acceptance/exit BLOCKED
+T025–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
-M3–M6 exit gates: NOT RUN.
+M3 exit: BLOCKED — frozen numerical development subset PASS; exact engineering-owner review/acceptance rerun pending.
+M4–M6 exit gates: NOT RUN.
 B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
 B09: DEVELOPMENT PASS; engineering-owner review pending.
 B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
@@ -49,6 +51,10 @@ B11: DEVELOPMENT PASS for invalid-setup refusal; actual finite unsupported nativ
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T024 engineering gate — development numerics pass; owner acceptance blocked
+
+The complete frozen B01–B09/B11 subset passes in explicit development mode. New `make benchmark-m3` enforces exact criteria/formulation hashes, immutable fresh outputs, source/tool identities and stop-after-failure semantics. Default acceptance refuses unsigned review; diagnostics cannot self-approve the exit. The additional actual bonded two-mesh path verifies full fields, explicit interface-side probes, both-body volume sections, physical comparisons/warnings and unchanged raw histories. [T024 evidence](docs/validation/T024.md), [M3 exit review](docs/validation/M3-exit-review.md) and [owner review packet](docs/validation/M3-owner-review.md) distinguish numerical evidence from approval. All **684 distinct automated cases pass** (403 Python, 33 TypeScript, 192 native, 18 process integration, 38 Chromium), plus doctor/static/contracts/docs/build/smoke. The final ten-case subset runs on the exact final driver sources. Raw/error/source evidence is retained, including rejected native TIE and B11 finite-but-invalid output. T024 remains IN PROGRESS solely for actual owner review/acceptance rerun; T025 NOT STARTED. Physical-gap product solving, native TIE and broader assembly/Windows/laptop/capacity claims remain blocked or unvalidated. No tolerance, lock, native budget or CI limit changes.
 
 ## T023 completed — common physical refinement comparison and retained assumptions
 
@@ -324,6 +330,6 @@ M0 was **approved by the owner for M1 progression with explicit deferrals** afte
 
 Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. T019/B08 now validates only the declared 10 µm axial unit-square setup/experiment; product bonded solve admission remains T020 and general gap physics remains unsupported. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
 
-T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 cleanup and T014 mesh sizing/quality/bounded recovery are COMPLETE with evidence above. T015 essential supports/gravity/equilibrium is COMPLETE. T016–T019 are now COMPLETE as recorded above. Next implementation is **T020**, NOT STARTED. This session creates the requested T019 PR and watches checks; leave it open for review. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
+T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 cleanup and T014 mesh sizing/quality/bounded recovery are COMPLETE with evidence above. T015 essential supports/gravity/equilibrium is COMPLETE. T016–T019 are now COMPLETE as recorded above. The historical T019 handoff pointed to T020, which is now complete. The current handoff is **T024 owner review/acceptance rerun**, with its numerical subset passing and M3 exit blocked; T025 remains NOT STARTED. This session creates the requested T024 review PR and watches checks; leave it open for review. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
 
 All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.

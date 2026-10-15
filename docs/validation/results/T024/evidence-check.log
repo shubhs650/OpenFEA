@@ -1,0 +1,8 @@
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 158 Markdown files; 42 task statuses and acyclic dependencies
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!

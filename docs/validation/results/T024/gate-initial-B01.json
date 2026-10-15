@@ -1,0 +1,53 @@
+{
+  "case": "B01",
+  "code_commit": "63e35523ebd1baf668576beab8166900bc04ed28",
+  "manifest_sha256": "1f5f2a3059c7557b9f1fff341572643732b8d44aca71c00cdb9aeeb3ea1f0a22",
+  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance",
+  "status": "DEVELOPMENT PASS; owner acceptance pending",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "ccx_version": "2.23",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "gmsh_version": "4.15.2",
+  "gmsh_build_info": "Version: 4.15.2; License: GNU General Public License; Build OS: Linux64-sdk; Build date: 20260324; Build host: gmsh.info; Build options: 64Bit ALGLIB[contrib] ANN[contrib] Bamg Blas[petsc] Blossom Cgns DIntegration Dlopen DomHex Eigen[contrib] Fltk Gmm[contrib] Hxt Jpeg Kbipack Lapack[petsc] LinuxJoystick MathEx[contrib] Med Mesh Metis[contrib] Mmg Mpeg Netgen Nii2mesh ONELAB ONELABMetamodel OpenCASCADE OpenCASCADE-CAF OpenGL OpenMP OptHom PETSc Parser Plugins Png Post QuadMeshingTools QuadTri Solver TetGen/BR TinyXML2[contrib] Untangle Voro++[contrib] WinslowUntangler Zlib tinyobjloader; FLTK version: 1.3.11; PETSc version: 3.14.4 (real arithmtic); OCC version: 7.8.1; MED version: 4.1.0; Packaged by: geuzaine; Web site: https://gmsh.info; Issue tracker: https://gitlab.onelab.info/gmsh/gmsh/issues",
+  "ocp_version": "8.0.1.1.0",
+  "occt_cad_version": "8.0.1",
+  "threads": 1,
+  "parser_scope": "single-step synthetic DAT; raw xx,yy,zz,xy,xz,yz; no averaging",
+  "runs": [
+    {
+      "size_m": 0.6,
+      "nodes": 231,
+      "elements": 100,
+      "max_displacement_error_m": 5.000000001705029e-10,
+      "max_stress_error_pa": 3.8461538460105658,
+      "force_residual_n": 1.2085011043512508,
+      "moment_residual_nm": 1.477856738967913,
+      "applied_force_n": [0, 0, 0],
+      "reaction_force_n": [
+        1.1000766895092318, -0.01798157146784508, -0.4999828592103422
+      ],
+      "geometry_revision": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "deck_sha256": "a186841bda11c771f1aeedad42367e313c983d9a8f0fffd2996e984e8c6de3aa",
+      "mesh_sha256": "ac1cb862431267cbf68fe2de97a15f2e5c5a6c6945333f32c0e12c085d50527c",
+      "dat_sha256": "b0941a32dc29fff8eb4595f2cafd3fb64c2546d3b119d3a731c276925590aa29"
+    },
+    {
+      "size_m": 0.4,
+      "nodes": 423,
+      "elements": 184,
+      "max_displacement_error_m": 4.810216567511377e-10,
+      "max_stress_error_pa": 3.8461538460105658,
+      "force_residual_n": 3.46522269763206e-5,
+      "moment_residual_nm": 0.6164024615249429,
+      "applied_force_n": [0, 0, 0],
+      "reaction_force_n": [
+        2.575435019436604e-5, -1.4918313351596112e-5, 1.7746385751132205e-5
+      ],
+      "geometry_revision": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+      "deck_sha256": "4e723970e623914af3277085abfac432c039f28ffcb5e41cf52e3e8b1ea5c182",
+      "mesh_sha256": "5b5a4558304ee5464e216b467c8eb7d018ef56b99cfe1e91f064467af5e7bdbc",
+      "dat_sha256": "26015cd7551401230b1026b8fae351234cedfd562877aac0784771226e467419"
+    }
+  ]
+}

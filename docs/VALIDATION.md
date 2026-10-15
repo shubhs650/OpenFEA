@@ -36,3 +36,7 @@ Missing/invalid material; zero-area selection; reversed pressure; force on two f
 ## Evidence storage
 
 Small synthetic fixtures and numerical summaries in tests/benchmarks and docs/validation/results. Large generated files ignored; attach only nonprivate artifacts to controlled CI storage when needed. Reports identify code commit, dependency hashes, backend, CPU/RAM, thread count, mesh nodes/elements and parser version. Freeze fixtures and run benchmark subset on every numerical change; full suite at milestone gates.
+
+## M3 assembly gate command
+
+`make benchmark-m3 DEVELOPMENT=1` runs the complete frozen B01–B09/B11 development subset sequentially. [M3 criteria](../tests/benchmarks/M3.json) bind all required benchmark criteria and formulation contracts; [T024](validation/T024.md) records actual errors/raw sources. A failure/resource stop preserves diagnostics and leaves later cases NOT RUN. Fresh output directories and source/manifest/tool identities are mandatory. Default acceptance execution (`make benchmark-m3 OUTPUT=<fresh-directory>`) requires valid exact-criteria owner records for every required case and the M3 scope before starting; DEVELOPMENT never becomes acceptance, even with approvals. Product regression review remains a separate exit requirement. See the [owner packet](validation/M3-owner-review.md) and [current exit disposition](validation/M3-exit-review.md). No agent-created sign-off or automatic milestone progression is permitted.

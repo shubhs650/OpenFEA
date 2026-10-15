@@ -1,0 +1,33 @@
+{
+  "id": "M3",
+  "revision": 1,
+  "required_criteria_sha256": {
+    "B01": "5edf7fcbd1834fbca4133fe61d3b8bdee970dbed08523401f606927ba3b17bf5",
+    "B02": "8d427332489761f1f3404b33eb82c1868592b7f6411f94ea0d212b1e2c3baf1d",
+    "B03": "601ac8ab828d2733b990ce4478609d5b93b5c746bc23ae01af7d3a7738b0d465",
+    "B04": "04cac6e33e6618957a6e45cafa6cd89038f5051f7ea7947ff466b8187dc7bd46",
+    "B05": "3115b64cccb907353dc7d2331a9e520b875e5c2d85bedb9b0eaafeeec1b2c465",
+    "B06": "eb88f1e475f58b74f681e826a95a1d311c23e704b1f5cc44741e22b85065fed6",
+    "B07": "d68c15e77da9be3402a2248be93c2f3ee57a9487ac5704a5be8d8b9ce620d23d",
+    "B08": "657334c736934d5e3843ac170a25bb91f0429be9e853db73c9a8ad5817d31029",
+    "B09": "5094fa2124b32d17e6f27fd864309779766071a2ffb5d6312cc30206faead65e",
+    "B11": "1590dbbb695b170f7d58b550853282864fa421135510c76be8f656a94468b7d4"
+  },
+  "frozen_contracts_sha256": {
+    "tests/benchmarks/B07.json": "ef7aa2b73d6492fd0b1118c8bd3cb5d77d83ff054761048cd441b42d9229d70a",
+    "docs/adr/ADR-028.md": "8c93c66abfd2f117f06a169c352c7d0af6fcf263e8e0522bdfa3d3ebfdee8051",
+    "docs/adr/ADR-029.md": "5a2fa493a684e7cabcd05d3ebb8a5cb4447ec239f715bc81d1d7e86cd1c5fcd5",
+    "docs/adr/ADR-030.md": "0d70e0491f840304565d91efdc3637d152d89de8874ce0ee5d584121cf97516e",
+    "docs/adr/ADR-031.md": "a9b34ede593c3e902a92f8bac980bec2cbe20ac23d1708286b5c6e70deaeb2e2"
+  },
+  "scope": [
+    "B01-B09/B11 must all meet their existing exact manifests; failed/missing/resource-stopped cases block the gate and later cases remain NOT RUN. No criteria, native limits, retries or individual deadlines are relaxed.",
+    "B07 uses the separately declared consistent planar mortar EQUATION formulation. Native TIE revision 1 remains rejected; no implicit replacement or weak springs.",
+    "Product bonded solve scope: two independently meshed bodies, one full axis-aligned planar zero-gap unit-square interface and <=65 trace nodes on each side. Mesh coverage, equations, written-coefficient continuity, external balance and native-output gates are mandatory; necessary support rank is not stability proof.",
+    "B08 is only a 10-micrometre axial zero-compliance gap experiment in both roles. Saved physical gaps remain BLOCKED for product solves; no gap shear/bending/rotation, adhesive/contact or general/scalable assembly claim.",
+    "Inspect real reviewed-bond setup through native mesh/solve, signed full fields/partitioned smoothing, explicit physical probes, authoritative sections and same-physics two-mesh comparison; retain both original warnings and raw immutable artifacts.",
+    "Linux synthetic local development only. Curved solving, multiple solver bonds and transformed bonded constraints remain unsupported. Windows/laptop/headed GPU/performance/usability and complete B10/B12+ suite remain M4/T028-T030 obligations.",
+    "Engineering owner must review this exact scope, formulation and all required criteria hashes. Automated numerical passes or CI green do not grant M3 exit; no automatic progression to M4."
+  ],
+  "reviewer_signoff": "PENDING engineering owner; T024 gate review required"
+}

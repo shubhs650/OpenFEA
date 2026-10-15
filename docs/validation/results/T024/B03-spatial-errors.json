@@ -1,0 +1,38 @@
+[
+  {
+    "mesh": 1,
+    "samples": 565,
+    "worst_relative": {
+      "position_m": [0.7055114, 0.02701293, 0.05544602],
+      "expected_sxx_pa": -812.3316074882398,
+      "actual_sxx_pa": -826.9763,
+      "absolute_error_pa": 14.64469251176024,
+      "relative_error": 0.018027973276876653
+    },
+    "worst_absolute": {
+      "position_m": [0.6917082, 0.09149134, 0.0202792],
+      "expected_sxx_pa": 1534.9727871614398,
+      "actual_sxx_pa": 1558.506,
+      "absolute_error_pa": 23.533212838560303,
+      "relative_error": 0.01533135508029382
+    }
+  },
+  {
+    "mesh": 2,
+    "samples": 1083,
+    "worst_relative": {
+      "position_m": [0.711662, 0.08036236, 0.07038929],
+      "expected_sxx_pa": 1050.5546589215994,
+      "actual_sxx_pa": 1026.021,
+      "absolute_error_pa": 24.533658921599454,
+      "relative_error": 0.023353053278335274
+    },
+    "worst_absolute": {
+      "position_m": [0.5098682, 0.01788937, 0.03720758],
+      "expected_sxx_pa": -1888.6129057240798,
+      "actual_sxx_pa": -1921.486,
+      "absolute_error_pa": 32.873094275920266,
+      "relative_error": 0.017405946012699184
+    }
+  }
+]
