@@ -13,7 +13,7 @@ help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
 	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01–B09 or B11 DEVELOPMENT=1.'
 	@echo 'feasibility runs native cleanup diagnostics; MESHES=1 measures bounded workloads. resource-browser OUTPUT=<directory>.'
-	@echo 'Release benchmark acceptance, benchmark-all, full security and reports remain BLOCKED.'
+	@echo 'test-reports checks real A4 PDF content/layout; release benchmarks/full security remain BLOCKED.'
 setup:
 	bash scripts/codex/setup.sh
 setup-native:
@@ -64,4 +64,4 @@ benchmark-all:
 test-security:
 	@bash scripts/ci/blocked.sh 'full security suite' 'archive, hosted auth, caps and lease-race implementations; T007 local ownership/session guards run in test-unit'
 test-reports:
-	@bash scripts/ci/blocked.sh 'reports' 'T025-T026'
+	$(PY) -m pytest tests/reports

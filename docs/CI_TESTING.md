@@ -86,3 +86,7 @@ T023 adds 27 Python signed/near-zero/peak/physical-signature/assumption cases, t
 ## T024 assembly engineering review
 
 `make benchmark-m3 DEVELOPMENT=1` executes the complete frozen B01–B09/B11 diagnostic subset with immutable raw/source/error evidence, fail-stop sequencing and exact criteria/formulation hashes. Default acceptance refuses pending/stale engineering-owner records before native jobs; development never approves M3. [Evidence](validation/T024.md) records 684 distinct passing automated cases (403 Python, 33 TS, 192 native, 18 integration, 38 Chromium), unchanged numerical/native/CI limits, the initial JSON tuple/list correction and final review-packet source-drift guard. New tests exercise the actual bonded model through both-body sections/probes/comparisons and immutable history. [M3 exit](validation/M3-exit-review.md) remains BLOCKED for the actual [owner decision](validation/M3-owner-review.md); CI green is not engineering approval. T024 stays IN PROGRESS and T025 NOT STARTED.
+
+## T025 reports
+
+`make test-reports` now executes actual historical-run and two-mesh comparison PDF workflows, source/owner/CSRF/lock/corruption/expiry/publication checks, A4 word bounds and long material-table repeated headers. Missing Chromium/Bubblewrap/font/Poppler is a failure. CI provisions DejaVu/Poppler alongside the existing locked Chromium and executes the target; DOCX rendering remains T026. See [T025 evidence](validation/T025.md) for exact final counts, inspected pages, sources and unexecuted acceptance checks.

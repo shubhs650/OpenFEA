@@ -1,3 +1,4 @@
+import { ReportEditor, type ReportCamera } from "../reports/ReportEditor";
 import { useTheme } from "../workspace/theme";
 import { useEffect, useRef, useState } from "react";
 import "@kitware/vtk.js/Rendering/Profiles/Geometry";
@@ -33,6 +34,7 @@ export function ResultViewport({
     parallelScale: number;
     angle: number;
   } | null>(null);
+  const reportCamera = useRef<ReportCamera | null>(null);
   const resetting = useRef(false);
   const [reset, setReset] = useState(0);
   const [error, setError] = useState("");
@@ -119,7 +121,15 @@ export function ResultViewport({
       active.setViewAngle(camera.current.angle);
       window.getRenderer().resetCameraClippingRange();
     }
-    const publishCamera = () =>
+    const publishCamera = () => {
+      reportCamera.current = {
+        position: [...active.getPosition()] as [number, number, number],
+        focal: [...active.getFocalPoint()] as [number, number, number],
+        up: [...active.getViewUp()] as [number, number, number],
+        parallel: active.getParallelProjection(),
+        parallel_scale: active.getParallelScale(),
+        angle: active.getViewAngle(),
+      };
       container.current?.setAttribute(
         "data-camera-state",
         JSON.stringify({
@@ -129,6 +139,7 @@ export function ResultViewport({
           parallelScale: active.getParallelScale(),
         }),
       );
+    };
     const subscription = active.onModified(publishCamera);
     publishCamera();
     const resize = new ResizeObserver(() => window.resize());
@@ -225,6 +236,11 @@ export function ResultViewport({
         </p>
       </div>
       {error && <p role="alert">{error}</p>}
+      <ReportEditor
+        presentation={presentation}
+        visible={visible}
+        camera={() => reportCamera.current}
+      />
     </section>
   );
 }

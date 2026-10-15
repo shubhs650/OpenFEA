@@ -1,7 +1,7 @@
 # M3 engineering exit review
 
 Date: 2026-10-15 (Asia/Calcutta)
-Disposition: **BLOCKED — engineering-owner review pending.** The required frozen numerical subset passes in development mode. This review does not close T024/M3 or authorize automatic M4 progression.
+Disposition: **BLOCKED — engineering-owner acceptance pending.** The required frozen numerical subset passes in development mode. This historical engineering review does not itself grant progression. The subsequent [explicit user progression decision](M3-progression-decision.md) completes bounded T024 development tracking and authorizes M4/T025 while preserving the exact engineering acceptance obligations below.
 
 The task requires the full B01–B09/B11 subset, error tables and owner review. [VALIDATION](../VALIDATION.md) assigns the product owner the engineering-review role; [M3](../plan/M3.md) requires review of physical assumptions and tolerances. The [M0 exception](M0-owner-decision.md) permits cloud development and defers target-laptop/formal acceptance, but explicitly preserves M3's own reviewed bond gate. A merged implementation PR or green CI is not that review.
 
@@ -31,4 +31,4 @@ Full local regression passes **684 distinct cases, 0 remaining failures/skips**:
 
 B10 and B12–B14 are **NOT RUN**, outside this T024 subset and scheduled for T028 (B10/B12 mandatory before the M4 local gate; external case compatibility/permission or owner-approved rigorous replacements remain explicit). Formal Windows/WSL2 laptop/headed GPU/resource/performance/usability evidence remains T030. Full report/archive/beta-security gates are not implemented or credited here. There is no general bonded-assembly, physical-gap, curved-solve, multiple-bond, transformed-bond, scalable-capacity or stiffness-rank certification. AWS/auth/billing/deployment remain outside the local development stage.
 
-Next action is **T024 owner review and acceptance rerun**. T025 and M4 remain NOT STARTED; this PR is reviewable implementation/evidence, not permission to bypass this gate.
+The original next action was **T024 owner review and acceptance rerun**. The later [user progression decision](M3-progression-decision.md) authorizes T025/M4 development; exact owner review and acceptance rerun still govern the formal engineering exit and final M4 acceptance.
