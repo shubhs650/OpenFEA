@@ -25,6 +25,11 @@
   },
   "exclusions": "Root and loaded-face end effects, neutral-axis relative stress, side-edge samples and peak singularities excluded by fixed physical sample regions before execution. No shell/beam elements or claimed solid peak accuracy.",
   "reason": "docs/VALIDATION.md proposed 2% slender-cantilever displacement and 5% non-root stress criteria; nu=0 avoids added Poisson clamping disturbance while disclosed shear correction is below displacement budget",
-  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance",
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "601ac8ab828d2733b990ce4478609d5b93b5c746bc23ae01af7d3a7738b0d465"
+  },
   "mesh_revision_reason": "Revision 1 coarse 0.08-m mesh had 8.05157312256193% worst interior stress error against the unchanged 5% criterion. Explicitly refine both benchmark meshes to resolve the quadratic displacement approximation of bilinear bending stress; reference, sample regions, loads/supports and tolerances remain identical. Retain the failed revision-1 manifest and measurement; no automatic product coarsening/refinement."
 }

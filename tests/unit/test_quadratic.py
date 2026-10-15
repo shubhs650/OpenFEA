@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from tests.benchmark_review import unsigned_manifest
 from worker.benchmark import run_case
 from worker.geometry import match_faces
 from worker.meshing import (
@@ -193,7 +194,12 @@ def test_unresolved_face_identity(fault: str) -> None:
         match_faces(catalog, imported, revision)
 
 
-def test_unsigned_benchmark_cannot_be_reported_as_accepted(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="Engineering-owner review pending"):
+def test_unsigned_benchmark_cannot_be_reported_as_accepted(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    with (
+        unsigned_manifest(monkeypatch, "B01"),
+        pytest.raises(ValueError, match="Engineering-owner review pending"),
+    ):
         run_case("B01", tmp_path / "not-created")
     assert not (tmp_path / "not-created").exists()

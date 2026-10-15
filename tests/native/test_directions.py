@@ -7,6 +7,7 @@ from typing import Any
 import pytest
 from fastapi.testclient import TestClient
 
+from tests.benchmark_review import unsigned_manifest
 from tests.native import test_step_import as step_tests
 from tests.native.test_essential_loads import compute, save
 from tests.native.test_face_decks import setup
@@ -350,11 +351,12 @@ def test_actual_shared_vertices_deduplicate_symmetry_and_refuse_tiny_contradicto
 
 def test_native_b06_cli_executes_four_cases_and_unsigned_refuses_before_output(
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     from worker.benchmark import run_case
 
     refused = tmp_path / "unsigned"
-    with pytest.raises(ValueError, match="owner"):
+    with unsigned_manifest(monkeypatch, "B06"), pytest.raises(ValueError, match="owner"):
         run_case("B06", refused, False)
     assert not refused.exists()
     result = run_case("B06", tmp_path / "diagnostic", True)

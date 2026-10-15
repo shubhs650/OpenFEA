@@ -36,5 +36,10 @@
   "exclusions": "None for this smooth constant-strain patch. No near-interface stress exclusion, smoothing or remeshing after snapshot",
   "reason": "Proposed bonded versus monolithic 2% displacement/5% stress and 0.5% equilibrium limits in docs/VALIDATION.md; text-output absolute floors frozen before execution. Any uncovered intended node is a failure Native node-to-face sampling failed the unchanged patch criteria; revision 2 changes only the interface formulation, not the geometry, physical references, loads, sampling or tolerances.",
   "negative_diagnostics": "Missing/partial master coverage, stale/same-body references, slave SPC/MPC conflicts, detached untied assembly; controlled 1e-5 m gap with default adjustment versus ADJUST=NO is a keyword/geometry audit only, not B08 or approved physical-gap behavior",
-  "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "d68c15e77da9be3402a2248be93c2f3ee57a9487ac5704a5be8d8b9ce620d23d"
+  }
 }

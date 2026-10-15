@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from tests.benchmark_review import unsigned_manifest
 from worker.calculix.results import parse_dat, parse_frd
 from worker.postprocess.fields import element_nodes, probe_element
 from worker.postprocess.tensors import principal, tensor, von_mises
@@ -66,8 +67,8 @@ def test_real_fixture_raw_and_derived_provenance() -> None:
         element_nodes(raw, replace(mesh, revision="changed"))
 
 
-def test_unsigned_b09_refuses_acceptance(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="review pending"):
+def test_unsigned_b09_refuses_acceptance(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    with unsigned_manifest(monkeypatch, "B09"), pytest.raises(ValueError, match="review pending"):
         run_b09(tmp_path / "not-created")
     assert not (tmp_path / "not-created").exists()
 

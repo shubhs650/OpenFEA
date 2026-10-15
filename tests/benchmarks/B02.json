@@ -4,14 +4,17 @@
   "revision": 1,
   "units": "m,N,Pa",
   "geometry": "Synthetic unit cube, L=1 m, A=1 m^2",
-  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "material": {
+    "E_pa": 210000000000,
+    "nu": 0.3
+  },
   "element": "C3D10",
   "mesh_sizes_m": [0.6, 0.4],
   "total_force_n": [1000000, 0, 0],
   "supports": "u_x=0 on x=0; u_y=u_z=0 at (0,0,0); u_z=0 at (0,1,0). Lateral contraction is free; no clamped-end disturbance",
   "loads": "Uniform traction from total +x force on immutable x=1 CAD face; consistent quadratic nodal integration",
   "samples": "All nodes and all raw integration points; end-face mean displacement and full stress tensor",
-  "expected_end_ux_m": 0.000004761904761904762,
+  "expected_end_ux_m": 4.761904761904762e-6,
   "expected_stress_ccx_pa": [1000000, 0, 0, 0, 0, 0],
   "tolerances": {
     "relative": 0.01,
@@ -23,5 +26,10 @@
   },
   "exclusions": "None; relaxed axial support admits exact uniaxial solution. This is not a fully clamped block",
   "reason": "Axial-block proposed limit in docs/VALIDATION.md; compare independent exact continuum solution, not another solver",
-  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "8d427332489761f1f3404b33eb82c1868592b7f6411f94ea0d212b1e2c3baf1d"
+  }
 }
