@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: T026 EDITABLE WORD EXPORT COMPLETE + T025 IMMUTABLE SHARED REPORT/PDF + owner-approved bounded M3.
-Current milestone: M4 IN PROGRESS — T025/T026 COMPLETE; T027 portable archives/diagnostic bundles next. Local Windows/laptop and later reference acceptance remain T030.
-Next action: review the T026 PR after hosted CI passes, then T027. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
+Current state: T027 PORTABLE ARCHIVES/DIAGNOSTICS COMPLETE + T025/T026 REPORTS + owner-approved bounded M3.
+Current milestone: M4 IN PROGRESS — T025–T027 COMPLETE; T028 reference suite/tutorials next. Local Windows/laptop and later reference acceptance remain T030.
+Next action: review the T027 PR after hosted CI passes, then T028. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
 
 
 ## Current objective
@@ -38,12 +38,13 @@ T023: COMPLETE
 T024: COMPLETE — exact owner approval and ten required acceptance cases PASS; bounded M3 exit PASS
 T025: COMPLETE
 T026: COMPLETE
-T027–T042: NOT STARTED
+T027: COMPLETE
+T028–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4: IN PROGRESS; T025 PDF/T026 Word complete, T027 next. M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives complete, T028 next. M4–M6 exit gates: NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -54,6 +55,14 @@ B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported nati
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T027 completed — portable archives and private diagnostic review
+
+Real versioned project archives preserve supported setup/history, source units/SI values, named loads/materials/mesh/bonds, exact canonical BREP and original report/Word/raw bytes. Import assigns new current-owner identities, regenerates trusted native derivatives, validates topology/source values/directions/bonds and commits atomically. Original history is inert owned attachment data, never a live successful result/mesh or executable input. Native source/SI fresh-solve equilibrium, repeated round trips, owner/CSRF/tombstone/hash/expiry/rollback and malicious ZIP cases are exercised. [ADR-034](docs/adr/ADR-034.md), [guide](docs/REPORTS_EXPORTS.md) and [T027 evidence](docs/validation/T027.md) record the real API/browser path and bounds.
+
+Default diagnostic ZIPs contain anonymous job state/tool identities and no geometry/results/setup/names/raw logs; separate explicit boolean opt-ins disclose coordinates. A manifest with purposes/sizes/hashes/omissions appears before deliberate local download. Nothing is sent to support. Existing original-run input/log downloads remain available. Exact local command counts, clean implementation/source/tool/artifact hashes and limitations are recorded in the evidence index; full hosted native/browser CI is watched on the requested PR to success. No unexecuted check receives passing credit.
+
+No new dependency/lock, numerical tolerance, native budget, retry or CI deadline change. Actual Windows/WSL2/laptop/Word/headed/capacity/usability, later references and release-wide security/retention acceptance remain pending. Native direction vector/basis drift requires explicit review instead of silently changed forces/constraints. Bounded v1 counts/sizes refuse oversized projects. Next T028; no merge or deployment.
 
 ## T026 completed — editable Word from exact saved reports
 
@@ -352,3 +361,5 @@ The approved M3 model remains two independent bodies, one full axis-aligned plan
 Current session handoff: T025 implemented and verified; requested review PR remains unmerged. Next T026. T024 acceptance records and raw evidence remain unchanged.
 
 Current session handoff: T026 complete; review the requested PR after hosted checks pass; next T027. No merge or deployment.
+
+Current session handoff: T027 complete; review the requested PR after hosted success; next T028. All M3 approval and deferred M4 obligations remain unchanged.

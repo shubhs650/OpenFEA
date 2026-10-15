@@ -31,6 +31,17 @@ class MetadataBodyLimit:
         if length is None:
             await reject(411, "length_required", "A request size is required")
             return
+        if scope["method"] == "POST" and scope["path"] == "/api/v1/archive-imports":
+            if (
+                not length.isascii()
+                or not length.isdecimal()
+                or len(length) > 10
+                or not 0 < int(length) <= 64 * 1024**2
+            ):
+                await reject(413, "archive_size", "Archives are limited to 64 MiB")
+                return
+            await self.app(scope, receive, send)
+            return
         if scope["method"] == "PUT" and re.fullmatch(
             r"/api/v1/geometry-uploads/[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}/content",
             scope["path"],

@@ -1,3 +1,4 @@
+import { PortableArchives } from "../reports/PortableArchives";
 import { Checklist } from "../workspace/Checklist";
 import { EditToolbar } from "../workspace/EditToolbar";
 import { resetEdits, useEdits } from "../workspace/edits";
@@ -333,6 +334,14 @@ export function Workspace() {
           >
             Create project
           </button>
+          <PortableArchives
+            projectId={project?.id}
+            disabled={!ready || busy || !!edits.dirty.length}
+            onImport={(created) => {
+              setProjects((previous) => [...previous, created]);
+              setProject(created);
+            }}
+          />
           {project && (
             <>
               <h2>Import geometry</h2>

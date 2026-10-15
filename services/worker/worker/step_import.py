@@ -72,8 +72,10 @@ def inspect_step(
     *,
     edit: tuple[Path, str] | None = None,
     bond_review: Path | None = None,
+    archive_metadata: Path | None = None,
+    wall_seconds: float = 60,
 ) -> dict[str, Any]:
-    if edit is not None and bond_review is not None:
+    if sum(x is not None for x in (edit, bond_review, archive_metadata)) > 1:
         raise ValueError("Choose one isolated CAD operation")
     bubblewrap = shutil.which("bwrap")
     if bubblewrap is None:
@@ -157,6 +159,16 @@ def inspect_step(
             "/bond_review.py",
         ]
         command[-2:] = ["/bond_review.py"]
+    if archive_metadata is not None:
+        command[1:1] = [
+            "--ro-bind",
+            str(archive_metadata),
+            "/work/metadata.json",
+            "--ro-bind",
+            str(ROOT / "services/worker/worker/geometry_native/archive.py"),
+            "/archive.py",
+        ]
+        command[-2:] = ["/archive.py"]
     if Path("/etc/ld.so.cache").is_file():
         command[1:1] = ["--ro-bind", "/etc/ld.so.cache", "/etc/ld.so.cache"]
     filter_path = output.parent / "process-filter.bpf"
@@ -183,7 +195,7 @@ def inspect_step(
                 if disk > 192 * 1024**2 or peak > 1536 * 1024**2:
                     stopped = "Import exceeded the memory/output resource budget"
                     break
-                if time.monotonic() - started > 60:
+                if time.monotonic() - started > min(60, wall_seconds):
                     stopped = "Import exceeded the 60 second processing limit"
                     break
                 time.sleep(0.05)
@@ -229,14 +241,22 @@ def inspect_step(
             "worker_sha256": sha256(
                 ROOT
                 / "services/worker/worker/geometry_native"
-                / ("bond_review.py" if bond_review else "edit.py" if edit else "import_step.py")
+                / (
+                    "archive.py"
+                    if archive_metadata
+                    else "bond_review.py"
+                    if bond_review
+                    else "edit.py"
+                    if edit
+                    else "import_step.py"
+                )
             ),
             "exporter_sha256": sha256(
                 ROOT / "services/worker/worker/geometry_native/import_step.py"
             ),
             "wall_seconds": time.monotonic() - started,
             "sampled_peak_rss_bytes": peak,
-            "wall_limit_seconds": 60,
+            "wall_limit_seconds": min(60, wall_seconds),
             "rss_limit_mib": 1536,
             "output_limit_mib": 192,
             "filesystem_isolated": True,

@@ -165,3 +165,21 @@ export async function upload(
     xhr.send(file);
   });
 }
+
+export async function uploadArchive(
+  file: File,
+): Promise<components["schemas"]["ImportedArchive"]> {
+  const response = await fetch("/api/v1/archive-imports", {
+    method: "POST",
+    headers: { "Content-Type": "application/zip", "X-CSRF-Token": csrfToken },
+    body: file,
+  });
+  const data = await response.json();
+  if (!response.ok)
+    throw new RequestError(
+      data.message ?? "Archive import failed",
+      response.status,
+      data.code,
+    );
+  return data;
+}

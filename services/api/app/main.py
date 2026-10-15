@@ -14,6 +14,7 @@ from starlette.exceptions import HTTPException
 from app.auth.body_limit import MetadataBodyLimit
 from app.auth.local import check_boundary
 from app.config import Settings
+from app.domain.archive_service import ArchiveService
 from app.domain.connection_service import ConnectionService
 from app.domain.deck_service import DeckService
 from app.domain.edit_service import EditService
@@ -28,6 +29,7 @@ from app.persistence.database import Database
 from app.persistence.imports import ImportRepository
 from app.persistence.jobs import JobRepository
 from app.persistence.repository import Repository
+from app.routes import archives as _archives  # noqa: F401
 from app.routes import connections as _connections  # noqa: F401
 from app.routes import edits as _edits  # noqa: F401
 from app.routes import imports as _imports  # noqa: F401
@@ -73,6 +75,7 @@ def create_app() -> FastAPI:
             )
             app.state.report_service = ReportService(app.state.job_service)
             app.state.word_service = WordService(app.state.report_service)
+            app.state.archive_service = ArchiveService(app.state.job_service)
             worker = LocalWorker(app.state.job_service)
             app.state.local_worker = worker
             worker.start()

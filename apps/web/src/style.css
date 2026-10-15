@@ -333,3 +333,7 @@ small {
     max-height: none;
   }
 }
+
+.portable-archives {
+  overflow-wrap: anywhere;
+}

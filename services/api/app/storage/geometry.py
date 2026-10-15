@@ -50,11 +50,11 @@ class GeometryStorage:
             )
         return data
 
-    def save(self, project: UUID, path: Path, expected: str) -> None:
-        data = self.read_fixed(path, expected)
+    def save(self, project: UUID, path: Path, expected: str, *, limit: int = 32 * 1024**2) -> None:
+        data = self.read_fixed(path, expected, limit=limit)
         destination = self.blob_path(project, expected)
         if destination.exists():
-            self.read_fixed(destination, expected)
+            self.read_fixed(destination, expected, limit=limit)
             return
         with tempfile.NamedTemporaryFile(dir=destination.parent, delete=False) as temporary:
             temporary.write(data)
@@ -66,7 +66,7 @@ class GeometryStorage:
             try:
                 os.link(name, destination)
             except FileExistsError:
-                self.read_fixed(destination, expected)
+                self.read_fixed(destination, expected, limit=limit)
         finally:
             name.unlink(missing_ok=True)
 

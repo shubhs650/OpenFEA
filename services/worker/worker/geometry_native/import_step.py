@@ -132,7 +132,7 @@ def inspect():
     return export_shape(shape, digest(source), unit, detected)
 
 
-def export_shape(shape, source_sha256, unit, detected):
+def export_shape(shape, source_sha256, unit, detected, canonical_source=None):
     solids = explore(shape, TopAbs_SOLID)
     if not 1 <= len(solids) <= 10:
         fail(
@@ -159,7 +159,12 @@ def export_shape(shape, source_sha256, unit, detected):
         not BRepCheck_Analyzer(s).IsValid() for s in solids
     ):
         fail("invalid_geometry", "The imported solid is invalid; automatic repair was not applied")
-    if not BRepTools.Write_s(shape, "geometry.brep"):
+    if canonical_source is not None:
+        # Archive identity belongs to retained canonical bytes, not a BREP reserialization.
+        import shutil
+
+        shutil.copyfile(canonical_source, "geometry.brep")
+    elif not BRepTools.Write_s(shape, "geometry.brep"):
         raise RuntimeError("Cannot write canonical geometry")
     revision = digest(Path("geometry.brep"))
     body_display, catalog_faces, body_artifacts = [], [], []
