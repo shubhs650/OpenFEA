@@ -49,6 +49,24 @@ test("dark workspace exports matching PDF and editable Word from a frozen histor
   await page
     .getByLabel("User-written conclusion", { exact: true })
     .fill("Reviewer: refine the mesh before assessing a design.");
+  let releaseHistory!: () => void;
+  let observedHistory!: () => void;
+  const historyGate = new Promise<void>((resolve) => {
+    releaseHistory = resolve;
+  });
+  const historyObserved = new Promise<void>((resolve) => {
+    observedHistory = resolve;
+  });
+  await page.route("**/api/v1/reports/*/exports/word", async (route) => {
+    if (route.request().method() !== "GET") {
+      await route.continue();
+      return;
+    }
+    const actual = await route.fetch();
+    observedHistory();
+    await historyGate;
+    await route.fulfill({ response: actual });
+  });
   const generated = page.waitForResponse(
     (r) =>
       r.url().endsWith(`/runs/${run.id}/reports`) &&
@@ -75,6 +93,7 @@ test("dark workspace exports matching PDF and editable Word from a frozen histor
   const pdf = await page.request.get(`/api/v1/reports/${record.id}/pdf`);
   expect(pdf.headers()["content-type"]).toContain("application/pdf");
   expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+  await historyObserved;
   const wordReady = page.waitForResponse(
     (r) =>
       r.url().endsWith(`/reports/${record.id}/exports/word`) &&
@@ -86,6 +105,16 @@ test("dark workspace exports matching PDF and editable Word from a frozen histor
   const wordResponse = await wordReady;
   expect(wordResponse.status(), await wordResponse.text()).toBe(201);
   const word = await wordResponse.json();
+  const staleHistory = page.waitForResponse(
+    (r) =>
+      r.url().endsWith(`/reports/${record.id}/exports/word`) &&
+      r.request().method() === "GET",
+  );
+  releaseHistory();
+  await staleHistory;
+  await expect(
+    page.getByRole("link", { name: "Download editable Word", exact: true }),
+  ).toBeVisible();
   expect(word.model_sha256).toBe(record.model_sha256);
   expect(word.pdf_sha256).toBe(record.pdf_sha256);
   const downloadedWord = await page.request.get(

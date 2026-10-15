@@ -24,7 +24,7 @@ export function WordExport({ reportId }: { reportId: string }) {
     };
   }, [reportId]);
   async function generate() {
-    const current = sequence.current;
+    const current = ++sequence.current;
     setBusy(true);
     setError("");
     try {
