@@ -49,7 +49,7 @@
     "tests/e2e/reports.spec.ts": "ce348b7e506981541a98b7889380ad10566d19ef13f08922c491fe1e802ed142",
     "tests/reports/test_word.py": "9dbe733f83457ce4179a35764da955f725cfa38c084474ef279eefd5733c2aee",
     "tests/reports/test_word_api.py": "4df05afedefd689473e17ec5334868ab09f090cc1668308e710256cf0ede1639",
-    "tests/reports/word_support.py": "401eb9a727833405ce0cdf57aaa5f7f2a55b4cb55633cb61ea4f1948b2468e63",
+    "tests/reports/word_support.py": "f24fb53dbf73745999c5f27f985ea12722ca627257caaefe7281566b2c1ea9a7",
     "tests/unit/test_word.py": "a20ed3dc74f1d2e24dd520320bfe011d8c6f6fa9f4f6ef34bdca4e9a11a9c773"
   },
   "locks_sha256": {
@@ -133,5 +133,11 @@
     "word-figure-page.png": "bc751c39dc2580118fb35fccf7d7a5de14b0baa99927d7a11898c9bc82fc5957",
     "word-layout-final.log": "b393ce303a7d48ea7988affa1273e8efe219cf9fff115fc6eb2dbd9466b773b5",
     "word-long-table-page.png": "e4352ed775a4f97a50a0529251db043b181fd0c6241ac164dc0dc8b5c79d8880"
+  },
+  "qa_followup": {
+    "initial_hosted_run": "https://github.com/shubhs650/OpenFEA/actions/runs/38708447332",
+    "result": "192 native, 428 Python, 33 TS, 18 integration, 39 Chromium and 3 report cases passed; 2 mandatory DOCX conversion cases failed in Ubuntu LibreOffice startup, so the workflow was not passing.",
+    "fix": "Keep canonical office install prefix and expose readonly /etc/libreoffice distro registry configuration. Preserve native budgets and original check timeout; add a 6-minute early Word layout gate before expensive native setup.",
+    "local_replay": "2 actual converted-page cases PASS after the sandbox mount correction."
   }
 }

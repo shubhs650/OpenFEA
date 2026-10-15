@@ -18,7 +18,7 @@ def convert_word(directory: Path) -> Path:
     if office is None:
         raise RuntimeError("LibreOffice Writer installation could not be resolved")
     args = [bwrap, "--unshare-all", "--new-session", "--die-with-parent", "--cap-drop", "ALL"]
-    for path in ("/usr", "/lib", "/lib64", "/etc/fonts", "/etc/ld.so.cache"):
+    for path in ("/usr", "/lib", "/lib64", "/etc/fonts", "/etc/ld.so.cache", "/etc/libreoffice"):
         if Path(path).exists():
             args += ["--ro-bind", path, path]
     args += [
@@ -27,7 +27,7 @@ def convert_word(directory: Path) -> Path:
         "/bin",
         "--ro-bind",
         str(office),
-        "/office",
+        str(office),
         "--dev",
         "/dev",
         "--proc",
@@ -39,7 +39,7 @@ def convert_word(directory: Path) -> Path:
         "/work",
         "--chdir",
         "/work",
-        "/office/program/soffice",
+        str(office / "program/soffice"),
         "-env:UserInstallation=file:///tmp/word-qa",
         "--headless",
         "--norestore",
@@ -64,6 +64,9 @@ def convert_word(directory: Path) -> Path:
     (directory / "conversion.log").write_bytes(result.stdout + result.stderr)
     if result.returncode or not (directory / "report.pdf").is_file():
         raise RuntimeError(
-            "Actual LibreOffice Word conversion failed: " + result.stderr.decode()[-1500:]
+            "Actual LibreOffice Word conversion failed: "
+            + result.stderr.decode()[:2500]
+            + "\n...\n"
+            + result.stderr.decode()[-1500:]
         )
     return directory / "report.pdf"
