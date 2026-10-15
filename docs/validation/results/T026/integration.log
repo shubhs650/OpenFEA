@@ -1,0 +1,22 @@
+.venv/bin/python -m pytest tests/integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 18 items
+
+tests/integration/test_analyses.py .                                     [  5%]
+tests/integration/test_assembly.py .                                     [ 11%]
+tests/integration/test_connections.py .                                  [ 16%]
+tests/integration/test_directions.py .                                   [ 22%]
+tests/integration/test_essential_loads.py .                              [ 27%]
+tests/integration/test_geometry_edits.py .                               [ 33%]
+tests/integration/test_local_jobs.py ..                                  [ 44%]
+tests/integration/test_mesh_controls.py .                                [ 50%]
+tests/integration/test_persistence.py ...                                [ 66%]
+tests/integration/test_result_views.py .                                 [ 72%]
+tests/integration/test_startup.py ....                                   [ 94%]
+tests/integration/test_workspace_edits.py .                              [100%]
+
+======================== 18 passed in 110.54s (0:01:50) ========================

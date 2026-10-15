@@ -31,3 +31,6 @@ playwright-report/
 
 # T025 report models, PDFs, HTML and audit logs retain their verified bytes.
 docs/validation/results/T025/
+
+# T026 immutable DOCX/models/counterpart PDFs and raw QA evidence.
+docs/validation/results/T026/
