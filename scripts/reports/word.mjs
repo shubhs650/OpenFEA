@@ -19,7 +19,7 @@ try {
   for (let index = 0; index < model.figures.length; index++) {
     const svg = model.figures[index].svg;
     await page.setContent(
-      '<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; img-src \'none\'"><style>body{margin:0;background:white}#figure{width:1200px}svg{display:block;width:100%;height:auto}</style><div id="figure">' +
+      '<!doctype html><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; img-src \'none\'"><style>body{margin:0;background:white;font-family:DejaVu Sans,Arial,sans-serif}#figure{width:1200px}svg{display:block;width:100%;height:auto}</style><div id="figure">' +
         svg +
         "</div>",
       { timeout: 15000 },
