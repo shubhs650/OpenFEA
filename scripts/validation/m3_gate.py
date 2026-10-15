@@ -130,7 +130,7 @@ def run_gate(output: Path, development: bool = False) -> dict[str, Any]:
             ):
                 raise ValueError("Benchmark did not return the requested passing disposition")
             saved = json.loads((output / case / "result.json").read_text())
-            if saved != result:
+            if saved != json.loads(json.dumps(result, allow_nan=False)):
                 raise ValueError("Saved benchmark record differs from returned evidence")
             if (
                 result["case"] != case

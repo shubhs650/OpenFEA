@@ -70,6 +70,7 @@ def records(monkeypatch: pytest.MonkeyPatch) -> dict[str, Any]:
         output.mkdir()
         result = {
             "case": case,
+            "native_vector": (1.0, 2.0, 3.0),
             "code_commit": frozen["code_commit"],
             "manifest_sha256": packet["records"][case]["manifest_sha256"],
             "ccx_sha256": sha256(tool),
