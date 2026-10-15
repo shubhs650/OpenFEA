@@ -97,7 +97,7 @@ class ArchiveService:
                 connection.execute(
                     text(
                         "SELECT id FROM geometry_revisions WHERE project_id=:id "
-                        "ORDER BY created_at,id"
+                        "ORDER BY created_at,id LIMIT 9"
                     ),
                     {"id": str(project_id)},
                 )
@@ -116,7 +116,7 @@ class ArchiveService:
             revisions = connection.execute(
                 text(
                     "SELECT analysis_id,revision FROM analysis_revisions WHERE "
-                    "project_id=:id ORDER BY analysis_id,revision"
+                    "project_id=:id ORDER BY analysis_id,revision LIMIT 257"
                 ),
                 {"id": str(project_id)},
             ).all()
@@ -135,12 +135,17 @@ class ArchiveService:
             history = []
             job_ids = (
                 connection.execute(
-                    text("SELECT id FROM local_jobs WHERE project_id=:id ORDER BY queued_at,id"),
+                    text(
+                        "SELECT id FROM local_jobs WHERE project_id=:id "
+                        "ORDER BY queued_at,id LIMIT 101"
+                    ),
                     {"id": str(project_id)},
                 )
                 .scalars()
                 .all()
             )
+            if len(job_ids) > 100:
+                raise invalid("Archive v1 supports at most 100 historical records")
             for identifier in job_ids:
                 job = self.jobs.repository.get(owner, UUID(identifier))
                 if job.status not in ("succeeded", "failed", "cancelled", "interrupted"):
@@ -168,13 +173,15 @@ class ArchiveService:
                 connection.execute(
                     text(
                         "SELECT r.record_json FROM reports r JOIN local_jobs j ON "
-                        "j.id=r.job_id WHERE j.project_id=:id"
+                        "j.id=r.job_id WHERE j.project_id=:id LIMIT 101"
                     ),
                     {"id": str(project_id)},
                 )
                 .scalars()
                 .all()
             )
+            if len(reports) + len(history) > 100:
+                raise invalid("Archive v1 supports at most 100 historical records")
             for raw in reports:
                 record = ReportRecord.model_validate_json(raw)
                 job = self.jobs.repository.get(owner, record.job_id)
@@ -203,13 +210,15 @@ class ArchiveService:
                     text(
                         "SELECT w.record_json FROM report_word_exports w JOIN "
                         "reports r ON r.id=w.report_id JOIN local_jobs j ON "
-                        "j.id=r.job_id WHERE j.project_id=:id"
+                        "j.id=r.job_id WHERE j.project_id=:id LIMIT 101"
                     ),
                     {"id": str(project_id)},
                 )
                 .scalars()
                 .all()
             )
+            if len(words) + len(history) > 100:
+                raise invalid("Archive v1 supports at most 100 historical records")
             for raw in words:
                 word = WordExport.model_validate_json(raw)
                 job = self.jobs.repository.get(owner, word.job_id)
@@ -333,7 +342,7 @@ class ArchiveService:
                 connection.execute(
                     text(
                         "SELECT kind,status,stage,reason_code FROM local_jobs "
-                        "WHERE project_id=:id ORDER BY queued_at LIMIT 100"
+                        "WHERE project_id=:id ORDER BY queued_at DESC LIMIT 100"
                     ),
                     {"id": str(project)},
                 )
@@ -346,6 +355,7 @@ class ArchiveService:
         files["diagnostic.json"] = json_bytes(
             {
                 "schema_version": 1,
+                "job_sample": "Most recent 100 jobs maximum",
                 "jobs": summary,
                 "logs": "Raw log text omitted; use owned solver downloads for local investigation.",
                 "choices": options.model_dump(),

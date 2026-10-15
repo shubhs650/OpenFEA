@@ -4,10 +4,13 @@ import io
 import stat
 import zipfile
 from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any, cast
 
 import pytest
 
 from app.domain.archives import ArchiveManifest
+from app.jobs.service import JobService
 from app.storage.archives import descriptor, json_bytes, read_archive, strict_json, write_archive
 
 
@@ -140,3 +143,52 @@ def test_recursive_archive_objects_are_recognized(raw: bytes) -> None:
     from app.storage.archives import nested_archive
 
     assert nested_archive(raw)
+
+
+def test_oversized_project_refuses_before_serializing_revisions(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from types import SimpleNamespace
+    from uuid import uuid4
+
+    from sqlalchemy import text
+
+    from app.domain.archive_service import ArchiveService
+    from app.domain.archives import ArchiveOptions
+    from app.domain.errors import DomainError
+    from app.domain.models import ProjectCreate
+    from app.persistence.database import Database
+    from app.persistence.repository import Repository
+
+    database = Database(tmp_path / "metadata.sqlite3")
+    database.migrate()
+    repository = Repository(database)
+    owner = repository.local_owner()
+    project = repository.create_project(owner, ProjectCreate(name="Archive capacity guard"))
+    with repository.write() as connection:
+        for _ in range(257):
+            identifier = str(uuid4())
+            connection.execute(
+                text("INSERT INTO analyses VALUES (:id,:project,1,'2026-10-15','2026-10-15')"),
+                {"id": identifier, "project": str(project.id)},
+            )
+            connection.execute(
+                text(
+                    "INSERT INTO analysis_revisions VALUES "
+                    "(:id,:project,1,'Empty',NULL,'2026-10-15')"
+                ),
+                {"id": identifier, "project": str(project.id)},
+            )
+
+    def unexpected(*args: Any, **kwargs: Any) -> None:
+        raise AssertionError("Must refuse excess count before loading setup records")
+
+    monkeypatch.setattr(repository, "_analysis", unexpected)
+    jobs = SimpleNamespace(
+        decks=SimpleNamespace(repository=repository), storage=SimpleNamespace(root=tmp_path)
+    )
+    service = ArchiveService(cast(JobService, jobs))
+    with pytest.raises(DomainError) as refused:
+        service.export(owner, project.id, ArchiveOptions())
+    assert refused.value.status == 422
+    database.close()

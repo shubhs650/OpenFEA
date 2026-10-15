@@ -4,20 +4,20 @@
   "implementation_commit": "b2978fda2b4a5e86c60116e49f44eccde4d03873",
   "base_commit": "08877d4 (merged T026 PR #24)",
   "local_counts": {
-    "python": 466,
+    "python": 467,
     "typescript": 33,
     "native_archive": 4,
     "report": 6,
     "process_integration": 18,
     "browser_targeted": 1,
-    "distinct_total": 528,
+    "distinct_total": 529,
     "failures": 0,
     "skips": 0
   },
   "expected_hosted_counts": {
     "native": 196,
     "browser": 40,
-    "distinct_total": 759
+    "distinct_total": 760
   },
   "hosted_result": "See latest-head PR checks; monitoring continues until success, not pre-credited.",
   "clean_replays": {
@@ -64,7 +64,7 @@
     "migrations/versions/0011_archives.py": "5764e143003a8cc8d49087c2867043d6f618a7507acff38006a7c3a64bd9a493",
     "packages/contracts/api.d.ts": "26e53013aa4ec0edff77e2f2b1f3e3a567585ab8c3ab9841a2b99c8a4e705996",
     "services/api/app/auth/body_limit.py": "49a9f46cd25b38fe360c7f941e425aeffeceaa0970141bba56b42be41c9b5698",
-    "services/api/app/domain/archive_service.py": "0ab9d91e84098e6b6eb90749e6fd8cd81c86da9c69533b471860390612f90c7c",
+    "services/api/app/domain/archive_service.py": "c1acc935c1d2da63d5c5eaf052d51aa11cc59f28879a67b786f77092a7564787",
     "services/api/app/domain/archive_validation.py": "29720272ffcea1d986cdb33d054034a1ed05cbfcaba981d2c291d75163a4349a",
     "services/api/app/domain/archives.py": "74a714cdd7402d1af46ad47ff68d47db760ee39a7c5ea2a07a973bf2df22dda9",
     "services/api/app/main.py": "1285fbbafa2d5fb96c9be59710c7ddda6eb194b91a5a99ba5a3307a33bf2e1fd",
@@ -77,7 +77,7 @@
     "tests/e2e/archives.spec.ts": "92bfae14afc9616d0af8c9129e757a39184ee32aa9d6941405f8469073b536b3",
     "tests/native/test_archives.py": "4707bc926d9a25f12ec43306a83bb49c47292c840e6745b2f240b96ac2351cf6",
     "tests/reports/test_archive_reports.py": "9e3b7987c61c1f4ae36caccd5ff71bac89645d8ad0c09b706d6d4351a503c393",
-    "tests/unit/test_archives.py": "836640ac54acf18c9997af15a512e412326cb86ba02d20b92e105d6dbd90431f"
+    "tests/unit/test_archives.py": "0e20e591634aed880a84d536f1ec59db72e78afd254ebba9afed966160983960"
   },
   "locks_sha256": {
     "uv.lock": "36f59cf0e56b6442588403ba9ac6b47e732a46ce4a9d8cd7f3e5edcea741e261",
@@ -95,18 +95,21 @@
     "docx_sha256": "67dadd6a93ded06b13724cdbac38d4a0bc01ca25939104076a9f8e8e7ce2e219"
   },
   "artifacts_sha256": {
-    "archive-roundtrip.png": "cc31a1f07cf5f22c61ab13a97ac3d002c25cba34f7c0bfce326feb352d9c7fab",
-    "browser.log": "16db828be389dfde9b0f832d1b539c35cdf8d561e8fa7efdf7e74fc320e209ce",
     "check-build-smoke.log": "8e53cc55b4b2e82b22b721231cee7b212d4e76041402d706303c7c576c94327e",
-    "clean-roundtrip.log": "98a90b3753dbf9ebe507a8702b335d769766c64d4de3454de1b3c86c432ded44",
-    "diagnostic-preview.png": "125942c7726ea98d58c1c4d21b1e75df2431ff73b16937df2b05740b745e6b86",
+    "browser.log": "16db828be389dfde9b0f832d1b539c35cdf8d561e8fa7efdf7e74fc320e209ce",
+    "followup-diagnostic.zip": "4404db72527b2833feb40d586e091ffe58bbd7ff97f2d70969173dcbefba7adf",
     "diagnostic.zip": "d0a647026cf896e43e7838aae7d6bb7a964ddf2766aa447c3198b99a957e7303",
-    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
-    "integration.log": "a36c9cf49e585d7de158da465ed9895ca3344bbf3f4ad301700d1a63a5645611",
-    "project.zip": "a11dd58481e242e90019c91d2ae9178bbea799252ec9d4a83388365e349940fb",
-    "report-regression.log": "76e7b894893f573b960fabf9eeef33bc13a94f52627473d57f648b08bce39902",
+    "with-reports.zip": "a84605d1bd01e3f7bffa86a115d463e19eb9c19e3dd7025c03c4eff6ca02ed86",
     "roundtrip.json": "446ba6cc07f15eb4fc567cddf0b32c6bca3c3f4a36acacc2123dccaf0fb0fab0",
-    "with-reports.zip": "a84605d1bd01e3f7bffa86a115d463e19eb9c19e3dd7025c03c4eff6ca02ed86"
+    "report-regression.log": "76e7b894893f573b960fabf9eeef33bc13a94f52627473d57f648b08bce39902",
+    "diagnostic-preview.png": "125942c7726ea98d58c1c4d21b1e75df2431ff73b16937df2b05740b745e6b86",
+    "archive-roundtrip.png": "cc31a1f07cf5f22c61ab13a97ac3d002c25cba34f7c0bfce326feb352d9c7fab",
+    "clean-roundtrip.log": "98a90b3753dbf9ebe507a8702b335d769766c64d4de3454de1b3c86c432ded44",
+    "project.zip": "a11dd58481e242e90019c91d2ae9178bbea799252ec9d4a83388365e349940fb",
+    "integration.log": "a36c9cf49e585d7de158da465ed9895ca3344bbf3f4ad301700d1a63a5645611",
+    "followup-check.log": "9645b4c1aec4dcd39117382e71e638ae1913db41fef063c0014005ca2bfa494a",
+    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "followup-tests.log": "8b5c1f8f33ece745b52c5477ca50cd44cf507e2441dac0e56c7b55078550049c"
   },
   "not_run": [
     "actual Windows/WSL2 laptop/Word/Edge/headed GPU/capacity/usability",
@@ -122,5 +125,34 @@
   "native_toolchain_manifest": {
     "ccx_version": "2.23",
     "gcc_version": "14.2.0"
+  },
+  "generation_sources_sha256": {
+    "apps/web/src/geometry/Workspace.tsx": "e61ac68d9278e1756df773d285a9657faf7067b715581d0a2c8f9ae527d8e6ee",
+    "apps/web/src/geometry/api.ts": "12ad8469847fe4406c5c7bfd678b1d028e0fd9c0c8f41605352661fbebcbb6b3",
+    "apps/web/src/reports/PortableArchives.tsx": "962ab0ccab68061c9e607978c770d4497b32abc768209d2b60689c3ac5daf7b4",
+    "apps/web/src/style.css": "235e9eccceb4dd0f0ae0e32e353daf01c08d512e1cd3951d2b62287f95494a51",
+    "migrations/versions/0011_archives.py": "5764e143003a8cc8d49087c2867043d6f618a7507acff38006a7c3a64bd9a493",
+    "packages/contracts/api.d.ts": "26e53013aa4ec0edff77e2f2b1f3e3a567585ab8c3ab9841a2b99c8a4e705996",
+    "services/api/app/auth/body_limit.py": "49a9f46cd25b38fe360c7f941e425aeffeceaa0970141bba56b42be41c9b5698",
+    "services/api/app/domain/archive_service.py": "0ab9d91e84098e6b6eb90749e6fd8cd81c86da9c69533b471860390612f90c7c",
+    "services/api/app/domain/archive_validation.py": "29720272ffcea1d986cdb33d054034a1ed05cbfcaba981d2c291d75163a4349a",
+    "services/api/app/domain/archives.py": "74a714cdd7402d1af46ad47ff68d47db760ee39a7c5ea2a07a973bf2df22dda9",
+    "services/api/app/main.py": "1285fbbafa2d5fb96c9be59710c7ddda6eb194b91a5a99ba5a3307a33bf2e1fd",
+    "services/api/app/routes/archives.py": "94982dafb851394add449f5e2509844b16a986af815dceab2e9d768fcd43ee93",
+    "services/api/app/storage/archives.py": "80cacc96df5f4fad07c1edcbf1ee14bc433b5cef94dda12a37215bc2fe447558",
+    "services/api/app/storage/geometry.py": "55cf3b0b31079057d31e3472378572254f6040bf46c92cba0a6ebc8e92d8e7fc",
+    "services/worker/worker/geometry_native/archive.py": "763a8a25ad5d7550b9535f0559ca1bccb51cda686d66eb4f3101573e0ffab7ee",
+    "services/worker/worker/geometry_native/import_step.py": "e6708ab377445ee44239493a98a27cd7ffd5e6a9180d4e0f56f3c3406b1f5c62",
+    "services/worker/worker/step_import.py": "a05c0e9375fc913b766fb9995af8d74456f179b02ce4f86ad1435815e8b748c7",
+    "tests/e2e/archives.spec.ts": "92bfae14afc9616d0af8c9129e757a39184ee32aa9d6941405f8469073b536b3",
+    "tests/native/test_archives.py": "4707bc926d9a25f12ec43306a83bb49c47292c840e6745b2f240b96ac2351cf6",
+    "tests/reports/test_archive_reports.py": "9e3b7987c61c1f4ae36caccd5ff71bac89645d8ad0c09b706d6d4351a503c393",
+    "tests/unit/test_archives.py": "836640ac54acf18c9997af15a512e412326cb86ba02d20b92e105d6dbd90431f"
+  },
+  "followup": {
+    "change": "Export query admission uses limit+one before serialization; diagnostic sample is latest 100. Original clean b2978fd artifacts remain unchanged. Final source hashes cover the refinement.",
+    "verification": "39 archive unit/security/privacy/capacity cases and 4 real native cases PASS (43 cases, counted once).",
+    "original_pr_head": "a1cbe2c67a54cc3ea902c93b34026b8c027d70ee",
+    "initial_ci": "https://github.com/shubhs650/OpenFEA/actions/runs/38778955410 (superseded by final-head push)"
   }
 }
