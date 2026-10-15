@@ -147,6 +147,9 @@ def render_pdf(directory: Path) -> dict[str, str]:
             except ProcessLookupError:
                 pass
             process.wait(timeout=3)
+    disk = max(disk, sum(p.stat().st_size for p in directory.rglob("*") if p.is_file()))
+    if disk > 64 * 1024**2:
+        raise RuntimeError("Report rendering exceeded its final scratch budget")
     info: dict[str, str] = json.loads((directory / "renderer.json").read_bytes())
     info.update(
         wall_seconds=f"{time.monotonic() - started:.3f}",

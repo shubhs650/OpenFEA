@@ -1,14 +1,14 @@
 # Progress and handoff
 
 Updated: 2026-10-15 (Asia/Calcutta)
-Current state: T025 SHARED IMMUTABLE REPORT MODEL + REAL A4 PDF COMPLETE; prior local setup, bonded numerical development and result inspection delivered.
-Current milestone: M4 IN PROGRESS — T025 COMPLETE; T026 next. M0/M1/M2 and bounded M3 development complete. Exact formal engineering-owner acceptance and local laptop/Windows acceptance remain deferred gates.
-Next action: review the T025 PR, then T026 editable Word from the same report model. Preserve the exact owner review/acceptance rerun and laptop/capacity obligations at M4/T030. See the [explicit user progression decision](docs/validation/M3-progression-decision.md).
+Current state: T025 SHARED IMMUTABLE REPORT MODEL + REAL A4 PDF COMPLETE; prior local setup, owner-approved M3 bounded engineering exit and result inspection delivered.
+Current milestone: M4 IN PROGRESS — T025 COMPLETE; T026 next. M0/M1/M2 and bounded owner-approved M3 complete. Local laptop/Windows and later external-reference acceptance remain T030.
+Next action: review the T025 PR, then T026 editable Word from the same report model. Preserve the existing exact M3 approvals/acceptance evidence and remaining M4/T030 obligations.
 
 
 ## Current objective
 
-Fully working, validated LOCAL prototype through M4/T030. Develop and test M1–M4 in Codex Cloud with synthetic/public fixtures; validate the completed local workflow on the owner's laptop at the M4 gate. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001–T006 development deliverables are complete under the [owner's M0 progression exception](docs/validation/M0-owner-decision.md). Formal engineering benchmark sign-offs and target-laptop performance evidence remain deferred. That owner decision added no M1 implementation; T007 was subsequently implemented and tested as recorded below.
+Fully working, validated LOCAL prototype through M4/T030. Develop and test M1–M4 in Codex Cloud with synthetic/public fixtures; validate the completed local workflow on the owner's laptop at the M4 gate. AWS deployment, Google authentication, commercial billing and beta operations remain outside this stage. T001–T006 development deliverables are complete under the [owner's M0 progression exception](docs/validation/M0-owner-decision.md). B01–B09/B11 exact engineering-owner approval and acceptance are now recorded by T024; later external/tutorial references and target-laptop performance remain deferred. That owner decision added no M1 implementation; T007 was subsequently implemented and tested as recorded below.
 
 ## Implementation status
 
@@ -35,21 +35,21 @@ T020: COMPLETE
 T021: COMPLETE
 T022: COMPLETE
 T023: COMPLETE
-T024: COMPLETE — bounded numerical development; user-authorized progression; formal engineering acceptance pending
+T024: COMPLETE — exact owner approval and ten required acceptance cases PASS; bounded M3 exit PASS
 T025: COMPLETE
 T026–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
-M3 exit: BLOCKED — frozen numerical development subset PASS; exact engineering-owner review/acceptance rerun pending.
+M3: COMPLETE — owner-approved bounded engineering exit PASS.
 M4: IN PROGRESS; T025 PDF complete, T026 next. M4–M6 exit gates: NOT RUN.
-B01/B02: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
-B09: DEVELOPMENT PASS; engineering-owner review pending.
-B07: Native *TIE candidate REJECTED; experimental mortar DEVELOPMENT PASS; owner review pending.
-B03–B05: DEVELOPMENT PASS on two meshes each; owner-signed acceptance pending.
-B06: DEVELOPMENT PASS on two meshes/both native placements; owner-signed acceptance pending.
-B08: DEVELOPMENT PASS for the declared 10 µm axial unit-square idealization; owner acceptance pending.
-B11: DEVELOPMENT PASS for invalid-setup refusal; actual finite unsupported native output is diagnostic only; engineering-owner acceptance pending.
+B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
+B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
+B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
+B03–B05: ACCEPTANCE PASS on both declared meshes; exact owner approval recorded.
+B06: ACCEPTANCE PASS on both meshes/native placements; exact owner approval recorded.
+B08: ACCEPTANCE PASS only for the approved 10 µm axial unit-square idealization; product physical-gap solves remain blocked.
+B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported native output remains diagnostic only.
 B10/B12–B14: NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
@@ -58,11 +58,11 @@ Project license: DEFERRED pending dependency/native review.
 
 The actual workspace captures selected historical result camera/field/range/body/smoothing/deformation/section definitions, uses one report-wide unit preset and produces immutable shared-model JSON, light HTML preview and A4 PDF. Complete original warnings/assumptions, sourced materials, undeformed setup direction figures, full native extrema/yield/reactions/equilibrium, optional checked physical comparison and source/tool/font/lock identities remain included. No user-supplied image/HTML/URL or automatic design-safety conclusion. Generation and publication verify original numerical sources and ownership; failures publish no record. Existing report bytes survive source expiry, while project deletion revokes access. [ADR-032](docs/adr/ADR-032.md), [guide](docs/REPORTS_EXPORTS.md) and [T025 evidence](docs/validation/T025.md) retain commands, actual PDFs, layout inspection, final counts and limits.
 
-The user's explicit instruction authorizes M4 development after the delivered numerical subset; [progression decision](docs/validation/M3-progression-decision.md) records this without inventing exact criteria/formulation signatures. T024 is COMPLETE for bounded development; original acceptance manifests and the formal engineering blocker remain unchanged. DOCX remains T026; archives T027; target-laptop/Windows/capacity and exact acceptance rerun remain T030. No numerical tolerances, package/native locks, solver binaries, CI timeouts, retries or deployment policy change.
+T024/M3 exact owner approval and ten acceptance cases are already recorded by [PR #22](https://github.com/shubhs650/OpenFEA/pull/22). This branch incorporates that merged record and preserves every approval/criterion hash. DOCX remains T026; archives T027; actual target-laptop/Windows/capacity and later references remain T030. No numerical tolerances, dependency/native locks, solver binaries, CI timeouts or retry policy changes.
 
-## T024 engineering gate — development numerics pass; owner acceptance blocked
+## T024 complete — actual owner approval and bounded M3 acceptance
 
-The complete frozen B01–B09/B11 subset passes in explicit development mode. New `make benchmark-m3` enforces exact criteria/formulation hashes, immutable fresh outputs, source/tool identities and stop-after-failure semantics. Default acceptance refuses unsigned review; diagnostics cannot self-approve the exit. The additional actual bonded two-mesh path verifies full fields, explicit interface-side probes, both-body volume sections, physical comparisons/warnings and unchanged raw histories. [T024 evidence](docs/validation/T024.md), [M3 exit review](docs/validation/M3-exit-review.md) and [owner review packet](docs/validation/M3-owner-review.md) distinguish numerical evidence from approval. All **684 distinct automated cases pass** (403 Python, 33 TypeScript, 192 native, 18 process integration, 38 Chromium), plus doctor/static/contracts/docs/build/smoke. The final ten-case subset runs on the exact final driver sources. Raw/error/source evidence is retained, including rejected native TIE and B11 finite-but-invalid output. Historical T024 disposition: IN PROGRESS solely for actual owner review/acceptance rerun. The later user progression decision above now tracks bounded development COMPLETE and preserves formal acceptance separately. Physical-gap product solving, native TIE and broader assembly/Windows/laptop/capacity claims remain blocked or unvalidated. No tolerance, lock, native budget or CI limit changes.
+The engineering owner shubham patil approved the exact T024 validation packet on 2026-10-15: “I approve everything from T024 from validation”. All eleven approved criteria/formulation/scope hashes remain identical. A subsequent default `make benchmark-m3` run without DEVELOPMENT passes all ten B01–B09/B11 cases with zero approval blockers/failures/skips. [Acceptance evidence](docs/validation/T024-acceptance.md), [owner decision](docs/validation/M3-owner-review.md), [M3 exit PASS](docs/validation/M3-exit-review.md) and [acceptance index](docs/validation/results/T024/acceptance/index.json) preserve source/raw/error identities. Earlier 684-case regression and development evidence remain historical; product numerical/API/viewer sources are unchanged. Current 403 Python cases and four affected actual native approval/refusal cases pass. Unsigned tests now use temporary in-memory metadata copies; real approved manifests are never modified by tests. No physical criteria, native limits, locks, retries or CI deadline changed. T024/M3 COMPLETE within the exact bounded scope; native TIE remains rejected and product physical-gap solves stay blocked. Next T025 NOT STARTED; remaining Windows/laptop/resources/usability, reports/archives and B10/B12+ acceptance remain M4 obligations.
 
 ## T023 completed — common physical refinement comparison and retained assumptions
 
@@ -334,10 +334,8 @@ Applicable T002/regression tests: **31 passed, 0 failed, 0 skipped**. Repeated r
 
 ## Handoff
 
-M0 was **approved by the owner for M1 progression with explicit deferrals** after the historical NO-GO and PR #2 software fixes. Preserve all frozen criteria, native semantics and limits. The next gate work is exact benchmark/formulation review, M3 assembly validation and M4 local laptop/end-to-end acceptance. Current passing development suites do not establish those later acceptances.
+T001–T024 are complete within their recorded bounded scopes. The owner-approved M0 progression exception remains historical; T024 now closes exact B01–B09/B11/formulation/scope review and the M3 engineering exit with real acceptance results. Next **T025**, NOT STARTED, begins M4 reporting when requested. This session records approval and runs acceptance; it does not implement T025, merge a PR, deploy or provision resources.
 
-Obtain engineering-owner B01/B02/B09/B07-mortar and formulation/scope acceptance with owner/date/criteria hash before claiming accepted benchmarks. T019/B08 now validates only the declared 10 µm axial unit-square setup/experiment; product bonded solve admission remains T020 and general gap physics remains unsupported. At M4/T030 reproduce conservative resource and headed browser measurements on the actual laptop and choose a supported cap; the reported 1650-class GPU does not remove that test. No 100k solve or arbitrary-model capacity promise is required. Rerun approved acceptance cases after records exist and close the M4 local gate only with actual evidence.
+The approved M3 model remains two independent bodies, one full axis-aligned planar zero-gap unit-square interface and <=65 trace nodes per side. Native TIE stays rejected; general/physical-gap/curved/multiple/transformed/scalable assembly behavior is not certified. At M4/T028–T030, complete the remaining tutorial/public/external references, reports/archives and actual Windows/WSL2 laptop/headed GPU/resources/performance/usability validation. No 100k or arbitrary-model capacity is promised. Historical raw/development results are unchanged; approval never credits unexecuted work. Dependency/native locks, numerical tolerances, resource caps, retries and CI limits remain unchanged.
 
-T007–T012 are COMPLETE and M1 bounded technical exit passes. T013 cleanup and T014 mesh sizing/quality/bounded recovery are COMPLETE with evidence above. T015 essential supports/gravity/equilibrium is COMPLETE. T016–T019 are now COMPLETE as recorded above. The historical T019 handoff pointed to T020, which is now complete. The current handoff is **T026 editable Word** after T025 review. Formal exact engineering-owner acceptance/rerun remains pending under the recorded progression decision. This session creates the requested T025 review PR; leave it unmerged. Native *TIE remains rejected; general/physical-gap/scalable assembly behavior, product editing, full viewer and later release/security/report features remain unvalidated.
-
-All reviewed frozen manifests/locks/native binaries remain unchanged. Hosted CI passed on merged PR #1 before these follow-up fixes; target-hardware acceptance and final public redistribution approval remain unexecuted/deferred. No AWS, production secrets, private CAD or deployment. Cloud startup review draft was saved but not published; live processes are not retained.
+Current session handoff: T025 implemented and verified; requested review PR remains unmerged. Next T026. T024 acceptance records and raw evidence remain unchanged.

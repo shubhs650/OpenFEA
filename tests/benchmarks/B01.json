@@ -4,7 +4,10 @@
   "revision": 1,
   "units": "m,N,Pa",
   "geometry": "Synthetic unit cube [0,1]^3, OCCT BREP; no private data",
-  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "material": {
+    "E_pa": 210000000000,
+    "nu": 0.3
+  },
   "element": "C3D10",
   "mesh_sizes_m": [0.6, 0.4],
   "displacement_gradient": [
@@ -28,5 +31,10 @@
   },
   "exclusions": "None; no stress extrapolation or smoothing",
   "reason": "Constant-strain patch proposed limit in docs/VALIDATION.md; absolute floors address near-zero components and printed DAT precision",
-  "reviewer_signoff": "PENDING engineering owner; development runs are not release acceptance"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "5edf7fcbd1834fbca4133fe61d3b8bdee970dbed08523401f606927ba3b17bf5"
+  }
 }

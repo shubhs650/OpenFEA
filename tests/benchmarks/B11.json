@@ -4,7 +4,10 @@
   "source": "Rigid-body kinematics u=t+omega cross x has zero infinitesimal strain. A disconnected loaded elastic body or support rows of rank below six must fail necessary preflight; solver finish/finite displacement alone cannot establish stability.",
   "units": "m,N,Pa",
   "geometry": "Two independently meshed unit cubes, zero-gap interface; C3D10 0.6/0.4 m, immutable body/face/node identities",
-  "material": { "E_pa": 210000000000, "nu": 0.3 },
+  "material": {
+    "E_pa": 210000000000,
+    "nu": 0.3
+  },
   "cases": [
     "detached_loaded_body",
     "connected_but_underconstrained",
@@ -25,5 +28,10 @@
   },
   "numerical_policy": "No displacement magnitude threshold is invented to classify instability. Native singular/pivot/indefinite/mode messages fail; even finite outputs cannot override failed topology/support/MPC or frozen equilibrium gates.",
   "exclusions": "No general eigenspectrum/stiffness-rank or arbitrary assembly stability certification. Product mortar remains one full axis-aligned planar zero-gap unit-square interface, <=65 trace nodes per side; physical gaps, multiple solver bonds and transformed constraints remain blocked.",
-  "reviewer_signoff": "PENDING engineering owner; development-only"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "1590dbbb695b170f7d58b550853282864fa421135510c76be8f656a94468b7d4"
+  }
 }

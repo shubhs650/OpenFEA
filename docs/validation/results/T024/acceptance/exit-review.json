@@ -1,0 +1,45 @@
+{
+  "milestone": "M3",
+  "task": "T024",
+  "disposition": "PASS within the exact owner-approved bounded scope",
+  "reviewer": "shubham patil",
+  "reviewed_on": "2026-10-15",
+  "timezone": "Asia/Calcutta",
+  "owner_decision": "owner-decision.json",
+  "approved_m3_criteria_sha256": "908d1f323a5aac1ca65ee66bf15aaf43bf377f345d187e437e5b351a1b6e0843",
+  "acceptance_source_commit": "964f76c1fd5609b90fc002e87fed118026d30b24",
+  "acceptance_development": false,
+  "required_cases": [
+    "B01",
+    "B02",
+    "B03",
+    "B04",
+    "B05",
+    "B06",
+    "B07",
+    "B08",
+    "B09",
+    "B11"
+  ],
+  "passed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "not_run_required": 0,
+  "product_regression": {
+    "head_sha": "880aed097079396fda3a34baaabc55ff0184d4bb",
+    "run_id": 38671061132,
+    "url": "https://github.com/shubhs650/OpenFEA/actions/runs/38671061132",
+    "conclusion": "success",
+    "cases": 684,
+    "current_product_sources_identical": true
+  },
+  "current_checks": {
+    "python_units": 403,
+    "changed_native_cases": 4,
+    "native_refusal_uses_unsigned_memory_copies": true
+  },
+  "scope_limits": "Original M3 scope unchanged: one axis-aligned full zero-gap unit-square interface, two bodies, <=65 nodes per trace. Native TIE rejected; product physical-gap solves blocked. No general/curved/scalable/stability/design-safety certificate.",
+  "deferred": "B10/B12-B14 external/tutorial references and Windows/WSL2 laptop/GPU/resources/usability remain M4/T028-T030; reports/archives and deployment not executed.",
+  "next_task": "T025 (not started)",
+  "raw_retention": "Preserve fresh mesh/catalog/bond/manifest/result JSON, native decks/DAT/FRD/logs including binary coordinate audits. Redundant CAD/mesher intermediates are omitted from the compressed acceptance copies; their exact hashes remain in benchmark-summary.json. Prior development archives remain unchanged."
+}

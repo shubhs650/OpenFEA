@@ -7,6 +7,7 @@ from typing import Any
 
 import pytest
 
+from tests.benchmark_review import unsigned_manifest
 from worker.bond_fixture import run_b07
 from worker.calculix.bonds import (
     binary_frd_coordinates,
@@ -183,7 +184,9 @@ def test_binary_geometry_audit_is_narrow_and_fail_closed(fault: str, tmp_path: P
         binary_frd_coordinates(p, {1, 2})
 
 
-def test_unsigned_b07_stops_before_creating_a_solver_job(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="review pending"):
+def test_unsigned_b07_stops_before_creating_a_solver_job(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    with unsigned_manifest(monkeypatch, "B07"), pytest.raises(ValueError, match="review pending"):
         run_b07(tmp_path / "absent")
     assert not (tmp_path / "absent").exists()

@@ -1,0 +1,12 @@
+.venv/bin/python scripts/validation/m3_gate.py  --output '.local/native/validation/T024/owner-acceptance'
+M3: running B01 (reviewed acceptance)
+M3: running B02 (reviewed acceptance)
+M3: running B03 (reviewed acceptance)
+M3: running B04 (reviewed acceptance)
+M3: running B05 (reviewed acceptance)
+M3: running B06 (reviewed acceptance)
+M3: running B07 (reviewed acceptance)
+M3: running B08 (reviewed acceptance)
+M3: running B09 (reviewed acceptance)
+M3: running B11 (reviewed acceptance)
+Numerics: PASS; benchmark acceptance: PASS; see .local/native/validation/T024/owner-acceptance/summary.json

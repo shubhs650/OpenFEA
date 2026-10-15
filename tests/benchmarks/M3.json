@@ -29,5 +29,10 @@
     "Linux synthetic local development only. Curved solving, multiple solver bonds and transformed bonded constraints remain unsupported. Windows/laptop/headed GPU/performance/usability and complete B10/B12+ suite remain M4/T028-T030 obligations.",
     "Engineering owner must review this exact scope, formulation and all required criteria hashes. Automated numerical passes or CI green do not grant M3 exit; no automatic progression to M4."
   ],
-  "reviewer_signoff": "PENDING engineering owner; T024 gate review required"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "908d1f323a5aac1ca65ee66bf15aaf43bf377f345d187e437e5b351a1b6e0843"
+  }
 }

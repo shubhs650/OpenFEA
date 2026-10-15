@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 
 from app.domain.errors import DomainError
 from app.domain.loads import LoadAssignment, LoadSetup, load_state
+from tests.benchmark_review import unsigned_manifest
 from tests.native import test_step_import as step_tests
 from tests.native.test_face_decks import assign, setup
 from tests.native.test_local_jobs import submit, wait_job
@@ -175,8 +176,9 @@ def test_real_api_essential_benchmarks_match_predeclared_all_node_ip_and_reactio
 def test_real_cli_essential_benchmark_is_development_only_and_unsigned_refuses_before_output(
     case: str,
     tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    with pytest.raises(ValueError, match="Engineering-owner"):
+    with unsigned_manifest(monkeypatch, case), pytest.raises(ValueError, match="Engineering-owner"):
         run_case(case, tmp_path / "unapproved")
     assert not (tmp_path / "unapproved").exists()
     result = run_case(case, tmp_path / "development", development=True)

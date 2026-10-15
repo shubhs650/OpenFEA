@@ -35,7 +35,19 @@ def request() -> dict[str, Any]:
 
 
 @pytest.mark.parametrize(
-    "fault", ["nan", "scale", "range", "bodies", "camera", "views", "image", "conclusion"]
+    "fault",
+    [
+        "nan",
+        "scale",
+        "range",
+        "bodies",
+        "camera",
+        "views",
+        "image",
+        "conclusion",
+        "overflow_span",
+        "overflow_display",
+    ],
 )
 def test_report_requests_refuse_untrusted_or_invalid_definitions(fault: str) -> None:
     data = request()
@@ -52,6 +64,11 @@ def test_report_requests_refuse_untrusted_or_invalid_definitions(fault: str) -> 
         view["camera"]["up"] = [0, 0, 0]
     elif fault == "views":
         data["views"] *= 5
+    elif fault == "overflow_span":
+        view["range_si"] = [-1e308, 1e308]
+    elif fault == "overflow_display":
+        view["field"] = "ux"
+        view["range_si"] = [0, 1e308]
     elif fault == "image":
         view["image_url"] = "file:///etc/passwd"
     else:

@@ -43,6 +43,9 @@ def test_two_mesh_comparison_retained_and_other_run_deletion_refuses_publication
     record = response.json()
     base = f"/api/v1/reports/{record['id']}"
     model = client.get(base + "/model").json()
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "comparison-model.json").write_bytes(client.get(base + "/model").content)
+    (OUT / "comparison-record.json").write_bytes(client.get(base).content)
     compare = model["comparison"]
     assert not compare["convergence_claim"]
     assert compare["reference"]["elements"] != compare["compared"]["elements"]

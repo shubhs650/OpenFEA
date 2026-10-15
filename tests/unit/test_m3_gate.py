@@ -168,7 +168,7 @@ def test_missing_required_tool_cannot_start_a_job(
 def test_reviewed_benchmarks_still_cannot_self_approve_the_product_exit(
     tmp_path: Path, records: dict[str, Any]
 ) -> None:
-    # Synthetic review metadata tests orchestration only; committed records stay PENDING.
+    # Synthetic review metadata tests orchestration only; it is not the owner decision.
     for record in records["packet"]["records"].values():
         record["approval_blocker"] = None
     result = gate.run_gate(tmp_path / "synthetic-reviewed")
