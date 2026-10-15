@@ -16,6 +16,7 @@ T001 supplies health API/UI; T002 provisions native tools. T003–T006 and the M
 | make test-native | Tiny real import/mesh/CCX/parser tests with licensed synthetic fixtures |
 | make test-e2e | Playwright core browser flows; distinguish mock UI tests from real solve flow |
 | make benchmark CASE=B02 | Reproducible selected reference case with explicit versions/errors |
+| make benchmark-m3 DEVELOPMENT=1 | Frozen B01–B09/B11 M3 diagnostic subset with source/raw hashes; unsigned acceptance refuses, failures stop later cases, development never approves M3 |
 | make benchmark-all | Required release benchmark set; list unavailable external cases |
 | make test-security | Owner isolation, archive parsing, auth, caps and lease-race cases |
 | make test-reports | Generate reports; inspect text plus rendered-page/screenshot evidence |

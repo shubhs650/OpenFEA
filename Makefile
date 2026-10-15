@@ -8,7 +8,7 @@ export PYTHONPATH := $(CURDIR)/services/api:$(CURDIR)/services/worker
 export PATH := $(CURDIR)/.venv/bin:$(CURDIR)/.local/native/bin:$(PATH)
 PY := .venv/bin/python
 
-.PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-all test-security test-reports smoke feasibility resource-browser
+.PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-m3 benchmark-all test-security test-reports smoke feasibility resource-browser
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
 	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01–B09 or B11 DEVELOPMENT=1.'
@@ -53,6 +53,8 @@ test-native:
 	$(PY) -m pytest tests/native
 benchmark:
 	$(PY) scripts/native/benchmark.py $(CASE) $(if $(filter 1,$(DEVELOPMENT)),--development,)
+benchmark-m3:
+	$(PY) scripts/validation/m3_gate.py $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
 feasibility:
 	$(PY) scripts/native/feasibility.py $(if $(filter 1,$(MESHES)),--meshes,)
 resource-browser:
