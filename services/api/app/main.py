@@ -21,6 +21,7 @@ from app.domain.errors import DomainError
 from app.domain.import_service import ImportService
 from app.domain.models import ErrorResponse
 from app.domain.report_service import ReportService
+from app.domain.word_service import WordService
 from app.jobs.runner import LocalWorker
 from app.jobs.service import JobService
 from app.persistence.database import Database
@@ -35,6 +36,7 @@ from app.routes import loads as _loads  # noqa: F401
 from app.routes import materials as _materials  # noqa: F401
 from app.routes import mesh as _mesh  # noqa: F401
 from app.routes import reports as _reports  # noqa: F401
+from app.routes import words as _words  # noqa: F401
 from app.routes.projects import router
 from app.storage.geometry import GeometryStorage
 
@@ -70,6 +72,7 @@ def create_app() -> FastAPI:
                 JobRepository(app.state.repository), app.state.deck_service
             )
             app.state.report_service = ReportService(app.state.job_service)
+            app.state.word_service = WordService(app.state.report_service)
             worker = LocalWorker(app.state.job_service)
             app.state.local_worker = worker
             worker.start()

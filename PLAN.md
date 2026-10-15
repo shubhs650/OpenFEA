@@ -23,3 +23,5 @@ Keep reviewable increments; one task per session by default. Build genuine capab
 Defer convenience features first (supported defeaturing breadth, Word output or advanced viewing) with an explicit exception record. Never silently cut bonded assemblies, trustworthy numerics, core result inspection, privacy or spending protection.
 
 Current M4 delivery: T025 shared report model and A4 PDF COMPLETE; [evidence](docs/validation/T025.md). Next T026 editable Word. M3 owner acceptance remains as approved; target-laptop and later reference obligations remain T030.
+
+T026 editable Word from the same immutable report model is COMPLETE with [evidence](docs/validation/T026.md). Current M4 handoff is T027 portable archives and diagnostic bundles after PR review/hosted success; laptop/remaining-reference gates stay T030.

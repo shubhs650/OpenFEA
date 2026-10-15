@@ -8,6 +8,7 @@ import signal
 import subprocess
 import sys
 import time
+from importlib.metadata import version
 from pathlib import Path
 
 from worker.resources import process_tree_rss
@@ -39,6 +40,7 @@ def generator() -> dict[str, str]:
         "services/worker/worker/reports/model.py",
         "services/worker/worker/reports/figures.py",
         "services/worker/worker/reports/html.py",
+        "services/worker/worker/reports/content.py",
         "services/worker/worker/reports/render.py",
         "scripts/reports/pdf.mjs",
         "package-lock.json",
@@ -77,7 +79,7 @@ def generator() -> dict[str, str]:
     }
 
 
-def render_pdf(directory: Path) -> dict[str, str]:
+def _render(directory: Path, *, word: bool = False) -> dict[str, str]:
     node, bwrap, browser = tools()
     temporary = directory / "tmp"
     temporary.mkdir()
@@ -92,6 +94,16 @@ def render_pdf(directory: Path) -> dict[str, str]:
     for path in ("/usr", "/lib", "/lib64", "/etc/fonts", "/etc/ld.so.cache"):
         if Path(path).exists():
             command += ["--ro-bind", path, path]
+    if word:
+        for host, target in (
+            (Path(sys.base_prefix).resolve(), Path(sys.base_prefix).resolve()),
+            (ROOT / ".venv", ROOT / ".venv"),
+            (ROOT / "services", Path("/app/services")),
+            (ROOT / "scripts/reports/word.py", Path("/app/word.py")),
+        ):
+            command += ["--ro-bind", str(host), str(target)]
+    script = "word.mjs" if word else "pdf.mjs"
+    entry = [str(ROOT / ".venv/bin/python"), "/app/word.py"] if word else ["/node", "/app/pdf.mjs"]
     command += [
         "--ro-bind",
         str(node),
@@ -103,8 +115,8 @@ def render_pdf(directory: Path) -> dict[str, str]:
         str(ROOT / "node_modules"),
         "/app/node_modules",
         "--ro-bind",
-        str(ROOT / "scripts/reports/pdf.mjs"),
-        "/app/pdf.mjs",
+        str(ROOT / "scripts/reports" / script),
+        f"/app/{script}",
         "--dev",
         "/dev",
         "--proc",
@@ -117,15 +129,19 @@ def render_pdf(directory: Path) -> dict[str, str]:
         "/tmp",
         "--chdir",
         "/work",
-        "/node",
-        "/app/pdf.mjs",
+        *entry,
     ]
     started = time.monotonic()
     peak = disk = 0
     with (directory / "render.log").open("wb") as log:
         process = subprocess.Popen(
             command,
-            env={"PATH": "/usr/bin:/bin", "HOME": "/tmp", "LANG": "C.UTF-8"},
+            env={
+                "PATH": "/usr/bin:/bin",
+                "HOME": "/tmp",
+                "LANG": "C.UTF-8",
+                "PYTHONPATH": "/app/services/api:/app/services/worker",
+            },
             stdin=subprocess.DEVNULL,
             stdout=log,
             stderr=subprocess.STDOUT,
@@ -159,3 +175,28 @@ def render_pdf(directory: Path) -> dict[str, str]:
         limits="45 s / 1024 MiB sampled RSS / 64 MiB sampled scratch; no retries",
     )
     return info
+
+
+def render_pdf(directory: Path) -> dict[str, str]:
+    return _render(directory)
+
+
+def render_word(directory: Path) -> dict[str, str]:
+    return _render(directory, word=True)
+
+
+def word_generator() -> dict[str, str]:
+    names = (
+        "services/worker/worker/reports/docx.py",
+        "scripts/reports/word.py",
+        "scripts/reports/word.mjs",
+        "services/api/app/domain/word_service.py",
+        "services/api/app/domain/words.py",
+    )
+    return {
+        **generator(),
+        "version": "word-v1",
+        "python_docx": version("python-docx"),
+        "lxml": version("lxml"),
+        **{name: sha256(ROOT / name) for name in names},
+    }

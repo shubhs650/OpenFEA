@@ -1,3 +1,4 @@
+import { WordExport } from "./WordExport";
 import { useEffect, useRef, useState } from "react";
 import type { components } from "../../../../packages/contracts/api";
 import { api } from "../geometry/api";
@@ -178,6 +179,7 @@ export function ReportEditor({
                 <a href={`/api/v1/reports/${r.id}/model`}>
                   Download shared report model
                 </a>
+                <WordExport reportId={r.id} />
               </li>
             ))}
           </ul>

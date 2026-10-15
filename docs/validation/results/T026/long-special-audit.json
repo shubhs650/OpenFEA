@@ -1,0 +1,42 @@
+{
+  "word_pages": 18,
+  "renderer": {
+    "chromium": "156.0.8078.4",
+    "wall_seconds": "1.547",
+    "peak_rss_bytes": "378585088",
+    "peak_scratch_bytes": "1532044",
+    "isolation": "bubblewrap-unshare-all; offline; scripts-disabled",
+    "limits": "45 s / 1024 MiB sampled RSS / 64 MiB sampled scratch; no retries"
+  },
+  "generator": {
+    "source_model_sha256": "0ae380f90fcc373c864bb2c3b33ad064cddcf94968b48a7093f29b213e16bdeb",
+    "original_pdf_sha256": "934a0310e5abbbe90fcc976b3765af72fb390b1411cd61c46d630076d204a1ae",
+    "version": "word-v1",
+    "source_commit": "79a2fed107efe4fdd8ee057051896bdbd5d9faaf",
+    "source_dirty": "false",
+    "generator_python": "3.12.14",
+    "generator_platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "generator_cpu_count": "3",
+    "font_dejavu_regular_sha256": "57f73e11f51999432bf7ab22ce55b6f945d5eca1bf824404cfa9ec2e3718c84e",
+    "chromium_binary_sha256": "4fa61f0ba0b4f89b7bec242c32ca16d3bccf69dbfef0651924a9ba8fede5f9d6",
+    "node_binary_sha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+    "services/api/app/domain/reports.py": "45a4b8349f9ae22f3bb63d50f7ae8acce9e8129136a6969f2cbdfd8274789ca0",
+    "services/api/app/domain/report_service.py": "1e417c01670abd940a3d73f22e6555d96095dbfa88db782c6efc6380b42cd776",
+    "services/worker/worker/reports/model.py": "adcb4b46695ab4ddad618402cd8d6bb613332fa0a2c3ddd97d6227d0caf7dd44",
+    "services/worker/worker/reports/figures.py": "bedc9575b4b72309897e2eba8fc0664ac04e84b7de74615e1d595e29eca19047",
+    "services/worker/worker/reports/html.py": "a266e66c2204f726528b7bc307935b2ef7096153fbbc58146ee5d7a7c1316bb9",
+    "services/worker/worker/reports/content.py": "5914c8af6cddf62125566746a8d881fcdb5a2ef8d40a84bc77095e248e929b3e",
+    "services/worker/worker/reports/render.py": "8b4f6ae521693827346fe2ab67de5e680cc583cdcdbf4d2780c6f70db0dd98de",
+    "scripts/reports/pdf.mjs": "125def705cc32a64a6ace989b65a573dac6af6de54fd02c1ccd11064ea65c123",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "uv.lock": "36f59cf0e56b6442588403ba9ac6b47e732a46ce4a9d8cd7f3e5edcea741e261",
+    "python_docx": "1.2.0",
+    "lxml": "6.0.2",
+    "services/worker/worker/reports/docx.py": "3f49bf396f4cf1f17ebb0e81fa2b2719a007fdb1ad8ac7a60f6b20264c14f265",
+    "scripts/reports/word.py": "ebebef88fadbcca30af97ef455d517dd54886543eaece51761c77012ad1a1817",
+    "scripts/reports/word.mjs": "013da5311a05ea7d1315b76ff25a22b44e98642ef0769a659a5b2a2444d9a0a7",
+    "services/api/app/domain/word_service.py": "d9d973d303eef3d2366aacc8bc5c01e3327e577ea3da524d4f335ebfa4a5dc2e",
+    "services/api/app/domain/words.py": "d6d1ed02ced3b400e3da5ca1c9b84f4a9613ea93067f2045dc126f44fec9a136"
+  },
+  "docx_sha256": "23064efca22b6c17016f7a070f9143e43dad0756caa31df3d765339941765cf1"
+}

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { prepared, mesh, solve } from "./support/runs";
 
-test("dark workspace exports a light historical A4 report with immutable view settings and warnings", async ({
+test("dark workspace exports matching PDF and editable Word from a frozen historical model", async ({
   page,
 }, info) => {
   test.setTimeout(45_000);
@@ -49,6 +49,24 @@ test("dark workspace exports a light historical A4 report with immutable view se
   await page
     .getByLabel("User-written conclusion", { exact: true })
     .fill("Reviewer: refine the mesh before assessing a design.");
+  let releaseHistory!: () => void;
+  let observedHistory!: () => void;
+  const historyGate = new Promise<void>((resolve) => {
+    releaseHistory = resolve;
+  });
+  const historyObserved = new Promise<void>((resolve) => {
+    observedHistory = resolve;
+  });
+  await page.route("**/api/v1/reports/*/exports/word", async (route) => {
+    if (route.request().method() !== "GET") {
+      await route.continue();
+      return;
+    }
+    const actual = await route.fetch();
+    observedHistory();
+    await historyGate;
+    await route.fulfill({ response: actual });
+  });
   const generated = page.waitForResponse(
     (r) =>
       r.url().endsWith(`/runs/${run.id}/reports`) &&
@@ -75,6 +93,41 @@ test("dark workspace exports a light historical A4 report with immutable view se
   const pdf = await page.request.get(`/api/v1/reports/${record.id}/pdf`);
   expect(pdf.headers()["content-type"]).toContain("application/pdf");
   expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+  await historyObserved;
+  const wordReady = page.waitForResponse(
+    (r) =>
+      r.url().endsWith(`/reports/${record.id}/exports/word`) &&
+      r.request().method() === "POST",
+  );
+  await page
+    .getByRole("button", { name: "Generate editable Word", exact: true })
+    .click();
+  const wordResponse = await wordReady;
+  expect(wordResponse.status(), await wordResponse.text()).toBe(201);
+  const word = await wordResponse.json();
+  const staleHistory = page.waitForResponse(
+    (r) =>
+      r.url().endsWith(`/reports/${record.id}/exports/word`) &&
+      r.request().method() === "GET",
+  );
+  releaseHistory();
+  await staleHistory;
+  await expect(
+    page.getByRole("link", { name: "Download editable Word", exact: true }),
+  ).toBeVisible();
+  expect(word.model_sha256).toBe(record.model_sha256);
+  expect(word.pdf_sha256).toBe(record.pdf_sha256);
+  const downloadedWord = await page.request.get(
+    `/api/v1/word-exports/${word.id}/docx`,
+  );
+  expect(downloadedWord.status()).toBe(200);
+  expect(downloadedWord.headers()["content-type"]).toContain(
+    "wordprocessingml",
+  );
+  expect((await downloadedWord.body()).subarray(0, 2).toString()).toBe("PK");
+  expect(
+    await (await page.request.get(`/api/v1/reports/${record.id}/pdf`)).body(),
+  ).toEqual(await pdf.body());
   const preview = await page.context().newPage();
   await preview.goto(`/api/v1/reports/${record.id}/html`);
   await expect(
@@ -117,5 +170,13 @@ test("dark workspace exports a light historical A4 report with immutable view se
   expect(
     await (await page.request.get(`/api/v1/reports/${record.id}/model`)).json(),
   ).toEqual(model);
+  await expect(
+    page.getByRole("link", { name: "Download editable Word", exact: true }),
+  ).toBeVisible();
+  expect(
+    await (
+      await page.request.get(`/api/v1/word-exports/${word.id}/docx`)
+    ).body(),
+  ).toEqual(await downloadedWord.body());
   expect(failures).toEqual([]);
 });
