@@ -1,0 +1,11 @@
+{
+  "long_table_pages": 17,
+  "long_table_renderer": {
+    "chromium": "156.0.8078.4",
+    "wall_seconds": "1.837",
+    "peak_rss_bytes": "341434368",
+    "peak_scratch_bytes": "1166817",
+    "isolation": "bubblewrap-unshare-all; offline; scripts-disabled",
+    "limits": "45 s / 1024 MiB sampled RSS / 64 MiB sampled scratch; no retries"
+  }
+}
