@@ -1,0 +1,59 @@
+{
+  "native_tie_candidate": {
+    "status": "REJECTED under unchanged B07 revision-1 patch criteria",
+    "max_stress_error_pa": 183365.0,
+    "intended_slave_nodes": 65,
+    "uncovered_nodes": [],
+    "max_kinematic_residual_m": 9.428745124802034e-13,
+    "coordinate_audit": {
+      "max_solver_adjustment_m": 0.0,
+      "changed_nodes_gt_1e12_m": [],
+      "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+      "source_sha256": "9229c6887b928fd25bb2fec7e24655976a3494a6ff0f2338138d865963a3896e",
+      "deck_sha256": "5efe203ab4ced89df495b02298193c00d8095ab57b0b0a1939762e705c4c982e"
+    }
+  },
+  "partial_master": {
+    "status": "EXPECTED REJECTION; incomplete native tie coverage",
+    "uncovered_nodes": [
+      9, 10, 11, 12, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
+      68, 69, 70, 72, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250,
+      251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265,
+      266, 267, 268, 269, 270, 272, 273, 275, 276, 277, 278, 279
+    ],
+    "solver_exit_code": 0
+  },
+  "untied": {
+    "status": "EXPECTED REJECTION; detached rigid body, no stabilization",
+    "preflight_diagnosis": "Unresolved bond: detached body without a support/tie path: ['5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b2']; uncovered nodes=[]",
+    "solver_exit_code": 0,
+    "native_job_finished": true,
+    "native_error_reported": false,
+    "max_native_displacement_m": 9789166000.0
+  },
+  "gap_keyword_audit": {
+    "status": "DIAGNOSTIC ONLY; not B08 or approved gap physics",
+    "gap_m": 1e-5,
+    "preflight_rejection": "Unresolved bond: missing coverage or unapproved physical gap; uncovered nodes=[9, 10, 11, 12, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279]",
+    "default_adjust": {
+      "max_solver_adjustment_m": 1.0000000075465576e-5,
+      "changed_nodes_gt_1e12_m": [
+        9, 10, 11, 12, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66,
+        67, 68, 69, 70, 71, 72, 239, 240, 241, 242, 243, 244, 245, 246, 247,
+        248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261,
+        262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275,
+        276, 277, 278, 279
+      ],
+      "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+      "source_sha256": "5f3536871a5f068444583f05ffe97602b674c316004870bf5ce21617eefbadd2",
+      "deck_sha256": "d0baac0c5feabb07ed1cca8d3ea67cead19a34206b158e89cb5269cdd8d6fa37"
+    },
+    "adjust_no": {
+      "max_solver_adjustment_m": 0.0,
+      "changed_nodes_gt_1e12_m": [],
+      "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+      "source_sha256": "bac6107bf549abc2c71d6cb430bcebc5cca2b3f04a37baeff47d7cdabe29d77e",
+      "deck_sha256": "0135a01030bf8f49bb05b919ecd7c433f90ab23eedadf14a9813452fbdfda3fc"
+    }
+  }
+}

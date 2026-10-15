@@ -1,0 +1,39 @@
+{
+  "case": "B11",
+  "status": "DEVELOPMENT PASS; engineering review pending",
+  "code_commit": "0e489d1c27353b394703d6079edb54b352ad2104",
+  "manifest_sha256": "bef719d68e3a71250226de307629ec6986aa63adae0a7657c4b6f55b95b20036",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "detached_refusal": "Detached/underconstrained component ['5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b2']: necessary rigid-motion support rank 0/6. Add independent supports or explicitly review a valid bond; no weak springs.",
+  "underconstrained_refusal": "Detached/underconstrained component ['5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b1', '5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b2']: necessary rigid-motion support rank 3/6. Add independent supports or explicitly review a valid bond; no weak springs.",
+  "redundant_refusal": "Redundant or cyclic body connection; dependent constraints refused",
+  "slave_spc_refusal": "Unresolved bond: slave node already constrained by an SPC/MPC; uncovered nodes=[]",
+  "finite_rigid_mode": {
+    "displacement_m": [1.0, 2.0, 3.0],
+    "support_rank": 0,
+    "node_count": 654,
+    "credited_as_result": false
+  },
+  "native": {
+    "returncode": 0,
+    "finish_marker": true,
+    "singularity_message": null,
+    "max_finite_native_displacement_m": 9789166000.0,
+    "raw_parse_error": null,
+    "credited_as_result": false,
+    "refusal": "Detached/underconstrained component ['5d8c2622a7778c7cd6373d8482491a964fb6751592aac73ea691b6b07fd33996:b2']: necessary rigid-motion support rank 0/6. Add independent supports or explicitly review a valid bond; no weak springs.",
+    "artifacts": {
+      "solver.log": "26bc71e6938d4057808a023ac5ab639277c6a0f57da8e5c440d3bbcf2e1acfb5",
+      "spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "analysis.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+      "analysis.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "analysis.frd": "fac534ef5a7f981e35e7eea6a465889a10cc12e5800f435ce523be42118a7f63",
+      "analysis.dat": "ea0d10e3bd2575f7bcc9536e2464ef6436112a21c1c5040bc0e280e919c099da",
+      "analysis.sta": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d",
+      "analysis.inp": "5b452a691b1444762b128a55cd66c488dbf5f7bdc3d3bad08f8ff28c69efd4af"
+    }
+  },
+  "weak_springs": false,
+  "stability_proven": false,
+  "threads": 1
+}

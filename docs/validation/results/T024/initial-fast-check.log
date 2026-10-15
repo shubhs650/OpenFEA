@@ -1,0 +1,78 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+187 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 145 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 402 items
+
+tests/unit/test_analyses.py ...............                              [  3%]
+tests/unit/test_api.py .........                                         [  5%]
+tests/unit/test_approval.py ................                             [  9%]
+tests/unit/test_assembly.py ................                             [ 13%]
+tests/unit/test_bonds.py ................                                [ 17%]
+tests/unit/test_connections.py ...........                               [ 20%]
+tests/unit/test_directions.py ...........                                [ 23%]
+tests/unit/test_essential_actions.py .............                       [ 26%]
+tests/unit/test_essential_setup.py .............                         [ 29%]
+tests/unit/test_face_loads.py ....................                       [ 34%]
+tests/unit/test_geometry_edits.py ...............                        [ 38%]
+tests/unit/test_imports.py ......                                        [ 40%]
+tests/unit/test_local_queue.py ...................                       [ 44%]
+tests/unit/test_m3_gate.py ..............                                [ 48%]
+tests/unit/test_materials.py ........................                    [ 54%]
+tests/unit/test_mesh_controls.py ............                            [ 57%]
+tests/unit/test_mesh_quality.py ......                                   [ 58%]
+tests/unit/test_projects.py ............................                 [ 65%]
+tests/unit/test_quadratic.py .....................                       [ 70%]
+tests/unit/test_result_comparison.py ...........................         [ 77%]
+tests/unit/test_result_fields.py ...............                         [ 81%]
+tests/unit/test_result_inspection.py ......................              [ 86%]
+tests/unit/test_result_views.py ...................                      [ 91%]
+tests/unit/test_stress.py ............................                   [ 98%]
+tests/unit/test_workspace_edits.py ......                                [100%]
+
+============================= 402 passed in 29.81s =============================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  5 passed (5)
+      Tests  33 passed (33)
+   Start at  02:05:22
+   Duration  642ms (tests 44%, import 31%, transform 13%, worker 12%)
+
+    Isolate  5 workers spawned · ~90ms startup each (spawn + environment, per file)
+             at least ~362ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmp_uvd3zpd/openapi.json → /tmp/tmp_uvd3zpd/api.d.ts [324.3ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+T024: status differs between task and index
+make: *** [Makefile:47: docs-check] Error 1

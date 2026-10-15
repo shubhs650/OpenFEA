@@ -1,0 +1,12 @@
+.venv/bin/python scripts/validation/m3_gate.py --development --output '.local/native/validation/T024/benchmarks-final'
+M3: running B01 (development)
+M3: running B02 (development)
+M3: running B03 (development)
+M3: running B04 (development)
+M3: running B05 (development)
+M3: running B06 (development)
+M3: running B07 (development)
+M3: running B08 (development)
+M3: running B09 (development)
+M3: running B11 (development)
+Numerics: PASS; benchmark acceptance: BLOCKED; see .local/native/validation/T024/benchmarks-final/summary.json

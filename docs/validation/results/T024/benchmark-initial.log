@@ -1,0 +1,4 @@
+.venv/bin/python scripts/validation/m3_gate.py --development 
+M3: running B01 (development)
+Numerics: FAILED; benchmark acceptance: BLOCKED; see /workspace/OpenFEA/.local/native/validation/T024/benchmarks/summary.json
+make: *** [Makefile:57: benchmark-m3] Error 2

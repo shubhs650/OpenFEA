@@ -1,0 +1,154 @@
+{
+  "task": "T024",
+  "executed_on": "2026-10-15",
+  "timezone": "Asia/Calcutta",
+  "base_commit": "737871cc82d78f84975fb6f2ae5c9700391bed35",
+  "source_verification_commit": "0e489d1c27353b394703d6079edb54b352ad2104",
+  "benchmark_code_commit": "0e489d1c27353b394703d6079edb54b352ad2104",
+  "numerical_subset": {
+    "required_cases": [
+      "B01",
+      "B02",
+      "B03",
+      "B04",
+      "B05",
+      "B06",
+      "B07",
+      "B08",
+      "B09",
+      "B11"
+    ],
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "not_run_required": 0,
+    "disposition": "DEVELOPMENT PASS; benchmark acceptance BLOCKED"
+  },
+  "automated_cases": {
+    "python": 403,
+    "typescript": 33,
+    "native": 192,
+    "integration": 18,
+    "chromium": 38
+  },
+  "distinct_total": 684,
+  "failed": 0,
+  "skipped": 0,
+  "m3_exit": "BLOCKED pending exact engineering-owner criteria/formulation/scope review and acceptance rerun; T024 IN PROGRESS, T025 NOT STARTED",
+  "commands": [
+    {
+      "command": "make doctor",
+      "outcome": "PASS"
+    },
+    {
+      "command": "make check build smoke",
+      "outcome": "PASS; initial full fast run and final check/build are both retained"
+    },
+    {
+      "command": "make test-native",
+      "outcome": "192 PASS"
+    },
+    {
+      "command": "make test-integration",
+      "outcome": "18 PASS"
+    },
+    {
+      "command": "make test-e2e",
+      "outcome": "38 PASS"
+    },
+    {
+      "command": "make benchmark-m3 DEVELOPMENT=1 OUTPUT=.local/native/validation/T024/benchmarks-final",
+      "outcome": "10 DEVELOPMENT PASS; exact final source packet; acceptance BLOCKED"
+    },
+    {
+      "command": "make benchmark-m3",
+      "outcome": "EXPECTED REFUSAL exit 2; all exact owner records pending; no job created"
+    }
+  ],
+  "non_credit_replays": "Targeted unit/native/browser and intermediate benchmark runs are not added to distinct automated counts.",
+  "corrections": [
+    "Initial orchestration stopped after physically passing B01 because tuple/list JSON representation differed; B02-B11 NOT RUN. Corrected JSON-normalized comparison with tuple regression; preserved initial summary/log/result.",
+    "Review-packet source baseline remains authoritative if files change before first native case; regression verifies no child is launched. Final subset rerun after this driver-only correction.",
+    "Initial package/type/format/status checks corrected before final gates; no numerical criterion, native/test deadline, budget, retry, lock, solver or CI limit changes."
+  ],
+  "not_run": {
+    "formal_owner_acceptance": "All required benchmark/M3 reviewer_signoff records remain PENDING; no invented owner approval.",
+    "B10": "T028 bracket tutorial/convergence reference; not in this M3 subset.",
+    "B12": "T028 exact public external case/permissions/reference; mandatory before M4 exit.",
+    "B13/B14": "T028 exact compatible public references or explicitly owner-approved rigorous replacement.",
+    "target_laptop": "T030 Windows/WSL2 Chrome/Edge, headed GPU, measured resources/capacity/performance and usability.",
+    "reports_archives_beta": "T025+ full report/archive/security/beta/release gates are not implemented/credited here."
+  },
+  "source_sha256": {
+    "scripts/validation/m3_gate.py": "58c2e260000e74cfc73bb61121eb72e8b2ddaed3f707ac1ac31388641175a7a8",
+    "tests/unit/test_m3_gate.py": "6d215e4ddc5e4b01bc81e43caf0804ae216ec975681c84bdfab3f8b1948d95bf",
+    "tests/native/test_m3_gate.py": "0d03a0257a260d3d851d48f77aadbe56f8d4d0eafeb10111c5f7749793596ee1",
+    "tests/e2e/assembly.spec.ts": "44f6b0340d494949702879a8829ca9f0b095551cd28810274f246f82c79cdca3",
+    "tests/benchmarks/M3.json": "531521a9b321a4a6ef692cfea4298b9b015bd2262b224da421fdf88779b28152",
+    "Makefile": "2487bac995aa9228bcbf7b46a1815917461fe59b6a350be317017030eec554ef",
+    "docs/VALIDATION.md": "a363d4d3427039d2a79115a972a46f87883700abf728eccf58fcde606b92a64f",
+    "docs/validation/T024.md": "9f90d0eb4824b20339e96d6a023fed84d7be843e092cd0c6638bb42f72109d75",
+    "docs/validation/M3-exit-review.md": "f5bd9aaf828dbd091c3785d5c8c787c1429595b148247ad560a988171ddff7cb",
+    "docs/validation/M3-owner-review.md": "b8db107a5833bd00bd176c0bc96381f7f8b867e2e0b03a0d80e71e3d28c3880a"
+  },
+  "unchanged_locks_sha256": {
+    "uv.lock": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "services/worker/environments/cad/uv.lock": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+    "services/worker/environments/mesh/uv.lock": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+    "services/worker/environments/post/uv.lock": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9"
+  },
+  "native_build_sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+  "artifact_sha256": {
+    "B01-raw.tar.gz": "1af466aac415df4406788c52dcafc3298aa6db23c8b12889ba8f66cdd76d32e8",
+    "B02-raw.tar.gz": "9c5083796854744ae26f140ef8a4dcc4d3ba0eeec922af2f720164ed47ad736d",
+    "B03-raw.tar.gz": "2eb0cc11104a9d43193e8727c1891cf01a65405bb62d1f02bbc728f8235715c7",
+    "B03-spatial-errors.json": "df181afa61d0eb6afc74589361939a44d2a36b7a033b06c83ade4e963b4a0d4e",
+    "B04-raw.tar.gz": "8206bac7130daa2b14f52bf1f9ec34ff7bc51acd83385c5a6d940c7264a27d07",
+    "B05-raw.tar.gz": "fcf3d7e82bf3e650d7d9942584670695f1c1a3eb605bbf60df791c513ec446f2",
+    "B06-raw.tar.gz": "048f564d31f6a76ca6447a338787e44349c383638b78c5e26c0900ffe6a86247",
+    "B07-raw.tar.gz": "d03104f61133100756ebcc89655df0d9d62f40f22dda368372a2e22d8fe621af",
+    "B08-raw.tar.gz": "24b747792e8f374d753c5196f43a706f744433727494b3bf7c347dbd8a89a72c",
+    "B09-raw.tar.gz": "1dabcaad3c711e2afc61905d16ad955e586ff3a45b4f1574f1c65b86677e525b",
+    "B11-raw.tar.gz": "b4b6fd698654318e27a6a24edab9d337aee67e5b9016ef98c877e70e5342d4fc",
+    "assembly-volume-inspection.png": "447753c3192895351576d36902aa858f14e985ab03d6c798b2960ec7a36d7829",
+    "benchmark-initial.log": "4a8806ae6f7c9fb42a57131c66e806ee5944485e840db10813022bb84305d157",
+    "benchmark-subset.log": "484619ec694981f03cd58656d0c1fa3ad48ebe9069042efca76045e3b21e2163",
+    "benchmark-summary.json": "965e50490b5c70a9d3e6603c21d9cbe8856de0a1f9e63a8ec482fc07ea0d2e6c",
+    "benchmarks/B01.json": "0e096f31cee87f8a99d48e4d7514358668b01da9e2c2ff53918fc97ab9f38fb3",
+    "benchmarks/B02.json": "3931c45f549ae11a6170a2487679b7d3fb2836b4271b8b4eaf5dfa19deb18b1b",
+    "benchmarks/B03.json": "d752e3ff3987b2f73e2d32adf3adc66e35011dc9bb2f48575b63cc90288972eb",
+    "benchmarks/B04.json": "150fe4acb3da060222dee61a55eb47f1d14028453c5ffb1b979709fd3180eb5e",
+    "benchmarks/B05.json": "fb7b15fef07a1729a99a082c37d11de572676b5fdcd3518b47a315acdc78aa2f",
+    "benchmarks/B06.json": "a5e5008207cca0911b08e1768464505389d1e3aa962ba8bdc7785bfd7ae3372d",
+    "benchmarks/B07.json": "bc792f37bb50c64569c51e02e23dac6242f50ce6952666aa1b4698dc76098718",
+    "benchmarks/B08.json": "0a6512c7fde151236f3a4d3b580dfa0b7b6a404cd9802387ce4500cfad2b66e5",
+    "benchmarks/B09.json": "aad7c7c598d3ed340b35ceaa055f2d0bee29431a5a9e16f8e1ebc31a66b3cbba",
+    "benchmarks/B11.json": "41328105e2a5868aa6a55c02d5a60f8426df30ebf3f0653517a26807225f3863",
+    "bonded-product-comparisons.json": "769f1e50fda980500c26906749cbd220175d44aad62a762a2b75439fbd2bc716",
+    "bonded-product-errors.json": "cf7c8dff472c6fd8d52ee156d50100ba00e113b1bf3aad175031ec985db879c2",
+    "bonded-product-identities.json": "d276fcf14f8b67e25552480128dd09fecdb3940a3f0f14109517c6c9cba5ac0a",
+    "bonded-product-raw.tar.gz": "d539be0c47f52e49e9bdd8c6fee781bc67804e5fa888700d4b67f596d6c63264",
+    "browser-full.log": "d4c287763bab107968c58709b6fbe47131253389c61013a1d834f76fa330bac1",
+    "browser-targeted.log": "25d6846ad878fe9f1bee452eae19923a49ba1d9b751c50db65a96352f457aa7d",
+    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "environment.json": "44da6b6b607c5d80a232ee8918fef26dd8a729789c1e6076f54d7aed12c048bb",
+    "evidence-check.log": "50881adc58cc9df2f1a3af3bc0dc88d802e3d70edecd5d5bed728d201615ea0b",
+    "fast-gates.log": "03cebdafab9c4ef579a5404308c5e98a2fec9fc88d26de496388b830f91bca67",
+    "final-check-build.log": "29d1e3ee5b6492f0b4305091cb3739fd00e34ae198bbf61e0c33e8c30f5b889d",
+    "gate-initial-B01.json": "11e2d37aacba993345efe9752ccbac012e4191e01e8222ce4d4e272d2468be47",
+    "gate-initial-summary.json": "fcec9750556916359ece9fdd85f9bf871e2123d0f924f8a8fde18ded3a9d8420",
+    "gate-intermediate-summary.json": "9544724fbe449886c135849429be51c80fb825fe36853e3d7bef7d42dc787d94",
+    "initial-fast-check.log": "f91b27b4abaf7fbfe36f9e1896756c8ac4a3e87151c73e001bc5c48c8736a603",
+    "integration-full.log": "da17b30652feb9d93220d2023a17989529e238d6df78158b64f2658545490c32",
+    "native-full.log": "9906226694aee31266772417007c729cb4c3ce690b1da4dad3f1075dfed7bf4f",
+    "native-targeted.log": "b51b2844316a355529e49c0422c7d30eef479e4ac9beb6e80fc9b01b09e50a0f",
+    "native-tie-diagnostics.json": "33ebd5dcd6cec7d2497b21b060dacc14fe3449b9c38bd7316363423de229f97b",
+    "numerical-errors.json": "61db33107f6cbceb30cebfed04d551fa7604e052031c8d7ec4e58e117fa9da36",
+    "owner-review-packet.json": "51a302a48be6a03d77f2403e04036c1458b3f04c74474e77ebd34d1020601113",
+    "rejected-native-tie-raw.tar.gz": "2ad99c4b5bb51714b9d2fb9898110f648bc58ee3185749ac6b72754036bda4f9",
+    "unit-targeted.log": "e966fa10780fef15af701637193dd4e0c8000cac2965f01d637b0c61454b843b",
+    "unsigned-refusal.log": "2e3877648003d4b010c5662b16a2aa7720c5832bed63307dd05d84bba2c8915f"
+  }
+}
