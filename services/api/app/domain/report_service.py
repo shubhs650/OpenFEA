@@ -275,7 +275,8 @@ class ReportService:
                 (
                     "Passing equilibrium does not establish convergence, stability or "
                     "physical validity. Target-laptop validation and remaining "
-                    "external references are pending; bounded M3 approval does not certify this design."
+                    "external references are pending; bounded M3 approval "
+                    "does not certify this design."
                 ),
                 (
                     "Figures are light report derivatives of retained verified data. "
