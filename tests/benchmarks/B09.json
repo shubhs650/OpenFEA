@@ -5,8 +5,14 @@
   "units": "m,N,Pa",
   "geometry": "Two conforming C3D10 tetrahedra sharing all six z=0 face nodes; apexes (0,0,1) and (0,0,-1); one body, two materials; no tie",
   "materials": {
-    "UPPER": { "E_pa": 210000000000, "nu": 0.3 },
-    "LOWER": { "E_pa": 70000000000, "nu": 0.3 }
+    "UPPER": {
+      "E_pa": 210000000000,
+      "nu": 0.3
+    },
+    "LOWER": {
+      "E_pa": 70000000000,
+      "nu": 0.3
+    }
   },
   "axial_strain": 0.001,
   "supports": "u=(epsilon*x,-nu*epsilon*y,-nu*epsilon*z) on all nodal DOFs except shared node 2 ux, which remains free",
@@ -23,10 +29,15 @@
   "tolerances": {
     "relative": 0.0001,
     "stress_absolute_pa": 100,
-    "coordinate_absolute_m": 0.000001,
-    "displacement_absolute_m": 0.000000001
+    "coordinate_absolute_m": 1e-6,
+    "displacement_absolute_m": 1e-9
   },
   "exclusions": "None; raw FRD is labelled solver-averaged diagnostics and never used as unaveraged stress",
   "reason": "Analytical constant-strain stress on each material; same nu permits compatible displacement and zero z-interface traction. Tolerance accounts for native text precision and CCX extrapolation rounding",
-  "reviewer_signoff": "PENDING engineering owner; development-only under the existing review-later decision"
+  "reviewer_signoff": {
+    "disposition": "APPROVED",
+    "reviewer": "shubham patil",
+    "reviewed_on": "2026-10-15",
+    "criteria_sha256": "5094fa2124b32d17e6f27fd864309779766071a2ffb5d6312cc30206faead65e"
+  }
 }

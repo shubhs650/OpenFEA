@@ -13,6 +13,7 @@ from sqlalchemy.exc import IntegrityError
 
 from app.domain.connections import BondAssignment, BondPair, BondReport, BondRequest, validate_pair
 from app.domain.errors import DomainError
+from tests.benchmark_review import unsigned_manifest
 from tests.unit import test_face_loads as loads
 from worker.gap_fixture import run_b08
 
@@ -143,8 +144,10 @@ def test_saved_bonds_carry_through_edits_restore_and_independent_copy(
     assert "changed geometry" in invalid.solve_blockers[0]
 
 
-def test_unsigned_b08_stops_before_native_execution(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="review pending"):
+def test_unsigned_b08_stops_before_native_execution(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    with unsigned_manifest(monkeypatch, "B08"), pytest.raises(ValueError, match="review pending"):
         run_b08(tmp_path / "absent")
     assert not (tmp_path / "absent").exists()
 

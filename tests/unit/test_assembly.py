@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from tests.benchmark_review import unsigned_manifest
 from worker.assembly_fixture import run_b11
 from worker.calculix.assembly import WARNING, components, support_rank
 from worker.directions import IDENTITY
@@ -66,7 +67,9 @@ def test_finish_marker_alone_does_not_establish_structural_validity() -> None:
     assert support_rank([], [(0.0, 0.0, 0.0), (1.0, 1.0, 1.0)]) == 0
 
 
-def test_unsigned_b11_refuses_before_creating_native_directory(tmp_path: Path) -> None:
-    with pytest.raises(ValueError, match="review pending"):
+def test_unsigned_b11_refuses_before_creating_native_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    with unsigned_manifest(monkeypatch, "B11"), pytest.raises(ValueError, match="review pending"):
         run_b11(tmp_path / "absent")
     assert not (tmp_path / "absent").exists()
