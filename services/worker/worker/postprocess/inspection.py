@@ -31,6 +31,7 @@ def inspect_volume(
     point: Vec,
     element: int | None = None,
     normal: Vec | None = None,
+    probes: list[tuple[int, Vec]] | None = None,
 ) -> dict[str, Any]:
     mesh, derived = volume_fields(raw, raw_mesh, materials)
     fields = {(p.element_id, p.node_id): p.tensor_pa for p in derived}
@@ -75,32 +76,36 @@ def inspect_volume(
 
     vertices: list[dict[str, Any]] = []
     triangles: list[tuple[int, int, int]] = []
-    if element is not None:
-        if element not in mesh.elements:
-            raise ValueError("Select an existing element side")
-        corners = [mesh.nodes[n] for n in mesh.elements[element][:4]]
-        a, b, c = (sub(corners[i], corners[0]) for i in (1, 2, 3))
-        d = sub(point, corners[0])
-        determinant = dot(a, cross(b, c))
-        bary = [
-            dot(d, cross(b, c)) / determinant,
-            dot(a, cross(d, c)) / determinant,
-            dot(a, cross(b, d)) / determinant,
-        ]
-        # Reject huge but finite outside coordinates before a compensated sum
-        # can overflow. This does not expand the admitted reference domain.
-        if any(
-            not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
-            for v in bary
-        ):
-            raise ValueError("The physical probe point is outside the selected element side")
-        bary.insert(0, 1 - math.fsum(bary))
-        if any(
-            not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
-            for v in bary
-        ):
-            raise ValueError("The physical probe point is outside the selected element side")
-        vertices.append(interpolate(element, bary))
+    if element is not None or probes is not None:
+        selections = (
+            probes if probes is not None else [(element, point)] if element is not None else []
+        )
+        for element, point in selections:
+            if element not in mesh.elements:
+                raise ValueError("Select an existing element side")
+            corners = [mesh.nodes[n] for n in mesh.elements[element][:4]]
+            a, b, c = (sub(corners[i], corners[0]) for i in (1, 2, 3))
+            d = sub(point, corners[0])
+            determinant = dot(a, cross(b, c))
+            bary = [
+                dot(d, cross(b, c)) / determinant,
+                dot(a, cross(d, c)) / determinant,
+                dot(a, cross(b, d)) / determinant,
+            ]
+            # Reject huge but finite outside coordinates before a compensated sum
+            # can overflow. This does not expand the admitted reference domain.
+            if any(
+                not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
+                for v in bary
+            ):
+                raise ValueError("The physical probe point is outside the selected element side")
+            bary.insert(0, 1 - math.fsum(bary))
+            if any(
+                not math.isfinite(v) or v < -BARYCENTRIC_ROUNDOFF or v > 1 + BARYCENTRIC_ROUNDOFF
+                for v in bary
+            ):
+                raise ValueError("The physical probe point is outside the selected element side")
+            vertices.append(interpolate(element, bary))
     else:
         if normal is None:
             raise ValueError("A volume section requires a normal")
@@ -172,7 +177,7 @@ def inspect_volume(
         "frame": "global_cartesian",
         "tensor_components": COMPONENTS,
         "principal_order": "s1 >= s2 >= s3 (algebraic)",
-        "kind": "probe" if element is not None else "section",
+        "kind": "probe" if element is not None or probes is not None else "section",
         "processor": INSPECTION_VERSION,
         "location": "element_interpolated",
         "method": METHOD,

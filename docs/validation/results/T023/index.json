@@ -1,0 +1,297 @@
+{
+  "artifacts": {
+    "axial-errors.json": {
+      "sha256": "8f1ca01d36f714d099ad5d06bb3630d1b36055d8c6cf5ba2706c7fb93065a2d1",
+      "size_bytes": 307
+    },
+    "axial-raw.tar.gz": {
+      "sha256": "a834a41ae48497510f6fc4f485267f61dc18d5010e94d65bc088c1a4dbaf9e2b",
+      "size_bytes": 476275
+    },
+    "axial-summary.json": {
+      "sha256": "11058d69222aa0cb98f9bb63f54d55734f6a9c467fcb8460f05e9b82ef422773",
+      "size_bytes": 34932
+    },
+    "browser-duplicate-locator-failure.log": {
+      "sha256": "1e7bf73337feb1f97e1842ef9ae42cfb2186fecd6133b60087cad0e2b5bc4861",
+      "size_bytes": 1585
+    },
+    "browser-duplicate-ready-failure.log": {
+      "sha256": "79bdb13128fc078c623e695bf9576e3134149f929bfe5ac30b0f7dea73f68def",
+      "size_bytes": 849
+    },
+    "browser-full.log": {
+      "sha256": "de4831ed76b11fe1012e29a3e7ef8bf824573dcfc0e163c246b84abdff50c2d7",
+      "size_bytes": 5461
+    },
+    "browser-initial-failure.log": {
+      "sha256": "e4d01fa044da0eec8697dfa4fc270000c1f5e3d6c11edd7da89aeac1ad5d4c8c",
+      "size_bytes": 849
+    },
+    "browser-targeted.log": {
+      "sha256": "abbf94c6f92cdff6341e26cc7f43852695618302782ac1c8c1a0ec87fcafe402",
+      "size_bytes": 452
+    },
+    "ci-job-budget.json": {
+      "sha256": "4b99c8d43960f4afb9bba713c9f29fb503fb7903a9973702349193f6dd46cd1d",
+      "size_bytes": 514
+    },
+    "doctor.log": {
+      "sha256": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+      "size_bytes": 626
+    },
+    "fast-gates.log": {
+      "sha256": "14b95404dfbbf555dcca03a52f2474cf6912779404a53f8121cd9a1c698df8d7",
+      "size_bytes": 4624
+    },
+    "final-source-check-build.log": {
+      "sha256": "0e6190343f7f9a3b03e576f0f81aabc589e40f1efed61f25bd88ae53a077b365",
+      "size_bytes": 4413
+    },
+    "handoff-check.log": {
+      "sha256": "1afe4f19b4bf19ddac3b34c7d3d639c5e9ffe0220ecdc1f3bf2ed6c1cf077ee4",
+      "size_bytes": 4412
+    },
+    "integration-full.log": {
+      "sha256": "b081da39dab0833a9bc67a8bc83f0e2a1397c3efda47a3bb3e391cdc762d2658",
+      "size_bytes": 1326
+    },
+    "native-full.log": {
+      "sha256": "f43c3536b0eb3aa86c6206810bda1c982674a23206dbd72bf4b347c8a82ff798",
+      "size_bytes": 2202
+    },
+    "refinement-comparison.png": {
+      "sha256": "227180d3e3206e1507697808117ade7d65b0aca92fe13400c69b988431d45069",
+      "size_bytes": 372318
+    },
+    "source-check.log": {
+      "sha256": "654074d0b87f0a6083227c1f438072c7571f819aad7369d16793de11c96d5f97",
+      "size_bytes": 3558
+    },
+    "warning-comparison.json": {
+      "sha256": "a066a30fc1dd2668c48fb393135c6aae8f44b8f00f9ac8e29b2ad5dbe0362b34",
+      "size_bytes": 17107
+    },
+    "warning-raw.tar.gz": {
+      "sha256": "7b5709de52b003c0b13cabd8121ed36eab509c13bda34c33ebd55e90421c3497",
+      "size_bytes": 208995
+    }
+  },
+  "base_commit": "9d08855da82c85e75e1487f5a669b00d53719852",
+  "ci_workflow": {
+    "sha256": "3761c51b60588651a5caa52dd22285435ace935338d257a1d1b559a1ed5ed3c6",
+    "size_bytes": 2354
+  },
+  "commands": [
+    {
+      "command": "make doctor",
+      "log": "doctor.log",
+      "result": "Pinned tools, namespace/SI/no-network/loopback prerequisites PASS"
+    },
+    {
+      "command": "make check build smoke",
+      "log": "fast-gates.log",
+      "result": "388 Python, 33 TS and lint/format/types/contracts/docs/build/HTTP smoke PASS"
+    },
+    {
+      "command": "make test-integration",
+      "log": "integration-full.log",
+      "result": "18 actual-process cases PASS; repeated comparison/explanations survive restart and display edits"
+    },
+    {
+      "command": "make test-native",
+      "log": "native-full.log",
+      "result": "191 real native cases PASS including 2 new multi-run comparison/warning/security workflows"
+    },
+    {
+      "command": "make test-e2e",
+      "log": "browser-full.log",
+      "result": "38 real Chromium workflows PASS with actual JSON download, warning retention, refreshed discovery and stale field-response refusal"
+    },
+    {
+      "command": "make check build (completed evidence/handoff)",
+      "log": "handoff-check.log",
+      "result": "PASS final static/contracts/docs/388 Python/33 TS and production build"
+    }
+  ],
+  "corrections": "Pure metadata signature tests initially attempted mutation of frozen models; mutate/revalidate independent copies instead. Initial browser fetched runs before the second solve completed and never refreshed; product now has explicit refresh, with field/side invalidation and late-response checks. No deadline or numerical criterion widened. Early formatting/type-only corrections retained in the evidence narrative.",
+  "counts": {
+    "chromium": 38,
+    "distinct_verified_passes": 668,
+    "integration": 18,
+    "native": 191,
+    "python_unit": 388,
+    "remaining_failures": 0,
+    "remaining_skips": 0,
+    "typescript_unit": 33
+  },
+  "executed_date": "2026-10-15 (Asia/Calcutta)",
+  "final_verification_source_commit": "0597c7aac1a16ff1aeb27f44d1208db328e64c97",
+  "implementation_commit": "49e0b018f11a67fdf4de98dcb96a5d2ecb269e64",
+  "limitations": [
+    "Existing affine planar C3D10/3000-element and native guards; curved/non-midpoint volume results remain refused.",
+    "One comparison or rising/falling peak cannot certify convergence, stability, accuracy or safety; no automatic singularity detector.",
+    "Locations are saved in exported JSON and session drafts; no new stored report view or PDF/Word/archive path.",
+    "Exact frozen geometry/material-provenance/numerical contracts required; even equivalent reimports are deliberately incompatible.",
+    "T024 M3 exit, formal engineering-owner benchmark and Windows/Edge/target-laptop/headed-GPU/performance/usability acceptance pending. No deployment or merge."
+  ],
+  "locks_unchanged_from_base": {
+    "package-lock.json": {
+      "sha256": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+      "size_bytes": 123708
+    },
+    "scripts/native/toolchain-lock.json": {
+      "sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "size_bytes": 6433
+    },
+    "services/worker/environments/cad/uv.lock": {
+      "sha256": "e19bdbae84dc1aaaf3d3ecb3d22e44f6ec4a793c0c882d839025d4225c024b7b",
+      "size_bytes": 31425
+    },
+    "services/worker/environments/mesh/uv.lock": {
+      "sha256": "84a0c8969b58a454ca0425080cf0f248bd841e8262778afb7f38381c565e4e5d",
+      "size_bytes": 5544
+    },
+    "services/worker/environments/post/uv.lock": {
+      "sha256": "7e6607490b0cee488dfae4a5b31b7d3a7c3a2cbdde67119d9c5a257d3f201b0e",
+      "size_bytes": 29159
+    },
+    "uv.lock": {
+      "sha256": "ba9322c310e61bee9b6b005a8140ccc313123e00d76ab5a6b1a023df0acdd0fc",
+      "size_bytes": 63481
+    }
+  },
+  "native_build": {
+    "blas_lapack": "Netlib 3.12.1",
+    "c_flags": "-O2 -fopenmp -fcommon -Wno-error=return-mismatch -DARCH=Linux -DSPOOLES -DARPACK -DMATRIXSTORAGE",
+    "ccx_version": "2.23",
+    "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+    "eigen_library": "ARPACK-NG 3.9.1",
+    "fortran_flags": "-O2 -cpp -fopenmp -fallow-argument-mismatch",
+    "inputs_sha256": "6b55e9f7042df3fdceda8001e744e54583bbc99f5c1194b8242eb74c5e133f14",
+    "integer_width_bits": 32,
+    "linear_solver": "serial SPOOLES 2.2 with official CCX correction",
+    "outputs_sha256": {
+      "bin/ccx": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+      "bin/netdeny": "24b4aaf26ddcd3369885313a072e8b21d1508d913cb39e1e8cb027be733e9ca0",
+      "lib/libgcc_s.so.1": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af",
+      "lib/libgfortran.so.5": "d1c716d10039872bb5481b921d2142577c7873cad4d8d9f09028231aa7e42127",
+      "lib/libgomp.so.1": "6456b504ac347bd50c419667440b691f6966ad8aff5309d2f06c977fe2f9debe",
+      "lib/libquadmath.so.0": "da70fb5c2cbdc1a3fbe984f44dd06a3b19454c75ca40bd92684328cc7a4d275a"
+    }
+  },
+  "native_build_manifest": {
+    "sha256": "917a915f2aa78656131eeba825c13dece6cf81834d786a317d7dc9e6ef6db74d",
+    "size_bytes": 1084
+  },
+  "numerical_errors": {
+    "criteria": "tests/fixtures/native/result-comparison.json",
+    "displacement_absolute_m": 2.361673616508679e-16,
+    "max_stress_sample_change_pa": 0.0,
+    "mesh_elements": [100, 388],
+    "mesh_nodes": [231, 805],
+    "near_zero_relative_states": [null, null],
+    "stress_absolute_pa": 1.1368683772161603e-13
+  },
+  "numerical_policy": {
+    "aggregate_ci_limit": "25 min after observed 19m17s/20min preceding job; ci-job-budget.json records reasoning",
+    "comparison": {
+      "sha256": "7462e863711bdde6b9c038b41a728eb0e6c60d7fdeebd38a449a20598e47d491",
+      "size_bytes": 682
+    },
+    "fields": {
+      "sha256": "da6d7d972704fc6922df099ae41892de6306cda3e33c4c33380288d178423439",
+      "size_bytes": 754
+    },
+    "inspection": {
+      "sha256": "58c6bda30c68d72e9a8a4aa85ea7ceb1a0d04f393c43f8e9806a8583275aeb23",
+      "size_bytes": 684
+    },
+    "native_caps_retries_and_individual_deadlines_unchanged": true
+  },
+  "sources": {
+    "apps/web/src/results/ComparisonEditor.tsx": {
+      "sha256": "319a1e371826c17d7f7c8c746267a49982d8a7b9e227ab23f5c0560af11d2f14",
+      "size_bytes": 12837
+    },
+    "apps/web/src/results/ResultsEditor.tsx": {
+      "sha256": "a437fd01e465e6733db45960fefd19d802886af462398f1d153d5d6b0639729d",
+      "size_bytes": 20138
+    },
+    "services/api/app/domain/comparisons.py": {
+      "sha256": "7031bcf9a45c54cef209210382718a5057449d41e29fded6bab882316e389bc0",
+      "size_bytes": 2155
+    },
+    "services/api/app/domain/refinement.py": {
+      "sha256": "b63ca772fc862a035dda9f2c3f63d06326fa3cbda50f093e5efae4b4c258a996",
+      "size_bytes": 2218
+    },
+    "services/api/app/domain/results.py": {
+      "sha256": "c4c0b9b18b090bea8352ea59a2a09776d3b20783598f81c0db6b6ce18706b3ad",
+      "size_bytes": 5266
+    },
+    "services/api/app/jobs/service.py": {
+      "sha256": "638d211f21fa6e9d8b4dcce0e5a6fa5b5cace3c1ce1e2eee4e3131266965ae1e",
+      "size_bytes": 29562
+    },
+    "services/api/app/routes/jobs.py": {
+      "sha256": "51b55bbb5d31d1eb20bbe62823b2cf2a0747d0fe3e7ed0230b36c7b4231e03dc",
+      "size_bytes": 5540
+    },
+    "services/worker/worker/postprocess/comparison.py": {
+      "sha256": "8970cbe6b7e9686a77176bc4d8ae432217276bf4f2f57577c55c837941d8a3aa",
+      "size_bytes": 2461
+    },
+    "services/worker/worker/postprocess/inspection.py": {
+      "sha256": "2671965a0e9881217553f96e8389289d24f389b7b002569b370fe92a01486f08",
+      "size_bytes": 8367
+    },
+    "services/worker/worker/postprocess/view.py": {
+      "sha256": "7ea99bb6c7c9daf7277201e6779148eba316d236c0699a9629348e8900124a8c",
+      "size_bytes": 13697
+    },
+    "tests/e2e/results.spec.ts": {
+      "sha256": "1b8b7263970ba079c17d0767962f09e67eb46f91ddc9541045bc75277802fab1",
+      "size_bytes": 24623
+    },
+    "tests/fixtures/native/result-comparison.json": {
+      "sha256": "7462e863711bdde6b9c038b41a728eb0e6c60d7fdeebd38a449a20598e47d491",
+      "size_bytes": 682
+    },
+    "tests/integration/test_result_views.py": {
+      "sha256": "82fbf02e626f72909a21d8d471ecad7baca370b91d1a896f5e3652c2a501a213",
+      "size_bytes": 4124
+    },
+    "tests/native/test_analyses.py": {
+      "sha256": "b2b92438e687a61bc10ffab6e14fe9e5ff0523abf11234fa3800d2927157c02c",
+      "size_bytes": 10442
+    },
+    "tests/native/test_result_comparison.py": {
+      "sha256": "95b69cc0af1a9df391c890a28f5083624a6366eaf5d1c25e4d5d77eec8cced99",
+      "size_bytes": 8393
+    },
+    "tests/native/test_result_views.py": {
+      "sha256": "ba6088e63cc77a40dfdee934b22a00ecc1d7a60dc49e8f9a139d880ff5521e27",
+      "size_bytes": 20310
+    },
+    "tests/unit/test_result_comparison.py": {
+      "sha256": "869f0350f09c7752210578968d4cd2f610820c2c6826d3bd7805127d1a908ecf",
+      "size_bytes": 6806
+    }
+  },
+  "task": "T023",
+  "versions": {
+    "cadquery-ocp": "8.0.1.1.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "mypy": "2.4.0",
+    "node": "24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "pytest": "9.1.1",
+    "python": "3.12.14",
+    "ruff": "0.17.0",
+    "threads": 1,
+    "uv": "0.12.23"
+  }
+}

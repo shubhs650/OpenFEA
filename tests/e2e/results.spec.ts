@@ -482,3 +482,188 @@ test("physical probes and volume sections preserve field and camera and reject u
   }
   expect(failures).toEqual([]);
 });
+
+test("refinement compares real meshes at saved physical locations and exports all warnings", async ({
+  page,
+}, info) => {
+  test.setTimeout(45_000);
+  const { analysisId } = await prepared(
+    page,
+    "T023 physical refinement",
+    false,
+    0.000001,
+  );
+  const coarse = await mesh(page);
+  const firstRun = await solve(page);
+  await expect(page.locator(`[data-job-id="${firstRun.id}"]`)).toHaveAttribute(
+    "data-job-status",
+    "succeeded",
+  );
+  await page.getByText("Duplicate saved setup", { exact: true }).click();
+  await page
+    .getByLabel("New duplicate analysis name", { exact: true })
+    .fill("T023 refined copy");
+  const duplicated = page.waitForResponse(
+    (r) => r.url().endsWith("/duplicates") && r.request().method() === "POST",
+  );
+  await page
+    .getByRole("button", { name: "Duplicate analysis setup", exact: true })
+    .click();
+  const duplicateResponse = await duplicated;
+  expect(duplicateResponse.status()).toBe(201);
+  const refinedAnalysis = (await duplicateResponse.json()).id as string;
+  await expect(
+    page.getByRole("combobox", { name: "Open analysis", exact: true }),
+  ).toHaveValue(refinedAnalysis);
+  await expect(page.getByLabel("Save state", { exact: true })).toContainText(
+    "Saved",
+  );
+  // The duplicated saved physics gets an explicit mesh change and actual solve.
+  await page.getByRole("spinbutton", { name: /Global mesh size/ }).fill("300");
+  await page
+    .getByRole("button", { name: "Save mesh controls", exact: true })
+    .click();
+  const refined = await mesh(page);
+  const secondRun = await solve(page);
+  await expect(page.locator(`[data-job-id="${secondRun.id}"]`)).toHaveAttribute(
+    "data-job-status",
+    "succeeded",
+  );
+  await page
+    .getByRole("combobox", { name: "Open analysis", exact: true })
+    .selectOption(analysisId);
+  await openResults(page, firstRun.id);
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("uz");
+  await page.getByText("Mesh refinement comparison", { exact: true }).click();
+  await page
+    .getByRole("button", { name: "Refresh compared runs", exact: true })
+    .click();
+  await expect(
+    page.getByRole("combobox", { name: "Compared analysis", exact: true }),
+  ).toHaveValue(analysisId);
+  await page
+    .getByRole("combobox", { name: "Compared analysis", exact: true })
+    .selectOption(refinedAnalysis);
+  await page
+    .getByRole("combobox", { name: "Compared completed run", exact: true })
+    .selectOption(secondRun.id);
+  const meshes = await Promise.all(
+    [coarse, refined].map(async (job) =>
+      (
+        await page.request.get(`/api/v1/jobs/${job.id}/artifacts/mesh.json`)
+      ).json(),
+    ),
+  );
+  const ids = meshes.map(
+    (wire) =>
+      Object.entries(wire.elements).find(([, ns]) =>
+        (ns as number[])
+          .slice(0, 4)
+          .some((n) => wire.nodes[n].every((v: number) => v === 0)),
+      )![0],
+  );
+  await page
+    .getByLabel("Comparison sample label", { exact: true })
+    .fill("Fixed physical corner");
+  await page.getByLabel("Reference element side", { exact: true }).fill(ids[0]);
+  await page.getByLabel("Compared element side", { exact: true }).fill(ids[1]);
+  await page
+    .getByRole("button", { name: "Add physical sample", exact: true })
+    .click();
+  await expect(page.getByLabel("Saved comparison locations")).toContainText(
+    "Fixed physical corner",
+  );
+  const response = page.waitForResponse((r) =>
+    r.url().endsWith(`/runs/${firstRun.id}/comparisons`),
+  );
+  await page
+    .getByRole("button", { name: "Compare physical samples", exact: true })
+    .click();
+  const received = await response;
+  expect(received.status()).toBe(200);
+  const data: components["schemas"]["ResultComparison"] = await received.json();
+  expect(data.compared.elements).toBeGreaterThan(data.reference.elements);
+  expect(data.rows[0].change.relative_change).toBeNull();
+  expect(data.convergence_claim).toBe(false);
+  await expect(page.getByLabel("Common physical sample changes")).toContainText(
+    "Unavailable — near-zero reference",
+  );
+  await expect(page.getByLabel("Refinement comparison result")).toContainText(
+    "No automatic singularity detection",
+  );
+  const download = page.waitForEvent("download");
+  await page
+    .getByRole("button", {
+      name: "Download comparison JSON with warnings",
+      exact: true,
+    })
+    .click();
+  const file = await download;
+  const path = await file.path();
+  const { readFile } = await import("node:fs/promises");
+  const exported = JSON.parse(
+    await readFile(path!, "utf8"),
+  ) as components["schemas"]["ResultComparison"];
+  expect(exported).toEqual(data);
+  expect(
+    exported.reference.assumptions.some(
+      (n) => n.code === "yielding" && n.triggered,
+    ),
+  ).toBe(true);
+  expect(
+    exported.reference.warnings.some((w) =>
+      w.includes("does not model plastic"),
+    ),
+  ).toBe(true);
+  await page
+    .getByLabel("Mesh refinement comparison", { exact: true })
+    .screenshot({ path: info.outputPath("refinement-comparison.png") });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  // Changing fields invalidates the prior derivative; the same stored SI point remains.
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("sxx");
+  await expect(page.getByLabel("Refinement comparison result")).toHaveCount(0);
+  await expect(page.getByLabel("Saved comparison locations")).toContainText(
+    "Fixed physical corner",
+  );
+  await page
+    .getByRole("button", { name: "Compare physical samples", exact: true })
+    .click();
+  await expect(page.getByLabel("Common physical sample changes")).toContainText(
+    "-0.00100000",
+  );
+  let release!: () => void;
+  let started!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const fetched = new Promise<void>((resolve) => {
+    started = resolve;
+  });
+  await page.route(
+    `**/api/v1/runs/${firstRun.id}/comparisons`,
+    async (route) => {
+      const response = await route.fetch();
+      started();
+      await held;
+      await route.fulfill({ response });
+    },
+  );
+  await page
+    .getByRole("button", { name: "Compare physical samples", exact: true })
+    .click();
+  await fetched;
+  await page
+    .getByRole("combobox", { name: "Result field", exact: true })
+    .selectOption("ux");
+  release();
+  await page.unrouteAll({ behavior: "wait" });
+  await expect(page.getByLabel("Refinement comparison result")).toHaveCount(0);
+});

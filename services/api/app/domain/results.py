@@ -116,8 +116,18 @@ class EquilibriumData(StrictModel):
     method: str
 
 
+class AssumptionNote(StrictModel):
+    code: Literal["yielding", "small_deformation", "stress_singularity"]
+    body_id: str | None
+    triggered: bool | None
+    metric: FiniteFloat | None
+    threshold: FiniteFloat | None
+    message: str
+
+
 class ResultData(StrictModel):
     processor: str
+    assumptions: list[AssumptionNote]
     fields: list[ResultField]
     frame: Literal["global_cartesian"]
     tensor_components: tuple[

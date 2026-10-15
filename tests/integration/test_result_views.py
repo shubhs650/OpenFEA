@@ -30,6 +30,30 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
         )
         assert status == 200 and inspection["vertices"]
         assert inspection["results_sha256"] == original["results_sha256"]
+        second_run = wait(browser, submit(browser, path, headers, mesh["id"])["id"])
+        wire = browser.request("GET", f"/jobs/{run['id']}/artifacts/mesh.json")[1]
+        zero = next(int(n) for n, p in wire["nodes"].items() if p == [0, 0, 0])
+        eid = next(int(e) for e, ns in wire["elements"].items() if zero in ns[:4])
+        comparison_route = f"/runs/{run['id']}/comparisons"
+        comparison_payload = {
+            "compared_run_id": second_run["id"],
+            "field": "uz",
+            "points": [
+                {
+                    "label": "Saved fixed corner",
+                    "body_id": wire["owners"][str(eid)],
+                    "point_m": [0, 0, 0],
+                    "reference_element_id": eid,
+                    "compared_element_id": eid,
+                }
+            ],
+        }
+        status, comparison, _ = browser.request(
+            "POST", comparison_route, comparison_payload, headers
+        )
+        assert status == 200, comparison
+        assert comparison["rows"][0]["change"]["relative_change"] is None
+        assert comparison["reference"]["assumptions"] == original["data"]["assumptions"]
         raw_route = f"/jobs/{run['id']}/artifacts/results.json"
         raw_original = browser.request("GET", raw_route)[1]
         status, _, _ = browser.request(
@@ -52,6 +76,15 @@ def test_derived_results_survive_real_api_restart_and_display_unit_edits(tmp_pat
                 {"X-CSRF-Token": fresh_session["csrf_token"]},
             )[1]
             == inspection
+        )
+        assert (
+            browser.request(
+                "POST",
+                comparison_route,
+                comparison_payload,
+                {"X-CSRF-Token": fresh_session["csrf_token"]},
+            )[1]
+            == comparison
         )
         assert browser.request("GET", route)[1] == original
         assert browser.request("GET", raw_route)[1] == raw_original

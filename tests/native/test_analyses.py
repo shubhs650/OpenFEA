@@ -106,6 +106,24 @@ def test_real_duplicate_variants_reuse_exact_mesh_and_keep_old_runs(client: Test
     assert choices(client, copy)["compatibility_sha256"] == contract
     run = wait_job(client, submit(client, copy, mesh["id"])["id"])
     measurements.append(axial(client, run, mesh, 1000, 420e9))
+    mismatch = client.post(
+        f"/api/v1/runs/{original['id']}/comparisons",
+        json={
+            "compared_run_id": run["id"],
+            "field": "sxx",
+            "points": [
+                {
+                    "label": "Material mismatch",
+                    "body_id": geometry["bodies"][0]["id"],
+                    "point_m": [0, 0, 0],
+                    "reference_element_id": 1,
+                    "compared_element_id": 1,
+                }
+            ],
+        },
+    )
+    assert mismatch.status_code == 409 and "materials" in mismatch.json()["message"]
+
     frozen = client.get(f"/api/v1/jobs/{run['id']}/artifacts/snapshot.json").json()
     assert frozen["mesh"]["job_id"] == mesh["id"]
     assert frozen["mesh"]["compatibility_sha256"] == contract

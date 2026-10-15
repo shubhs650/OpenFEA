@@ -13,6 +13,7 @@ import {
   type ResultPresentation,
 } from "./presentation";
 
+import { ComparisonEditor } from "./ComparisonEditor";
 import { InspectionEditor } from "./InspectionEditor";
 
 type Props = {
@@ -217,6 +218,43 @@ export function ResultsEditor({
             {view.data.tensor_components.join(", ")}]. Principal order:{" "}
             {view.data.principal_order}. Tensile normal stresses are positive.
           </p>
+          <details>
+            <summary>Mesh refinement comparison</summary>
+            <ComparisonEditor
+              key={view.job_id}
+              view={view}
+              projectId={
+                jobs.find((j) => j.id === view.job_id)?.project_id ?? ""
+              }
+              field={field}
+              smoothed={smoothed}
+              preset={preset}
+              onUnavailable={(message) => {
+                setError(message);
+                request.current++;
+                setView(null);
+                setSection(null);
+                showResult(null);
+              }}
+            />
+          </details>
+          <div aria-label="Engineering assumption explanations">
+            <h3>Engineering assumptions and limitations</h3>
+            {view.data.assumptions.map((note, i) => (
+              <p role="note" key={i}>
+                {note.code} ·{" "}
+                {note.triggered === true
+                  ? "Screen exceeded"
+                  : note.triggered === false
+                    ? "No exceedance in this screen"
+                    : "Not assessed"}
+                : {note.message}
+                {note.code === "small_deformation" &&
+                  note.metric != null &&
+                  ` Measured ratio ${(100 * note.metric).toPrecision(6)}%.`}
+              </p>
+            ))}
+          </div>
           {selectedField && (
             <table aria-label="Selected field raw extrema">
               <thead>

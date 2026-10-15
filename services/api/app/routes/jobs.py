@@ -5,6 +5,7 @@ from uuid import UUID
 
 from fastapi import Depends, Header, Request, Response
 
+from app.domain.comparisons import ComparisonRequest, ResultComparison
 from app.domain.connections import AssemblyPreflight
 from app.domain.errors import DomainError
 from app.domain.jobs import JobEvent, LocalJob, MeshCandidates, MeshPreview, MeshRequest, RunRequest
@@ -148,3 +149,10 @@ def section(
     job_id: UUID, payload: SectionRequest, owner: Owner, service: Service
 ) -> ResultInspection:
     return service.result_inspection(owner, job_id, payload)
+
+
+@router.post("/runs/{job_id}/comparisons", response_model=ResultComparison)
+def compare(
+    job_id: UUID, payload: ComparisonRequest, owner: Owner, service: Service
+) -> ResultComparison:
+    return service.compare_results(owner, job_id, payload)
