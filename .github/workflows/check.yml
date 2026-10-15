@@ -28,7 +28,7 @@ jobs:
       - name: Native compiler prerequisite
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor poppler-utils fonts-dejavu-core
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor poppler-utils fonts-dejavu-core libreoffice-writer
           mkdir -p .local/ci-toolchain
           ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
           echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"
