@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-16 (Asia/Calcutta)
-Current state: T029 LOCAL RESOURCE/FAULT RESILIENCE COMPLETE + T025–T028 + owner-approved bounded M3.
-Current milestone: M4 IN PROGRESS — T025–T029 COMPLETE; T030 local acceptance review next. Exact new reference-owner/human/Windows/laptop acceptance remain T030.
-Next action: review the T029 PR after latest-head hosted CI passes, then T030. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
+Current state: T030 IN PROGRESS — executable acceptance/review packet and real UI references prepared; actual owner/laptop/human acceptance pending. T025–T029 and bounded owner-approved M3 are complete.
+Current milestone: M4 IN PROGRESS; exit BLOCKED until actual Windows/WSL2/headed/capacity/human/owner records exist.
+Next action: complete the T030 packet's cloud verification and PR CI, then collect the pending actual acceptance records. Do not advance to T031/M5 from this packet alone.
 
 
 ## Current objective
@@ -41,12 +41,13 @@ T026: COMPLETE
 T027: COMPLETE
 T028: COMPLETE
 T029: COMPLETE
-T030–T042: NOT STARTED
+T030: IN PROGRESS
+T031–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives/T028 reference tutorials/T029 bounded resilience complete; T030 next. M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives/T028 reference tutorials/T029 bounded resilience complete; T030 acceptance packet in progress. M4 exit BLOCKED; M5–M6 exit gates NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -57,6 +58,12 @@ B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported nati
 B10/B12–B14: DEVELOPMENT PASS; exact engineering-owner acceptance pending. B13/B14 compare published references; Code_Aster/ANSYS binaries NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T030 in progress — prepared acceptance, actual evidence pending
+
+The owner explicitly requested: “No—prepare the packet with those checks pending.” [The executable procedure](docs/LOCAL_ACCEPTANCE.md) and [exact criteria/requirements review](docs/validation/M4-owner-review.md) preserve the unresolved actual Windows/WSL2 laptop, installed headed Chrome/Edge, measured resource/renderer/capacity, consented human trial and final owner acceptance. T030 remains IN PROGRESS; M4 exit BLOCKED. No new convenience deferral, physics/tolerance/native budget/retry/dependency change or M5 deployment is introduced.
+
+`make m4-review` binds all fourteen cases and existing M3/new M4 scope; default `benchmark-m4` refuses the five pending approvals before execution. Explicit development replay retains source/tool/raw hashes and cannot grant acceptance; even approved numerical acceptance cannot self-approve the separate M4 exit. The Windows browser configuration refuses Linux/headless fallback. Hardware profiles explicitly avoid a capacity claim. Real UI screenshots are captured through ordinary native-backed tutorial/archive/report/workspace tests with optional capture hooks; automation is not a human participant. [T030 execution evidence](docs/validation/T030.md) records actual verification, failures and unexecuted checks. The requested PR is left unmerged and watched until latest-head CI passes.
 
 ## T029 completed — bounded attempts and reusable native stages
 

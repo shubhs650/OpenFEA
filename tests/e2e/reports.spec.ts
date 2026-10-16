@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { reference } from "./support/reference";
 import { prepared, mesh, solve } from "./support/runs";
 
 test("dark workspace exports matching PDF and editable Word from a frozen historical model", async ({
@@ -151,10 +152,23 @@ test("dark workspace exports matching PDF and editable Word from a frozen histor
     path: info.outputPath("light-report-preview.png"),
     fullPage: true,
   });
+  await reference(
+    preview,
+    info,
+    "report-01-light",
+    "Light report preview from a dark workspace",
+  );
   await preview.close();
   await page
     .getByLabel("Report export", { exact: true })
     .screenshot({ path: info.outputPath("dark-workspace-report.png") });
+  await reference(
+    page,
+    info,
+    "report-02-word",
+    "PDF and editable Word from the same frozen model",
+    page.getByLabel("Report export", { exact: true }),
+  );
   await page.reload();
   await page.getByLabel("Open project").selectOption(projectId);
   await page.getByLabel("Open analysis").selectOption(analysisId);

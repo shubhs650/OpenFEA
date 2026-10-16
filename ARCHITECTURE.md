@@ -1,6 +1,6 @@
 # Architecture — proposed implementation baseline
 
-2026-10-13. T001 provides health API/UI; T007 adds persistent owner-scoped metadata/sessions and T008 adds sandboxed STEP inspection, confirmed immutable artifacts and actual vtk.js face selection; T002 provisions isolated native tools. T003–T005 provide real synthetic CAD/mesh/load/CCX/stress and limited experimental bond diagnostics. T006 adds immutable synthetic cleanup previews and measured near-5k/25k/100k meshes, small/medium solves and software WebGL diagnostics. The [M0 owner decision](docs/validation/M0-owner-decision.md) permits M1 progression with formal benchmark and laptop acceptance deferred. General connection support and the full application pipeline remain open. This stage ends at the validated local prototype through M4/T030, with AWS backend work later.
+2026-10-16. T001–T029 implement the bounded local STEP/material/load/C3D10/CCX/results/report/archive workflow. Existing M3 exact engineering approval remains valid within its scope. T030 prepares [local acceptance](docs/LOCAL_ACCEPTANCE.md) and [exact review/limitations](docs/validation/M4-owner-review.md); actual Windows/WSL2 laptop/headed performance, new reference-owner approvals and human usability remain pending. M4 exit is blocked; hosted AWS/auth/accounting/operations belong to later gated milestones. Historical implementation increments below retain their original evidence and decisions.
 
 ## Shape of the system
 

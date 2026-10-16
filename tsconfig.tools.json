@@ -11,6 +11,7 @@
   },
   "include": [
     "playwright.config.ts",
+    "playwright.local.config.ts",
     "tests/e2e/**/*.ts",
     "apps/web/vite.config.ts"
   ]

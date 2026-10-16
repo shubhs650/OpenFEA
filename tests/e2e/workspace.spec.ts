@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { reference } from "./support/reference";
 import { resolve } from "node:path";
 
 async function workspace(page: Page) {
@@ -77,12 +78,24 @@ test("checklist actions, keyboard multiselection and persisted light/dark at tar
     document.querySelector("aside")?.scrollTo(0, 0);
   });
   await page.screenshot({ path: info.outputPath("workspace-dark-1280.png") });
+  await reference(
+    page,
+    info,
+    "workspace-01-dark",
+    "Dark workspace with selectable imported geometry",
+  );
   await page.setViewportSize({ width: 1366, height: 768 });
   await page
     .getByRole("combobox", { name: "Theme", exact: true })
     .selectOption("light");
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: info.outputPath("workspace-light-1366.png") });
+  await reference(
+    page,
+    info,
+    "workspace-02-light",
+    "Light workspace, units, model tree and checklist",
+  );
   await page.getByRole("combobox", { name: "Theme", exact: true }).focus();
   await page.keyboard.press("Tab");
   await expect(

@@ -1,6 +1,7 @@
 import { expect, test, type Page, type TestInfo } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
 import { prepared, mesh, solve } from "./support/runs";
+import { reference } from "./support/reference";
 import { assembly, approve } from "./support/assembly";
 
 type Wire = {
@@ -94,6 +95,22 @@ for (const bond of [false, true]) {
         true,
         open,
       );
+    const label = bond ? "bond" : "bracket";
+    await reference(
+      page,
+      info,
+      `${label}-01-setup`,
+      `${label}: geometry, material and face loads`,
+      page.locator("#setup-loads"),
+    );
+    if (bond)
+      await reference(
+        page,
+        info,
+        "bond-02-connections",
+        "Reviewed zero-gap bond",
+        page.locator("#connections"),
+      );
     const timing = page.getByLabel("Tutorial timing", { exact: true });
     const runs: Awaited<ReturnType<typeof solve>>[] = [];
     const meshes: Wire[] = [];
@@ -142,6 +159,19 @@ for (const bond of [false, true]) {
         "succeeded",
       );
       runs.push(run);
+      if (process.env.FEA_REFERENCE_DIR && runs.length === 1) {
+        await page
+          .getByRole("button", { name: "Preview selected mesh", exact: true })
+          .click();
+        await expect(page.locator(`[data-mesh-job="${job.id}"]`)).toBeVisible();
+        await reference(
+          page,
+          info,
+          `${label}-03-mesh`,
+          `${label}: real quadratic mesh preview`,
+          page.locator(".viewport-shell").first(),
+        );
+      }
     }
     await page
       .getByRole("combobox", { name: "Completed solve", exact: true })
@@ -153,6 +183,13 @@ for (const bond of [false, true]) {
       .getByRole("combobox", { name: "Result field", exact: true })
       .selectOption(bond ? "sxx" : "von_mises");
     await expect(page.getByLabel("Calculated result viewport")).toBeVisible();
+    await reference(
+      page,
+      info,
+      `${label}-04-results`,
+      `${label}: native result field`,
+      page.getByLabel("Calculated result viewport", { exact: true }),
+    );
     const point = bond ? [1.5, 0.5, 0.5] : [0.04, 0.01, 0.0075];
     await page
       .getByLabel("Probe element ID", { exact: true })
@@ -165,6 +202,13 @@ for (const bond of [false, true]) {
       .getByRole("button", { name: "Probe physical point", exact: true })
       .click();
     await expect(page.getByLabel("Physical probe result")).toBeVisible();
+    await reference(
+      page,
+      info,
+      `${label}-05-probe`,
+      `${label}: physical element-owned probe`,
+      page.getByLabel("Physical probe result", { exact: true }),
+    );
     for (let k = 0; k < 3; k++) {
       await page
         .getByLabel(`Inspection ${"xyz"[k]} (mm)`, { exact: true })
@@ -179,6 +223,13 @@ for (const bond of [false, true]) {
     await expect(page.getByLabel("Calculated result viewport")).toHaveAttribute(
       "data-result-section",
       "volume",
+    );
+    await reference(
+      page,
+      info,
+      `${label}-06-section`,
+      `${label}: authoritative volume section`,
+      page.getByLabel("Calculated result viewport", { exact: true }),
     );
     await page.getByText("Mesh refinement comparison", { exact: true }).click();
     await page
@@ -212,6 +263,13 @@ for (const bond of [false, true]) {
     const response = await comparison;
     expect(response.status(), await response.text()).toBe(200);
     const values = await response.json();
+    await reference(
+      page,
+      info,
+      `${label}-07-refinement`,
+      `${label}: two-mesh physical comparison`,
+      page.getByLabel("Mesh refinement comparison", { exact: true }),
+    );
     await writeFile(
       info.outputPath("comparison.json"),
       JSON.stringify(values, null, 2),
@@ -263,6 +321,13 @@ for (const bond of [false, true]) {
         .subarray(0, 5)
         .toString(),
     ).toBe("%PDF-");
+    await reference(
+      page,
+      info,
+      `${label}-08-report`,
+      `${label}: saved PDF report and immutable run`,
+      page.getByLabel("Report export", { exact: true }),
+    );
     const panel = page.getByRole("region", {
       name: "Guided tutorials",
       exact: true,
@@ -286,6 +351,13 @@ for (const bond of [false, true]) {
     await page
       .getByRole("button", { name: "Finish learning log", exact: true })
       .click();
+    await reference(
+      page,
+      info,
+      `${label}-09-tutorial`,
+      `${label}: guided tutorial and learning log`,
+      panel,
+    );
     const logging = page.waitForEvent("download");
     await page
       .getByRole("link", { name: "Download learning log", exact: true })

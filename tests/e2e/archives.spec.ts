@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { reference } from "./support/reference";
 import { prepared, mesh, solve } from "./support/runs";
 
 test("review diagnostic contents and round-trip an owned project archive", async ({
@@ -52,6 +53,13 @@ test("review diagnostic contents and round-trip an owned project archive", async
     path: info.outputPath("diagnostic-preview.png"),
     fullPage: false,
   });
+  await reference(
+    page,
+    info,
+    "archive-01-diagnostics",
+    "Diagnostic preview with geometry and results excluded",
+    panel,
+  );
   const diagnosticDownload = page.waitForEvent("download");
   await panel
     .getByRole("link", {
@@ -75,6 +83,13 @@ test("review diagnostic contents and round-trip an owned project archive", async
     exact: true,
   });
   await expect(link).toBeVisible();
+  await reference(
+    page,
+    info,
+    "archive-02-portable",
+    "Portable project archive preview",
+    panel,
+  );
   const downloadPromise = page.waitForEvent("download");
   await link.click();
   const download = await downloadPromise;
@@ -122,6 +137,13 @@ test("review diagnostic contents and round-trip an owned project archive", async
   await expect(
     panel.getByLabel("Imported read-only history", { exact: true }),
   ).toBeVisible();
+  await reference(
+    page,
+    info,
+    "archive-03-restored",
+    "Reimported project with inert historical downloads",
+    panel,
+  );
   expect(failures).toEqual([]);
   await panel
     .getByRole("heading", { name: "Portable archives", exact: true })
