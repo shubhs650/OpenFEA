@@ -2,10 +2,10 @@
   "version": "T028-v1",
   "tutorial": "Reviewed bonded support",
   "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
-  "recorded_at": "2026-10-16T04:41:12.375Z",
+  "recorded_at": "2026-10-16T04:48:27.222Z",
   "duration_ms": {
-    "setup": 14957.899999999674,
-    "compute": 13643.000000000233,
+    "setup": 15785.799999999814,
+    "compute": 15944.800000000047,
     "paused": 0
   },
   "completed_steps": [
