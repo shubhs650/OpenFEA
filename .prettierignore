@@ -40,3 +40,6 @@ docs/validation/results/T027/
 
 # T028 retained native reference and browser evidence.
 docs/validation/results/T028/
+
+# T030 hash-linked numerical summaries, real UI captures and raw check logs.
+docs/validation/results/T030/

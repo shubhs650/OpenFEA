@@ -1,0 +1,11 @@
+Error: Target-laptop evidence requires Windows Node and installed headed Chrome/Edge; use playwright.config.ts for cloud regression.
+    at file:///workspace/OpenFEA/playwright.local.config.ts:6:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at node:internal/modules/esm/loader:643:26
+    at requireOrImport (/workspace/OpenFEA/node_modules/playwright/lib/common/index.js:1096:12)
+    at loadUserConfig (/workspace/OpenFEA/node_modules/playwright/lib/common/index.js:1283:46)
+    at loadConfig (/workspace/OpenFEA/node_modules/playwright/lib/common/index.js:1290:22)
+    at Object.loadConfigFromFile (/workspace/OpenFEA/node_modules/playwright/lib/common/index.js:1508:10)
+    at runTests (/workspace/OpenFEA/node_modules/playwright/lib/cli/testActions.js:44:18)
+    at _Command.<anonymous> (/workspace/OpenFEA/node_modules/playwright/lib/program.js:55:7)

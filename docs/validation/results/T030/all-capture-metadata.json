@@ -1,0 +1,550 @@
+[
+  {
+    "title": "Diagnostic preview with geometry and results excluded",
+    "file": "archive-01-diagnostics.png",
+    "sha256": "3fa1675849b5bf5f906ebbec6826af52ff0676c5c75e1b643bedee3c2aedc3ff",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "review diagnostic contents and round-trip an owned project archive",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:38:51.459Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1355
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Portable project archive preview",
+    "file": "archive-02-portable.png",
+    "sha256": "94fbadd143cfcb7348efa08d89e369d5b455daa24e48002712ca0a8af645c779",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "review diagnostic contents and round-trip an owned project archive",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:38:51.986Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 3671
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Reimported project with inert historical downloads",
+    "file": "archive-03-restored.png",
+    "sha256": "68f6272bd78e08f103880a03b667704769cd83b8af8e766b40864d721f3e9756",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "review diagnostic contents and round-trip an owned project archive",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:38:54.249Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1065
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: geometry, material and face loads",
+    "file": "bond-01-setup.png",
+    "sha256": "0b05b929937ee19e6d2f5fb521a2a7bab978b5ee3116981dc3bbe662a2fac5d3",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:47.154Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 2736
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Reviewed zero-gap bond",
+    "file": "bond-02-connections.png",
+    "sha256": "64b3dbc84849c441dcffc60c0232575352ab81be3684e9220781605e0fb25051",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:47.345Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1069
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: real quadratic mesh preview",
+    "file": "bond-03-mesh.png",
+    "sha256": "ccef1942f247ed027376a491525ce062ee9b1a9dfa25f87f08024cf76cee5a3f",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:55.804Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: native result field",
+    "file": "bond-04-results.png",
+    "sha256": "50e0e4b2bbf97fb95fd24db568bcc51e9f361886e3c4cff5a53e972b60a678e4",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:08.778Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1418
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: physical element-owned probe",
+    "file": "bond-05-probe.png",
+    "sha256": "0465c40deafe890514180882d67161f6dcf1098ac154ce4f77c6088b52242caa",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:09.459Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: authoritative volume section",
+    "file": "bond-06-section.png",
+    "sha256": "25c447f5e29a1932181e06a2d746cc2cda8c73f29ad274c696ae4a91faafbc7d",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:10.630Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1472
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: two-mesh physical comparison",
+    "file": "bond-07-refinement.png",
+    "sha256": "3a600804cfa273def2017ccb2fc710e8150da8fcffb0e7fe0cc54e4bbf2e7e5a",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:12.255Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 2939
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: saved PDF report and immutable run",
+    "file": "bond-08-report.png",
+    "sha256": "cba2e55131cacdf4a9ce314a04cc3d993f0f741715d0e59c10e55fd48d182070",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:16.010Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 937
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bond: guided tutorial and learning log",
+    "file": "bond-09-tutorial.png",
+    "sha256": "e98cd6c1e3b4743e3fba654886bcb1901cc4bc81d3818af21655aad9246249c8",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bond performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:16.668Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 3273
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: geometry, material and face loads",
+    "file": "bracket-01-setup.png",
+    "sha256": "a6e99df94ec1dce4834b0971c381fdbe6d553578f0974b8cdc0e38bfe2fc688b",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:13.975Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 2841
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: real quadratic mesh preview",
+    "file": "bracket-03-mesh.png",
+    "sha256": "aa47316c43a346e9bd82931a4ac97753263bd3d3991053fa699f176311fa5ddb",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:18.206Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: native result field",
+    "file": "bracket-04-results.png",
+    "sha256": "5edfc364fac5ec6f730cc083c8097550463d41568abc0ed0c1e6da921d73bcc7",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:25.191Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1380
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: physical element-owned probe",
+    "file": "bracket-05-probe.png",
+    "sha256": "29298d6f255eb6b6668e69db5138c722dfa860f663f3af8cec16c61924f2dff8",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:26.323Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: authoritative volume section",
+    "file": "bracket-06-section.png",
+    "sha256": "40404e8827711a91171225205cd82981da81b42b187e105c8a915f64d249c470",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:27.964Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 1434
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: two-mesh physical comparison",
+    "file": "bracket-07-refinement.png",
+    "sha256": "1bde180d7c254143bf828eb78112ff915c3e7177823b074afd1b1248534a7482",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:30.870Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 2510
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: saved PDF report and immutable run",
+    "file": "bracket-08-report.png",
+    "sha256": "5dab4cd5b51af7d84ba65ab435f4906e5dc5379095e620de8c806810ecdeeec8",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:37.954Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 937
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "bracket: guided tutorial and learning log",
+    "file": "bracket-09-tutorial.png",
+    "sha256": "c2e11a2e1588b28c90f77fbf32053bb65e8c4b7712fc8b5b8af0a16e8f05b303",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "guided bracket performs real refinement/report with compute excluded",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:38.561Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 3339
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Light report preview from a dark workspace",
+    "file": "report-01-light.png",
+    "sha256": "3b116a5d039bc59986e0dc13c46b3d799382414549497d4b94b626d4f0ab5793",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "dark workspace exports matching PDF and editable Word from a frozen historical model",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:07.550Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "light",
+    "renderers": [],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "PDF and editable Word from the same frozen model",
+    "file": "report-02-word.png",
+    "sha256": "4da25cfb3fbf793c07047d77fac99b5392e8b83aa6482c58e0c6529d7d7b4770",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "dark workspace exports matching PDF and editable Word from a frozen historical model",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:39:07.954Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 946
+    },
+    "theme": "dark",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Dark workspace with selectable imported geometry",
+    "file": "workspace-01-dark.png",
+    "sha256": "5d7811d3ef5f0954357e96b880a017e0b238010fbb620bd8e750ddf3b980a744",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "checklist actions, keyboard multiselection and persisted light/dark at target viewports",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:19.759Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "theme": "dark",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  },
+  {
+    "title": "Light workspace, units, model tree and checklist",
+    "file": "workspace-02-light.png",
+    "sha256": "08aaf66ba7da1eb3d191d55aa3af9ed322c1b59ab0449044402fbf0c859aeca8",
+    "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+    "test": "checklist actions, keyboard multiselection and persisted light/dark at target viewports",
+    "project": "",
+    "host_platform": "linux",
+    "captured_at": "2026-10-16T10:40:19.932Z",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+    "platform": "Linux x86_64",
+    "viewport": {
+      "width": 1366,
+      "height": 768
+    },
+    "theme": "light",
+    "renderers": [
+      {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+      }
+    ],
+    "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+  }
+]

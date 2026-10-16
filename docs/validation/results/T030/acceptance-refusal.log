@@ -1,0 +1,3 @@
+.venv/bin/python -m scripts.validation.m4_gate  --output 'work/t030-refused-acceptance'
+BLOCKED/FAILED: Engineering-owner approval required before M4 acceptance execution: B10, B12, B13, B14, M4
+make: *** [Makefile:61: benchmark-m4] Error 2

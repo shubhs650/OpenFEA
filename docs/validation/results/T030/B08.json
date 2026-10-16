@@ -1,0 +1,92 @@
+{
+  "case": "B08",
+  "status": "DEVELOPMENT PASS; engineering review pending",
+  "manifest_sha256": "71ba9f2060c1308f335e2bdaf552a914eb8be27f42a1840895cce6a155624c87",
+  "code_commit": "fad993d236aaeaf608fd6a4dadb9cadb814f8d02",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "gmsh_version": "4.15.2",
+  "ocp_version": "8.0.1.1.0",
+  "threads": 1,
+  "gap_m": 1e-05,
+  "source_mesh_sha256": "6dc2948861ad71831c6bdfbbec96f2f149877d3f54458e3e2fb577db59782ef9",
+  "cases": {
+    "left_master": {
+      "intended_slave_nodes": 65,
+      "equations": 1727,
+      "uncovered_nodes": [],
+      "max_displacement_error_m": 4.988662109443973e-13,
+      "max_stress_error_pa": 9.48084e-07,
+      "max_tie_residual_m": 1.2066850812402037e-12,
+      "force_residual_n": 0.009999999776482717,
+      "moment_residual_nm": 0.007314709363207408,
+      "coordinate_audit": {
+        "max_solver_adjustment_m": 0.0,
+        "changed_nodes_gt_1e12_m": [],
+        "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+        "source_sha256": "1d513dc63ca816ac22e2016edcb9d047c4c1b1ffdca9a24c56d590d0733167f1",
+        "deck_sha256": "fa03578cadeb8c768caa8695c1bb5b2dad4655b5b8726c5e73c9ed1ef2ca8227"
+      },
+      "coupling": {
+        "overlap_area_m2": 1.0000000000000002,
+        "slave_trace_dofs": 65,
+        "master_trace_dofs": 37,
+        "affine_reproduction_error": 1.7763568394002505e-15,
+        "uniform_traction_transfer_error": 6.938893903907228e-18,
+        "quadrature": "degree-five Dunavant over exact planar triangle intersections",
+        "matrix": "M_slave*P=C; Cholesky, no regularization",
+        "equation_rows": 195
+      },
+      "artifacts": {
+        "analysis.frd": "9511245acc3d3958f9c54acf207ddace5a3b3af83bc52c07a9c8244351c7a82f",
+        "analysis.inp": "1f84985610bce38126b77d01addab36a50cff715e477ae72d21d993c80b7d4e8",
+        "analysis.dat": "4d83ac4462c129818238b1f7305e02d223da8904d0d7454d4f1e33a81321021b",
+        "analysis.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "solver.log": "5a47bf9b12c134c724b813a98daed15452782fe5e159fd8c0b0a449de8497808",
+        "analysis.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+        "bond.json": "eaf22afbaa9269ff05c27f605b040e51636d39f01ad6f73e33b8a063bb55a03f",
+        "analysis.sta": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d",
+        "spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "right_master": {
+      "intended_slave_nodes": 37,
+      "equations": 1811,
+      "uncovered_nodes": [],
+      "max_displacement_error_m": 4.988662109443973e-13,
+      "max_stress_error_pa": 2.549496e-07,
+      "max_tie_residual_m": 7.777353068017628e-13,
+      "force_residual_n": 0.010000000009313377,
+      "moment_residual_nm": 0.007314708790018561,
+      "coordinate_audit": {
+        "max_solver_adjustment_m": 0.0,
+        "changed_nodes_gt_1e12_m": [],
+        "coordinate_precision": "native binary FRD doubles; little-endian x86_64 geometry only",
+        "source_sha256": "b0e5d20324976586a377b49a7edc2a86e786d32114fbc84f68050354f94dc3ef",
+        "deck_sha256": "6bc8d130b1768215c3af60a0ecd63157817d13d944300dc98667eba7348c973d"
+      },
+      "coupling": {
+        "overlap_area_m2": 1.0000000000000013,
+        "slave_trace_dofs": 37,
+        "master_trace_dofs": 65,
+        "affine_reproduction_error": 2.220446049250313e-15,
+        "uniform_traction_transfer_error": 6.938893903907228e-18,
+        "quadrature": "degree-five Dunavant over exact planar triangle intersections",
+        "matrix": "M_slave*P=C; Cholesky, no regularization",
+        "equation_rows": 111
+      },
+      "artifacts": {
+        "analysis.frd": "86ba5f0d138e8c8f7d53824d731ed760b5168a6ffda6975e0f89292f2a2ca323",
+        "analysis.inp": "4726bf180fbf37d977cae8972f3b9d64d90b54afc012c2720ca2044c7fcc6502",
+        "analysis.dat": "000f4040414ef9833442f623c02831daab896700f947c1ccdd1a0c5c571f2e53",
+        "analysis.12d": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "solver.log": "20e6412b35f31016232e2e6ad961820f9e5eeef378dfdedb5ff43d5b8c47cd9e",
+        "analysis.cvg": "65086dedb4572132b815ace04b294909c7f6f337111f9704fc310b02320f67f7",
+        "bond.json": "00dfd01dbad7b30774e69a7165c994c088417b36643aa007afa4f1c966ce3e98",
+        "analysis.sta": "01e324ec0ea28f4d1fd7f5e2da1277af53812b873e218be1604c17a4c8e4990d",
+        "spooles.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  }
+}

@@ -15,3 +15,7 @@ docs/validation/results/T014/** -text whitespace=-trailing-space
 docs/validation/results/T015/** -text whitespace=-trailing-space
 tests/fixtures/geometry/rotated-cube-m.step -text whitespace=-trailing-space
 docs/validation/results/T016/** -text whitespace=-trailing-space
+# Windows acceptance compares tutorial downloads and evidence by exact bytes.
+tests/fixtures/geometry/bracket-m.step -text whitespace=-trailing-space
+tests/fixtures/geometry/bond-zero-m.step -text whitespace=-trailing-space
+docs/validation/results/T030/** -text whitespace=-trailing-space

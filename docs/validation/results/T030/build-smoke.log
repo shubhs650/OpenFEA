@@ -1,0 +1,32 @@
+npm run build
+
+> openfea@0.1.0 build
+> npm run build --workspace @openfea/web
+
+
+> @openfea/web@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 413 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            0.40 kB │ gzip:   0.27 kB
+dist/assets/bracket-m-rYF59yf6.step       22.48 kB
+dist/assets/bond-zero-m-BV21Szg2.step     32.45 kB
+dist/assets/index-D8flHWbS.css             4.92 kB │ gzip:   1.71 kB
+dist/assets/index-XLlDfTWz.js          1,196.55 kB │ gzip: 333.80 kB
+
+✓ built in 459ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=24253
+STARTED api pid=24274
+STARTED web pid=24275
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs

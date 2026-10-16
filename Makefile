@@ -8,12 +8,14 @@ export PYTHONPATH := $(CURDIR)/services/api:$(CURDIR)/services/worker
 export PATH := $(CURDIR)/.venv/bin:$(CURDIR)/.local/native/bin:$(PATH)
 PY := .venv/bin/python
 
-.PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-m3 benchmark-all test-security test-reports smoke feasibility resource-browser
+.PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-m3 benchmark-m4 m4-review local-profile benchmark-all test-security test-reports smoke feasibility resource-browser
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
 	@echo 'test-native verifies real tools/mapping/loads/stress/bonds/references; benchmark CASE=B01–B14 DEVELOPMENT=1 OUTPUT=<fresh-directory>.'
 	@echo 'feasibility runs native cleanup diagnostics; MESHES=1 measures bounded workloads. resource-browser OUTPUT=<directory>.'
 	@echo 'test-reports checks real A4 PDF content/layout; release benchmarks/full security remain BLOCKED.'
+	@echo 'm4-review prints exact pending approvals; benchmark-m4 DEVELOPMENT=1 OUTPUT=<fresh-directory> replays all 14 cases without granting acceptance.'
+	@echo 'local-profile OUTPUT=<new-json-file> SCRATCH=<existing-directory> records hardware/headroom; see docs/LOCAL_ACCEPTANCE.md for Windows/human checks.'
 setup:
 	bash scripts/codex/setup.sh
 setup-native:
@@ -55,6 +57,12 @@ benchmark:
 	$(PY) scripts/native/benchmark.py $(CASE) $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
 benchmark-m3:
 	$(PY) scripts/validation/m3_gate.py $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
+benchmark-m4:
+	$(PY) -m scripts.validation.m4_gate $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
+m4-review:
+	$(PY) -m scripts.validation.m4_gate --review-packet
+local-profile:
+	$(PY) -m scripts.validation.local_profile --output '$(OUTPUT)' $(if $(SCRATCH),--scratch '$(SCRATCH)',)
 feasibility:
 	$(PY) scripts/native/feasibility.py $(if $(filter 1,$(MESHES)),--meshes,)
 resource-browser:
