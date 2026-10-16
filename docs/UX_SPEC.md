@@ -36,3 +36,5 @@ No false precise progress percentage: show stage, elapsed time, heartbeat and kn
 ## Usability evidence
 
 Record tutorial version, browser, model, help requests, setup duration excluding compute and errors. Use synthetic mounting bracket then two-body bonded support. Capture consented notes, not private CAD screenshots in external analytics. Investigate task failure before adding features.
+
+T028 implements [guided local tutorials](TUTORIALS.md) in the model tree, with original STEP downloads and self-reported versioned learning logs. Native wait intervals and manual pauses are excluded from setup; the observed queue poll can conservatively extend the wait. Checkboxes do not certify completion. Human sampling/30-minute acceptance remains T030.

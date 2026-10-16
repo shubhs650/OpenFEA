@@ -11,7 +11,7 @@ PY := .venv/bin/python
 .PHONY: help setup setup-native native-report doctor dev lint typecheck test-unit test-integration check build contracts contracts-check docs-check test-native test-e2e benchmark benchmark-m3 benchmark-all test-security test-reports smoke feasibility resource-browser
 help:
 	@echo 'setup doctor dev check build smoke test-e2e docs-check contracts'
-	@echo 'test-native verifies real tools/mapping/loads/stress/bonds; benchmark CASE=B01–B09 or B11 DEVELOPMENT=1.'
+	@echo 'test-native verifies real tools/mapping/loads/stress/bonds/references; benchmark CASE=B01–B14 DEVELOPMENT=1 OUTPUT=<fresh-directory>.'
 	@echo 'feasibility runs native cleanup diagnostics; MESHES=1 measures bounded workloads. resource-browser OUTPUT=<directory>.'
 	@echo 'test-reports checks real A4 PDF content/layout; release benchmarks/full security remain BLOCKED.'
 setup:
@@ -52,7 +52,7 @@ test-e2e:
 test-native:
 	$(PY) -m pytest tests/native
 benchmark:
-	$(PY) scripts/native/benchmark.py $(CASE) $(if $(filter 1,$(DEVELOPMENT)),--development,)
+	$(PY) scripts/native/benchmark.py $(CASE) $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
 benchmark-m3:
 	$(PY) scripts/validation/m3_gate.py $(if $(filter 1,$(DEVELOPMENT)),--development,) $(if $(OUTPUT),--output '$(OUTPUT)',)
 feasibility:
