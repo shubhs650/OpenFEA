@@ -47,7 +47,8 @@ jobs:
   check:
     needs: word-layout
     runs-on: ubuntu-24.04
-    # T022 used 19m17s of 20m; T023 adds multi-run tests. Individual/native budgets stay fixed.
+    # T028 used 24m17s of 25m. T029 separates independent application coverage;
+    # full native regression remains in make setup, with every existing bound.
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -85,6 +86,49 @@ jobs:
             --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 \
             /usr/bin/true
       - run: make setup
-      - run: make check build smoke test-integration test-e2e test-reports
+      - run: make check build smoke
       - name: Verify runner failure propagation
         run: .venv/bin/python scripts/ci/failure_probes.py
+  application:
+    name: Application workflows
+    needs: word-layout
+    runs-on: ubuntu-24.04
+    # Independent application coverage keeps the existing per-job deadline.
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version-file: .node-version
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version-file: .python-version
+      - name: Install pinned bootstrap tools
+        run: |
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/ci/tool-requirements.txt
+          npm install --global npm@11.9.0
+      - name: Native compiler prerequisite
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 libglu1-mesa libgl1 bubblewrap apparmor poppler-utils fonts-dejavu-core libreoffice-writer
+          mkdir -p .local/ci-toolchain
+          ln -s /usr/bin/gcc-14 .local/ci-toolchain/gcc
+          echo "$PWD/.local/ci-toolchain" >> "$GITHUB_PATH"
+          # Setup independently enforces GCC 14.2.0 and every native artifact digest.
+      - name: Permit Bubblewrap namespaces on the ephemeral Ubuntu runner
+        run: |
+          # Ubuntu 24.04's default unprivileged-userns policy denies the private
+          # loopback setup. Permit only the installed launcher; keep global policy.
+          sudo tee /etc/apparmor.d/openfea-ci-bwrap >/dev/null <<'PROFILE'
+          abi <abi/4.0>,
+          profile openfea-ci-bwrap /usr/bin/bwrap flags=(unconfined) {
+            userns,
+          }
+          PROFILE
+          sudo apparmor_parser -r /etc/apparmor.d/openfea-ci-bwrap
+          # Fail before rebuilding tools if the runner still cannot isolate jobs.
+          bwrap --unshare-all --die-with-parent --cap-drop ALL \
+            --ro-bind /usr /usr --ro-bind /lib /lib --ro-bind /lib64 /lib64 \
+            /usr/bin/true
+      - run: bash scripts/codex/setup.sh --prerequisites-only
+      - run: make test-integration test-e2e test-reports

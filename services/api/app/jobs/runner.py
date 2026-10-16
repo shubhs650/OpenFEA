@@ -1,33 +1,35 @@
 """One-at-a-time embedded local worker; durable queue independent of browsers."""
 
+import errno
 import fcntl
 import hashlib
 import json
 import logging
+import shutil
 import threading
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 from uuid import UUID, uuid4
 
-from app.domain.assembly import validate_solution
 from app.domain.deck_service import canonical, deck_for
 from app.domain.errors import DomainError
 from app.domain.jobs import Artifact, JobInput, LocalJob, Status
 from app.domain.loads import load_state
+from app.jobs.postprocess import ValidationFailure
 from app.jobs.service import JobService
-from worker.actions import external_balance
+from app.jobs.stages import postprocess
 from worker.deck_mesh import MeshFailure
+from worker.limits import ARTIFACT_BYTES, DISK_RESERVE_BYTES, SCRATCH_BYTES
 from worker.local_process import NativeControl, NativeStop, fence
 from worker.local_solve import (
     SolverSingularity,
     check_numerical_log,
-    result_mesh,
     solve_snapshot,
-    validate_outputs,
 )
 from worker.mesh_quality import mesh_quality
-from worker.step_import import ImportSandboxError
+from worker.step_import import ImportSandboxError, scratch_usage
 
 
 class LocalWorker:
@@ -53,6 +55,9 @@ class LocalWorker:
         for row in self.repository.interrupted():
             fence(row["process_pid"], row["process_start"])
             directory = self.storage.directory("jobs", UUID(row["id"]))
+            attempt = directory / f"attempt-{row['attempt_number']}"
+            if attempt.is_dir():
+                directory = attempt
             paths = {
                 "snapshot.json": directory / "snapshot.json",
                 "analysis.inp": directory / "analysis.inp",
@@ -83,15 +88,16 @@ class LocalWorker:
                     paths[f"mesh-attempt-{number}-resources.json"] = (
                         directory / f"output/attempt-{number}/resources.json"
                     )
-            artifacts, _ = self.capture(UUID(row["project_id"]), paths)
+            artifacts, _ = self.capture(UUID(row["project_id"]), paths, job_id=UUID(row["id"]))
             self.repository.finish(
                 UUID(row["id"]),
                 UUID(row["attempt_token"]),
                 "interrupted",
                 "worker_interrupted",
-                "Execution was interrupted; it was not automatically retried",
+                "Execution was interrupted and fenced before recovery",
                 {"warning": "Interrupted partial files are diagnostics; no validated result"},
                 artifacts,
+                retry=True,
             )
 
     def loop(self) -> None:
@@ -110,6 +116,12 @@ class LocalWorker:
                     # imports/deck exports merely to discover there is no work.
                     if not recovered and not self.repository.interrupted():
                         recovered = True
+                    if not recovered:
+                        # Holding the controller lock proves the former controller
+                        # has gone. Fence its recorded process before waiting for
+                        # the inherited native lock, including a stopped child.
+                        for row in self.repository.interrupted():
+                            fence(row["process_pid"], row["process_start"])
                     if recovered and not self.repository.pending():
                         self.state = "ready"
                         self.stop.wait(0.1)
@@ -142,13 +154,23 @@ class LocalWorker:
                 self.state = "stopped"
 
     def execute(self, job: LocalJob, token: UUID, owner: UUID, lease_fd: int) -> None:
-        directory = self.storage.directory("jobs", job.id)
+        root = self.storage.directory("jobs", job.id)
+        directory = root / f"attempt-{len(job.attempts)}"
         started, last_pulse = time.monotonic(), 0.0
+        remaining = (
+            (job.deadline_at - datetime.now(UTC)).total_seconds() if job.deadline_at else 180
+        )
 
         def cancel() -> bool:
             nonlocal last_pulse
-            if time.monotonic() - started > 180:
+            if time.monotonic() - started >= remaining or (
+                job.deadline_at and datetime.now(UTC) >= job.deadline_at
+            ):
                 raise NativeStop("job_wall_limit")
+            if scratch_usage(root) > SCRATCH_BYTES:
+                raise NativeStop("resource_exceeded")
+            if shutil.disk_usage(root).free < DISK_RESERVE_BYTES:
+                raise NativeStop("disk_full")
             if self.stop.is_set() or self.repository.control(job.id, token):
                 return True
             if time.monotonic() - last_pulse > 1:
@@ -172,12 +194,19 @@ class LocalWorker:
                 },
             ),
         )
+        control.scratch_root = root
+        previous_profile = job.summary.get("mesh_attempt", 1)
+        control.mesh_profile_offset = (
+            max(0, previous_profile - 1) if isinstance(previous_profile, int) else 0
+        )
         status: Status = "failed"
         reason, message = None, None
         summary: dict[str, Any] = {}
         paths: dict[str, Path] = {"snapshot.json": directory / "snapshot.json"}
         try:
+            directory.mkdir(mode=0o700)
             stored = self.storage.read(job.project_id, job.input_sha256)
+            (directory / "snapshot.json").write_bytes(stored)
             inputs = JobInput.model_validate_json(stored)
             recorded = self.repository.inputs(owner, job.id)
             if (
@@ -257,62 +286,53 @@ class LocalWorker:
                 (directory / "analysis.inp").write_bytes(
                     self.storage.read(job.project_id, inputs.deck_sha256)
                 )
-                execution = solve_snapshot(
-                    directory / "analysis.inp", directory / "output", control
-                )
+                saved = self.repository.reusable(job.id, token)
+                if saved is None:
+                    execution = solve_snapshot(
+                        directory / "analysis.inp", directory / "output", control
+                    )
+                else:
+                    manifest, execution = saved
+                    (directory / "output").mkdir(mode=0o700)
+                    for name, artifact in manifest.items():
+                        raw = self.storage.read(job.project_id, artifact.sha256)
+                        if len(raw) != artifact.size_bytes:
+                            raise DomainError(503, "artifact_integrity", "Stage checkpoint differs")
+                        (directory / "output" / name).write_bytes(raw)
+                    summary["reused_stage"] = "solving"
                 check_numerical_log((directory / "output/solver.log").read_text(errors="replace"))
                 if execution["returncode"] != 0:
                     raise ImportSandboxError("Native solver exited with an error")
                 self.repository.pulse(job.id, token, stage="validating")
                 for name in ("solver.log", "analysis.dat", "analysis.frd"):
                     self.storage.read_fixed(paths[name])
-                materials = {body.id: f"M{i}" for i, body in enumerate(snapshot.geometry.bodies, 1)}
-                result, summary = validate_outputs(
-                    directory / "output",
-                    json.loads(raw_mesh),
-                    materials,
-                    execution,
-                    job.input_sha256,
-                    inputs.deck_sha256,
-                    inputs.mesh.sha256,
-                )
-                assembly = validate_solution(
-                    snapshot,
-                    json.loads(raw_mesh),
-                    (directory / "analysis.inp").read_text(),
-                    result,
-                    summary,
-                )
-                result["assembly"] = assembly
-                summary["assembly"] = assembly
-                (directory / "assembly.json").write_bytes(canonical(assembly))
-                paths["assembly.json"] = directory / "assembly.json"
-                reference = load_state(
-                    snapshot.analysis,
-                    snapshot.geometry,
-                    snapshot.materials,
-                    snapshot.loads,
-                    inputs.display,
-                    snapshot.bonds,
-                ).model_dump(mode="json")
-                reference["equilibrium_policy"] = inputs.policy["equilibrium"]
-                equilibrium, _ = external_balance(
-                    result["dat"],
-                    result_mesh(json.loads(raw_mesh), materials),
-                    json.loads(raw_mesh)["boundary"],
-                    (directory / "analysis.inp").read_text(),
-                    reference,
-                )
-                summary["equilibrium"] = equilibrium
-                if not equilibrium["passed"]:
-                    raise DomainError(
-                        422,
-                        "equilibrium_failed",
-                        "External force/moment balance failed; native outputs are diagnostic only",
+                if saved is None:
+                    manifest, intact = self.capture(
+                        job.project_id,
+                        {
+                            name: paths[name]
+                            for name in (
+                                "solver.log",
+                                "analysis.dat",
+                                "analysis.frd",
+                                "resources.json",
+                            )
+                        },
+                        required=True,
+                        job_id=job.id,
                     )
-                result["equilibrium"] = equilibrium
-                summary["warnings"] = list(dict.fromkeys([*inputs.warnings, *summary["warnings"]]))
-                result["warnings"] = summary["warnings"]
+                    if not intact:
+                        raise DomainError(
+                            503, "artifact_integrity", "Raw solver checkpoint is incomplete"
+                        )
+                    self.repository.checkpoint(job.id, token, manifest, execution)
+                paths["validation-resources.json"] = directory / "validation/resources.json"
+                result, parsed = postprocess(
+                    directory, inputs, job.input_sha256, execution, control
+                )
+                summary.update(parsed)
+                (directory / "assembly.json").write_bytes(canonical(result["assembly"]))
+                paths["assembly.json"] = directory / "assembly.json"
                 (directory / "results.json").write_bytes(canonical(result))
                 paths["results.json"] = directory / "results.json"
             if cancel():
@@ -325,7 +345,7 @@ class LocalWorker:
         except NativeStop as error:
             status = (
                 "interrupted"
-                if self.stop.is_set()
+                if self.stop.is_set() or error.reason == "parser_interrupted"
                 else "cancelled"
                 if error.reason == "cancelled"
                 else "failed"
@@ -334,8 +354,12 @@ class LocalWorker:
             message = "Native execution stopped; no validated result was published"
         except SolverSingularity as error:
             reason, message = "solver_singular", str(error)
+        except ValidationFailure as error:
+            reason, message, summary = error.code, error.message, summary | error.summary
         except DomainError as error:
             reason, message = error.code, error.message
+            if error.code == "lease_lost":
+                status = "interrupted"
         except MeshFailure as error:
             reason, message, summary = error.reason, str(error), error.summary
         except ImportSandboxError:
@@ -348,7 +372,10 @@ class LocalWorker:
                 "invalid_output",
                 "Native execution or outputs failed validation; no result was published",
             )
-        except (OSError, RuntimeError):
+        except OSError as error:
+            reason = "disk_full" if error.errno == errno.ENOSPC else "worker_failed"
+            message = "Local execution or artifact storage failed"
+        except RuntimeError:
             reason, message = "worker_failed", "Local execution or artifact storage failed"
         if status != "succeeded":
             paths.pop("results.json", None)
@@ -379,22 +406,60 @@ class LocalWorker:
             for name, path in paths.items()
             if not name.startswith("mesh-attempt-") or path.exists()
         }
-        artifacts, integrity = self.capture(job.project_id, paths, required=status == "succeeded")
-        if not integrity:
+        artifacts, integrity = self.capture(
+            job.project_id, paths, required=status == "succeeded", job_id=job.id
+        )
+        if not integrity and reason != "disk_full":
             status, reason, message = (
                 "failed",
                 "artifact_integrity",
                 "Job outputs could not be retained and verified",
             )
             artifacts.pop("results.json", None)
-        summary["wall_seconds"] = time.monotonic() - started
-        self.repository.finish(job.id, token, status, reason, message, summary, artifacts)
+        summary["attempt_wall_seconds"] = time.monotonic() - started
+        summary["wall_seconds"] = (
+            datetime.now(UTC) - (job.started_at or datetime.now(UTC))
+        ).total_seconds()
+        try:
+            self.repository.finish(
+                job.id,
+                token,
+                status,
+                reason,
+                message,
+                summary,
+                artifacts,
+                retry=status == "interrupted",
+            )
+        except DomainError as error:
+            if error.code != "lease_lost":
+                raise
+            # Native groups have already exited. If storage work outlasted the
+            # heartbeat, record interruption rather than publishing stale success.
+            # A genuinely superseded token is refused by this transaction too.
+            artifacts.pop("results.json", None)
+            self.repository.finish(
+                job.id,
+                token,
+                "interrupted",
+                "lease_lost",
+                "Execution heartbeat expired before publication",
+                summary,
+                artifacts,
+                retry=True,
+            )
 
     def capture(
-        self, project: UUID, paths: dict[str, Path], *, required: bool = False
+        self,
+        project: UUID,
+        paths: dict[str, Path],
+        *,
+        required: bool = False,
+        job_id: UUID | None = None,
     ) -> tuple[dict[str, Artifact], bool]:
         artifacts: dict[str, Artifact] = {}
         integrity = True
+        retained = self.repository.retained(job_id) if job_id else {}
         for name, path in paths.items():
             if not path.exists():
                 if required:
@@ -403,7 +468,11 @@ class LocalWorker:
             try:
                 raw = self.storage.read_fixed(path)
                 digest = hashlib.sha256(raw).hexdigest()
+                if digest not in retained and sum(retained.values()) + len(raw) > ARTIFACT_BYTES:
+                    integrity = False
+                    continue
                 self.storage.save(project, path, digest)
+                retained[digest] = len(raw)
                 artifacts[name] = Artifact(
                     sha256=digest,
                     size_bytes=len(raw),

@@ -24,3 +24,5 @@ Daily encrypted backups of metadata and immutable geometry references; proposed 
 ## Threat tests
 
 Cross-user ID enumeration; path traversal; ZIP bomb; malformed STEP; command injection in names; solver include escape; stale signed URL; OAuth replay; auth bypass flag in beta; stale worker token; double-spend race; instance metadata access from solver subprocess. Beta cannot launch with unresolved critical isolation or ownership failures.
+
+T029 result parsing uses a private networkless Bubblewrap/netdeny subprocess with readonly frozen inputs/raw outputs and no project-store/SQLite mount. The controller supervises RSS, scratch, time, logs and live disk reserve while heartbeating. Token/heartbeat/deadline checks gate checkpoints/publication; retry additionally requires confirmed execution fencing and the inherited native flock. Two attempts share one deadline and aggregate retained-byte/scratch limits. Unknown exits and corrupt checkpoints fail for review. See [ADR-035](adr/ADR-035.md).

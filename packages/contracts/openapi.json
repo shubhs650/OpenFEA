@@ -3584,6 +3584,75 @@
         "title": "InspectionVertex",
         "type": "object"
       },
+      "JobAttempt": {
+        "additionalProperties": false,
+        "properties": {
+          "artifacts": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Artifact"
+            },
+            "title": "Artifacts",
+            "type": "object"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "number": {
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Number",
+            "type": "integer"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason Code"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "running",
+              "cancelling",
+              "cancelled",
+              "succeeded",
+              "failed",
+              "interrupted"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "number",
+          "started_at",
+          "finished_at",
+          "status",
+          "reason_code",
+          "artifacts"
+        ],
+        "title": "JobAttempt",
+        "type": "object"
+      },
       "JobEvent": {
         "additionalProperties": false,
         "properties": {
@@ -4304,9 +4373,29 @@
             "title": "Artifacts",
             "type": "object"
           },
+          "attempts": {
+            "items": {
+              "$ref": "#/components/schemas/JobAttempt"
+            },
+            "maxItems": 2,
+            "title": "Attempts",
+            "type": "array"
+          },
           "cancel_requested": {
             "title": "Cancel Requested",
             "type": "boolean"
+          },
+          "deadline_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadline At"
           },
           "events": {
             "items": {
@@ -16243,6 +16332,7 @@
                 "analysis.dat",
                 "analysis.frd",
                 "resources.json",
+                "validation-resources.json",
                 "results.json",
                 "recovery.json",
                 "assembly.json",
@@ -16387,6 +16477,190 @@
           }
         ],
         "summary": "Artifact"
+      }
+    },
+    "/api/v1/jobs/{job_id}/attempts/{number}/artifacts/{filename}": {
+      "get": {
+        "operationId": "attempt_artifact_api_v1_jobs__job_id__attempts__number__artifacts__filename__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "number",
+            "required": true,
+            "schema": {
+              "title": "Number",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "filename",
+            "required": true,
+            "schema": {
+              "enum": [
+                "snapshot.json",
+                "mesh.json",
+                "analysis.inp",
+                "mesh.log",
+                "solver.log",
+                "analysis.dat",
+                "analysis.frd",
+                "resources.json",
+                "validation-resources.json",
+                "results.json",
+                "recovery.json",
+                "assembly.json",
+                "mesh-attempt-1.log",
+                "mesh-attempt-2.log",
+                "mesh-attempt-3.log",
+                "mesh-attempt-1-resources.json",
+                "mesh-attempt-2-resources.json",
+                "mesh-attempt-3-resources.json"
+              ],
+              "title": "Filename",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Required for mutations; obtain from GET /api/v1/session",
+            "in": "header",
+            "name": "X-CSRF-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Required for mutations; obtain from GET /api/v1/session",
+              "title": "X-Csrf-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "411": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Length Required"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Required"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "LocalSession": []
+          }
+        ],
+        "summary": "Attempt Artifact"
       }
     },
     "/api/v1/jobs/{job_id}/cancel": {

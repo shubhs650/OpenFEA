@@ -27,3 +27,5 @@ User/model failures consume real usage; platform failure credit references origi
 ## Later paid service
 
 Itemize compute, storage and data transfer plus disclosed overhead/reserve margin. Publish rate version, billing unit, minimum allocation, failed-job policy and examples. Payment processor fees/taxes and chargeback operations need separate future design. No specific rupee compute rate is promised by this kit.
+
+T029 local enforcement uses one original 180-second deadline across at most two infrastructure attempts and the explicitly approved mesh profiles. Restart downtime/retry queue waits count; no reset or multiplied allowance. Verified committed CCX outputs are reused for interrupted validation. Sampled RAM/scratch/log limits, live disk reserve and unique retained-output accounting complement the existing launcher bounds. This local protocol does not implement hosted prices, reservations or invoice guarantees; see [ADR-035](adr/ADR-035.md).

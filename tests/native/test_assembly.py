@@ -305,26 +305,22 @@ def test_preflight_guards_owner_csrf_head_and_does_not_admit_work(client: TestCl
 def test_native_bond_failure_cannot_publish_results(
     client: TestClient, monkeypatch: pytest.MonkeyPatch, fault: str
 ) -> None:
-    import app.jobs.runner as runner
-    from worker.local_solve import validate_outputs
+    from tests.native.parser_faults import corrupt_parser
 
     path, _ = prepared(client)
     mesh = wait_job(client, submit(client, path)["id"])
 
-    def altered(*args: Any, **kwargs: Any) -> tuple[dict[str, Any], dict[str, Any]]:
-        result, summary = validate_outputs(*args, **kwargs)
-        if fault == "equation_count":
-            summary["free_equations"] += 1
-        else:
-            source = client.get(path + "/bonds").json()["setup"]["assignments"][0]["slave_face_id"]
-            raw = client.get(f"/api/v1/jobs/{mesh['id']}/artifacts/mesh.json").json()
-            node = raw["boundary"][source][0]["nodes"][0]
-            values = result["dat"]["displacements_m"]
-            key = node if node in values else str(node)
-            values[key] = [values[key][0] + 0.001, *values[key][1:]]
-        return result, summary
-
-    monkeypatch.setattr(runner, "validate_outputs", altered)
+    if fault == "equation_count":
+        transform = 'summary["free_equations"] += 1'
+    else:
+        source = client.get(path + "/bonds").json()["setup"]["assignments"][0]["slave_face_id"]
+        raw = client.get(f"/api/v1/jobs/{mesh['id']}/artifacts/mesh.json").json()
+        node = raw["boundary"][source][0]["nodes"][0]
+        transform = (
+            'values=result["dat"]["displacements_m"]\n'
+            f"values[{node}]=[values[{node}][0]+0.001,*values[{node}][1:]]"
+        )
+    corrupt_parser(monkeypatch, transform)
     run = wait_job(client, submit(client, path, mesh["id"])["id"])
     assert run["status"] == "failed" and run["reason_code"] == "invalid_output", run
     assert "results.json" not in run["artifacts"]

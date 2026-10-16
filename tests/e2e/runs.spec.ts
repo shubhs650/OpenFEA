@@ -30,6 +30,8 @@ test("real asynchronous mesh preview, solve validation, downloads and retained h
   await expect(row).toContainText(
     "Native solve completed and raw outputs validated",
   );
+  await expect(row).toContainText("Execution 1 of 2");
+  await expect(row).toContainText("Original deadline");
   const result = await (
     await page.request.get(`/api/v1/jobs/${run.id}/artifacts/results.json`)
   ).json();
@@ -141,5 +143,75 @@ with open(sys.argv[1],'a+b') as lock:
   } finally {
     locker.stdin.end();
     locker.kill();
+  }
+});
+
+test("terminated real parser retries validation once and retains execution history after reload", async ({
+  page,
+}, testInfo) => {
+  test.setTimeout(45_000);
+  const ids = await prepared(page, "Parser interruption recovery");
+  await mesh(page);
+  const watcher = spawn(resolve(".venv/bin/python"), [
+    "-u",
+    "-c",
+    `
+import os,signal,sqlite3,sys,time
+from pathlib import Path
+from tests.native.test_job_lifecycle import descendants
+print('READY',flush=True)
+deadline=time.monotonic()+25
+while time.monotonic()<deadline:
+    with sqlite3.connect(sys.argv[1]) as db:
+        row=db.execute("SELECT process_pid FROM local_jobs WHERE analysis_id=? AND kind='solve' AND stage='validating' AND status='running' AND attempt_number=1",(sys.argv[2],)).fetchone()
+    if row and row[0]:
+        for pid in descendants(row[0]):
+            try:
+                command=Path(f'/proc/{pid}/cmdline').read_bytes()
+                if command.startswith(sys.argv[3].encode()+b'\\0'):
+                    os.kill(pid,signal.SIGTERM)
+                    print('TERMINATED',flush=True)
+                    sys.exit(0)
+            except (FileNotFoundError,ProcessLookupError):
+                pass
+    time.sleep(0.002)
+raise RuntimeError('Actual parser was not observed')
+`,
+    join(String(testInfo.config.metadata.localDataRoot), "metadata.sqlite3"),
+    ids.analysisId,
+    resolve(".venv/bin/python"),
+  ]);
+  let output = "";
+  watcher.stdout.on("data", (data: Buffer) => {
+    output += data.toString();
+  });
+  try {
+    await expect.poll(() => output).toContain("READY");
+    const run = await solve(page);
+    await expect.poll(() => output).toContain("TERMINATED");
+    const row = page.locator(`[data-job-id="${run.id}"]`);
+    await expect(row).toHaveAttribute("data-job-status", "succeeded");
+    await expect(row).toContainText("Execution 2 of 2");
+    await expect(row).toContainText(
+      "Reusing verified solver outputs; validation only.",
+    );
+    await expect(
+      row.getByRole("list", { name: "Execution attempts" }),
+    ).toContainText("parser_interrupted");
+    const final: Job = await (
+      await page.request.get(`/api/v1/jobs/${run.id}`)
+    ).json();
+    expect(final.attempts).toHaveLength(2);
+    expect(final.attempts![0].artifacts["analysis.dat"].sha256).toBe(
+      final.artifacts["analysis.dat"].sha256,
+    );
+    await page.reload();
+    await page.getByLabel("Open project").selectOption(ids.projectId);
+    await page.getByLabel("Open analysis").selectOption(ids.analysisId);
+    await expect(page.locator(`[data-job-id="${run.id}"]`)).toContainText(
+      "Execution 2 of 2",
+    );
+  } finally {
+    watcher.kill("SIGTERM");
   }
 });

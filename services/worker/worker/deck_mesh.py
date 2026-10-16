@@ -126,7 +126,7 @@ def mesh_snapshot(
     allowed = 3 if recovery_enabled else 1
     started = time.monotonic()
     last_failure = MeshFailure("native_generation", "Meshing failed", {})
-    for index in range(allowed):
+    for index in range(control.mesh_profile_offset if control else 0, allowed):
         if control and control.cancel():
             raise NativeStop("cancelled")
         if time.monotonic() - started > 180 or scratch_usage(output) > 192 * 1024**2:
