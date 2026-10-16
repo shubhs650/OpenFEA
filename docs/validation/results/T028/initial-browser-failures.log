@@ -1,0 +1,60 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/tutorials.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:1220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded (1.0m)
+(node:1652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded (1.0m)
+
+
+  1) tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Choose tutorial', { exact: true })
+
+
+      37 |   await page
+      38 |     .getByLabel("Choose tutorial", { exact: true })
+    > 39 |     .selectOption(bond ? "bond" : "bracket");
+         |      ^
+      40 |   const pending = page.waitForEvent("download");
+      41 |   await page
+      42 |     .getByRole("link", { name: "Download tutorial STEP", exact: true })
+        at start (/workspace/OpenFEA/tests/e2e/tutorials.spec.ts:39:6)
+        at prepared (/workspace/OpenFEA/tests/e2e/support/runs.ts:16:3)
+        at /workspace/OpenFEA/tests/e2e/tutorials.spec.ts:88:7
+
+    Error Context: test-results/tutorials-guided-bracket-p-421ec-eport-with-compute-excluded/error-context.md
+
+  2) tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded 
+
+    Test timeout of 60000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 60000ms exceeded.
+    Call log:
+      - waiting for getByLabel('Comparison body side', { exact: true })
+
+
+      168 |     await page
+      169 |       .getByLabel("Comparison body side", { exact: true })
+    > 170 |       .selectOption({ index: bond ? 1 : 0 });
+          |        ^
+      171 |     await page
+      172 |       .getByLabel("Reference element side", { exact: true })
+      173 |       .fill(containing(meshes[0], point));
+        at /workspace/OpenFEA/tests/e2e/tutorials.spec.ts:170:8
+
+    Error Context: test-results/tutorials-guided-bond-perf-6600e-eport-with-compute-excluded/error-context.md
+
+  2 failed
+    tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded 
+    tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded 

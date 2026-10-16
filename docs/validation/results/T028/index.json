@@ -1,0 +1,65 @@
+{
+  "implementation_commit": "d1e4a49b9aa347b4aa8e185c622ea44240b65022",
+  "criteria_predeclared_commit": "5e029d9",
+  "classification": "DEVELOPMENT only; exact owner acceptance pending",
+  "reference_criteria_sha256": {
+    "B10": "c294e683af0b82c23bce2fe2f657653b1f4723b70890f19d63525853154b559f",
+    "B12": "7f88016857b446409c850cc3bb19dd775163d07f506f83de3d570490b118ffe0",
+    "B13": "7b8e720ae1a9b15efb561b616f207e03c466e8b77b1e54fd11842a34bb3df481",
+    "B14": "bf3bd3d0a5e5c526878ceb05c8371c092368f2249971c1b240a540e9b5c080e0"
+  },
+  "versions": {
+    "python": "3.12.14",
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "ocp": "8.0.1.1.0",
+    "playwright": "1.64.0",
+    "chromium": "156.0.8078.4",
+    "bubblewrap": "0.12.0"
+  },
+  "locks_sha256": {
+    "uv.lock": "36f59cf0e56b6442588403ba9ac6b47e732a46ce4a9d8cd7f3e5edcea741e261",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9"
+  },
+  "artifacts_sha256": {
+    "B10.json": "6e9f4f08f6a648b358517d33e59e0b7c63ca2f3612db553db8cefeeed12b6a41",
+    "B12.json": "f3fc542e606a3821e9474aa98ad1554e2b924727bf3572afd3205e420d2f29a9",
+    "B13.json": "257314a3aadc5776d4c9960c5c767d392099912b9d2781705bb079a7fc7f9aad",
+    "B14.json": "d8c6a1f1b993f3450f89b9ab1112b6ff84753951cc23badad072dbe746b12f03",
+    "bond-comparison.json": "25a7b7fc9ef9607c444b969f19d3e485f0510c4bea600e7d398e849cf94bd6c5",
+    "bond-learning.json": "37d2a5a82d8ad2a6ac2c4d236893ab1590bee035793480f3ee253ba69c980394",
+    "bond-tutorial.pdf": "eff0c5aee21da87326ff17ac3b4252095d7936a01eadccd2d2d5843096048b75",
+    "bond-tutorial.png": "77d83ea3194b54beb43077ce287825196138952207bcab2ab43608d6a81bbe91",
+    "bracket-comparison.json": "a601158afa94a91d50c9d683fc4d257ed41fe193149257ac265e8957ff64151f",
+    "bracket-learning.json": "7fe9d3cce7c2108e4833de0ca914cf24e6ce613d056d69d41d1ebdf439573e43",
+    "bracket-tutorial.pdf": "a804b93a7a2d5152fef89cf8a57b2f4c0a1f32b7579721c28b3979424d7a9948",
+    "bracket-tutorial.png": "674f493fff9c679d5489ecd4504cd915a16cc171e7cf8218ccb886d88662e904",
+    "browser.log": "697c9aa08a4322aed86a84723647d08b3df437e5f75b4abe8d065b4b21faa086",
+    "build.log": "dd145de27160402b4c0d95d6c9ac898d6574be9ca71c5f7563a0da6a25c03573",
+    "check.log": "761d62d374ba3014c9abf9beb688d21f17325ad94da7e91a8fe1eb19cb208cef",
+    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "initial-browser-failures.log": "f083b3c2e6070a48900361d104c2598124d0c6610e7313d2f1304876fae6c186",
+    "initial-native-failure.log": "b5291a3b3ecb39c4d2b313198e2981056ff78a2a9239762bc6f7686b3a228c33",
+    "refinement-harness-failure.log": "63cd037273e49778b252d5d8f4643a7968ef5bfeb0d9f17c04a30b83c90e06ef",
+    "smoke.log": "be5fbb6499f67a711453bf305a5c8064e2d1a1f957597afda99cddd150497e0c"
+  },
+  "unexecuted": [
+    "Code_Aster executable",
+    "ANSYS executable",
+    "engineering-owner acceptance B10/B12/B13/B14",
+    "3\u20135 human usability trials",
+    "actual Windows/WSL2 laptop/capacity/headed-GPU acceptance"
+  ],
+  "distinct_local_tests": {
+    "python_unit": 475,
+    "typescript_unit": 35,
+    "native_references": 4,
+    "browser": 4,
+    "total": 518,
+    "remaining_failures": 0,
+    "skipped": 0
+  }
+}

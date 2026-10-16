@@ -1,0 +1,87 @@
+.venv/bin/ruff check services migrations scripts tests
+All checks passed!
+.venv/bin/ruff format --check services migrations scripts tests
+226 files already formatted
+npm run lint
+
+> openfea@0.1.0 lint
+> eslint . && prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+.venv/bin/mypy
+Success: no issues found in 171 source files
+npm run typecheck
+
+> openfea@0.1.0 typecheck
+> tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+
+.venv/bin/python -m pytest
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+testpaths: tests/unit
+plugins: anyio-4.15.1
+collected 475 items
+
+tests/unit/test_analyses.py ...............                              [  3%]
+tests/unit/test_api.py .........                                         [  5%]
+tests/unit/test_approval.py ................                             [  8%]
+tests/unit/test_archives.py .......................................      [ 16%]
+tests/unit/test_assembly.py ................                             [ 20%]
+tests/unit/test_bonds.py ................                                [ 23%]
+tests/unit/test_connections.py ...........                               [ 25%]
+tests/unit/test_directions.py ...........                                [ 28%]
+tests/unit/test_essential_actions.py .............                       [ 30%]
+tests/unit/test_essential_setup.py .............                         [ 33%]
+tests/unit/test_face_loads.py ....................                       [ 37%]
+tests/unit/test_geometry_edits.py ...............                        [ 40%]
+tests/unit/test_imports.py ......                                        [ 42%]
+tests/unit/test_local_queue.py ...................                       [ 46%]
+tests/unit/test_m3_gate.py ...............                               [ 49%]
+tests/unit/test_materials.py ........................                    [ 54%]
+tests/unit/test_mesh_controls.py ............                            [ 56%]
+tests/unit/test_mesh_quality.py ......                                   [ 58%]
+tests/unit/test_projects.py ............................                 [ 64%]
+tests/unit/test_quadratic.py .....................                       [ 68%]
+tests/unit/test_reference_benchmarks.py ........                         [ 70%]
+tests/unit/test_reports.py .............                                 [ 72%]
+tests/unit/test_result_comparison.py ...........................         [ 78%]
+tests/unit/test_result_fields.py ...............                         [ 81%]
+tests/unit/test_result_inspection.py ......................              [ 86%]
+tests/unit/test_result_views.py ...................                      [ 90%]
+tests/unit/test_stress.py ............................                   [ 96%]
+tests/unit/test_word.py ............                                     [ 98%]
+tests/unit/test_workspace_edits.py ......                                [100%]
+
+=============================== warnings summary ===============================
+tests/unit/test_archives.py::test_reject_bad_manifest_and_expansion[duplicate]
+  /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'project.json'
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 475 passed, 1 warning in 34.78s ========================
+npm run test:unit
+
+> openfea@0.1.0 test:unit
+> vitest run --config apps/web/vite.config.ts
+
+
+ RUN  v5.0.4 /workspace/OpenFEA
+
+
+ Test Files  6 passed (6)
+      Tests  35 passed (35)
+   Start at  04:35:33
+   Duration  669ms (tests 43%, import 31%, worker 14%, transform 11%, environment 1%)
+
+    Isolate  6 workers spawned · ~80ms startup each (spawn + environment, per file)
+             at least ~398ms faster with isolate: false — reuses workers across files instead of one per file
+
+.venv/bin/python scripts/ci/contracts.py --check
+✨ openapi-typescript 7.13.0
+🚀 /tmp/tmpl4apymqy/openapi.json → /tmp/tmpl4apymqy/api.d.ts [304.9ms]
+PASS: API OpenAPI and TypeScript contracts
+.venv/bin/python scripts/ci/docs_check.py
+PASS: 165 Markdown files; 42 task statuses and acyclic dependencies

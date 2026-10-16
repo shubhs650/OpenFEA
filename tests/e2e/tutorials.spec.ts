@@ -251,7 +251,13 @@ for (const bond of [false, true]) {
       await checkbox.check();
     await page.getByLabel("Measured values and errors", { exact: true }).fill(
       JSON.stringify({
-        samples: values.samples,
+        field: values.field,
+        rows: values.rows.map(
+          (row: {
+            sample: { point_m: number[] };
+            change: Record<string, number>;
+          }) => ({ point_m: row.sample.point_m, ...row.change }),
+        ),
         reference_elements: values.reference.elements,
         compared_elements: values.compared.elements,
       }),
@@ -270,6 +276,8 @@ for (const bond of [false, true]) {
       await readFile(info.outputPath("learning.json"), "utf8"),
     );
     expect(record.duration_ms.compute).toBeGreaterThan(0);
+    expect(record.measurements_and_errors).toContain("relative_change");
+    await panel.screenshot({ path: info.outputPath("tutorial-guide.png") });
     expect(record.duration_ms.setup).toBeGreaterThan(0);
     expect(record.classification).toContain(
       "not usability or engineering acceptance",

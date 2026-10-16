@@ -1,0 +1,34 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/tutorials.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:3227) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded (18.8s)
+  ✘  2 tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded (24.1s)
+
+
+  1) tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 200
+    Received:   200
+
+      191 |       JSON.stringify(values, null, 2),
+      192 |     );
+    > 193 |     expect(values.compared.elements).toBeGreaterThan(values.reference.elements);
+          |                                      ^
+      194 |     await page
+      195 |       .getByRole("button", { name: "Add current view to report", exact: true })
+      196 |       .click();
+        at /workspace/OpenFEA/tests/e2e/tutorials.spec.ts:193:38
+
+    Error Context: test-results/tutorials-guided-bond-perf-6600e-eport-with-compute-excluded/error-context.md
+
+  1 failed
+    tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded 
+  1 passed (45.7s)

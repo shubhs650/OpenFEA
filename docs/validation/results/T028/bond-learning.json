@@ -1,0 +1,23 @@
+{
+  "version": "T028-v1",
+  "tutorial": "Reviewed bonded support",
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "recorded_at": "2026-10-16T04:39:01.997Z",
+  "duration_ms": {
+    "setup": 16158.29999999993,
+    "compute": 13292.500000000116,
+    "paused": 0
+  },
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "help_requests": "",
+  "measurements_and_errors": "{\"reference_elements\":200,\"compared_elements\":368}",
+  "classification": "self-reported learning log; not usability or engineering acceptance"
+}
