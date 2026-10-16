@@ -34,3 +34,6 @@ docs/validation/results/T025/
 
 # T026 immutable DOCX/models/counterpart PDFs and raw QA evidence.
 docs/validation/results/T026/
+
+# T027 hash-linked raw archive/QA evidence.
+docs/validation/results/T027/

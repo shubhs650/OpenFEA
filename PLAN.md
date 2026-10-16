@@ -25,3 +25,5 @@ Defer convenience features first (supported defeaturing breadth, Word output or 
 Current M4 delivery: T025 shared report model and A4 PDF COMPLETE; [evidence](docs/validation/T025.md). Next T026 editable Word. M3 owner acceptance remains as approved; target-laptop and later reference obligations remain T030.
 
 T026 editable Word from the same immutable report model is COMPLETE with [evidence](docs/validation/T026.md). Current M4 handoff is T027 portable archives and diagnostic bundles after PR review/hosted success; laptop/remaining-reference gates stay T030.
+
+T027 portable archives and privacy-first diagnostic previews are COMPLETE with [evidence](docs/validation/T027.md). Current M4 handoff is T028 reference suite/tutorials after PR review/hosted success; target-laptop and release-wide gates remain pending.

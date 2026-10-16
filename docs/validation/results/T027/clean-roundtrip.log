@@ -1,0 +1,11 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/OpenFEA
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 5 items
+
+tests/native/test_archives.py ....                                       [ 80%]
+tests/reports/test_archive_reports.py .                                  [100%]
+
+============================== 5 passed in 37.71s ==============================

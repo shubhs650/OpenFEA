@@ -1,0 +1,194 @@
+{
+  "original_project": "f84efed5-2b1d-4b2d-adb5-57b748753e06",
+  "import": {
+    "id": "36e5b115-b5eb-49b2-afda-5e3ec6f2825c",
+    "project": {
+      "id": "4e697637-62f3-4b0b-9893-4738bd862076",
+      "owner_id": "460e5e74-a85f-47c7-baca-eec2c72a55c3",
+      "name": "Real synthetic CAD",
+      "revision": 1,
+      "created_at": "2026-10-15T17:33:55.788610Z",
+      "updated_at": "2026-10-15T17:33:55.788610Z"
+    },
+    "archive_sha256": "a11dd58481e242e90019c91d2ae9178bbea799252ec9d4a83388365e349940fb",
+    "id_map": {
+      "f84efed5-2b1d-4b2d-adb5-57b748753e06": "4e697637-62f3-4b0b-9893-4738bd862076",
+      "2b43e006-9f3f-47c5-a7e3-f3973465a8d6": "56be8e4b-02c8-40b5-977a-bb82d3c25b1b",
+      "64a2bbad-d837-4265-a1ce-32606ce6362e": "bdfd18a4-0ffb-4126-826a-914944b65b77",
+      "14eed0af-0433-4e1b-9b00-12aaf3e0cbd1": "ccefe147-83a8-4782-ab3f-ca4b02c8a238",
+      "76372e18-19e3-4e75-8a1f-fe8e176a89e0": "cdd257b7-16d2-4c5d-8659-c75f1429fe5f",
+      "96d00095-499e-4ac9-b83b-4016074a84e4": "6b04b13d-8c9d-4ddb-a1ac-925a5bd568de",
+      "2d750fb0-9285-49d8-8a9a-8bb9d0b3c528": "3d67af53-66c1-4b01-a27c-6c52dd09630e"
+    },
+    "history": [
+      {
+        "id": "6b04b13d-8c9d-4ddb-a1ac-925a5bd568de",
+        "kind": "job",
+        "analysis_id": "bdfd18a4-0ffb-4126-826a-914944b65b77",
+        "geometry_revision_id": "56be8e4b-02c8-40b5-977a-bb82d3c25b1b",
+        "source_id": "96d00095-499e-4ac9-b83b-4016074a84e4",
+        "related_ids": [],
+        "files": {
+          "analysis.inp": "c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b",
+          "mesh-attempt-1-resources.json": "21701f558f86f5a77d8b14384bc0c5b83820b9a6fb6addfdc2b5d1069a062693",
+          "mesh-attempt-1.log": "5f0c47a359ccb0cbe7be7fd0d03417d843ee5a7877eed54af943e3f917ce8807",
+          "mesh.json": "dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e",
+          "mesh.log": "5f0c47a359ccb0cbe7be7fd0d03417d843ee5a7877eed54af943e3f917ce8807",
+          "record.json": "742551f382653ec0d7a4d9fc54bf27c2021f22fa556b6f5212f9104203b9c89d",
+          "recovery.json": "37f57f612f537fdb930e795d99f91d31bd84352c3170658b62638347cd026d2e",
+          "resources.json": "21701f558f86f5a77d8b14384bc0c5b83820b9a6fb6addfdc2b5d1069a062693",
+          "snapshot.json": "e64fdbe7fab38513e220532c124e0777be848abfead843855fe35927ff4b9bbf"
+        },
+        "omitted": {}
+      },
+      {
+        "id": "3d67af53-66c1-4b01-a27c-6c52dd09630e",
+        "kind": "job",
+        "analysis_id": "bdfd18a4-0ffb-4126-826a-914944b65b77",
+        "geometry_revision_id": "56be8e4b-02c8-40b5-977a-bb82d3c25b1b",
+        "source_id": "2d750fb0-9285-49d8-8a9a-8bb9d0b3c528",
+        "related_ids": [
+          "6b04b13d-8c9d-4ddb-a1ac-925a5bd568de"
+        ],
+        "files": {
+          "analysis.dat": "f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0",
+          "analysis.frd": "0f387ed0d9364f8dcb64a6ea49139cc81a0f5fb8d6630d96fd313b35fb079c1e",
+          "analysis.inp": "c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b",
+          "assembly.json": "5343a8d074bfa458cb22c203aa6c90a984589185f4002bfecfa23ab18f8574e4",
+          "mesh.json": "dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e",
+          "record.json": "aa5b0771a2de5b7be97786b209f3121c7e4dbd1683ec3a74ce06b496b91d3d15",
+          "resources.json": "c423d7aa4fa2a9a5c7254dc1f4ae61fd5963ac9ac0c73fb5faf1d67909d914f3",
+          "results.json": "1f287a3f3f864330e856f93f1938567ba685c00c639928d966b075f2a0b33e89",
+          "snapshot.json": "bb14bec9328568c26ad715870061b4b34a1c52e96d86bd07485110dcf34b4c4d",
+          "solver.log": "073be5485b44a11a51facfef0d295fc1642b7c2edbe06cbcd1024eabe07e64a5"
+        },
+        "omitted": {}
+      }
+    ],
+    "notice": "Imported historical files are read-only, untrusted provenance, never executable. CAD derivatives are rebuilt; flagged geometry directions require review. Re-solve uses current tools and a new run."
+  },
+  "manifest": {
+    "schema_version": 1,
+    "kind": "project",
+    "created_at": "2026-10-15T17:33:54.638387Z",
+    "files": {
+      "objects/073be5485b44a11a51facfef0d295fc1642b7c2edbe06cbcd1024eabe07e64a5": {
+        "sha256": "073be5485b44a11a51facfef0d295fc1642b7c2edbe06cbcd1024eabe07e64a5",
+        "size_bytes": 2255
+      },
+      "objects/0d9133d101e5e1fdc4af3b7fb1d49ba39fcf1dac487d1750040c51764425640c": {
+        "sha256": "0d9133d101e5e1fdc4af3b7fb1d49ba39fcf1dac487d1750040c51764425640c",
+        "size_bytes": 1860
+      },
+      "objects/0f387ed0d9364f8dcb64a6ea49139cc81a0f5fb8d6630d96fd313b35fb079c1e": {
+        "sha256": "0f387ed0d9364f8dcb64a6ea49139cc81a0f5fb8d6630d96fd313b35fb079c1e",
+        "size_bytes": 57859
+      },
+      "objects/1f287a3f3f864330e856f93f1938567ba685c00c639928d966b075f2a0b33e89": {
+        "sha256": "1f287a3f3f864330e856f93f1938567ba685c00c639928d966b075f2a0b33e89",
+        "size_bytes": 527144
+      },
+      "objects/21701f558f86f5a77d8b14384bc0c5b83820b9a6fb6addfdc2b5d1069a062693": {
+        "sha256": "21701f558f86f5a77d8b14384bc0c5b83820b9a6fb6addfdc2b5d1069a062693",
+        "size_bytes": 113
+      },
+      "objects/37f57f612f537fdb930e795d99f91d31bd84352c3170658b62638347cd026d2e": {
+        "sha256": "37f57f612f537fdb930e795d99f91d31bd84352c3170658b62638347cd026d2e",
+        "size_bytes": 831
+      },
+      "objects/5343a8d074bfa458cb22c203aa6c90a984589185f4002bfecfa23ab18f8574e4": {
+        "sha256": "5343a8d074bfa458cb22c203aa6c90a984589185f4002bfecfa23ab18f8574e4",
+        "size_bytes": 136
+      },
+      "objects/5f0c47a359ccb0cbe7be7fd0d03417d843ee5a7877eed54af943e3f917ce8807": {
+        "sha256": "5f0c47a359ccb0cbe7be7fd0d03417d843ee5a7877eed54af943e3f917ce8807",
+        "size_bytes": 4384
+      },
+      "objects/6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef": {
+        "sha256": "6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef",
+        "size_bytes": 2048
+      },
+      "objects/72f116c0190e7e8e7d3312573484bd87d90daf5a86a5eccd384f1bd2b485ec69": {
+        "sha256": "72f116c0190e7e8e7d3312573484bd87d90daf5a86a5eccd384f1bd2b485ec69",
+        "size_bytes": 1862
+      },
+      "objects/742551f382653ec0d7a4d9fc54bf27c2021f22fa556b6f5212f9104203b9c89d": {
+        "sha256": "742551f382653ec0d7a4d9fc54bf27c2021f22fa556b6f5212f9104203b9c89d",
+        "size_bytes": 4099
+      },
+      "objects/aa5b0771a2de5b7be97786b209f3121c7e4dbd1683ec3a74ce06b496b91d3d15": {
+        "sha256": "aa5b0771a2de5b7be97786b209f3121c7e4dbd1683ec3a74ce06b496b91d3d15",
+        "size_bytes": 4190
+      },
+      "objects/bb14bec9328568c26ad715870061b4b34a1c52e96d86bd07485110dcf34b4c4d": {
+        "sha256": "bb14bec9328568c26ad715870061b4b34a1c52e96d86bd07485110dcf34b4c4d",
+        "size_bytes": 26694
+      },
+      "objects/c423d7aa4fa2a9a5c7254dc1f4ae61fd5963ac9ac0c73fb5faf1d67909d914f3": {
+        "sha256": "c423d7aa4fa2a9a5c7254dc1f4ae61fd5963ac9ac0c73fb5faf1d67909d914f3",
+        "size_bytes": 110
+      },
+      "objects/c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b": {
+        "sha256": "c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b",
+        "size_bytes": 23306
+      },
+      "objects/dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e": {
+        "sha256": "dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e",
+        "size_bytes": 100918
+      },
+      "objects/e280c24279395631521b4259e602079399cd1d7520dd9f529d732b1c3789b9b8": {
+        "sha256": "e280c24279395631521b4259e602079399cd1d7520dd9f529d732b1c3789b9b8",
+        "size_bytes": 15371
+      },
+      "objects/e64fdbe7fab38513e220532c124e0777be848abfead843855fe35927ff4b9bbf": {
+        "sha256": "e64fdbe7fab38513e220532c124e0777be848abfead843855fe35927ff4b9bbf",
+        "size_bytes": 26420
+      },
+      "objects/f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0": {
+        "sha256": "f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0",
+        "size_bytes": 87277
+      },
+      "project.json": {
+        "sha256": "f767e081ca8118c447e62c9891725f078771e0999d03a688b9e2818a5feacdaf",
+        "size_bytes": 25222
+      },
+      "tools.json": {
+        "sha256": "f9e922dcd74ce62e2a68d8bbc8681660dcdcd6cb690321b30ce86b6ae29bbf10",
+        "size_bytes": 218
+      }
+    },
+    "tools": {
+      "archive_schema": "1",
+      "native_lock_sha256": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9",
+      "python": "3.12.14",
+      "python_lock_sha256": "36f59cf0e56b6442588403ba9ac6b47e732a46ce4a9d8cd7f3e5edcea741e261"
+    },
+    "omitted": [],
+    "labels": {
+      "objects/073be5485b44a11a51facfef0d295fc1642b7c2edbe06cbcd1024eabe07e64a5": "Historical job: solver.log",
+      "objects/0d9133d101e5e1fdc4af3b7fb1d49ba39fcf1dac487d1750040c51764425640c": "Geometry: display-fine.json",
+      "objects/0f387ed0d9364f8dcb64a6ea49139cc81a0f5fb8d6630d96fd313b35fb079c1e": "Historical job: analysis.frd",
+      "objects/1f287a3f3f864330e856f93f1938567ba685c00c639928d966b075f2a0b33e89": "Historical job: results.json",
+      "objects/21701f558f86f5a77d8b14384bc0c5b83820b9a6fb6addfdc2b5d1069a062693": "Historical job: mesh-attempt-1-resources.json",
+      "objects/37f57f612f537fdb930e795d99f91d31bd84352c3170658b62638347cd026d2e": "Historical job: recovery.json",
+      "objects/5343a8d074bfa458cb22c203aa6c90a984589185f4002bfecfa23ab18f8574e4": "Historical job: assembly.json",
+      "objects/5f0c47a359ccb0cbe7be7fd0d03417d843ee5a7877eed54af943e3f917ce8807": "Historical job: mesh-attempt-1.log",
+      "objects/6f33a3928358ca77193419343abe0d6296faa1302201ba2451e64ad24f8716ef": "Geometry: body1.brep",
+      "objects/72f116c0190e7e8e7d3312573484bd87d90daf5a86a5eccd384f1bd2b485ec69": "Geometry: display-coarse.json",
+      "objects/742551f382653ec0d7a4d9fc54bf27c2021f22fa556b6f5212f9104203b9c89d": "Historical job: record.json",
+      "objects/aa5b0771a2de5b7be97786b209f3121c7e4dbd1683ec3a74ce06b496b91d3d15": "Historical job: record.json",
+      "objects/bb14bec9328568c26ad715870061b4b34a1c52e96d86bd07485110dcf34b4c4d": "Historical job: snapshot.json",
+      "objects/c423d7aa4fa2a9a5c7254dc1f4ae61fd5963ac9ac0c73fb5faf1d67909d914f3": "Historical job: resources.json",
+      "objects/c5c5efc64b124e901ad9cf167c8b559425719b81be84dccee9877a7b8a700e6b": "Historical job: analysis.inp",
+      "objects/dc8414afbdd9c8b9aff196867215cd75ceba3f3895ec634933e248a94f32921e": "Historical job: mesh.json",
+      "objects/e280c24279395631521b4259e602079399cd1d7520dd9f529d732b1c3789b9b8": "Geometry: source.step",
+      "objects/e64fdbe7fab38513e220532c124e0777be848abfead843855fe35927ff4b9bbf": "Historical job: snapshot.json",
+      "objects/f2e8c1f11e5cf97efefb5989a3fc927e687e6f044fcdb9f5864afb669cd56cb0": "Historical job: analysis.dat",
+      "project.json": "Versioned geometry/setup/history references",
+      "tools.json": "Tool and lock identities"
+    },
+    "required_migrations": []
+  },
+  "run": "2d750fb0-9285-49d8-8a9a-8bb9d0b3c528",
+  "fresh_run": "3d580df0-847b-46a4-aed3-7f8582841b60"
+}
