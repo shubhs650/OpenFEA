@@ -1,9 +1,9 @@
 # Progress and handoff
 
 Updated: 2026-10-16 (Asia/Calcutta)
-Current state: T028 REFERENCE/TUTORIAL DEVELOPMENT DELIVERABLES COMPLETE + T025–T027 + owner-approved bounded M3.
-Current milestone: M4 IN PROGRESS — T025–T028 COMPLETE; T029 resource/fault resilience next. Exact new reference-owner/human/Windows/laptop acceptance remain T030.
-Next action: review the T028 PR after hosted CI passes, then T029. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
+Current state: T029 LOCAL RESOURCE/FAULT RESILIENCE COMPLETE + T025–T028 + owner-approved bounded M3.
+Current milestone: M4 IN PROGRESS — T025–T029 COMPLETE; T030 local acceptance review next. Exact new reference-owner/human/Windows/laptop acceptance remain T030.
+Next action: review the T029 PR after latest-head hosted CI passes, then T030. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
 
 
 ## Current objective
@@ -40,12 +40,13 @@ T025: COMPLETE
 T026: COMPLETE
 T027: COMPLETE
 T028: COMPLETE
-T029–T042: NOT STARTED
+T029: COMPLETE
+T030–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives/T028 reference tutorials complete, T029 next. M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives/T028 reference tutorials/T029 bounded resilience complete; T030 next. M4–M6 exit gates: NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -56,6 +57,14 @@ B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported nati
 B10/B12–B14: DEVELOPMENT PASS; exact engineering-owner acceptance pending. B13/B14 compare published references; Code_Aster/ANSYS binaries NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T029 completed — bounded attempts and reusable native stages
+
+T029 adds a durable two-attempt ledger, immutable CCX-stage checkpoints and one original 180-second deadline across validation/restart/retry queue wait. Native process fencing plus the inherited execution flock precede the single eligible infrastructure retry. Expired heartbeats reject publication; cancellation/deletion, corrupt outputs/checkpoints, numerical/resource failures and unknown parser exits do not retry. Result validation now runs in a separately supervised networkless sandbox. Both execution directories share scratch and retained-output accounting; live free disk and log growth are checked. Existing explicit mesh recovery/coarsening consent and the 3,000-element product ceiling remain.
+
+Owned API/UI history, per-execution diagnostic downloads and inert portable archive attachments expose the real protocol. Clean implementation `adcb9a5` passes 486 Python/35 TS tests, 35 targeted native/restart/validation/archive/mesh cases and four actual Chromium workflows (560 distinct targeted cases); exact [recovery evidence](docs/validation/results/T029/recovery.json) retains all raw/source/tool hashes. The recovered axial run uses byte-identical CCX outputs with max displacement error 4.20205e-15 m and tensor-component error 4.834205e-12 Pa. Full hosted CI is required on the PR's latest head; its final result is recorded in PR checks. No numerical tolerance, pinned binary, owner approval or individual deadline is relaxed. Core/native and application CI coverage now run independently within unchanged job deadlines.
+
+See [T029 evidence](docs/validation/T029.md) and [ADR-035](docs/adr/ADR-035.md) for corrected failures, sampling limits and unexecuted checks. The unsafe/unadmitted 100k solve, actual Windows/WSL2/headed laptop capacity, human trials and exact new reference-owner approval remain T030; M4 exit stays open.
 
 ## T028 completed — sourced reference comparisons and connected tutorials
 

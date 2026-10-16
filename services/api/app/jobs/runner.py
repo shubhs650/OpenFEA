@@ -327,6 +327,7 @@ class LocalWorker:
                         )
                     self.repository.checkpoint(job.id, token, manifest, execution)
                 paths["validation-resources.json"] = directory / "validation/resources.json"
+                paths["validation.log"] = directory / "validation/validation.log"
                 result, parsed = postprocess(
                     directory, inputs, job.input_sha256, execution, control
                 )

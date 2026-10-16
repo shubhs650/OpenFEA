@@ -41,6 +41,7 @@ Filename = Literal[
     "analysis.frd",
     "resources.json",
     "validation-resources.json",
+    "validation.log",
     "results.json",
     "recovery.json",
     "assembly.json",

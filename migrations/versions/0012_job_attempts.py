@@ -15,7 +15,8 @@ def upgrade() -> None:
     op.execute("ALTER TABLE local_jobs ADD COLUMN attempt_number INTEGER NOT NULL DEFAULT 0")
     op.execute("ALTER TABLE local_jobs ADD COLUMN deadline_at TEXT")
     op.execute("""CREATE TABLE local_job_attempts (
-        job_id TEXT NOT NULL REFERENCES local_jobs(id), number INTEGER NOT NULL CHECK(number BETWEEN 1 AND 2),
+        job_id TEXT NOT NULL REFERENCES local_jobs(id),
+        number INTEGER NOT NULL CHECK(number BETWEEN 1 AND 2),
         token TEXT NOT NULL UNIQUE, started_at TEXT NOT NULL, finished_at TEXT,
         status TEXT NOT NULL, reason_code TEXT, artifacts_json TEXT NOT NULL DEFAULT '{}',
         PRIMARY KEY(job_id,number)

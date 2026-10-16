@@ -607,6 +607,7 @@ class ArchiveService:
                 "solver.log",
                 "resources.json",
                 "validation-resources.json",
+                "validation.log",
                 "mesh-resources.json",
                 "solve-resources.json",
                 "recovery.json",

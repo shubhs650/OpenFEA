@@ -10371,7 +10371,7 @@ export interface operations {
             };
             path: {
                 job_id: string;
-                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "validation.log" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
             };
             cookie?: never;
         };
@@ -10486,7 +10486,7 @@ export interface operations {
             path: {
                 job_id: string;
                 number: number;
-                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "validation.log" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
             };
             cookie?: never;
         };
