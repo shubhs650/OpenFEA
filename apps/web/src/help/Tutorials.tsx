@@ -22,7 +22,7 @@ const guides = {
       "Set global mesh size to 8 mm and curvature elements to 0, save settings, and Generate local mesh. Review C3D10 quality and counts; choose the succeeded Checked mesh. Review the linear assumptions and Solve selected mesh. Compute waits are excluded automatically while this analysis remains open.",
       "View selected results. Inspect displacement Z and unaveraged von Mises stress; deformation scale is visual only. Probe the interior at (40,10,7.5) mm using an element that contains it. Generate a volume section through y=10 mm. Do not interpret support or sharp-corner peaks as converged stresses.",
       "Save global size 6 mm, mesh and solve again. Use run comparison with the same physical interior point and displacement quantity. Record both values and relative changes. The sharp planar tutorial has no analytical peak target; B10 separately tests a filleted geometry offline.",
-      "Add a current view to report, write your assumptions and mesh comparison in the conclusion, generate A4 PDF and download it. Optionally export editable Word and a portable project archive. Finish the learning log only after checking the downloaded report.",
+      "Add a current view to report, write your assumptions and mesh comparison in the conclusion, select Include current physical refinement comparison, generate A4 PDF and download it. Optionally export editable Word and a portable project archive. Finish the learning log only after checking the downloaded report.",
     ],
   },
   bond: {
@@ -38,7 +38,7 @@ const guides = {
       "Inspect bond candidates and Review pair 1. Inspect master/slave roles, full unit-square interface, zero gap, coverage and warnings. Confirm the review checkbox and Approve saved bond yourself. Detection never approves a bond. Necessary support rank must be 6/6; this alone is not proof of stability.",
       "Set global mesh size to 600 mm, curvature elements 0, save, and mesh. Choose the succeeded mesh and Check assembly constraints. Confirm necessary mesh checks passed, complete trace coverage and the documented <=65 trace nodes per side limit. Review and solve.",
       "View results and select stress XX. Interior stress should be about -0.001 MPa, and tip ux about -0.0000292826 mm from FL/AE. Inspect both element sides at the interface; keep raw and derived fields distinct. No gap, friction, separation or general contact behavior is inferred.",
-      "Repeat at 400 mm global size, compare the same physical quantities and interface sides, and export a report recording the bond, source properties and mesh comparison. Leave unsupported physical-gap or multi-bond models blocked.",
+      "Repeat at 400 mm global size, compare the same physical quantities and interface sides, and export a report recording the bond, source properties and mesh comparison: add a view, select Include current physical refinement comparison, and write your assumptions in the conclusion. Leave unsupported physical-gap or multi-bond models blocked.",
     ],
   },
 };

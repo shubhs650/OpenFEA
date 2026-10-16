@@ -223,6 +223,15 @@ for (const bond of [false, true]) {
     await page
       .getByLabel("Report title", { exact: true })
       .fill(`T028 ${bond ? "bond" : "bracket"} learning report`);
+    await page
+      .getByLabel("Include current physical refinement comparison", {
+        exact: true,
+      })
+      .check();
+    const conclusion = `Synthetic isotropic small-deformation learning exercise. Physical point [${point.join(", ")}] m; ${values.field}: ${JSON.stringify(values.rows.map((row: { change: Record<string, number> }) => row.change))}. Surface peaks require separate convergence review.`;
+    await page
+      .getByLabel("User-written conclusion", { exact: true })
+      .fill(conclusion);
     const report = page.waitForResponse(
       (r) =>
         r.url().endsWith(`/runs/${runs[0].id}/reports`) &&
@@ -231,7 +240,18 @@ for (const bond of [false, true]) {
     await page
       .getByRole("button", { name: "Generate A4 PDF", exact: true })
       .click();
-    expect((await report).status()).toBe(201);
+    const reportResponse = await report;
+    expect(reportResponse.status()).toBe(201);
+    const saved = await reportResponse.json();
+    const model = await (
+      await page.request.get(`/api/v1/reports/${saved.id}/model`)
+    ).json();
+    expect(model.comparison.rows).toEqual(values.rows);
+    expect(model.request.user_conclusion).toBe(conclusion);
+    await writeFile(
+      info.outputPath("report-model.json"),
+      JSON.stringify(model, null, 2),
+    );
     const download = page.waitForEvent("download");
     await page
       .getByRole("link", { name: "Download A4 PDF", exact: true })
@@ -277,15 +297,10 @@ for (const bond of [false, true]) {
     );
     expect(record.duration_ms.compute).toBeGreaterThan(0);
     expect(record.measurements_and_errors).toContain("relative_change");
-    await panel.screenshot({ path: info.outputPath("tutorial-guide.png") });
     expect(record.duration_ms.setup).toBeGreaterThan(0);
     expect(record.classification).toContain(
       "not usability or engineering acceptance",
     );
-    await page.screenshot({
-      path: info.outputPath("tutorial.png"),
-      fullPage: true,
-    });
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
