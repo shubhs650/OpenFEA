@@ -41,12 +41,15 @@
     "build.log": "dd145de27160402b4c0d95d6c9ac898d6574be9ca71c5f7563a0da6a25c03573",
     "check.log": "621f48dcb7794412cb13fbb23158528c2709223609b5007bb9bdd57eb11bfa48",
     "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "first-ci-failure.log": "a85c131b1ad8743fe284a88649aae488fe935cbcc7976d0c9632c9740bb6ec6e",
     "initial-browser-failures.log": "f083b3c2e6070a48900361d104c2598124d0c6610e7313d2f1304876fae6c186",
     "initial-native-failure.log": "b5291a3b3ecb39c4d2b313198e2981056ff78a2a9239762bc6f7686b3a228c33",
     "refinement-harness-failure.log": "63cd037273e49778b252d5d8f4643a7968ef5bfeb0d9f17c04a30b83c90e06ef",
     "report-audit-static.log": "5e08c7a0f90b6ff1cb40b1f3eaa869d389aafe833d6f39910e9759864cab32bb",
     "smoke.log": "be5fbb6499f67a711453bf305a5c8064e2d1a1f957597afda99cddd150497e0c",
-    "tutorial-replay.log": "0df8541378c15f9673f921fd64bf8c2e85b5fbcc85cc5303d6305a363a5829dd"
+    "tutorial-replay.log": "0df8541378c15f9673f921fd64bf8c2e85b5fbcc85cc5303d6305a363a5829dd",
+    "ui-fix-browser.log": "3656f164cb989cf788e862e5a99b4b27abc61c5360cf82faa2ed4b611f846caf",
+    "ui-fix-static.log": "851510c2fa96e7768e38420fe32ae0db5bf69da77ecedcf99fd498680569833e"
   },
   "unexecuted": [
     "Code_Aster executable",
@@ -59,10 +62,15 @@
     "python_unit": 475,
     "typescript_unit": 35,
     "native_references": 4,
-    "browser": 4,
-    "total": 518,
+    "browser": 11,
+    "total": 525,
     "remaining_failures": 0,
     "skipped": 0
   },
-  "browser_evidence_commit": "f5ae3cca4e39f328aaa2e529cbff88e21ade98b8"
+  "browser_evidence_commit": "f5ae3cca4e39f328aaa2e529cbff88e21ade98b8",
+  "ui_fix_commit": "cb3b08254c294bfcfd133107cfad8e8de74fa555",
+  "ui_fix_source_sha256": {
+    "apps/web/src/geometry/Workspace.tsx": "2fde687aca6bfd642669cc72f67aebea03b716f458fa689d50fa808e9a101940",
+    "apps/web/src/help/Tutorials.tsx": "a32d72956dca263dedc33d1b65a645f023b42fb7659989bd4db415eed76dea39"
+  }
 }

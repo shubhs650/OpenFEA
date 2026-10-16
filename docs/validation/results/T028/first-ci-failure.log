@@ -1,0 +1,223 @@
+check	Run make check build smoke test-integration test-e2e test-reports	﻿2026-10-16T05:03:31.3256235Z ##[group]Run make check build smoke test-integration test-e2e test-reports
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3257218Z [36;1mmake check build smoke test-integration test-e2e test-reports[0m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3324427Z shell: /usr/bin/bash -e {0}
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3324705Z env:
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3324980Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3325437Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3325886Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3326278Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3326670Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3327062Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3327389Z ##[endgroup]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3427051Z .venv/bin/ruff check services migrations scripts tests
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3808657Z All checks passed!
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.3815560Z .venv/bin/ruff format --check services migrations scripts tests
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.4218176Z 226 files already formatted
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.4218710Z npm run lint
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.5200103Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.5200438Z > openfea@0.1.0 lint
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.5201246Z > eslint . && prettier --check .
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:31.5201480Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:34.0312229Z Checking formatting...
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:37.7809575Z All matched files use Prettier code style!
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:37.8258986Z .venv/bin/mypy
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.1192000Z Success: no issues found in 171 source files
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.1493633Z npm run typecheck
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.2416407Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.2416988Z > openfea@0.1.0 typecheck
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.2417754Z > tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p tsconfig.tools.json
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:48.2418149Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:53.6709586Z .venv/bin/python -m pytest
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6484769Z ============================= test session starts ==============================
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6485565Z platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6486037Z rootdir: /home/runner/work/OpenFEA/OpenFEA
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6486388Z configfile: pyproject.toml
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6486667Z testpaths: tests/unit
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6486939Z plugins: anyio-4.15.1
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6487186Z collected 475 items
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:03:55.6487327Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:01.3976646Z tests/unit/test_analyses.py ...............                              [  3%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:02.6449538Z tests/unit/test_api.py .........                                         [  5%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:02.6618430Z tests/unit/test_approval.py ................                             [  8%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:02.7699763Z tests/unit/test_archives.py .......................................      [ 16%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:02.7838150Z tests/unit/test_assembly.py ................                             [ 20%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:02.8068427Z tests/unit/test_bonds.py ................                                [ 23%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:03.1998496Z tests/unit/test_connections.py ...........                               [ 25%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:03.2101211Z tests/unit/test_directions.py ...........                                [ 28%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:03.2234866Z tests/unit/test_essential_actions.py .............                       [ 30%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:06.8512572Z tests/unit/test_essential_setup.py .............                         [ 33%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:12.9263439Z tests/unit/test_face_loads.py ....................                       [ 37%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:13.4310213Z tests/unit/test_geometry_edits.py ...............                        [ 40%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:15.1256375Z tests/unit/test_imports.py ......                                        [ 42%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:19.0723581Z tests/unit/test_local_queue.py ...................                       [ 46%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:19.4195525Z tests/unit/test_m3_gate.py ...............                               [ 49%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:26.4841459Z tests/unit/test_materials.py ........................                    [ 54%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:30.4435513Z tests/unit/test_mesh_controls.py ............                            [ 56%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:30.4684948Z tests/unit/test_mesh_quality.py ......                                   [ 58%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:37.4533798Z tests/unit/test_projects.py ............................                 [ 64%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:37.4741796Z tests/unit/test_quadratic.py .....................                       [ 68%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:37.4844320Z tests/unit/test_reference_benchmarks.py ........                         [ 70%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:37.4955432Z tests/unit/test_reports.py .............                                 [ 72%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.6099396Z tests/unit/test_result_comparison.py ...........................         [ 78%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.6702670Z tests/unit/test_result_fields.py ...............                         [ 81%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.7295262Z tests/unit/test_result_inspection.py ......................              [ 86%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.7740462Z tests/unit/test_result_views.py ...................                      [ 90%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.8210315Z tests/unit/test_stress.py ............................                   [ 96%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:41.8319154Z tests/unit/test_word.py ............                                     [ 98%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4155760Z tests/unit/test_workspace_edits.py ......                                [100%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4156301Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4156646Z =============================== warnings summary ===============================
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4157467Z tests/unit/test_archives.py::test_reject_bad_manifest_and_expansion[duplicate]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4158555Z   /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/zipfile/__init__.py:1625: UserWarning: Duplicate name: 'project.json'
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4159486Z     return self._open_to_write(zinfo, force_zip64=force_zip64)
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4159832Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4160260Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.4161014Z ======================= 475 passed, 1 warning in 50.38s ========================
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.6370940Z npm run test:unit
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.7288908Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.7289483Z > openfea@0.1.0 test:unit
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.7290091Z > vitest run --config apps/web/vite.config.ts
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:44.7290342Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.0340242Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.0344537Z [1m[30m[46m RUN [49m[39m[22m [36mv5.0.4 [39m[90m/home/runner/work/OpenFEA/OpenFEA[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.0345424Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.2689608Z  [32m✓[39m apps/web/src/results/presentation.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.2768625Z  [32m✓[39m apps/web/src/workspace/edits.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.2885567Z  [32m✓[39m apps/web/src/health.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 47[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4485532Z  [32m✓[39m apps/web/src/help/clock.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4516241Z  [32m✓[39m apps/web/src/loads/glyph.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4721416Z  [32m✓[39m apps/web/src/materials/units.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4764770Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4770951Z [2m Test Files [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4772528Z [2m      Tests [22m [1m[32m35 passed[39m[22m[90m (35)[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4773576Z [2m   Start at [22m 05:04:45
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4779580Z [2m   Duration [22m 435ms[2m (transform 43%, tests 26%, import 24%, worker 8%)[22m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.4792622Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:45.5095172Z .venv/bin/python scripts/ci/contracts.py --check
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:47.8086946Z ✨ openapi-typescript 7.13.0
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.1659200Z 🚀 /tmp/tmpen6wlhaf/openapi.json → /tmp/tmpen6wlhaf/api.d.ts [359.8ms]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.1948336Z PASS: API OpenAPI and TypeScript contracts
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.3545347Z .venv/bin/python scripts/ci/docs_check.py
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.4137885Z PASS: 168 Markdown files; 42 task statuses and acyclic dependencies
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.4174316Z npm run build
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.5100521Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.5101098Z > openfea@0.1.0 build
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.5101493Z > npm run build --workspace @openfea/web
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.5101988Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.6186732Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.6187313Z > @openfea/web@0.1.0 build
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.6187679Z > tsc --noEmit && vite build
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:48.6187862Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:51.9713477Z [36mvite v8.3.4 [32mbuilding client environment for production...[36m[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:51.9851884Z transforming...
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.0993396Z ✓ 413 modules transformed.
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.1505153Z rendering chunks...
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2828696Z computing gzip size...
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2994111Z dist/index.html                            0.40 kB │ gzip:   0.27 kB
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2994958Z dist/assets/bracket-m-rYF59yf6.step       22.48 kB
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2995563Z dist/assets/bond-zero-m-BV21Szg2.step     32.45 kB
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2996704Z dist/assets/index-D8flHWbS.css             4.92 kB │ gzip:   1.71 kB
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2997900Z dist/assets/index-DQ7r22E6.js          1,195.63 kB │ gzip: 333.52 kB
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2998499Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.2998855Z [32m✓ built in 324ms[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3007650Z [33m[plugin builtin:vite-reporter] 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3008179Z (!) Some chunks are larger than 500 kB after minification. Consider:
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3008691Z - Using dynamic import() to code-split the application
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3009532Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3010462Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.3266022Z bash scripts/codex/start.sh --smoke
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.4967133Z SUPERVISOR pid=15308
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.5157876Z STARTED api pid=15329
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:52.5163204Z STARTED web pid=15330
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:54.4687305Z READY: API health, web entry point and Vite API proxy verified
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:54.4688535Z Web port 5173; API port 8000; logs in .local/logs
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:54.6945084Z .venv/bin/python -m pytest tests/integration
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2690242Z ============================= test session starts ==============================
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2691407Z platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2692635Z rootdir: /home/runner/work/OpenFEA/OpenFEA
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2693323Z configfile: pyproject.toml
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2693874Z plugins: anyio-4.15.1
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2694400Z collected 18 items
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:04:56.2694626Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:02.2560375Z tests/integration/test_analyses.py .                                     [  5%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:13.3477377Z tests/integration/test_assembly.py .                                     [ 11%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:19.7896373Z tests/integration/test_connections.py .                                  [ 16%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:25.6725973Z tests/integration/test_directions.py .                                   [ 22%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:31.5700219Z tests/integration/test_essential_loads.py .                              [ 27%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:38.6257536Z tests/integration/test_geometry_edits.py .                               [ 33%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:50.8170300Z tests/integration/test_local_jobs.py ..                                  [ 44%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:05:56.3696700Z tests/integration/test_mesh_controls.py .                                [ 50%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:10.3149729Z tests/integration/test_persistence.py ...                                [ 66%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:17.7803217Z tests/integration/test_result_views.py .                                 [ 72%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:26.5468025Z tests/integration/test_startup.py ....                                   [ 94%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:29.9380214Z tests/integration/test_workspace_edits.py .                              [100%]
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:29.9380754Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:29.9381133Z ======================== 18 passed in 94.92s (0:01:34) =========================
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:30.0996224Z npm run test:e2e
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:30.1919302Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:30.1919864Z > openfea@0.1.0 test:e2e
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:30.1920203Z > playwright test
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:30.1920363Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:33.5201022Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:06:33.5201811Z Running 42 tests using 1 worker
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1189911Z F····································F····
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1197246Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1205822Z   1) tests/e2e/analyses.spec.ts:31:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1206588Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1206909Z     Error: expect(locator).toHaveValue(expected) failed
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1207328Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1207608Z     Locator: getByLabel('Checked mesh')
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1208239Z     Expected: "725b7b49-9dec-48e8-baab-35a5cc07cc99"
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1209108Z     Error: strict mode violation: getByLabel('Checked mesh') resolved to 2 elements:
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1210578Z         1) <input disabled type="checkbox"/> aka getByLabel('Set global mesh size to 8 mm')
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1211827Z         2) <select>…</select> aka getByLabel('Checked meshChoose a')
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1212266Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1212370Z     Call log:
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1212765Z       - Expect "toHaveValue" getByLabel('Checked mesh') with timeout 5000ms
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1213239Z       - waiting for getByLabel('Checked mesh')
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1213481Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1213487Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1213723Z       40 |   const oldRaw = await (await page.request.get(rawPath)).text();
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1214275Z       41 |   const variant = await copy(page, "T018 half-displacement variant");
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1215212Z     > 42 |   await expect(page.getByLabel("Checked mesh")).toHaveValue(originalMesh.id);
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1215762Z          |                                                 ^
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1216236Z       43 |   await expect(page.getByLabel("Local job history")).not.toContainText(
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1216656Z       44 |     "succeeded",
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1216929Z       45 |   );
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1217576Z         at /home/runner/work/OpenFEA/OpenFEA/tests/e2e/analyses.spec.ts:42:49
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1217887Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1218325Z     Error Context: test-results/analyses-independent-dupli-2d982-serves-original-run-history/error-context.md
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1218794Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1219382Z   2) tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1219997Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1220254Z     Error: expect(locator).toBeFocused() failed
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1220569Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1220979Z     Locator:  getByRole('navigation', { name: 'Model checklist' }).getByRole('button', { name: /Geometry/ })
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1221492Z     Expected: focused
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1222036Z     Received: inactive
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1222282Z     Timeout:  5000ms
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1222424Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1222513Z     Call log:
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1223134Z       - Expect "toBeFocused" getByRole('navigation', { name: 'Model checklist' }).getByRole('button', { name: /Geometry/ }) with timeout 5000ms
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1224028Z       - waiting for getByRole('navigation', { name: 'Model checklist' }).getByRole('button', { name: /Geometry/ })
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1224842Z         14 × locator resolved to <button>Geometry — Complete</button>
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1225585Z            - unexpected value "inactive"
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1226096Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1226648Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1226830Z       88 |   await expect(
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1227506Z       89 |     checklist.getByRole("button", { name: /Geometry/ }),
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1228472Z     > 90 |   ).toBeFocused();
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1228913Z          |     ^
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1229279Z       91 |   await page
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1229872Z       92 |     .getByRole("combobox", { name: "Theme", exact: true })
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1230646Z       93 |     .selectOption("dark");
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1231136Z         at /home/runner/work/OpenFEA/OpenFEA/tests/e2e/workspace.spec.ts:90:5
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1231476Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1232353Z     Error Context: test-results/workspace-checklist-action-64cca-ht-dark-at-target-viewports/error-context.md
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1232964Z 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1233058Z   2 failed
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1233809Z     tests/e2e/analyses.spec.ts:31:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1234863Z     tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports 
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1235456Z   40 passed (5.7m)
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1407927Z make: *** [Makefile:51: test-e2e] Error 1
+check	Run make check build smoke test-integration test-e2e test-reports	2026-10-16T05:12:15.1425496Z ##[error]Process completed with exit code 2.
