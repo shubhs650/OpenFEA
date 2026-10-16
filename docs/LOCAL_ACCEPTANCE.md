@@ -36,7 +36,7 @@ This command currently refuses before native execution/output creation because f
 
 ## Actual installed Windows Chrome and Edge
 
-Use a second clean checkout at the **same full commit** on the Windows filesystem with Windows Node 24.19.0/npm 11.9.0. Its `node_modules` must be separate from WSL. Install Chrome and Edge normally. Do not substitute Playwright Chromium, Linux browsers, WSLg or headless mode. Keep the WSL backend console open. Start it with a new, dedicated, synthetic-only directory outside the checkout (choose a fresh path on repeat runs):
+Use a second clean checkout at the **same full commit** on the Windows filesystem with Windows Node 24.19.0/npm 11.9.0. Its `node_modules` must be separate from WSL. Create a fresh byte-preserving checkout with `git clone --config core.autocrlf=false https://github.com/shubhs650/OpenFEA.git OpenFEA-windows`, then check out the recorded full commit. Tutorial STEP and retained evidence paths also explicitly disable Git line-ending conversion; do not rewrite fixture bytes. Install Chrome and Edge normally. Do not substitute Playwright Chromium, Linux browsers, WSLg or headless mode. Keep the WSL backend console open. Start it with a new, dedicated, synthetic-only directory outside the checkout (choose a fresh path on repeat runs):
 
 ```sh
 export FEA_ENV=test
