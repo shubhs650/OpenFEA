@@ -302,8 +302,8 @@ export function Workspace() {
       }}
     >
       <aside className="panel" aria-label="Model tree">
-        <Tutorials />
         <Checklist analysisId={analysisId} geometryId={geometry?.id} />
+        <Tutorials />
         <div id="setup-geometry" tabIndex={-1}>
           <h2>Project</h2>
           <label>

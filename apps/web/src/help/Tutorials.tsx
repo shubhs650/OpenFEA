@@ -141,6 +141,7 @@ export function Tutorials() {
               <label className="check">
                 <input
                   type="checkbox"
+                  aria-describedby={`tutorial-${guide}-step-${index}`}
                   disabled={!running}
                   checked={checked.includes(index)}
                   onChange={(e) =>
@@ -151,8 +152,9 @@ export function Tutorials() {
                     )
                   }
                 />
-                {text}
+                Step {index + 1} complete
               </label>
+              <p id={`tutorial-${guide}-step-${index}`}>{text}</p>
             </li>
           ))}
         </ol>
