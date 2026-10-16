@@ -1,6 +1,7 @@
 import { useEdits } from "../workspace/edits";
 import type { components } from "../../../../packages/contracts/api";
 import { useEffect, useRef, useState } from "react";
+import { useComputeActivity } from "../help/compute";
 import { ResultsEditor } from "../results/ResultsEditor";
 import type { ResultPresentation } from "../results/presentation";
 import {
@@ -51,6 +52,13 @@ export function RunsEditor({
   } | null>(null);
   const scopeRef = useRef("");
   const [jobs, setJobs] = useState<LocalJob[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+  useComputeActivity(
+    submitting ||
+      jobs.some(
+        (job) => job.analysis_id === analysisId && !terminal.has(job.status),
+      ),
+  );
   const [meshId, setMeshId] = useState("");
   const [reviewed, setReviewed] = useState(false);
   const [error, setError] = useState("");
@@ -139,6 +147,7 @@ export function RunsEditor({
   const choice = meshes.find((item) => item.job.id === meshId);
   const selected = choice?.job;
   async function submit(solve: boolean) {
+    setSubmitting(true);
     const intent = `${revision}:${solve ? meshId : "mesh"}`;
     if (!requestKey.current || requestKey.current.intent !== intent)
       requestKey.current = { intent, key: crypto.randomUUID() };
@@ -170,6 +179,7 @@ export function RunsEditor({
         "The request was not acknowledged. Retrying unchanged inputs uses the same request key.",
       );
     } finally {
+      setSubmitting(false);
       setBusy(false);
     }
   }

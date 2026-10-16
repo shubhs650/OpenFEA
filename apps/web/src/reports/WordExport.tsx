@@ -1,3 +1,4 @@
+import { useComputeActivity } from "../help/compute";
 import { useEffect, useRef, useState } from "react";
 import type { components } from "../../../../packages/contracts/api";
 import { api } from "../geometry/api";
@@ -5,6 +6,7 @@ type Word = components["schemas"]["WordExport"];
 export function WordExport({ reportId }: { reportId: string }) {
   const [exports, setExports] = useState<Word[]>([]);
   const [busy, setBusy] = useState(false);
+  useComputeActivity(busy);
   const [error, setError] = useState("");
   const sequence = useRef(0);
   useEffect(() => {

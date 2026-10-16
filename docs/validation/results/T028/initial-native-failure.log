@@ -1,0 +1,45 @@
+F
+=================================== FAILURES ===================================
+_____________________ test_real_predeclared_reference[B10] _____________________
+
+case = 'B10'
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-0/test_real_predeclared_referenc0')
+
+    @pytest.mark.parametrize("case", ["B10", "B12", "B13", "B14"])
+    def test_real_predeclared_reference(case: str, tmp_path: Path) -> None:
+>       result = run_case(case, tmp_path / case, development=True)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/native/test_reference_benchmarks.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+services/worker/worker/benchmark.py:68: in run_case
+    return run_reference(case, output, development)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/worker/worker/reference_benchmarks.py:120: in run_reference
+    dat = parse_dat(directory / "analysis.dat", mesh)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/worker/worker/calculix/results.py:129: in parse_dat
+    mesh.validate()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Mesh(nodes={1: (0.0, 0.0, 0.0), 2: (0.08, 0.0, 0.0), 3: (0.08, 0.0, 0.01), 4: (0.015, 0.0, 0.01), 5: (0.01, 0.0, 0.015...'M1', 3863: 'M1', 3864: 'M1', 3865: 'M1'}, revision='fc863dacdf9da54dcc0ccc4ab7bad154a0703d589aaaf0e2afbc9ed58a591caa')
+
+    def validate(self) -> None:
+        if not self.revision or not self.elements or not self.nodes:
+            raise ValueError("Missing immutable result mesh")
+        if set(self.bodies) != set(self.elements) or set(self.materials) != set(self.elements):
+            raise ValueError("Incomplete element body/material ownership")
+        used = {n for ns in self.elements.values() for n in ns}
+        if (
+            used != set(self.nodes)
+            or any(n <= 0 for n in used)
+            or any(e <= 0 for e in self.elements)
+        ):
+>           raise ValueError("Invalid/orphan result mesh entities")
+E           ValueError: Invalid/orphan result mesh entities
+
+services/worker/worker/calculix/results.py:40: ValueError
+=========================== short test summary info ============================
+FAILED tests/native/test_reference_benchmarks.py::test_real_predeclared_reference[B10]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 0.86s

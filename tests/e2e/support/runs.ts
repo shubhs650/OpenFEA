@@ -10,8 +10,10 @@ export async function prepared(
   yieldStrength: number | null = bracket ? 276 : null,
   fixture = "cube-m.step",
   basicLoads = true,
+  onOpen?: () => Promise<void>,
 ) {
   await page.goto("/");
+  await onOpen?.();
   await page.getByLabel("New project name").fill(name);
   await page
     .getByRole("button", { name: "Create project", exact: true })

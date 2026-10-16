@@ -1,3 +1,4 @@
+import { useComputeActivity } from "../help/compute";
 import { WordExport } from "./WordExport";
 import { useEffect, useRef, useState } from "react";
 import type { components } from "../../../../packages/contracts/api";
@@ -24,6 +25,7 @@ export function ReportEditor({
   const [conclusion, setConclusion] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  useComputeActivity(busy);
   const [includeComparison, setIncludeComparison] = useState(false);
   const sequence = useRef(0);
   useEffect(() => {

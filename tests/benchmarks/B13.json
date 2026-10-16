@@ -1,0 +1,37 @@
+{
+  "revision": 1,
+  "units": "m,N,Pa",
+  "element": "C3D10, affine midpoint nodes; independently remeshed 3D solid",
+  "reviewer_signoff": "PENDING engineering-owner review; DEVELOPMENT only",
+  "tolerances": {
+    "relative": 0.001,
+    "displacement_absolute_m": 1e-11,
+    "stress_absolute_pa": 0.1,
+    "equilibrium_relative": 0.005
+  },
+  "rights": "Original OpenFEA geometry, generator and manifests; only factual parameters/formulas paraphrased from cited primary source. No external input deck, mesh, image or manual text bundled.",
+  "id": "B13",
+  "source": {
+    "title": "Code_Aster SSLV07, V3.04.007, modelling A continuum",
+    "url": "https://code-aster.org/doc/v16/man_v/v3/v3.04.007.pdf",
+    "revision": "787657c475e5, dated 2017-08-03, v16 archive",
+    "sha256": "08c032309e303999b9d7a2909874d275108a59f43fe460de6e31d00119b7a576",
+    "accessed_on": "2026-10-16",
+    "license": "GNU FDL as declared in document footer"
+  },
+  "geometry": {
+    "bounds_m": [0, 0, 0, 0.5, 0.5, 3]
+  },
+  "material": {
+    "E_pa": 200000000000.0,
+    "nu": 0.3,
+    "density_kg_m3": 7800
+  },
+  "mesh_sizes_m": [0.4, 0.25],
+  "supports": "Quarter symmetry ux=0 on x=0, uy=0 on y=0; uz=0 at A=(0,0,3). Same exact solution as published full-solid minimal rigid-mode restraints, extra planes are exact symmetries.",
+  "loads": "Gravity (0,0,-9.81) m/s2 and uniform top tensile traction 229554 Pa; bottom free",
+  "samples": "Every nodal displacement and every native integration tensor versus quadratic exact continuum; published point B=(0,0,0) uz=-1.721655e-6 m",
+  "expected": "u=-nu*rho*g*x*z/E; v=-nu*rho*g*y*z/E; w=rho*g*(z*z+nu*(x*x+y*y)-9)/(2E); sigma_zz=rho*g*z; other stresses zero",
+  "published_B_uz_m": -1.721655e-6,
+  "exclusions": "Published HEXA20 changed to C3D10 quarter solid; exact quadratic displacement is representable by both. PDF material line labels E as MPa inconsistently with its SI stress/displacement table; use 2e11 Pa, verified by published B displacement formula. Comparison to published analytical/reference values; Code_Aster executable not run. No license text/model redistributed."
+}

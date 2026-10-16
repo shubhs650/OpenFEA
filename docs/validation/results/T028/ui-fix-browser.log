@@ -1,0 +1,20 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/analyses.spec.ts tests/e2e/workspace.spec.ts tests/e2e/tutorials.spec.ts
+
+
+Running 9 tests using 1 worker
+
+(node:6999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/analyses.spec.ts:31:1 › independent duplicated setup reuses verified mesh, solves and preserves original run history (14.3s)
+  ✓  2 tests/e2e/analyses.spec.ts:107:1 › two real browser tabs keep analyses independent and refuse stale duplication (7.8s)
+  ✓  3 tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded (30.7s)
+  ✓  4 tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded (32.1s)
+  ✓  5 tests/e2e/workspace.spec.ts:37:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (3.2s)
+  ✓  6 tests/e2e/workspace.spec.ts:100:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (6.1s)
+  ✓  7 tests/e2e/workspace.spec.ts:165:1 › real stale edit offers reload or conflict copy without overwriting the other session (5.1s)
+  ✓  8 tests/e2e/workspace.spec.ts:216:1 › draft blockers and cancellation protect other edits; undo restores saved material prerequisites (3.4s)
+  ✓  9 tests/e2e/workspace.spec.ts:260:1 › failed conflict-copy application keeps the rejected draft and exposes the created copy (4.5s)
+
+  9 passed (1.8m)

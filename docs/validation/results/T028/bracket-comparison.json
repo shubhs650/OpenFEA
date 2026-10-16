@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "processor": "physical-sample-refinement-v1",
+  "sample_location": "element_interpolated",
+  "tensor_components": [
+    "xx",
+    "yy",
+    "zz",
+    "xy",
+    "yz",
+    "zx"
+  ],
+  "principal_order": "s1 >= s2 >= s3 (algebraic)",
+  "physics_sha256": "ce2243ddb967acb7ebdfb6488bd151b2d72513ab85e3421ef3991df7929b4212",
+  "field": "von_mises",
+  "smoothed": false,
+  "unit": "Pa",
+  "frame": "global_cartesian",
+  "reference_floor": 0.000001,
+  "method": "Same undeformed physical coordinates and explicit element/body/material sides in both retained affine C3D10 meshes. Quadratic displacement; tensor interpolation precedes invariants, with the declared unaveraged/partitioned-smoothed mode. Changes are compared minus reference; relative change is absolute change / absolute reference, unavailable at or below the disclosed SI reference floor. Floors are display conventions, not numerical acceptance tolerances. Raw native extrema are separate moving locations. One arbitrary comparison cannot establish convergence, accuracy, stability or safety.",
+  "convergence_claim": false,
+  "reference": {
+    "source": {
+      "schema_version": 1,
+      "job_id": "5b868682-657b-44ef-95be-a229f689d394",
+      "analysis_id": "01ab4dbe-33b3-407a-bbea-5738693fdfc4",
+      "analysis_revision": 5,
+      "geometry_revision_id": "aed55486-dc50-41c7-97f7-baf314098df7",
+      "input_sha256": "6aa9b0401a55c9758f4bfc74b6d5c532be2b3275d408c49b3c8e1d31d4b6e185",
+      "results_sha256": "249e67aefcb59789886cd446fcce75f8fbb9e852909bdfcb620bf6a4fa168d0b",
+      "mesh_sha256": "f689a96248d44ef3c8ea5698f7efb3017579b7ceed58f19b58558f14f316c678",
+      "deck_sha256": "71624bcdbe3bcb9cb8bcf413efa3f27f2b3f139ddece4047d0101cbdc9b49794",
+      "dat_sha256": "e554d330959c32ace5baeab685903b3476f3e09fa54d3661b50dcf8f197e5cab",
+      "processor_sources": {
+        "services/worker/worker/postprocess/view.py": "7ea99bb6c7c9daf7277201e6779148eba316d236c0699a9629348e8900124a8c",
+        "services/worker/worker/postprocess/inspection.py": "2671965a0e9881217553f96e8389289d24f389b7b002569b370fe92a01486f08",
+        "services/worker/worker/postprocess/comparison.py": "8970cbe6b7e9686a77176bc4d8ae432217276bf4f2f57577c55c837941d8a3aa",
+        "services/api/app/domain/comparisons.py": "7031bcf9a45c54cef209210382718a5057449d41e29fded6bab882316e389bc0",
+        "services/api/app/domain/refinement.py": "b63ca772fc862a035dda9f2c3f63d06326fa3cbda50f093e5efae4b4c258a996",
+        "services/worker/worker/postprocess/fields.py": "3201afd7ad773d0865f77b992e941c5264484d87490964b84866ff87e718c2cf",
+        "services/worker/worker/postprocess/tensors.py": "9dc5efb68ebfafc05d5f964019548b801fdcad8706032554334aa0c537767584",
+        "services/worker/worker/meshing.py": "1d71f8f57bd020f96804f284f4be1d2a0fd51bf89d0bc529f48cd1aad2a52e9e",
+        "services/worker/worker/actions.py": "1a8edff017a1397b45fa667d9056a2b5e9ebf250248812928855f64dec460e9b",
+        "services/worker/worker/directions.py": "8de17d5705b81b651a5077ddf3b80e3b29a13b9f453af1c79fc2e82db06e4592",
+        "services/worker/worker/calculix/results.py": "da43f91763e9880a6e8728906202f1394d7b89a31af61e6a6f163c1190c29609",
+        "services/api/app/jobs/service.py": "638d211f21fa6e9d8b4dcce0e5a6fa5b5cace3c1ce1e2eee4e3131266965ae1e",
+        "services/api/app/domain/results.py": "c4c0b9b18b090bea8352ea59a2a09776d3b20783598f81c0db6b6ce18706b3ad"
+      }
+    },
+    "elements": 501,
+    "nodes": 1122,
+    "warnings": [
+      "Gravity unavailable: density is missing.",
+      "Yield factor of safety unavailable: yield strength is missing."
+    ],
+    "assumptions": [
+      {
+        "code": "stress_singularity",
+        "body_id": null,
+        "triggered": null,
+        "metric": null,
+        "threshold": null,
+        "message": "Peaks near supports, reentrant corners or idealized load/bond edges may increase with refinement. No automatic singularity detection is claimed. Compare fixed physical locations away from these regions; a lower smoothed peak is not evidence of convergence or a design allowable."
+      },
+      {
+        "code": "yielding",
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "triggered": null,
+        "metric": 2221559.8365036943,
+        "threshold": null,
+        "message": "Compare raw integration-point von Mises with the frozen supplied ductile yield. Yield exceedance does not model plastic deformation; missing yield cannot establish a factor. No fatigue, brittle failure, buckling or code check is implied."
+      },
+      {
+        "code": "small_deformation",
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "triggered": false,
+        "metric": 0.0001597344417422075,
+        "threshold": 0.01,
+        "message": "Maximum native displacement / largest body extent is a 1% screening heuristic. Exceedance requires review of small-deformation linear elasticity. Passing this heuristic does not bound local strain/rotation or certify validity; display exaggeration is irrelevant."
+      }
+    ],
+    "raw_peak": {
+      "value": 2221559.8365036943,
+      "location": "integration_point",
+      "position_m": [
+        0.009329311,
+        0.01544766,
+        0.0110192
+      ],
+      "node_id": null,
+      "element_id": 795,
+      "integration_point_id": 3,
+      "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+      "material_id": "M1"
+    }
+  },
+  "compared": {
+    "source": {
+      "schema_version": 1,
+      "job_id": "2fbf05bd-4710-4933-8c5d-744cbe376db0",
+      "analysis_id": "01ab4dbe-33b3-407a-bbea-5738693fdfc4",
+      "analysis_revision": 6,
+      "geometry_revision_id": "aed55486-dc50-41c7-97f7-baf314098df7",
+      "input_sha256": "5e24d1508ca82d8d99ac4c1e08d73ee846d5f4eaea3bce35d0dc2c63522dd142",
+      "results_sha256": "10d237878cc90c01f7efa946267be1eec9898f312e304eea871d0e4f3dd8819d",
+      "mesh_sha256": "6f12109c76fd93ef7715c1d183b647399eba3209e99d2cd9ae3255246406711e",
+      "deck_sha256": "1f5e427e0c21e7d2b3092f11507340ca0a72bad3c454492156c83f04b3be5826",
+      "dat_sha256": "8829d1126944f5f65b3f7171f9064308a9e5a2c9bb90553a1cd7f192c9c6d392",
+      "processor_sources": {
+        "services/worker/worker/postprocess/view.py": "7ea99bb6c7c9daf7277201e6779148eba316d236c0699a9629348e8900124a8c",
+        "services/worker/worker/postprocess/inspection.py": "2671965a0e9881217553f96e8389289d24f389b7b002569b370fe92a01486f08",
+        "services/worker/worker/postprocess/comparison.py": "8970cbe6b7e9686a77176bc4d8ae432217276bf4f2f57577c55c837941d8a3aa",
+        "services/api/app/domain/comparisons.py": "7031bcf9a45c54cef209210382718a5057449d41e29fded6bab882316e389bc0",
+        "services/api/app/domain/refinement.py": "b63ca772fc862a035dda9f2c3f63d06326fa3cbda50f093e5efae4b4c258a996",
+        "services/worker/worker/postprocess/fields.py": "3201afd7ad773d0865f77b992e941c5264484d87490964b84866ff87e718c2cf",
+        "services/worker/worker/postprocess/tensors.py": "9dc5efb68ebfafc05d5f964019548b801fdcad8706032554334aa0c537767584",
+        "services/worker/worker/meshing.py": "1d71f8f57bd020f96804f284f4be1d2a0fd51bf89d0bc529f48cd1aad2a52e9e",
+        "services/worker/worker/actions.py": "1a8edff017a1397b45fa667d9056a2b5e9ebf250248812928855f64dec460e9b",
+        "services/worker/worker/directions.py": "8de17d5705b81b651a5077ddf3b80e3b29a13b9f453af1c79fc2e82db06e4592",
+        "services/worker/worker/calculix/results.py": "da43f91763e9880a6e8728906202f1394d7b89a31af61e6a6f163c1190c29609",
+        "services/api/app/jobs/service.py": "638d211f21fa6e9d8b4dcce0e5a6fa5b5cace3c1ce1e2eee4e3131266965ae1e",
+        "services/api/app/domain/results.py": "c4c0b9b18b090bea8352ea59a2a09776d3b20783598f81c0db6b6ce18706b3ad"
+      }
+    },
+    "elements": 937,
+    "nodes": 1947,
+    "warnings": [
+      "Gravity unavailable: density is missing.",
+      "Yield factor of safety unavailable: yield strength is missing."
+    ],
+    "assumptions": [
+      {
+        "code": "stress_singularity",
+        "body_id": null,
+        "triggered": null,
+        "metric": null,
+        "threshold": null,
+        "message": "Peaks near supports, reentrant corners or idealized load/bond edges may increase with refinement. No automatic singularity detection is claimed. Compare fixed physical locations away from these regions; a lower smoothed peak is not evidence of convergence or a design allowable."
+      },
+      {
+        "code": "yielding",
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "triggered": null,
+        "metric": 2565147.985631472,
+        "threshold": null,
+        "message": "Compare raw integration-point von Mises with the frozen supplied ductile yield. Yield exceedance does not model plastic deformation; missing yield cannot establish a factor. No fatigue, brittle failure, buckling or code check is implied."
+      },
+      {
+        "code": "small_deformation",
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "triggered": false,
+        "metric": 0.0001611143856895556,
+        "threshold": 0.01,
+        "message": "Maximum native displacement / largest body extent is a 1% screening heuristic. Exceedance requires review of small-deformation linear elasticity. Passing this heuristic does not bound local strain/rotation or certify validity; display exaggeration is irrelevant."
+      }
+    ],
+    "raw_peak": {
+      "value": 2565147.985631472,
+      "location": "integration_point",
+      "position_m": [
+        0.009320254,
+        0.008634768,
+        0.01071652
+      ],
+      "node_id": null,
+      "element_id": 1356,
+      "integration_point_id": 3,
+      "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+      "material_id": "M1"
+    }
+  },
+  "rows": [
+    {
+      "sample": {
+        "label": "Sample 1",
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "point_m": [
+          0.04,
+          0.01,
+          0.0075
+        ],
+        "reference_element_id": 605,
+        "compared_element_id": 900
+      },
+      "reference": {
+        "element_id": 605,
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "material_id": "M1",
+        "position_m": [
+          0.039999999999999994,
+          0.01,
+          0.0075
+        ],
+        "barycentric": [
+          0.13928571428588887,
+          0.5133414587602131,
+          0.09737282695389797,
+          0.25000000000000006
+        ],
+        "displacement_m": [
+          -0.000002778750361896025,
+          7.189726084739969e-10,
+          -0.000004878748249811583
+        ],
+        "stress": {
+          "tensor_pa": [
+            619601.2291331742,
+            3976.2946723294945,
+            723.0970464007487,
+            -2214.500974246698,
+            -1637.8082692434998,
+            -37417.800260679025
+          ],
+          "principal_pa": [
+            621862.5444568495,
+            4488.368333680626,
+            -2050.291938625741
+          ],
+          "von_mises_pa": 620669.3382313023
+        },
+        "smoothed_stress": {
+          "tensor_pa": [
+            617952.0820469103,
+            2595.743405824324,
+            -2331.3235813002398,
+            -2121.1687266454,
+            -320.6008937968639,
+            -42228.38698349673
+          ],
+          "principal_pa": [
+            620820.8507530263,
+            2616.1307525938337,
+            -5220.479634185679
+          ],
+          "von_mises_pa": 622160.0419691695
+        }
+      },
+      "compared": {
+        "element_id": 900,
+        "body_id": "2ce744e6cafd0f6a3c1c18eb022b035a3da8c274ea70f5411f440d02bc8d97ae:b1",
+        "material_id": "M1",
+        "position_m": [
+          0.04,
+          0.01,
+          0.0075
+        ],
+        "barycentric": [
+          0.5000011362360964,
+          0.1169690440349585,
+          0.16673288000305536,
+          0.21629693972588973
+        ],
+        "displacement_m": [
+          -0.000002784874592318382,
+          -5.064803840999573e-10,
+          -0.000004928317220901149
+        ],
+        "stress": {
+          "tensor_pa": [
+            598407.0920603594,
+            -942.5379846379187,
+            79.47753693045453,
+            -1372.486896305185,
+            -356.38198988009594,
+            -42527.98110087414
+          ],
+          "principal_pa": [
+            601417.7788307613,
+            -847.2222830606745,
+            -3026.524935048695
+          ],
+          "von_mises_pa": 603357.6042785969
+        },
+        "smoothed_stress": {
+          "tensor_pa": [
+            601093.195275083,
+            28.408884774820894,
+            217.3507531574924,
+            -815.1317076390142,
+            1401.7976256713466,
+            -42213.10708293248
+          ],
+          "principal_pa": [
+            604045.6569955817,
+            571.5350431786668,
+            -3278.2371257451223
+          ],
+          "von_mises_pa": 605408.1883253104
+        }
+      },
+      "change": {
+        "reference": 620669.3382313023,
+        "compared": 603357.6042785969,
+        "signed_change": -17311.7339527054,
+        "absolute_change": 17311.7339527054,
+        "relative_change": 0.027892039909749665
+      }
+    }
+  ],
+  "raw_peak_change": {
+    "reference": 2221559.8365036943,
+    "compared": 2565147.985631472,
+    "signed_change": 343588.14912777767,
+    "absolute_change": 343588.14912777767,
+    "relative_change": 0.15466076739509255
+  },
+  "warnings": [
+    "Same undeformed physical coordinates and explicit element/body/material sides in both retained affine C3D10 meshes. Quadratic displacement; tensor interpolation precedes invariants, with the declared unaveraged/partitioned-smoothed mode. Changes are compared minus reference; relative change is absolute change / absolute reference, unavailable at or below the disclosed SI reference floor. Floors are display conventions, not numerical acceptance tolerances. Raw native extrema are separate moving locations. One arbitrary comparison cannot establish convergence, accuracy, stability or safety.",
+    "The raw peak magnitude increased at its mesh-dependent location. This may indicate an unresolved concentration or singularity; it does not prove divergence or convergence. Inspect the common physical samples separately."
+  ]
+}

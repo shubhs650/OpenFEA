@@ -1,0 +1,13 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/tutorials.spec.ts
+
+
+Running 2 tests using 1 worker
+
+(node:6089) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded (28.1s)
+  ✓  2 tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded (32.7s)
+
+  2 passed (1.1m)

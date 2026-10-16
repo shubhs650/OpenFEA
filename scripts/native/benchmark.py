@@ -10,9 +10,7 @@ from worker.runtime import ROOT
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "case", choices=["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B11"]
-    )
+    parser.add_argument("case", choices=[f"B{n:02d}" for n in range(1, 15)])
     parser.add_argument("--development", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()

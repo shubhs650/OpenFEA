@@ -62,6 +62,10 @@ def solve(directory: Path, deck: str) -> tuple[dict[int, Vec], list[list[float]]
 
 
 def run_case(case: str, output: Path, development: bool = False) -> dict[str, Any]:
+    if case in ("B10", "B12", "B13", "B14"):
+        from worker.reference_benchmarks import run_reference
+
+        return run_reference(case, output, development)
     if case == "B06":
         from worker.direction_benchmarks import run_rotation
 

@@ -1,0 +1,76 @@
+{
+  "implementation_commit": "d1e4a49b9aa347b4aa8e185c622ea44240b65022",
+  "criteria_predeclared_commit": "5e029d9",
+  "classification": "DEVELOPMENT only; exact owner acceptance pending",
+  "reference_criteria_sha256": {
+    "B10": "c294e683af0b82c23bce2fe2f657653b1f4723b70890f19d63525853154b559f",
+    "B12": "7f88016857b446409c850cc3bb19dd775163d07f506f83de3d570490b118ffe0",
+    "B13": "7b8e720ae1a9b15efb561b616f207e03c466e8b77b1e54fd11842a34bb3df481",
+    "B14": "bf3bd3d0a5e5c526878ceb05c8371c092368f2249971c1b240a540e9b5c080e0"
+  },
+  "versions": {
+    "python": "3.12.14",
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "ccx": "2.23",
+    "gmsh": "4.15.2",
+    "ocp": "8.0.1.1.0",
+    "playwright": "1.64.0",
+    "chromium": "156.0.8078.4",
+    "bubblewrap": "0.12.0"
+  },
+  "locks_sha256": {
+    "uv.lock": "36f59cf0e56b6442588403ba9ac6b47e732a46ce4a9d8cd7f3e5edcea741e261",
+    "package-lock.json": "feb1470637caf3d65d9af3d08e89ca777ca097f49b055845452b610917c45fba",
+    "scripts/native/toolchain-lock.json": "4fe254a52cdd59200968aed972da5065c6592a5464d286b674ff12fe931cbaf9"
+  },
+  "artifacts_sha256": {
+    "B10.json": "6e9f4f08f6a648b358517d33e59e0b7c63ca2f3612db553db8cefeeed12b6a41",
+    "B12.json": "f3fc542e606a3821e9474aa98ad1554e2b924727bf3572afd3205e420d2f29a9",
+    "B13.json": "257314a3aadc5776d4c9960c5c767d392099912b9d2781705bb079a7fc7f9aad",
+    "B14.json": "d8c6a1f1b993f3450f89b9ab1112b6ff84753951cc23badad072dbe746b12f03",
+    "bond-comparison.json": "9dece9c92501198b7770092843ff742f2c009eacf109e751b2b412d60cf1711e",
+    "bond-learning.json": "531ba6ccbbdf3182e42c34ab984d97f951ef7953413879848bd208114c9e17ff",
+    "bond-report-model.json": "2d17a1059da4567b4a3a79f1ee4d42023341a51b7438d35c9d9f3b4e9849078c",
+    "bond-tutorial.pdf": "7bcff9cb390364831b4babf5d992c5ef09253b75ecb41f692b45aaf96b8c336a",
+    "bracket-comparison.json": "8c7a9f5d2f6c5a457ed4530cce93762b761485e3df89e7e7f1ad4c002b979179",
+    "bracket-learning.json": "b57cc5e141f35504d4ba716525c0468a918ed12926feeb52ac7a2e31bf221d14",
+    "bracket-report-model.json": "6e811ee4880cc9e12695706e562cc2b3e4114bb7c3251fc3804f1024ab5c1308",
+    "bracket-tutorial.pdf": "e06e969229abf4cda05e38e5200b4420a07c02ed5e8a41ba916a575debaab38a",
+    "browser.log": "697c9aa08a4322aed86a84723647d08b3df437e5f75b4abe8d065b4b21faa086",
+    "build.log": "dd145de27160402b4c0d95d6c9ac898d6574be9ca71c5f7563a0da6a25c03573",
+    "check.log": "621f48dcb7794412cb13fbb23158528c2709223609b5007bb9bdd57eb11bfa48",
+    "doctor.log": "2b0f076a48dcd1f684f774f8abfbc475715ce20ebfe7e3379b26340bb72b7720",
+    "first-ci-failure.log": "a85c131b1ad8743fe284a88649aae488fe935cbcc7976d0c9632c9740bb6ec6e",
+    "initial-browser-failures.log": "f083b3c2e6070a48900361d104c2598124d0c6610e7313d2f1304876fae6c186",
+    "initial-native-failure.log": "b5291a3b3ecb39c4d2b313198e2981056ff78a2a9239762bc6f7686b3a228c33",
+    "refinement-harness-failure.log": "63cd037273e49778b252d5d8f4643a7968ef5bfeb0d9f17c04a30b83c90e06ef",
+    "report-audit-static.log": "5e08c7a0f90b6ff1cb40b1f3eaa869d389aafe833d6f39910e9759864cab32bb",
+    "smoke.log": "be5fbb6499f67a711453bf305a5c8064e2d1a1f957597afda99cddd150497e0c",
+    "tutorial-replay.log": "0df8541378c15f9673f921fd64bf8c2e85b5fbcc85cc5303d6305a363a5829dd",
+    "ui-fix-browser.log": "3656f164cb989cf788e862e5a99b4b27abc61c5360cf82faa2ed4b611f846caf",
+    "ui-fix-static.log": "851510c2fa96e7768e38420fe32ae0db5bf69da77ecedcf99fd498680569833e"
+  },
+  "unexecuted": [
+    "Code_Aster executable",
+    "ANSYS executable",
+    "engineering-owner acceptance B10/B12/B13/B14",
+    "3\u20135 human usability trials",
+    "actual Windows/WSL2 laptop/capacity/headed-GPU acceptance"
+  ],
+  "distinct_local_tests": {
+    "python_unit": 475,
+    "typescript_unit": 35,
+    "native_references": 4,
+    "browser": 11,
+    "total": 525,
+    "remaining_failures": 0,
+    "skipped": 0
+  },
+  "browser_evidence_commit": "f5ae3cca4e39f328aaa2e529cbff88e21ade98b8",
+  "ui_fix_commit": "cb3b08254c294bfcfd133107cfad8e8de74fa555",
+  "ui_fix_source_sha256": {
+    "apps/web/src/geometry/Workspace.tsx": "2fde687aca6bfd642669cc72f67aebea03b716f458fa689d50fa808e9a101940",
+    "apps/web/src/help/Tutorials.tsx": "a32d72956dca263dedc33d1b65a645f023b42fb7659989bd4db415eed76dea39"
+  }
+}

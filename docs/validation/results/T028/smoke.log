@@ -1,0 +1,6 @@
+bash scripts/codex/start.sh --smoke
+SUPERVISOR pid=4364
+STARTED api pid=4385
+STARTED web pid=4386
+READY: API health, web entry point and Vite API proxy verified
+Web port 5173; API port 8000; logs in .local/logs

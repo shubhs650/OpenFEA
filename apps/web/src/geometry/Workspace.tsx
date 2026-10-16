@@ -1,4 +1,6 @@
 import { PortableArchives } from "../reports/PortableArchives";
+import { Tutorials } from "../help/Tutorials";
+import { useComputeActivity } from "../help/compute";
 import { Checklist } from "../workspace/Checklist";
 import { EditToolbar } from "../workspace/EditToolbar";
 import { resetEdits, useEdits } from "../workspace/edits";
@@ -58,6 +60,8 @@ export function Workspace() {
   const [visible, setVisible] = useState(new Set<string>());
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [importing, setImporting] = useState(false);
+  useComputeActivity(importing);
   const [stage, setStage] = useState("");
   const [error, setError] = useState("");
   const displayedRevision = useRef<string | null>(null);
@@ -175,6 +179,7 @@ export function Workspace() {
   async function inspect(selectedUnit?: string) {
     if (!project || !file) return;
     setBusy(true);
+    setImporting(true);
     setError("");
     setConfirmed(false);
     try {
@@ -209,6 +214,7 @@ export function Workspace() {
       setError((e as Error).message);
       setStage("");
     } finally {
+      setImporting(false);
       setBusy(false);
     }
   }
@@ -297,6 +303,7 @@ export function Workspace() {
     >
       <aside className="panel" aria-label="Model tree">
         <Checklist analysisId={analysisId} geometryId={geometry?.id} />
+        <Tutorials />
         <div id="setup-geometry" tabIndex={-1}>
           <h2>Project</h2>
           <label>
@@ -510,6 +517,17 @@ export function Workspace() {
                         onClick={() => toggle(face.id)}
                       >
                         Body {index + 1} face {fi + 1}
+                        <small>
+                          {" "}
+                          Centre (m):{" "}
+                          {(
+                            (geometry?.faces.find((f) => f.id === face.id)
+                              ?.signature.center_m as number[] | undefined) ??
+                            []
+                          )
+                            .map((v) => v.toPrecision(4))
+                            .join(", ")}
+                        </small>
                       </button>
                     ))}
                 </details>

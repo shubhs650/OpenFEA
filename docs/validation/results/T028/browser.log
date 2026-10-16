@@ -1,0 +1,15 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/tutorials.spec.ts tests/e2e/assembly.spec.ts tests/e2e/reports.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:3658) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/assembly.spec.ts:6:1 › real reviewed connection passes necessary mesh checks and solves while detached setup stays blocked (21.9s)
+  ✓  2 tests/e2e/reports.spec.ts:4:1 › dark workspace exports matching PDF and editable Word from a frozen historical model (14.6s)
+  ✓  3 tests/e2e/tutorials.spec.ts:76:3 › guided bracket performs real refinement/report with compute excluded (22.5s)
+  ✓  4 tests/e2e/tutorials.spec.ts:76:3 › guided bond performs real refinement/report with compute excluded (30.8s)
+
+  4 passed (1.5m)

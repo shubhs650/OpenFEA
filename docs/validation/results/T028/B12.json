@@ -1,0 +1,166 @@
+{
+  "case": "B12",
+  "status": "DEVELOPMENT PASS; owner acceptance pending",
+  "runs": [
+    {
+      "mesh_size_m": 0.5,
+      "nodes": 231,
+      "elements": 100,
+      "max_displacement_error_m": 5.000000001705029e-10,
+      "max_stress_error_pa": 0.0,
+      "stress_samples": 400,
+      "equilibrium": {
+        "passed": true,
+        "applied_force_n": [
+          0,
+          0,
+          0
+        ],
+        "applied_moment_nm": [
+          0,
+          0,
+          0
+        ],
+        "reaction_force_n": [
+          -1.5000000654907808e-05,
+          4.000000547677018e-06,
+          -6.000002130690518e-06
+        ],
+        "reaction_moment_nm": [
+          -2.500001183847189e-06,
+          -6.999999225598685e-06,
+          7.000001058798944e-06
+        ],
+        "moment_origin_m": [
+          0,
+          0,
+          0
+        ],
+        "characteristic_length_m": 1.0,
+        "prescribed_actuator_reference_n": 16065.495247000017,
+        "force": {
+          "residual": [
+            -1.5000000654907808e-05,
+            4.000000547677018e-06,
+            -6.000002130690518e-06
+          ],
+          "residual_norm": 1.6643318467088885e-05,
+          "reference": 16065.495247000017,
+          "relative_residual": 1.0359667231669542e-09,
+          "criterion": "relative",
+          "absolute_tolerance": 1e-06,
+          "relative_tolerance": 0.005,
+          "tolerance": 80.32747623500009,
+          "passed": true
+        },
+        "moment": {
+          "residual": [
+            -2.500001183847189e-06,
+            -6.999999225598685e-06,
+            7.000001058798944e-06
+          ],
+          "residual_norm": 1.0210289413175607e-05,
+          "reference": 16065.495247000017,
+          "relative_residual": 6.355415289847489e-10,
+          "criterion": "relative",
+          "absolute_tolerance": 1e-06,
+          "relative_tolerance": 0.005,
+          "tolerance": 80.32747623500009,
+          "passed": true
+        },
+        "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained span only; internal ties/MPC/free-node RF excluded"
+      },
+      "source.brep_sha256": "ad97135087f6bec8311b4a4edf03b0821e27629731ecd700f0674c5338c8b937",
+      "mesh.json_sha256": "139722eb55a9ea74a5233c4f456983f7a0f07ddb1242a1051d9db73475d85d06",
+      "analysis.inp_sha256": "416536f75baae6d510fe54256f7eacc3730e5f28d748f37e972ad2ed456c7dd1",
+      "analysis.dat_sha256": "d41223d008d96fc444175fe78f8f9909a7a47d5c459ba7bf5c2ff67a58845189",
+      "solver.log_sha256": "ce7110a78c48e141b69f17dc890b00340f54b3f66d487d45f51510bc1397a10d"
+    },
+    {
+      "mesh_size_m": 0.35,
+      "nodes": 447,
+      "elements": 204,
+      "max_displacement_error_m": 4.995232001474281e-10,
+      "max_stress_error_pa": 0.0,
+      "stress_samples": 816,
+      "equilibrium": {
+        "passed": true,
+        "applied_force_n": [
+          0,
+          0,
+          0
+        ],
+        "applied_moment_nm": [
+          0,
+          0,
+          0
+        ],
+        "reaction_force_n": [
+          9.992669252056885e-07,
+          1.9988021708883252e-06,
+          -7.081687435572803e-06
+        ],
+        "reaction_moment_nm": [
+          1.860435782319314e-06,
+          7.986928906689172e-06,
+          -3.059556740847569e-06
+        ],
+        "moment_origin_m": [
+          0,
+          0,
+          0
+        ],
+        "characteristic_length_m": 1.0,
+        "prescribed_actuator_reference_n": 16198.30059193327,
+        "force": {
+          "residual": [
+            9.992669252056885e-07,
+            1.9988021708883252e-06,
+            -7.081687435572803e-06
+          ],
+          "residual_norm": 7.425903409101658e-06,
+          "reference": 16198.30059193327,
+          "relative_residual": 4.5843719018276195e-10,
+          "criterion": "relative",
+          "absolute_tolerance": 1e-06,
+          "relative_tolerance": 0.005,
+          "tolerance": 80.99150295966635,
+          "passed": true
+        },
+        "moment": {
+          "residual": [
+            1.860435782319314e-06,
+            7.986928906689172e-06,
+            -3.059556740847569e-06
+          ],
+          "residual_norm": 8.752893356548278e-06,
+          "reference": 16198.30059193327,
+          "relative_residual": 5.403587436145744e-10,
+          "criterion": "relative",
+          "absolute_tolerance": 1e-06,
+          "relative_tolerance": 0.005,
+          "tolerance": 80.99150295966635,
+          "passed": true
+        },
+        "method": "Frozen physical load magnitudes plus nonzero prescribed-component actuator reactions; moments about global origin; external constrained span only; internal ties/MPC/free-node RF excluded"
+      },
+      "source.brep_sha256": "ad97135087f6bec8311b4a4edf03b0821e27629731ecd700f0674c5338c8b937",
+      "mesh.json_sha256": "b0d85880f06c955bae4c65d27a6f1afd891cfb2d6fae88475e192b5786584b49",
+      "analysis.inp_sha256": "0c10ecf091f97402e61f7d83fc13b4f54e9d945a9769ac2ade9ac25cf86e5954",
+      "analysis.dat_sha256": "e302889b5366ae4e78dbc53827d966cab8933a581cb5bd8f6190a5e1ee29dc4a",
+      "solver.log_sha256": "b602c0cbb4e01c9bc63fb4527cb41dc7c97899d8e44fdd6b34ef647e129ab74b"
+    }
+  ],
+  "code_commit": "d1e4a49b9aa347b4aa8e185c622ea44240b65022",
+  "manifest_sha256": "fbbc1596735511a58ebfbc5f5eca675d44e6d026faecc956a4fd6cb0e7c79402",
+  "reviewer_signoff": "PENDING engineering-owner review; DEVELOPMENT only",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "ccx_version": "2.23",
+  "gmsh_version": "4.15.2",
+  "threads": 1,
+  "ccx_sha256": "d55622f40e0435e738a86cbd364d525fff31524212ecca17d71d4c15ea2935f5",
+  "solver_backend": "CalculiX 2.23",
+  "code_aster_executed": false,
+  "ansys_executed": false
+}

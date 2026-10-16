@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { getHealth } from "./health";
 import { Workspace } from "./geometry/Workspace";
 import "./style.css";
+import { ComputeProvider } from "./help/compute";
 
 function App() {
   const [status, setStatus] = useState("Checking API…");
@@ -26,7 +27,9 @@ function App() {
         </span>
       </header>
       <ThemeProvider>
-        <Workspace />
+        <ComputeProvider>
+          <Workspace />
+        </ComputeProvider>
       </ThemeProvider>
       <footer>
         Geometry, materials and face loads with checked coarse mesh and local

@@ -1,9 +1,9 @@
 # Progress and handoff
 
-Updated: 2026-10-15 (Asia/Calcutta)
-Current state: T027 PORTABLE ARCHIVES/DIAGNOSTICS COMPLETE + T025/T026 REPORTS + owner-approved bounded M3.
-Current milestone: M4 IN PROGRESS — T025–T027 COMPLETE; T028 reference suite/tutorials next. Local Windows/laptop and later reference acceptance remain T030.
-Next action: review the T027 PR after hosted CI passes, then T028. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
+Updated: 2026-10-16 (Asia/Calcutta)
+Current state: T028 REFERENCE/TUTORIAL DEVELOPMENT DELIVERABLES COMPLETE + T025–T027 + owner-approved bounded M3.
+Current milestone: M4 IN PROGRESS — T025–T028 COMPLETE; T029 resource/fault resilience next. Exact new reference-owner/human/Windows/laptop acceptance remain T030.
+Next action: review the T028 PR after hosted CI passes, then T029. Preserve original report/model/raw run bytes, exact M3 approvals and remaining M4 obligations.
 
 
 ## Current objective
@@ -39,12 +39,13 @@ T024: COMPLETE — exact owner approval and ten required acceptance cases PASS; 
 T025: COMPLETE
 T026: COMPLETE
 T027: COMPLETE
-T028–T042: NOT STARTED
+T028: COMPLETE
+T029–T042: NOT STARTED
 M0: OWNER APPROVED FOR M1 PROGRESSION — explicit benchmark/laptop deferrals; historical technical NO-GO and fixes retained.
 M1: T007–T012 COMPLETE; bounded technical exit PASS; benchmark/laptop deferrals preserved.
 M2: COMPLETE — T013–T018 complete; bounded technical exit PASS; owner/laptop deferrals retained.
 M3: COMPLETE — owner-approved bounded engineering exit PASS.
-M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives complete, T028 next. M4–M6 exit gates: NOT RUN.
+M4: IN PROGRESS; T025 PDF/T026 Word/T027 archives/T028 reference tutorials complete, T029 next. M4–M6 exit gates: NOT RUN.
 B01/B02: ACCEPTANCE PASS on both frozen meshes; exact owner approval recorded.
 B09: ACCEPTANCE PASS for the exact material-jump/provenance case; owner approval recorded.
 B07: Native *TIE candidate REJECTED; declared mortar ACCEPTANCE PASS in both roles and monolithic reference; bounded formulation approval recorded.
@@ -52,9 +53,21 @@ B03–B05: ACCEPTANCE PASS on both declared meshes; exact owner approval recorde
 B06: ACCEPTANCE PASS on both meshes/native placements; exact owner approval recorded.
 B08: ACCEPTANCE PASS only for the approved 10 µm axial unit-square idealization; product physical-gap solves remain blocked.
 B11: ACCEPTANCE PASS for approved invalid-setup refusal; finite unsupported native output remains diagnostic only.
-B10/B12–B14: NOT RUN.
+B10/B12–B14: DEVELOPMENT PASS; exact engineering-owner acceptance pending. B13/B14 compare published references; Code_Aster/ANSYS binaries NOT RUN.
 AWS price fit: NOT VERIFIED; outside this stage.
 Project license: DEFERRED pending dependency/native review.
+
+## T028 completed — sourced reference comparisons and connected tutorials
+
+[Guided tutorials](docs/TUTORIALS.md) provide original planar bracket and two-body bonded STEP downloads, physical face centres, deliberate native setup/refinement/report actions, monotonic compute-excluded timing and local self-reported learning logs. Detected bonds still require explicit review. The supported sharp planar bracket is clearly separate from offline B10's filleted geometry; product curved solves stay blocked.
+
+All four new native cases execute: B10 final 5391→8742-element refinement changes tip mean uz by 0.22023% and interior von Mises by 0.00624%; B12 all-node/IP affine patch max errors <=5.01e-10 m / 0 Pa; B13 quadratic gravity/traction reference <=5.00e-13 m / 0.080554 Pa; B14 tapered-bar displacement error <=0.13733% and interior stress error <=0.47808%. Each mesh passes unchanged external force/moment equilibrium. [Sources/rights](docs/validation/T028-sources.md), manifests committed at `5e029d9` before execution, and [evidence](docs/validation/T028.md) retain exact conditions, exclusions, tool/source hashes and failures. B13/B14 use independently authored CCX reconstructions against published values, not fresh external solver runs. No proprietary fixtures or texts are redistributed.
+
+**525 distinct local passes, 0 remaining failures/skips:** 475 Python, 35 TypeScript, four native reference cases and 11 affected Chromium cases. Actual tutorial refinement, physical probes/volume sections, PDF downloads and timing logs pass; existing assembly and historical PDF/Word browser paths pass. The 600/500 mm bond sizing initially produced identical meshes; the guide now explicitly refines 600→400 mm rather than pretending to converge. Native exporter/locator harness failures remain recorded; no tolerance, dependency lock, product limit, retry budget or CI deadline was relaxed. Full hosted CI is monitored on the requested unmerged PR, with 776 distinct cases expected, not credited before execution.
+
+Hosted run `38852565295` on `329c646` passed 200 native, 475 Python, 35 TypeScript, 18 process cases and 40/42 browser cases, then stopped on two tutorial integration regressions; remaining report suite was NOT RUN. Checkbox labels are now short with linked descriptions, and help follows the model checklist to preserve keyboard priority. All nine targeted analysis/workspace/tutorial browser cases pass after fix `cb3b082`; latest-head full CI is rerun, without widening limits. [Failure and fix evidence](docs/validation/T028.md) remains recorded.
+
+T028 is complete for development execution/tutorial delivery. Engineering-owner review of the exact four new criteria, human 3–5-person/30-minute usability acceptance, actual Windows/WSL2 laptop performance and M4 release remain pending at T030. Existing B01–B09/B11 approvals remain identical. Next implementation task is T029 after this PR review.
 
 ## T027 completed — portable archives and private diagnostic review
 
