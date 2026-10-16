@@ -2,10 +2,10 @@
   "version": "T028-v1",
   "tutorial": "Reviewed bonded support",
   "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
-  "recorded_at": "2026-10-16T04:39:01.997Z",
+  "recorded_at": "2026-10-16T04:41:12.375Z",
   "duration_ms": {
-    "setup": 16158.29999999993,
-    "compute": 13292.500000000116,
+    "setup": 14957.899999999674,
+    "compute": 13643.000000000233,
     "paused": 0
   },
   "completed_steps": [
@@ -18,6 +18,6 @@
     6
   ],
   "help_requests": "",
-  "measurements_and_errors": "{\"reference_elements\":200,\"compared_elements\":368}",
+  "measurements_and_errors": "{\"field\":\"sxx\",\"rows\":[{\"point_m\":[1.5,0.5,0.5],\"reference\":-1000,\"compared\":-999.9999999999999,\"signed_change\":1.1368683772161603e-13,\"absolute_change\":1.1368683772161603e-13,\"relative_change\":1.1368683772161603e-16}],\"reference_elements\":200,\"compared_elements\":368}",
   "classification": "self-reported learning log; not usability or engineering acceptance"
 }

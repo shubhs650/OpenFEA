@@ -61,7 +61,7 @@ tests/unit/test_archives.py::test_reject_bad_manifest_and_expansion[duplicate]
     return self._open_to_write(zinfo, force_zip64=force_zip64)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 475 passed, 1 warning in 34.78s ========================
+======================= 475 passed, 1 warning in 33.66s ========================
 npm run test:unit
 
 > openfea@0.1.0 test:unit
@@ -73,15 +73,15 @@ npm run test:unit
 
  Test Files  6 passed (6)
       Tests  35 passed (35)
-   Start at  04:35:33
-   Duration  669ms (tests 43%, import 31%, worker 14%, transform 11%, environment 1%)
+   Start at  04:42:09
+   Duration  724ms (tests 46%, import 29%, worker 13%, transform 12%, environment 1%)
 
-    Isolate  6 workers spawned · ~80ms startup each (spawn + environment, per file)
-             at least ~398ms faster with isolate: false — reuses workers across files instead of one per file
+    Isolate  6 workers spawned · ~85ms startup each (spawn + environment, per file)
+             at least ~426ms faster with isolate: false — reuses workers across files instead of one per file
 
 .venv/bin/python scripts/ci/contracts.py --check
 ✨ openapi-typescript 7.13.0
-🚀 /tmp/tmpl4apymqy/openapi.json → /tmp/tmpl4apymqy/api.d.ts [304.9ms]
+🚀 /tmp/tmpe2mihq_0/openapi.json → /tmp/tmpe2mihq_0/api.d.ts [315.2ms]
 PASS: API OpenAPI and TypeScript contracts
 .venv/bin/python scripts/ci/docs_check.py
-PASS: 165 Markdown files; 42 task statuses and acyclic dependencies
+PASS: 168 Markdown files; 42 task statuses and acyclic dependencies
