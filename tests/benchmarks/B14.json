@@ -1,0 +1,44 @@
+{
+  "revision": 1,
+  "units": "m,N,Pa",
+  "element": "C3D10, affine midpoint nodes; independently remeshed 3D solid",
+  "reviewer_signoff": "PENDING engineering-owner review; DEVELOPMENT only",
+  "tolerances": {
+    "tip_relative": 0.02,
+    "stress_relative": 0.05,
+    "displacement_absolute_m": 1e-9,
+    "stress_absolute_pa": 100,
+    "equilibrium_relative": 0.005
+  },
+  "rights": "Original OpenFEA geometry, generator and manifests; only factual parameters/formulas paraphrased from cited primary source. No external input deck, mesh, image or manual text bundled.",
+  "id": "B14",
+  "source": {
+    "title": "ANSYS Mechanical APDL Verification Manual VM37, Elongation of a Solid Bar",
+    "url": "https://ansyshelp.ansys.com/public/Views/Secured/corp/v242/en/ans_vm/Hlp_V_VM37.html",
+    "revision": "2024 R2, v242",
+    "sha256": "d75ce7cd10f7f3e8fb427394003bd39ce0419fd94d7397b6719b2b2dbb12c116",
+    "geometry_source_url": "https://ansyshelp.ansys.com/public/Views/Secured/corp/v242/en/ans_vm/Hlp_V_VM37TXT.html",
+    "geometry_source_sha256": "0a5fb463be6a5b6558bbd1fdcc305bc840c394d4017a9485b5975c829f95cd00",
+    "accessed_on": "2026-10-16"
+  },
+  "geometry": {
+    "length_y_m": 0.254,
+    "square_width_at_y0_m": 0.0508,
+    "square_width_at_yL_m": 0.0254,
+    "center_xz_m": [0, 0]
+  },
+  "material": {
+    "E_pa": 71705475848.94719,
+    "nu": 0.3
+  },
+  "mesh_sizes_m": [0.0127, 0.008466666666666667],
+  "supports": "All translations zero at y=0 broad end",
+  "loads": "Uniform tensile traction +y 10000 psi = 68947572.93168 Pa at y=L small end; resultant 10000 lbf = 44482.216152605 N",
+  "samples": "Area-weighted mean tip uy; mean native syy in central slab |y-L/2|<=0.00508, |x|,|z|<=0.00635; at least four IP samples. Finite slab spatial variation reported.",
+  "expected_tip_uy_m": 0.00012211558,
+  "expected_syy_pa": 30640301.41083859,
+  "published_solid45_tip_uy_m": 0.00012082779999999999,
+  "published_solid45_syy_pa": 30620223.877600882,
+  "expected": "Compare to published analytical targets and report differences to published SOLID45 results separately. Integral F/E/A(y) gives .00480769230769 in; stress F/A(L/2)=4444.444444 psi.",
+  "exclusions": "Original C3D10 3D reconstruction with same taper, Poisson ratio and fixed-end restraint, not APDL/SOLID45 reproduction. Target bar formula omits local transverse/end effects; documented published solid displacement differs 1.1%, motivating predeclared 2% displacement/5% local stress limits. ANSYS executable not run. No proprietary CAD/deck/manual text/image copied."
+}

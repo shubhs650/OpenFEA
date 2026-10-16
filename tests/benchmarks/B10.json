@@ -1,0 +1,47 @@
+{
+  "revision": 1,
+  "units": "m,N,Pa",
+  "element": "C3D10, affine midpoint nodes; independently remeshed 3D solid",
+  "reviewer_signoff": "PENDING engineering-owner review; DEVELOPMENT only",
+  "tolerances": {
+    "tip_change_relative": 0.02,
+    "stress_change_relative": 0.05,
+    "displacement_absolute_m": 1e-11,
+    "stress_absolute_pa": 0.1,
+    "equilibrium_relative": 0.005
+  },
+  "rights": "Original OpenFEA geometry, generator and manifests; only factual parameters/formulas paraphrased from cited primary source. No external input deck, mesh, image or manual text bundled.",
+  "id": "B10",
+  "source": {
+    "title": "Original synthetic filleted L mounting bracket",
+    "url": null,
+    "revision": "T028 original"
+  },
+  "geometry": {
+    "outline_xz_m": [
+      [0, 0],
+      [0.08, 0],
+      [0.08, 0.01],
+      [0.015, 0.01],
+      [0.01, 0.015],
+      [0.01, 0.06],
+      [0, 0.06]
+    ],
+    "extrusion_y_m": 0.02,
+    "inner_fillet_radius_m": 0.005
+  },
+  "material": {
+    "E_pa": 210000000000.0,
+    "nu": 0.3
+  },
+  "mesh_sizes_m": [0.004, 0.003, 0.0025],
+  "supports": "All translations zero on z=0.06 mounting end",
+  "loads": "Uniform distributed total force (0,0,-10) N on x=0.08 end, consistent tri6 area weights",
+  "samples": {
+    "tip": "Area-weighted mean uz on x=0.08",
+    "stress_point_m": [0.04, 0.01, 0.0075],
+    "stress": "Unaveraged element-owned four-IP linear extrapolation/interpolation, von Mises after tensor interpolation; deterministic lowest element ID on a shared side"
+  },
+  "expected": "No analytical bracket peak claim; final two meshes must agree in tip mean uz within 2% and the fixed interior von Mises sample within 5%. All meshes pass external equilibrium. First pair reported, not required monotonic.",
+  "exclusions": "Straight-sided C3D10 approximates the cylindrical fillet boundary and converges geometry as well as field. This offline benchmark does not enable product curved-volume solves; product tutorial explicitly uses a separately authored sharp planar bracket. Root/load/fillet surface peaks excluded. Human 30-minute usability acceptance remains T030."
+}

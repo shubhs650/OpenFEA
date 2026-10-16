@@ -1,0 +1,37 @@
+{
+  "revision": 1,
+  "units": "m,N,Pa",
+  "element": "C3D10, affine midpoint nodes; independently remeshed 3D solid",
+  "reviewer_signoff": "PENDING engineering-owner review; DEVELOPMENT only",
+  "tolerances": {
+    "relative": 0.001,
+    "displacement_absolute_m": 1e-11,
+    "stress_absolute_pa": 0.1,
+    "equilibrium_relative": 0.005
+  },
+  "rights": "Official suite is distributed with GPL CalculiX. No suite deck/output copied into repository; original generator reconstructs numerical continuum definition, factual coefficients only.",
+  "id": "B12",
+  "source": {
+    "title": "CalculiX 2.23 official patch_c3d8i",
+    "url": "https://www.dhondt.de/ccx_2.23.test.tar.bz2",
+    "revision": "2.23",
+    "archive_sha256": "be2259fd9a7b990d0453b30708e1b05f2cd4b6df4a90fa96f0e4abd1ae7beaa0",
+    "member": "CalculiX/ccx_2.23/test/patch_c3d8i.inp",
+    "member_sha256": "63f14be9a25ad31aa4b9f36993bd5dade59e61e386a128ed05e01a9cf9fa6f4e",
+    "accessed_on": "2026-10-16"
+  },
+  "geometry": {
+    "bounds_m": [0, 0, 0, 1, 1, 1]
+  },
+  "material": {
+    "E_pa": 1000000.0,
+    "nu": 0.25
+  },
+  "mesh_sizes_m": [0.5, 0.35],
+  "supports": "Prescribe u=0.001*x+0.0005*y+0.0005*z, v=0.0005*x+0.001*y+0.0005*z, w=0.0005*x+0.0005*y+0.001*z on every exterior node; solve free interior equations",
+  "loads": "No applied forces",
+  "samples": "All nodal displacement components and all native integration-point stress components",
+  "expected_tensor_pa": [2000, 2000, 2000, 400, 400, 400],
+  "expected": "Affine field from official corner boundary values; isotropic Hooke law sigma=2mu*epsilon+lambda*tr(epsilon)I, epsilon diagonals .001, off-diagonals .0005",
+  "exclusions": "Official distorted C3D8I mesh is replaced by C3D10 meshes of identical continuum cube and complete affine exterior field. Both exactly represent affine displacement; no beam/end-effect equivalence assumed. Official DAT reference is empty; analytical values derived independently, not fabricated external output. Not an exact official deck replay."
+}
