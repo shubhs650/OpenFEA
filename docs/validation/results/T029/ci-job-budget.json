@@ -1,0 +1,11 @@
+{
+  "change": "Independent core/native and application jobs; identical tools and all suites retained; no added test retries or native/test deadline changes",
+  "completed_at": "2026-10-16T05:42:03Z",
+  "duration_seconds": 1457,
+  "job_deadline_minutes_after": 25,
+  "job_deadline_minutes_before": 25,
+  "previous_head": "07ba71672cf2a871c329add42d1846c77f81b0f7",
+  "previous_job": "check",
+  "previous_run": "https://github.com/shubhs650/OpenFEA/actions/runs/38854922373",
+  "started_at": "2026-10-16T05:17:46Z"
+}

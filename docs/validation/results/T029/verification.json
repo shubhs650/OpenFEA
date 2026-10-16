@@ -1,0 +1,43 @@
+{
+  "browser_targeted_passes": 4,
+  "final_runtime_browser_recovery": "PASS; counted once among four browser cases",
+  "final_runtime_source": "823e95d0a928313589fd3b2e592854c8c0722ef4",
+  "final_static_build_smoke": "PASS",
+  "hosted_expected_breakdown": {
+    "browser": 43,
+    "native": 211,
+    "process_integration": 19,
+    "python_unit": 486,
+    "reports": 6,
+    "typescript_unit": 35
+  },
+  "hosted_expected_distinct": 800,
+  "hosted_status": "Must be verified against latest PR head; authoritative completion in PR checks",
+  "implementation_base": "adcb9a5b1387406a3b04764f41fbdf882d7cb8c8",
+  "initial_broad_native_run": {
+    "corrected_replays": {
+      "archive_passes": 4,
+      "mesh_passes": 14
+    },
+    "corrections": "Archive validation resource allowlist and six legacy profile fixture directories",
+    "failed": 7,
+    "passed": 204,
+    "state": "Working tree during implementation, before archive/profile corrections; not final clean-source acceptance"
+  },
+  "local_distinct_targeted_passes": 560,
+  "native_targeted_passes": 32,
+  "not_run": [
+    "100k solve",
+    "actual Windows/WSL2 laptop/headed GPU/capacity",
+    "human usability trials",
+    "new exact reference-owner acceptance",
+    "hosted billing/deployment",
+    "cross-host lease/quota/retention release acceptance"
+  ],
+  "process_integration_targeted_passes": 3,
+  "python_unit_passes": 486,
+  "schema_version": 1,
+  "targeted_failures_remaining": 0,
+  "targeted_skips": 0,
+  "typescript_unit_passes": 35
+}
