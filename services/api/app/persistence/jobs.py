@@ -1,6 +1,7 @@
 """Atomic FIFO admission/claim, attempt fencing and owner-scoped durable history."""
 
 import json
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID, uuid4
 
@@ -9,6 +10,7 @@ from sqlalchemy import Connection, text
 from app.domain.errors import DomainError, not_found, stale_revision
 from app.domain.jobs import TERMINAL, Artifact, JobEvent, JobInput, LocalJob, Stage, Status
 from app.persistence.repository import Repository, now
+from worker.limits import INFRASTRUCTURE_RETRIES, JOB_SECONDS, LEASE_SECONDS
 
 
 class JobRepository:
@@ -54,6 +56,15 @@ class JobRepository:
             {"id": row["id"]},
         ).mappings()
         fields["events"] = [JobEvent.model_validate(dict(e)) for e in events]
+        attempts = connection.execute(
+            text("SELECT * FROM local_job_attempts WHERE job_id=:id ORDER BY number"),
+            {"id": row["id"]},
+        ).mappings()
+        fields["attempts"] = [
+            {k: a[k] for k in ("number", "started_at", "finished_at", "status", "reason_code")}
+            | {"artifacts": json.loads(a["artifacts_json"])}
+            for a in attempts
+        ]
         return LocalJob.model_validate(fields)
 
     def get(self, owner: UUID, identifier: UUID) -> LocalJob:
@@ -212,20 +223,49 @@ class JobRepository:
             )
             if row is None:
                 return None
+            if row["deadline_at"] and datetime.fromisoformat(row["deadline_at"]) <= datetime.now(
+                UTC
+            ):
+                connection.execute(
+                    text(
+                        "UPDATE local_jobs SET status='failed',stage='finished',finished_at=:at,"
+                        "reason_code='job_wall_limit',"
+                        "reason_message='Original job deadline expired' "
+                        "WHERE id=:id"
+                    ),
+                    {"id": row["id"], "at": now()},
+                )
+                self.event(connection, row["id"])
+                return None
             token = uuid4()
+            at = now()
+            number = row["attempt_number"] + 1
+            deadline = (
+                row["deadline_at"]
+                or (datetime.fromisoformat(at) + timedelta(seconds=JOB_SECONDS)).isoformat()
+            )
             connection.execute(
                 text(
                     "UPDATE local_jobs SET status='running',stage=:stage,"
-                    "started_at=:at,heartbeat_at=:at,attempt_token=:token,w"
-                    "orker_id=:worker WHERE id=:id"
+                    "started_at=coalesce(started_at,:at),heartbeat_at=:at,attempt_token=:token,w"
+                    "orker_id=:worker,attempt_number=:number,deadline_at=:deadline WHERE id=:id"
                 ),
                 {
                     "id": row["id"],
                     "stage": "meshing" if row["kind"] == "mesh" else "solving",
-                    "at": now(),
+                    "at": at,
+                    "number": number,
+                    "deadline": deadline,
                     "token": str(token),
                     "worker": str(worker),
                 },
+            )
+            connection.execute(
+                text(
+                    "INSERT INTO local_job_attempts(job_id,number,token,started_at,status) "
+                    "VALUES(:id,:number,:token,:at,'running')"
+                ),
+                {"id": row["id"], "number": number, "token": str(token), "at": at},
             )
             self.event(connection, row["id"])
             return (
@@ -290,6 +330,10 @@ class JobRepository:
             row = self.row(connection, identifier)
             if row["attempt_token"] != str(token) or row["status"] not in ("running", "cancelling"):
                 raise DomainError(409, "lease_lost", "The execution attempt is no longer current")
+            if (
+                datetime.now(UTC) - datetime.fromisoformat(row["heartbeat_at"])
+            ).total_seconds() > LEASE_SECONDS:
+                raise DomainError(409, "lease_lost", "The execution heartbeat expired")
             connection.execute(
                 text(
                     "UPDATE local_jobs SET heartbeat_at=:at,stage=:stage,"
@@ -319,6 +363,8 @@ class JobRepository:
         message: str | None,
         summary: dict[str, Any],
         artifacts: dict[str, Artifact],
+        *,
+        retry: bool = False,
     ) -> None:
         with self.projects.write() as connection:
             row = self.row(connection, identifier)
@@ -347,7 +393,30 @@ class JobRepository:
                 }
             if status not in TERMINAL:
                 raise ValueError("Completion must be terminal")
+            expired = row["deadline_at"] and datetime.fromisoformat(
+                row["deadline_at"]
+            ) <= datetime.now(UTC)
+            if expired and status != "cancelled":
+                status, reason, message = (
+                    "failed",
+                    "job_wall_limit",
+                    "Original job deadline expired",
+                )
+                artifacts.pop("results.json", None)
+            eligible = (
+                retry
+                and status == "interrupted"
+                and reason
+                in ("worker_interrupted", "worker_shutdown", "lease_lost", "parser_interrupted")
+                and row["attempt_number"] <= INFRASTRUCTURE_RETRIES
+            )
             if status == "succeeded":
+                if (
+                    datetime.now(UTC) - datetime.fromisoformat(row["heartbeat_at"])
+                ).total_seconds() > LEASE_SECONDS:
+                    raise DomainError(
+                        409, "lease_lost", "An expired heartbeat cannot publish success"
+                    )
                 required = {"snapshot.json", "mesh.json", "resources.json"}
                 if row["kind"] == "solve":
                     required.update(
@@ -381,6 +450,41 @@ class JobRepository:
                         )
             connection.execute(
                 text(
+                    "UPDATE local_job_attempts SET finished_at=:at,status=:status,"
+                    "reason_code=:reason,artifacts_json=:artifacts WHERE token=:token"
+                ),
+                {
+                    "at": now(),
+                    "status": status,
+                    "reason": reason,
+                    "token": str(token),
+                    "artifacts": json.dumps(
+                        {k: v.model_dump(mode="json") for k, v in artifacts.items()}
+                    ),
+                },
+            )
+            if eligible:
+                connection.execute(
+                    text(
+                        "UPDATE local_jobs SET status='queued',stage='queued',attempt_token=NULL,"
+                        "worker_id=NULL,process_pid=NULL,process_start=NULL,"
+                        "reason_code='infrastructure_retry',reason_message=:message,"
+                        "summary_json=:summary "
+                        "WHERE id=:id"
+                    ),
+                    {
+                        "id": str(identifier),
+                        "message": "Previous execution fenced; one infrastructure retry "
+                        "within the original deadline",
+                        "summary": json.dumps(
+                            json.loads(row["summary_json"]) | summary, allow_nan=False
+                        ),
+                    },
+                )
+                self.event(connection, str(identifier))
+                return
+            connection.execute(
+                text(
                     "UPDATE local_jobs SET status=:status,stage='finished',finished_at=:at,"
                     "heartbeat_at=:at,reason_code=:reason,reason_message=:message,s"
                     "ummary_json=:summary,"
@@ -399,6 +503,85 @@ class JobRepository:
                 },
             )
             self.event(connection, str(identifier))
+
+    def checkpoint(
+        self,
+        identifier: UUID,
+        token: UUID,
+        manifest: dict[str, Artifact],
+        execution: dict[str, Any],
+    ) -> None:
+        with self.projects.write() as connection:
+            row = self.row(connection, identifier)
+            if (
+                row["attempt_token"] != str(token)
+                or row["status"] != "running"
+                or row["cancel_requested"]
+            ):
+                raise DomainError(409, "lease_lost", "A stale attempt cannot checkpoint outputs")
+            if (
+                datetime.now(UTC) - datetime.fromisoformat(row["heartbeat_at"])
+            ).total_seconds() > LEASE_SECONDS:
+                raise DomainError(
+                    409, "lease_lost", "An expired heartbeat cannot checkpoint outputs"
+                )
+            connection.execute(
+                text(
+                    "INSERT INTO local_job_checkpoints "
+                    "VALUES(:id,:token,:input,:manifest,:execution)"
+                ),
+                {
+                    "id": str(identifier),
+                    "token": str(token),
+                    "input": row["input_sha256"],
+                    "manifest": json.dumps(
+                        {k: v.model_dump(mode="json") for k, v in manifest.items()}
+                    ),
+                    "execution": json.dumps(execution, allow_nan=False),
+                },
+            )
+
+    def reusable(
+        self, identifier: UUID, token: UUID
+    ) -> tuple[dict[str, Artifact], dict[str, Any]] | None:
+        with self.projects.database.engine.connect() as connection:
+            row = self.row(connection, identifier)
+            if row["attempt_token"] != str(token) or row["status"] != "running":
+                raise DomainError(409, "lease_lost", "A stale attempt cannot reuse outputs")
+            saved = (
+                connection.execute(
+                    text(
+                        "SELECT * FROM local_job_checkpoints "
+                        "WHERE job_id=:id AND input_sha256=:input"
+                    ),
+                    {"id": str(identifier), "input": row["input_sha256"]},
+                )
+                .mappings()
+                .one_or_none()
+            )
+            if saved is None:
+                return None
+            return (
+                {
+                    k: Artifact.model_validate(v)
+                    for k, v in json.loads(saved["manifest_json"]).items()
+                },
+                json.loads(saved["execution_json"]),
+            )
+
+    def retained(self, identifier: UUID) -> dict[str, int]:
+        """Unique published/checkpoint bytes already charged to this logical job."""
+        with self.projects.database.engine.connect() as connection:
+            manifests = connection.execute(
+                text(
+                    "SELECT artifacts_json FROM local_job_attempts WHERE job_id=:id "
+                    "UNION ALL SELECT manifest_json FROM local_job_checkpoints WHERE job_id=:id"
+                ),
+                {"id": str(identifier)},
+            ).scalars()
+            return {
+                a["sha256"]: a["size_bytes"] for raw in manifests for a in json.loads(raw).values()
+            }
 
     def interrupted(self) -> list[dict[str, Any]]:
         with self.projects.database.engine.connect() as connection:

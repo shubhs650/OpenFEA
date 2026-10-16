@@ -2,6 +2,7 @@
 
 import json
 import os
+import shutil
 import signal
 import subprocess
 import time
@@ -9,6 +10,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
+from worker.limits import DISK_RESERVE_BYTES, LOG_BYTES, RSS_BYTES, SCRATCH_BYTES, STAGE_SECONDS
 from worker.resources import process_tree_rss
 from worker.runtime import native_environment
 from worker.step_import import process_filter, scratch_usage
@@ -36,6 +38,8 @@ class NativeControl:
     started: Callable[[int, str], None]
     lease_fd: int
     mesh_attempt: Callable[[int, str, int], None] | None = None
+    scratch_root: Path | None = None
+    mesh_profile_offset: int = 0
 
 
 def supervise(
@@ -50,7 +54,11 @@ def supervise(
     filter_path = output.parent / "process-filter.bpf"
     filter_path.write_bytes(process_filter())
     started = time.monotonic()
-    scratch_root = scratch_root or output
+    scratch_root = (
+        control.scratch_root if control and control.scratch_root else scratch_root or output
+    )
+    if shutil.disk_usage(output).free < DISK_RESERVE_BYTES:
+        raise NativeStop("disk_full")
     peak = disk_peak = 0
     reason: str | None = None
     with filter_path.open("rb") as filter_file, (output / log_name).open("wb") as log:
@@ -83,9 +91,13 @@ def supervise(
                     reason = "cancelled"
                 peak = max(peak, process_tree_rss(process.pid))
                 disk_peak = max(disk_peak, scratch_usage(scratch_root))
-                if peak > 1536 * 1024**2 or disk_peak > 192 * 1024**2:
+                if peak > RSS_BYTES or disk_peak > SCRATCH_BYTES:
                     reason = "resource_exceeded"
-                elif time.monotonic() - started > 60:
+                elif (output / log_name).stat().st_size > LOG_BYTES:
+                    reason = "output_limit"
+                elif shutil.disk_usage(output).free < DISK_RESERVE_BYTES:
+                    reason = "disk_full"
+                elif time.monotonic() - started > STAGE_SECONDS:
                     reason = "wall_limit"
                 if reason:
                     break
@@ -112,8 +124,12 @@ def supervise(
     # Retain the final audit in the same peak used to enforce/report the cap.
     disk_peak = max(disk_peak, scratch_usage(scratch_root))
     result["peak_scratch_bytes"] = disk_peak
-    if disk_peak > 192 * 1024**2:
+    if disk_peak > SCRATCH_BYTES:
         reason = "resource_exceeded"
+    elif (output / log_name).stat().st_size > LOG_BYTES:
+        reason = "output_limit"
+    elif shutil.disk_usage(output).free < DISK_RESERVE_BYTES:
+        reason = "disk_full"
     # A native-created symlink must never redirect this trusted host-side write.
     descriptor = os.open(
         output / "resources.json", os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600

@@ -30,6 +30,7 @@ from app.domain.results import (
     SectionRequest,
 )
 from app.persistence.jobs import JobRepository
+from worker.limits import policy as resource_policy
 from worker.mesh_quality import mesh_quality
 from worker.postprocess.comparison import COMPARISON_VERSION, METHOD, change, peak_notes, scalar
 from worker.postprocess.inspection import inspect_volume
@@ -45,9 +46,8 @@ class JobService:
         policy = self.decks.policy()
         policy.update(
             job_schema=1,
-            job_wall_seconds=180,
             max_queue=20,
-            automatic_retries=0,
+            **resource_policy(),
             calculix="2.23",
             stress_coordinates=True,
         )
@@ -72,6 +72,9 @@ class JobService:
             "services/api/app/domain/jobs.py",
             "services/api/app/persistence/jobs.py",
             "services/api/app/domain/mesh_reuse.py",
+            "services/worker/worker/limits.py",
+            "services/api/app/jobs/postprocess.py",
+            "services/api/app/jobs/stages.py",
         ):
             policy["sources"][name] = sha256(ROOT / name)
         return policy
@@ -288,13 +291,18 @@ class JobService:
             items=items,
         )
 
-    def artifact(self, owner: UUID, identifier: UUID, name: str) -> tuple[bytes, str]:
+    def artifact(
+        self, owner: UUID, identifier: UUID, name: str, *, attempt: int | None = None
+    ) -> tuple[bytes, str]:
         job = self.repository.get(owner, identifier)
-        if name == "snapshot.json":
-            return self.storage.read(job.project_id, job.input_sha256), "application/json"
-        if name == "results.json" and job.status != "succeeded":
+        history = next((a for a in job.attempts if a.number == attempt), None)
+        if attempt is not None and history is None:
             raise not_found()
-        descriptor = job.artifacts.get(name)
+        if name == "snapshot.json" and attempt is None:
+            return self.storage.read(job.project_id, job.input_sha256), "application/json"
+        if name == "results.json" and (history.status if history else job.status) != "succeeded":
+            raise not_found()
+        descriptor = (history.artifacts if history else job.artifacts).get(name)
         if descriptor is None:
             raise not_found()
         data = self.storage.read(job.project_id, descriptor.sha256)

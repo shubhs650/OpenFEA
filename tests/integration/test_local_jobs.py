@@ -217,7 +217,9 @@ def killable_api(config: ApiConfiguration, log: Path) -> Iterator[subprocess.Pop
             process.wait(timeout=10)
 
 
-def test_abrupt_api_death_fences_actual_mesh_and_restarts_only_queued_work(tmp_path: Path) -> None:
+def test_abrupt_api_death_fences_actual_mesh_then_retries_once_before_queued_work(
+    tmp_path: Path,
+) -> None:
     config = configuration(tmp_path)
     browser = Browser(config.port)
     data = Path(config.environment["FEA_DATA_ROOT"])
@@ -262,10 +264,69 @@ def test_abrupt_api_death_fences_actual_mesh_and_restarts_only_queued_work(tmp_p
         next_done = wait(browser, next_job["id"])
         assert next_done["status"] == "succeeded", next_done
         interrupted = browser.request("GET", f"/jobs/{job['id']}")[1]
-        assert interrupted["status"] == "interrupted", interrupted
-        assert interrupted["reason_code"] == "worker_interrupted"
+        assert interrupted["status"] == "succeeded", interrupted
+        assert len(interrupted["attempts"]) == 2
+        old, retry = interrupted["attempts"]
+        assert old["status"] == "interrupted" and old["reason_code"] == "worker_interrupted"
+        assert retry["status"] == "succeeded" and old["finished_at"] <= retry["started_at"]
+        assert interrupted["deadline_at"] is not None
         assert interrupted["finished_at"] <= next_done["started_at"]
         assert process_identity(pid) is None
         assert process_identity(native) is None
         assert "snapshot.json" in interrupted["artifacts"]
-        assert [e["status"] for e in interrupted["events"]].count("running") == 1
+        assert [e["status"] for e in interrupted["events"]].count("running") == 3
+
+
+def test_api_death_after_ccx_reuses_durable_raw_stage_without_second_solve(tmp_path: Path) -> None:
+    import json
+
+    config = configuration(tmp_path)
+    browser = Browser(config.port)
+    data = Path(config.environment["FEA_DATA_ROOT"])
+    with killable_api(config, tmp_path / "parser-killed.log") as api:
+        path, headers = prepared(browser)
+        mesh = wait(browser, submit(browser, path, headers)["id"])
+        assert mesh["status"] == "succeeded", mesh
+        job = submit(browser, path, headers, mesh["id"])
+        deadline = time.monotonic() + 5
+        native = root = None
+        while time.monotonic() < deadline and native is None:
+            with sqlite3.connect(data / "metadata.sqlite3") as db:
+                row = db.execute(
+                    "SELECT process_pid,stage FROM local_jobs WHERE id=?", (job["id"],)
+                ).fetchone()
+            if row[0] and row[1] == "validating":
+                for child in descendants(row[0]):
+                    try:
+                        cmd = Path(f"/proc/{child}/cmdline").read_bytes()
+                    except FileNotFoundError:
+                        continue
+                    if cmd.startswith(str(ROOT / ".venv/bin/python").encode() + b"\0"):
+                        os.kill(child, signal.SIGSTOP)
+                        root, native = row[0], child
+                        break
+            time.sleep(0.002)
+        assert native is not None and root is not None, browser.request(
+            "GET", f"/jobs/{job['id']}"
+        )[1]
+        with sqlite3.connect(data / "metadata.sqlite3") as db:
+            manifest = json.loads(
+                db.execute(
+                    "SELECT manifest_json FROM local_job_checkpoints WHERE job_id=?", (job["id"],)
+                ).fetchone()[0]
+            )
+        api.kill()
+        api.wait(timeout=5)
+    with api_process(config, tmp_path / "parser-recovered.log"):
+        browser.request("GET", "/session")
+        final = wait(browser, job["id"])
+        assert final["status"] == "succeeded", final
+        assert len(final["attempts"]) == 2 and final["summary"]["reused_stage"] == "solving"
+        assert final["attempts"][0]["reason_code"] == "worker_interrupted"
+        assert final["attempts"][0]["finished_at"] <= final["attempts"][1]["started_at"]
+        for name in ("solver.log", "analysis.dat", "analysis.frd", "resources.json"):
+            assert final["artifacts"][name] == manifest[name]
+        # Only solve_snapshot creates this sandbox readonly input mountpoint;
+        # the recovered attempt restored immutable outputs and only ran parsing.
+        assert not (data / "jobs" / job["id"] / "attempt-2/output/analysis.inp").exists()
+        assert process_identity(root) is None and process_identity(native) is None

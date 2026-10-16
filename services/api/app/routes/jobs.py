@@ -40,6 +40,8 @@ Filename = Literal[
     "analysis.dat",
     "analysis.frd",
     "resources.json",
+    "validation-resources.json",
+    "validation.log",
     "results.json",
     "recovery.json",
     "assembly.json",
@@ -110,6 +112,18 @@ def cancel(job_id: UUID, owner: Owner, service: Service) -> LocalJob:
 @router.get("/jobs/{job_id}/artifacts/{filename}", response_class=Response)
 def artifact(job_id: UUID, filename: Filename, owner: Owner, service: Service) -> Response:
     data, media = service.artifact(owner, job_id, filename)
+    return Response(
+        data,
+        media_type=media,
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@router.get("/jobs/{job_id}/attempts/{number}/artifacts/{filename}", response_class=Response)
+def attempt_artifact(
+    job_id: UUID, number: int, filename: Filename, owner: Owner, service: Service
+) -> Response:
+    data, media = service.artifact(owner, job_id, filename, attempt=number)
     return Response(
         data,
         media_type=media,

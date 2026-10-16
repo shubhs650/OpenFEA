@@ -826,6 +826,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/jobs/{job_id}/attempts/{number}/artifacts/{filename}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Attempt Artifact */
+        get: operations["attempt_artifact_api_v1_jobs__job_id__attempts__number__artifacts__filename__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/jobs/{job_id}/cancel": {
         parameters: {
             query?: never;
@@ -2694,6 +2711,29 @@ export interface components {
             smoothed_stress: components["schemas"]["StressValues"];
             stress: components["schemas"]["StressValues"];
         };
+        /** JobAttempt */
+        JobAttempt: {
+            /** Artifacts */
+            artifacts: {
+                [key: string]: components["schemas"]["Artifact"];
+            };
+            /** Finished At */
+            finished_at: string | null;
+            /** Number */
+            number: number;
+            /** Reason Code */
+            reason_code: string | null;
+            /**
+             * Started At
+             * Format: date-time
+             */
+            started_at: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "queued" | "running" | "cancelling" | "cancelled" | "succeeded" | "failed" | "interrupted";
+        };
         /** JobEvent */
         JobEvent: {
             /**
@@ -2949,8 +2989,12 @@ export interface components {
             artifacts: {
                 [key: string]: components["schemas"]["Artifact"];
             };
+            /** Attempts */
+            attempts?: components["schemas"]["JobAttempt"][];
             /** Cancel Requested */
             cancel_requested: boolean;
+            /** Deadline At */
+            deadline_at?: string | null;
             /** Events */
             events: components["schemas"]["JobEvent"][];
             /** Finished At */
@@ -10327,7 +10371,122 @@ export interface operations {
             };
             path: {
                 job_id: string;
-                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "validation.log" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Length Required */
+            411: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Precondition Required */
+            428: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    attempt_artifact_api_v1_jobs__job_id__attempts__number__artifacts__filename__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Required for mutations; obtain from GET /api/v1/session */
+                "X-CSRF-Token"?: string | null;
+            };
+            path: {
+                job_id: string;
+                number: number;
+                filename: "snapshot.json" | "mesh.json" | "analysis.inp" | "mesh.log" | "solver.log" | "analysis.dat" | "analysis.frd" | "resources.json" | "validation-resources.json" | "validation.log" | "results.json" | "recovery.json" | "assembly.json" | "mesh-attempt-1.log" | "mesh-attempt-2.log" | "mesh-attempt-3.log" | "mesh-attempt-1-resources.json" | "mesh-attempt-2-resources.json" | "mesh-attempt-3-resources.json";
             };
             cookie?: never;
         };

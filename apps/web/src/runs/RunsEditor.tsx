@@ -363,6 +363,40 @@ export function RunsEditor({
                 {j.kind === "mesh" ? "Mesh" : "Solve"} · {j.status}
               </strong>{" "}
               · {j.stage} · Analysis revision {j.analysis_revision}
+              {(j.attempts ?? []).length > 0 && (
+                <p>
+                  Execution {(j.attempts ?? []).length} of 2 · One
+                  infrastructure retry maximum.
+                  {j.deadline_at &&
+                    ` Original deadline ${new Date(j.deadline_at).toLocaleTimeString()}.`}
+                  {j.summary.reused_stage === "solving" &&
+                    " Reusing verified solver outputs; validation only."}
+                </p>
+              )}
+              {(j.attempts ?? []).some(
+                (a) => a.finished_at && a.status !== "succeeded",
+              ) && (
+                <ul aria-label="Execution attempts">
+                  {(j.attempts ?? [])
+                    .filter((a) => a.finished_at)
+                    .map((a) => (
+                      <li key={a.number}>
+                        Execution {a.number}: {a.status} (
+                        {a.reason_code ?? "completed"})
+                        {Object.keys(a.artifacts).map((name) => (
+                          <span key={name}>
+                            {" · "}
+                            <a
+                              href={`/api/v1/jobs/${j.id}/attempts/${a.number}/artifacts/${name}`}
+                            >
+                              Execution {a.number} {name}
+                            </a>
+                          </span>
+                        ))}
+                      </li>
+                    ))}
+                </ul>
+              )}
               <p>
                 Geometry <code>{j.geometry_revision_id}</code> · Input SHA-256{" "}
                 <code>{j.input_sha256}</code>

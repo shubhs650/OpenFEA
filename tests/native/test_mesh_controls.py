@@ -196,6 +196,7 @@ def test_all_declared_mesh_profiles_execute_real_native_and_keep_sizing(
     from worker.deck_mesh import _mesh_attempt
 
     directory = application.state.job_service.storage.directory("jobs", UUID(job["id"]))
+    directory = directory / f"attempt-{job['attempts'][-1]['number']}"
     config = {
         "body_sizes_m": [0.5],
         "face_sizes_m": {},

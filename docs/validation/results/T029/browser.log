@@ -1,0 +1,15 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/runs.spec.ts tests/e2e/archives.spec.ts
+
+
+Running 4 tests using 1 worker
+
+(node:15714) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/archives.spec.ts:5:1 › review diagnostic contents and round-trip an owned project archive (22.7s)
+  ✓  2 tests/e2e/runs.spec.ts:10:1 › real asynchronous mesh preview, solve validation, downloads and retained history (25.7s)
+  ✓  3 tests/e2e/runs.spec.ts:72:1 › closing the browser preserves a queued solve; cancelling another queued job is durable (22.5s)
+  ✓  4 tests/e2e/runs.spec.ts:149:1 › terminated real parser retries validation once and retains execution history after reload (28.7s)
+
+  4 passed (1.8m)

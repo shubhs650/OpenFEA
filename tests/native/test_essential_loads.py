@@ -20,7 +20,7 @@ from tests.unit.test_materials import custom
 from worker.benchmark import run_case
 from worker.calculix.results import StressPoint
 from worker.essential_benchmarks import evaluate
-from worker.local_solve import result_mesh, validate_outputs
+from worker.local_solve import result_mesh
 
 application = step_tests.application
 client = step_tests.client
@@ -429,9 +429,8 @@ def test_real_native_finish_and_coverage_cannot_publish_an_unbalanced_result(
     client: TestClient,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    from app.jobs import runner
+    from tests.native.parser_faults import corrupt_parser
 
-    original = validate_outputs
     path, geometry = setup(client)
     assign(client, path, geometry, "fixed", [face_ref(geometry, 0, 0)])
     assign(
@@ -446,15 +445,13 @@ def test_real_native_finish_and_coverage_cannot_publish_an_unbalanced_result(
     mesh = wait_job(client, submit(client, path)["id"])
     assert mesh["status"] == "succeeded", mesh
 
-    def corrupt(*args: Any, **kwargs: Any) -> Any:
-        result, summary = original(*args, **kwargs)
-        raw_mesh = args[1]
-        node = next(n for n, p in raw_mesh["nodes"].items() if p[0] == 0)
-        actual = result["dat"]["external_forces_n"][int(node)]
-        result["dat"]["external_forces_n"][int(node)] = (actual[0] + 100, actual[1], actual[2])
-        return result, summary  # Explicit validator-boundary fault, never acceptance evidence.
-
-    monkeypatch.setattr(runner, "validate_outputs", corrupt)
+    corrupt_parser(
+        monkeypatch,
+        """raw_mesh = args[1]
+node = next(n for n, p in raw_mesh["nodes"].items() if p[0] == 0)
+actual = result["dat"]["external_forces_n"][int(node)]
+result["dat"]["external_forces_n"][int(node)] = (actual[0]+100, actual[1], actual[2])""",
+    )
     run = wait_job(client, submit(client, path, mesh["id"])["id"])
     assert run["status"] == "failed" and run["reason_code"] == "equilibrium_failed", run
     assert run["summary"]["equilibrium"]["force"]["residual_norm"] > 99

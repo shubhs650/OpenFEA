@@ -57,6 +57,15 @@ class JobEvent(StrictModel):
     reason_code: str | None
 
 
+class JobAttempt(StrictModel):
+    number: int = Field(ge=1, le=2)
+    started_at: datetime
+    finished_at: datetime | None
+    status: Status
+    reason_code: str | None
+    artifacts: dict[str, Artifact]
+
+
 class LocalJob(StrictModel):
     id: UUID
     analysis_id: UUID
@@ -78,6 +87,8 @@ class LocalJob(StrictModel):
     summary: dict[str, JsonValue]
     artifacts: dict[str, Artifact]
     events: list[JobEvent]
+    attempts: list[JobAttempt] = Field(default_factory=list, max_length=2)
+    deadline_at: datetime | None = None
 
 
 class CompatibleMesh(StrictModel):

@@ -59,6 +59,18 @@ def geometry_artifacts(geometry: Any) -> dict[str, FileEntry]:
     return TypeAdapter(dict[str, FileEntry]).validate_python(geometry.validation["artifacts"])
 
 
+def job_files(job: LocalJob) -> dict[str, str]:
+    return {
+        "snapshot.json": job.input_sha256,
+        **{k: v.sha256 for k, v in job.artifacts.items()},
+        **{
+            f"execution-{a.number}-{name}": artifact.sha256
+            for a in job.attempts
+            for name, artifact in a.artifacts.items()
+        },
+    }
+
+
 def invalid(message: str) -> DomainError:
     return DomainError(422, "invalid_archive", message)
 
@@ -163,10 +175,7 @@ class ArchiveService:
                     related_ids=[job.mesh_job_id] if job.mesh_job_id else [],
                 )
                 item.files["record.json"] = object_file(json_bytes(job.model_dump(mode="json")))
-                candidates = {
-                    "snapshot.json": job.input_sha256,
-                    **{k: v.sha256 for k, v in job.artifacts.items()},
-                }
+                candidates = job_files(job)
                 self.collect_history(item, candidates, options.include_outputs, retained)
                 history.append(item)
             reports = (
@@ -581,33 +590,41 @@ class ArchiveService:
                 or not set(h.related_ids) <= history_ids
             ):
                 raise ValueError("Foreign historical reference")
+            historical_names = {
+                "record.json",
+                "snapshot.json",
+                "model.json",
+                "report.pdf",
+                "preview.html",
+                "report.docx",
+                "mesh.json",
+                "analysis.inp",
+                "analysis.dat",
+                "analysis.frd",
+                "results.json",
+                "mesh.log",
+                "solve.log",
+                "solver.log",
+                "resources.json",
+                "validation-resources.json",
+                "validation.log",
+                "mesh-resources.json",
+                "solve-resources.json",
+                "recovery.json",
+                "assembly.json",
+                *(
+                    f"mesh-attempt-{i}{suffix}"
+                    for i in range(1, 4)
+                    for suffix in (".log", "-resources.json")
+                ),
+            }
+            allowed_names = historical_names | {
+                f"execution-{number}-{name}"
+                for number in (1, 2)
+                for name in historical_names - {"record.json"}
+            }
             for name, digest in h.files.items():
-                if name not in {
-                    "record.json",
-                    "snapshot.json",
-                    "model.json",
-                    "report.pdf",
-                    "preview.html",
-                    "report.docx",
-                    "mesh.json",
-                    "analysis.inp",
-                    "analysis.dat",
-                    "analysis.frd",
-                    "results.json",
-                    "mesh.log",
-                    "solve.log",
-                    "solver.log",
-                    "resources.json",
-                    "mesh-resources.json",
-                    "solve-resources.json",
-                    "recovery.json",
-                    "assembly.json",
-                    *(
-                        f"mesh-attempt-{i}{suffix}"
-                        for i in range(1, 4)
-                        for suffix in (".log", "-resources.json")
-                    ),
-                }:
+                if name not in allowed_names:
                     raise ValueError("Unsupported historical file")
                 if hashlib.sha256(files[f"objects/{digest}"]).hexdigest() != digest:
                     raise ValueError("Historical checksum mismatch")
@@ -621,10 +638,7 @@ class ArchiveService:
                 raise ValueError("Historical provenance ID mismatch")
             expected_files: dict[str, str]
             if h.kind == "job":
-                expected_files = {
-                    "snapshot.json": record.input_sha256,
-                    **{k: v.sha256 for k, v in record.artifacts.items()},
-                }
+                expected_files = job_files(record)
                 source_related = [record.mesh_job_id] if record.mesh_job_id else []
             elif h.kind == "report":
                 expected_files = {

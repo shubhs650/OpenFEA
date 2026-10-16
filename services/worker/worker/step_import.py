@@ -49,7 +49,7 @@ def scratch_usage(directory: Path) -> int:
     size, count = 0, 0
     while stack:
         parent, depth = stack.pop()
-        if depth > 4:
+        if depth > 6:
             return 193 * 1024**2
         with os.scandir(parent) as entries:
             for entry in entries:
