@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-16T10:31:13.952417+00:00",
+  "code_commit": "fad993d236aaeaf608fd6a4dadb9cadb814f8d02",
+  "platform_system": "Linux",
+  "kernel_release": "6.18.44",
+  "python": "3.12.14",
+  "is_wsl": false,
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "visible_memory": {
+    "MemTotal_bytes": 10452496384,
+    "MemAvailable_bytes": 8673177600,
+    "SwapTotal_bytes": 0,
+    "SwapFree_bytes": 0
+  },
+  "cgroup_memory_max": "8589934592",
+  "scratch_disk": {
+    "total_bytes": 5226246144,
+    "used_bytes": 658784256,
+    "free_bytes": 4567461888
+  },
+  "windows_hardware": null,
+  "observation_error": null,
+  "classification": "Hardware/headroom observation only; no laptop/capacity/performance acceptance",
+  "supported_workload_capacity": "NOT DETERMINED; owner must review actual bounded workload measurements"
+}

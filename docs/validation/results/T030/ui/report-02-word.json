@@ -1,0 +1,23 @@
+{
+  "title": "PDF and editable Word from the same frozen model",
+  "file": "report-02-word.png",
+  "sha256": "4da25cfb3fbf793c07047d77fac99b5392e8b83aa6482c58e0c6529d7d7b4770",
+  "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+  "test": "dark workspace exports matching PDF and editable Word from a frozen historical model",
+  "project": "",
+  "host_platform": "linux",
+  "captured_at": "2026-10-16T10:39:07.954Z",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "platform": "Linux x86_64",
+  "viewport": {
+    "width": 1280,
+    "height": 946
+  },
+  "theme": "dark",
+  "renderers": [
+    {
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+    }
+  ],
+  "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+}

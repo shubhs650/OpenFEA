@@ -1,0 +1,23 @@
+{
+  "version": "T028-v1",
+  "tutorial": "Planar mounting bracket",
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "recorded_at": "2026-10-16T10:39:38.297Z",
+  "duration_ms": {
+    "setup": 13150.900000002235,
+    "compute": 15047.39999999851,
+    "paused": 0
+  },
+  "completed_steps": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "help_requests": "",
+  "measurements_and_errors": "{\"field\":\"von_mises\",\"rows\":[{\"point_m\":[0.04,0.01,0.0075],\"reference\":620669.3382313023,\"compared\":603357.6042785969,\"signed_change\":-17311.7339527054,\"absolute_change\":17311.7339527054,\"relative_change\":0.027892039909749665}],\"reference_elements\":501,\"compared_elements\":937}",
+  "classification": "self-reported learning log; not usability or engineering acceptance"
+}

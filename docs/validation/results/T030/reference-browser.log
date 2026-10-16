@@ -1,0 +1,20 @@
+
+> openfea@0.1.0 test:e2e
+> playwright test tests/e2e/tutorials.spec.ts tests/e2e/archives.spec.ts tests/e2e/reports.spec.ts tests/e2e/workspace.spec.ts
+
+
+Running 9 tests using 1 worker
+
+(node:25886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/archives.spec.ts:6:1 › review diagnostic contents and round-trip an owned project archive (11.3s)
+  ✓  2 tests/e2e/reports.spec.ts:5:1 › dark workspace exports matching PDF and editable Word from a frozen historical model (15.2s)
+  ✓  3 tests/e2e/tutorials.spec.ts:77:3 › guided bracket performs real refinement/report with compute excluded (29.0s)
+  ✓  4 tests/e2e/tutorials.spec.ts:77:3 › guided bond performs real refinement/report with compute excluded (38.1s)
+  ✓  5 tests/e2e/workspace.spec.ts:38:1 › checklist actions, keyboard multiselection and persisted light/dark at target viewports (3.4s)
+  ✓  6 tests/e2e/workspace.spec.ts:113:1 › autosave waits for acknowledgement, retains failed edits, retries and session undo (6.2s)
+  ✓  7 tests/e2e/workspace.spec.ts:178:1 › real stale edit offers reload or conflict copy without overwriting the other session (5.0s)
+  ✓  8 tests/e2e/workspace.spec.ts:229:1 › draft blockers and cancellation protect other edits; undo restores saved material prerequisites (3.3s)
+  ✓  9 tests/e2e/workspace.spec.ts:273:1 › failed conflict-copy application keeps the rejected draft and exposes the created copy (3.9s)
+
+  9 passed (2.0m)

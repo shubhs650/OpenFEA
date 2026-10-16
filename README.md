@@ -2,7 +2,7 @@
 
 The local application implements STEP solid import, confirmed source-backed materials and SI units, face loads/supports, quadratic tetrahedral mesh, CalculiX linear static solve, engineering result inspection, immutable history, PDF/editable Word reports and portable project archives. Guided bracket and two-body bonded examples use the real workflow. No third-party account or AWS service is needed locally.
 
-**Current status: T025–T029 complete; T030 IN PROGRESS; M4 acceptance BLOCKED.** The owner requested the acceptance packet with actual Windows/WSL2 laptop and consented human checks pending. Existing bounded M3 engineering approval is preserved; exact new reference-owner review, acceptance reruns, measured laptop capacity and final M4 review remain open. See [progress](PROGRESS.md), [local acceptance packet](docs/LOCAL_ACCEPTANCE.md) and [review/limitations](docs/validation/M4-owner-review.md). AWS, Google authentication, hosted billing/operations and deployment belong to later gated milestones.
+**Current status: T025–T029 complete; T030 IN PROGRESS; M4 acceptance BLOCKED.** The owner requested the acceptance packet with actual Windows/WSL2 laptop and consented human checks pending. Existing bounded M3 engineering approval is preserved; exact new reference-owner review, acceptance reruns, measured laptop capacity and final M4 review remain open. See the [24-screenshot feature reference](docs/UI_REFERENCE.md), [progress](PROGRESS.md), [local acceptance packet](docs/LOCAL_ACCEPTANCE.md) and [review/limitations](docs/validation/M4-owner-review.md). AWS, Google authentication, hosted billing/operations and deployment belong to later gated milestones.
 
 ## Run locally
 

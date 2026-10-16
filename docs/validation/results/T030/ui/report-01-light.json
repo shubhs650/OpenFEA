@@ -1,0 +1,19 @@
+{
+  "title": "Light report preview from a dark workspace",
+  "file": "report-01-light.png",
+  "sha256": "3b116a5d039bc59986e0dc13c46b3d799382414549497d4b94b626d4f0ab5793",
+  "code_commit": "743e1f3fbf8f2b01a00195466f9ccb754fdcd304",
+  "test": "dark workspace exports matching PDF and editable Word from a frozen historical model",
+  "project": "",
+  "host_platform": "linux",
+  "captured_at": "2026-10-16T10:39:07.550Z",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+  "platform": "Linux x86_64",
+  "viewport": {
+    "width": 1280,
+    "height": 720
+  },
+  "theme": "light",
+  "renderers": [],
+  "classification": "Automated real-UI reference; not human usability or engineering-owner acceptance"
+}
